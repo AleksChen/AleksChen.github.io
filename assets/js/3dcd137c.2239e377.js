@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcww_blog=self.webpackChunkcww_blog||[]).push([[8357],{1601:function(t){t.exports=JSON.parse('{"label":"Vite","permalink":"/blog/docs/tags/vite","allTagsPath":"/blog/docs/tags","count":1,"items":[{"id":"vite/installation","title":"\u9879\u76ee\u642d\u5efa","description":"","permalink":"/blog/docs/vite/installation"}]}')}}]);

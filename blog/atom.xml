@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <id>https://chenwenwu223.github.io/blog/blog</id>
+    <id>https://chenwenwu223.github.io/blog/blog/blog</id>
     <title>Cww's Blog Blog</title>
     <updated>2021-08-26T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
-    <link rel="alternate" href="https://chenwenwu223.github.io/blog/blog"/>
+    <link rel="alternate" href="https://chenwenwu223.github.io/blog/blog/blog"/>
     <subtitle>Cww's Blog Blog</subtitle>
-    <icon>https://chenwenwu223.github.io/blog/img/favicon/favicon.png</icon>
+    <icon>https://chenwenwu223.github.io/blog/blog/img/favicon/favicon.png</icon>
     <entry>
         <title type="html"><![CDATA[Welcome]]></title>
         <id>welcome</id>
-        <link href="https://chenwenwu223.github.io/blog/blog/welcome"/>
+        <link href="https://chenwenwu223.github.io/blog/blog/blog/welcome"/>
         <updated>2021-08-26T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Docusaurus blogging features are powered by the blog plugin.]]></summary>
         <category label="facebook" term="facebook"/>
@@ -20,7 +20,7 @@
     <entry>
         <title type="html"><![CDATA[MDX Blog Post]]></title>
         <id>mdx-blog-post</id>
-        <link href="https://chenwenwu223.github.io/blog/blog/mdx-blog-post"/>
+        <link href="https://chenwenwu223.github.io/blog/blog/blog/mdx-blog-post"/>
         <updated>2021-08-01T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Blog posts support Docusaurus Markdown features, such as MDX.]]></summary>
         <category label="docusaurus" term="docusaurus"/>
@@ -28,7 +28,7 @@
     <entry>
         <title type="html"><![CDATA[Long Blog Post]]></title>
         <id>long-blog-post</id>
-        <link href="https://chenwenwu223.github.io/blog/blog/long-blog-post"/>
+        <link href="https://chenwenwu223.github.io/blog/blog/blog/long-blog-post"/>
         <updated>2019-05-29T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[This is the summary of a very long blog post,]]></summary>
         <category label="hello" term="hello"/>
@@ -37,7 +37,7 @@
     <entry>
         <title type="html"><![CDATA[First Blog Post]]></title>
         <id>first-blog-post</id>
-        <link href="https://chenwenwu223.github.io/blog/blog/first-blog-post"/>
+        <link href="https://chenwenwu223.github.io/blog/blog/blog/first-blog-post"/>
         <updated>2019-05-28T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet]]></summary>
         <category label="hola" term="hola"/>
