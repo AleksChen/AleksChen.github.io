@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcww_blog=self.webpackChunkcww_blog||[]).push([[6037],{5311:function(s){s.exports=JSON.parse('{"label":"Express","permalink":"/docs/tags/express","allTagsPath":"/docs/tags","count":1,"items":[{"id":"nodejs/express/index","title":"Express","description":"","permalink":"/docs/nodejs/express/"}]}')}}]);
