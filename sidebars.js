@@ -191,16 +191,6 @@ const sidebars = {
     doc("nodejs/index", "Node.js"),
     doc("nodejs/environment", "🚀 搭建环境"),
     doc("nodejs/environment-variable", "环境变量"),
-    category("nodejs/express/index", "Express", [
-      doc("nodejs/express/installation", "安装"),
-    ]),
-    category("nodejs/prisma/index", "Prisma", [
-      category("nodejs/prisma/prisma-client/index", "Prisma Client", [
-        doc("nodejs/prisma/prisma-client/crud", "CRUD"),
-        doc("nodejs/prisma/prisma-client/middleware", "中间件"),
-      ]),
-      doc("nodejs/prisma/database-connection-management", "数据库连接管理"),
-    ]),
   ],
 
   mongodb: [doc("mongodb/index", "MongoDB")],
