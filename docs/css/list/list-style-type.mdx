@@ -1,0 +1,89 @@
+---
+title: list-style-type
+---
+
+## 定义
+
+`list-style-type` 指定了一个列表中 **list-item marker** 的类型.
+
+## 语法
+
+```css
+list-style-type: value;
+```
+
+## 赋值
+
+### ` disc` `[default]` `[ul]`
+
+充满的圆，也被称为子弹列表。
+
+### `cicle` `[ul]`
+
+镂空的圆。
+
+### `square` `[ul]`
+
+充满的正方形。
+
+### `decimal` `[ol]`
+
+从 1 开始的数字。
+
+### `lower-roman` `[ol]`
+
+小写罗马数字。
+
+### `upper-roman` `[ol]`
+
+大写罗马数字。
+
+### `lower-alpha` `lower-latin` `[ol]`
+
+小写 ASCII 码字母。
+
+### `upper-alpha` `upper-latin` `[ol]`
+
+大写 ASCII 码字母。
+
+### `none`
+
+无，通常用于移除默认样式。
+
+:::info 提示
+
+有些取值为无序列表 unordered lists (ul) ,有些是有序列表 ordered lists (ol) .
+
+:::
+
+## 用法
+
+### 移除列表的 Marker
+
+```css title="CSS"
+ul > li {
+  list-style-type: none;
+}
+```
+
+### 为 Marker 添加颜色
+
+移除默认的子弹列表，添加一个长得像 Bullet 的 HTML 字符实体 (&bull;):
+
+```css {2} title="CSS"
+ul {
+  list-style-type: none; /* Remove HTML bullets */
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  padding-left: 16px;
+}
+
+li::before {
+  content: "•"; /* Insert content that looks like bullets */
+  padding-right: 8px;
+  color: blue;
+}
+```

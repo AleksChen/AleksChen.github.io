@@ -1,0 +1,65 @@
+---
+title: "配置绝对路径"
+description: ""
+tags:
+  - label: "Create React App"
+    permalink: "create-react-app"
+last_update:
+  date: "2022-07-20"
+  author: "Cww"
+---
+
+import HyperLink from "@site/src/components/HyperLink/index";
+
+## 配置 jsconfig.json
+
+在 **Create React App** 项目的根目录添加 `jsconfig.json` 文件。
+
+```json title="JSON" {3} showLineNumbers
+{
+  "compilerOptions": {
+    "baseUrl": "./src",
+    "module": "commonjs",
+    "target": "ES6",
+    "resolveJsonModule": "true"
+  },
+  "exclude": ["./node_modules", "./dist"],
+  "include": ["./src/**/*"]
+}
+```
+
+- `baseUrl` - 用于解析模块名所指定的根目录
+- `resolveJsonModule` - 解析 JSON 文件
+- `exclude` - 编译会忽略的文件列表
+- `include` - 指定全局模式，编译会包含的文件列表
+
+:::caution 注意
+**Create React App** 暂不支持 `jsconfig.json` 中的 `path` 属性，所以不能像 **TypeScript** 那样定义模块别名(alias)。
+:::
+
+<blockquote>
+  💡 <code>jsconfig.json</code> 是 <code>tsconfig.json</code>
+  &nbsp;的子集，关于配置信息详情请见 <HyperLink
+    bold
+    openWindow
+    link="/docs/typescript/configuration"
+  >
+    tsconfig.json 配置
+  </HyperLink>
+</blockquote>
+
+## 通过绝对路径引入
+
+配置好 `jsconfig.json`，我们在低层级的组件中引入组件或工具类时，就可以**通过绝对路径引入**，避免了使用地狱式嵌套的相对路径。
+
+```javascript title="JavaScript"
+import Component from "src/components/index"; // 绝对路径
+import Component from "../../../../../components/index"; // 相对路径
+```
+
+## 其他的解决方案（未实践）
+
+<!-- IDEA - Practice -->
+
+- 使用 `npm run eject` 弹出 **Create React App** 的 **config**，配置 **webpack.config.js**。
+- 使用 npm 包如 **react-app-rewired** 自定义 **Create React App** 的配置。

@@ -1,0 +1,27 @@
+---
+title: 获取 URL Query 参数
+---
+
+import TH from "@site/src/components/TextHighlight/index";
+
+`window.location.search` 会返回 `?` 和后面 <TH> Query 参数的键值对</TH>。
+
+如链接 `https://chenwenwu223.github.io/blog?a=1&b=2`，`window.location.search` 的得到结果是 `?a=1&b=2`，再使用 `substring()` 得到 `a=1&b=2`。
+
+## 使用正则表达式
+
+该函数中参数 `para` 为 Query 参数名称。
+
+```javascript title="JavaScript"
+function getQueryString(para) {
+  let reg = new RegExp("(^|&)" + para + "=([^&]*)(&|$)", "i");
+  let r = window.location.search.substring(1).match(reg);
+  if (r != null) {
+    return decodeURIComponent(r[2]);
+  }
+  return null;
+}
+
+getQueryString("a"); // 若当前的链接为 "https://chenwenwu223.github.io/blog?a=1&b=2"
+// Expected: 1
+```

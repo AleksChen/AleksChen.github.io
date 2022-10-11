@@ -3,51 +3,75 @@
 
 const lightCodeTheme = require("prism-react-renderer/themes/github");
 const darkCodeTheme = require("prism-react-renderer/themes/dracula");
+// const oceanicNext = require("prism-react-renderer/themes/oceanicNext");
+// const duotoneLight = require("prism-react-renderer/themes/duotoneLight");
+
+require("dotenv").config();
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
+  customFields: { apiBaseUrl: process.env.API_BASE_URL },
   title: "Cww's Blog",
-  tagline: "道阻且长",
-  url: "https://github.com/ChenWenWu223",
-  baseUrl: "/blog/",
+  tagline: "Today is a present",
+  url: "https://chenwenwu223.github.io/blog/",
+  baseUrl: "/",
+  baseUrlIssueBanner: true,
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
-  favicon: "img/favicon.ico",
+  favicon: "img/favicon/favicon.png",
+  organizationName: "Cww's Blog",
+  projectName: "blog",
 
-  // GitHub pages deployment config.
-  // If you aren't using GitHub pages, you don't need these.
-  organizationName: "ChenWenWu223", // Usually your GitHub org/user name.
-  projectName: "blog", // Usually your repo name.
-
-  // Even if you don't use internalization, you can use this field to set useful
-  // metadata like html lang. For example, if your site is Chinese, you may want
-  // to replace "en" with "zh-Hans".
   i18n: {
-    defaultLocale: "en",
-    locales: ["en"],
+    defaultLocale: "zh-CN",
+    locales: [
+      "zh-CN",
+      //"en"
+    ],
+    localeConfigs: {
+      "zh-CN": {
+        label: "简体中文",
+      },
+    },
   },
+
+  themes: ["@docusaurus/theme-live-codeblock"],
 
   presets: [
     [
       "classic",
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
+        pages: {
+          remarkPlugins: [require("@docusaurus/remark-plugin-npm2yarn")],
+        },
         docs: {
+          remarkPlugins: [
+            [require("@docusaurus/remark-plugin-npm2yarn"), { sync: true }],
+          ],
           sidebarPath: require.resolve("./sidebars.js"),
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/ChenWenWu223",
+          showLastUpdateAuthor: false,
+          showLastUpdateTime: false,
+          include: ["**/*.md", "**/*.mdx"],
+          exclude: [
+            "**/_*.{js,jsx,ts,tsx,md,mdx}",
+            "**/_*/**",
+            "**/*.test.{js,jsx,ts,tsx}",
+            "**/__tests__/**",
+          ],
         },
         blog: {
+          remarkPlugins: [require("@docusaurus/remark-plugin-npm2yarn")],
           showReadingTime: true,
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          editUrl:
-            "https://github.com/ChenWenWu223",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
+        },
+        sitemap: {
+          changefreq: "weekly",
+          priority: 0.5,
+          ignorePatterns: ["/tags/**"],
+          filename: "sitemap.xml",
         },
       }),
     ],
@@ -56,75 +80,160 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      colorMode: {
+        defaultMode: "light",
+        disableSwitch: false,
+      },
+      announcementBar: {
+        id: "support_us",
+        content: "Stay hungry，Stay foolish",
+        backgroundColor: "#fafbfc",
+        textColor: "#091E42",
+        isCloseable: true,
+      },
       navbar: {
         title: "Cww's Blog",
         logo: {
-          alt: "My Site Logo",
-          src: "img/logo.svg",
+          alt: "Cww's Blog",
+          src: "img/favicon/favicon.png",
+          srcDark: "img/favicon/favicon.png",
+          target: "_self",
+          className: "navbarIcon",
         },
+        hideOnScroll: false,
         items: [
+          // Left
+          {
+            type: "dropdown",
+            label: "前端",
+            position: "left",
+            items: [
+              { type: "doc", label: "Home", docId: "front-end" },
+              { type: "docSidebar", label: "HTML", sidebarId: "html" },
+              { type: "docSidebar", label: "CSS", sidebarId: "css" },
+              {
+                type: "docSidebar",
+                label: "JavaScript",
+                sidebarId: "javascript",
+              },
+              {
+                type: "docSidebar",
+                label: "TypeScript",
+                sidebarId: "typescript",
+              },
+              { type: "docSidebar", label: "React", sidebarId: "react" },
+              { type: "docSidebar", label: "Vue", sidebarId: "vue" },
+              // {
+              //   type: "docSidebar",
+              //   label: "Sass",
+              //   sidebarId: "sass",
+              // },
+              { type: "docSidebar", label: "npm", sidebarId: "npm" },
+              { type: "docSidebar", label: "Yarn", sidebarId: "yarn" },
+              { type: "docSidebar", label: "Vite", sidebarId: "vite" },
+              { type: "docSidebar", label: "GraphQL", sidebarId: "graphql" },
+            ],
+          },
+          {
+            type: "dropdown",
+            label: "后端",
+            position: "left",
+            items: [
+              { type: "doc", label: "Home", docId: "back-end" },
+              { type: "docSidebar", label: "Node.js", sidebarId: "nodejs" },
+              { type: "docSidebar", label: "MongoDB", sidebarId: "mongodb" },
+            ],
+          },
+          {
+            type: "dropdown",
+            label: "计算机",
+            position: "left",
+            items: [
+              { type: "docSidebar", label: "算法", sidebarId: "algorithm" },
+              {
+                type: "docSidebar",
+                label: "计算机网络",
+                sidebarId: "computer_network",
+              },
+            ],
+          },
+          {
+            type: "dropdown",
+            label: "其他",
+            position: "left",
+            items: [{ type: "docSidebar", label: "Git", sidebarId: "git" }],
+          },
           {
             type: "doc",
-            docId: "intro",
+            docId: "code-specification",
+            label: "代码规范",
             position: "left",
-            label: "Article",
           },
-          { to: "/blog", label: "Blog", position: "left" },
           {
-            href: "https://github.com/ChenWenWu223",
-            label: "GitHub",
+            type: "doc",
+            docId: "copywriting-guide",
+            label: "设计",
+            position: "left",
+          },
+          {
+            type: "search",
             position: "right",
+          },
+          {
+            href: "https://github.com/ChenWenWu223/",
+            position: "right",
+            className: "header-github-link",
+            title: "前往 Cww 的 GitHub 主页",
+            "aria-label": "GitHub repository",
           },
         ],
       },
+      docs: {
+        sidebar: {
+          hideable: true,
+          autoCollapseCategories: false,
+        },
+      },
       footer: {
-        style: "dark",
-        links: [
-          {
-            title: "Docs",
-            items: [
-              {
-                label: "Tutorial",
-                to: "/docs/intro",
-              },
-            ],
-          },
-          {
-            title: "Community",
-            items: [
-              {
-                label: "Stack Overflow",
-                href: "https://stackoverflow.com/questions/tagged/docusaurus",
-              },
-              {
-                label: "Discord",
-                href: "https://discordapp.com/invite/docusaurus",
-              },
-              {
-                label: "Twitter",
-                href: "https://twitter.com/docusaurus",
-              },
-            ],
-          },
-          {
-            title: "More",
-            items: [
-              {
-                label: "Blog",
-                to: "/blog",
-              },
-              {
-                label: "GitHub",
-                href: "https://github.com/facebook/docusaurus",
-              },
-            ],
-          },
-        ],
-        copyright: `Copyright © ${new Date().getFullYear()} My Project, Inc. Built with Docusaurus.`,
+        logo: {
+          src: "img/favicon/favicon.png",
+          href: "/",
+          width: 40,
+          height: 40,
+          style: { borderRadius: 100 },
+          alt: "cww",
+        },
+        style: "dark", // "light" | "dark"
+        links: [],
+        copyright: `Copyright © ${new Date().getFullYear()} Docusaurus. Hosted by Vercel.`,
+      },
+      tableOfContents: {
+        minHeadingLevel: 2,
+        maxHeadingLevel: 3,
       },
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+        // theme: duotoneLight,
+        // darkTheme: oceanicNext,
+        // Prism: https://prismjs.com/#supported-languages
+        // Docusaurus Support: https://github.com/FormidableLabs/prism-react-renderer/blob/master/src/vendor/prism/includeLangs.js
+        additionalLanguages: [
+          "aspnet",
+          "cpp",
+          "csharp",
+          "graphql",
+          "go",
+          "http",
+          "java",
+          "powershell",
+          "swift",
+          "vim",
+          "docker",
+        ],
+      },
+      liveCodeBlock: {
+        playgroundPosition: "bottom",
       },
     }),
 };

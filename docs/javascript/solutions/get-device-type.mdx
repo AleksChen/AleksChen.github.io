@@ -1,0 +1,26 @@
+---
+title: 获取设备类型
+---
+
+## 使用 userAgent
+
+```javascript title="JavaScript" showLineNumbers
+function getDeviceType() {
+  const userAgent = navigator.userAgent.toUpperCase();
+  if (/IPHONE|IPOD/.test(userAgent) && /MOBILE/.test(userAgent)) {
+    return "iPhone";
+  } else if (/ANDROID/.test(userAgent) && /MOBILE/.test(userAgent)) {
+    return "Android";
+  } else if (/IPAD/.test(userAgent) && /MOBILE/.test(userAgent)) {
+    return "iPad";
+  } else if (/WINODWS/.test(agent)) {
+    return "Windows PC";
+  } else if (/LINUX/.test(agent)) {
+    return "Linux PC";
+  } else if (/MAC/.test(agent)) {
+    return "Mac";
+  } else {
+    return "Others";
+  }
+}
+```

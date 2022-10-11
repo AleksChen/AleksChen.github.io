@@ -1,0 +1,82 @@
+---
+title: "nodemon"
+hide_title: true
+description: ""
+tags:
+  - label: "npm"
+    permalink: "npm"
+last_update:
+  date: "2022-07-30"
+  author: "Cww"
+---
+
+import FeatureIcon from "@site/src/components/FeatureIcon";
+import ReferenceList from "@site/src/components/ReferenceList";
+import nodemon from "@site/static/img/icon/nodemon.png";
+
+<FeatureIcon src={nodemon} title="nodemon" />
+
+> **nodemon** 是一个 Node.js 程序监视器，将**监视文件中的任何更改**并**自动重新启动服务器**，非常适合开发环境。
+
+## 安装
+
+```bash npm2yarn
+npm install nodemon
+```
+
+## 添加配置文件
+
+在项目根目录添加 `nodemon.json` 文件。
+
+```json title="nodemon.json"
+{
+  "watch": ["src/**/*", "views/**/*"],
+  "ext": "ts,js,json",
+  "ignore": ["node_modules", "*.test.ts"]
+}
+```
+
+- `watch` - 监视的文件目录
+- `ext` - 监视的文件后缀
+- `ignore` - 忽略的文件目录
+
+## 添加调试脚本
+
+在 `package.json` 添加调试脚本，此处执行的文件为 **TypeScript** 文件：
+
+```json {5} title="package.json"
+{
+  "scripts": {
+    "build": "yarn clear && tsc --build",
+    "start": "node -r ts-node/register/transpile-only -r tsconfig-paths/register dist/index",
+    "dev": "nodemon src/index"
+  }
+}
+```
+
+执行 `npm dev` 便可启动项目，若对监视的内容进行修改，则会自动重启项目。
+
+```
+$ yarn build
+$ yarn clear && tsc --build
+$ tsc --build --clean
+$ nodemon src/index
+[nodemon] 2.0.19
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): src/**/* views/**/*
+[nodemon] watching extensions: ts,js,json,ejs
+[nodemon] starting `ts-node src/index.ts`
+🚀[server]: Server is running on port 8080
+```
+
+## 参考
+
+<ReferenceList
+  data={[
+    {
+      title: "nodemon Docs",
+      link: "https://nodemon.io/",
+      src: nodemon,
+    },
+  ]}
+/>
