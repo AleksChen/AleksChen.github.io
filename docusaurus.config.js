@@ -63,6 +63,13 @@ const config = {
         blog: {
           remarkPlugins: [require("@docusaurus/remark-plugin-npm2yarn")],
           showReadingTime: true,
+          readingTime: ({ content, frontMatter, defaultReadingTime }) =>
+            defaultReadingTime({ content, options: { wordsPerMinute: 300 } }),
+          blogTitle: `Cww's Blog!`,
+          blogDescription: "Stay Hungry Stay Foolish!",
+          postsPerPage: "ALL",
+          blogSidebarTitle: "All posts",
+          blogSidebarCount: "ALL",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
@@ -100,8 +107,9 @@ const config = {
           target: "_self",
           className: "navbarIcon",
         },
-        hideOnScroll: false,
+        hideOnScroll: true,
         items: [
+          { to: "blog", label: "博客", position: "left" },
           // Left
           {
             type: "dropdown",
@@ -163,25 +171,40 @@ const config = {
           },
           {
             type: "dropdown",
+            label: "望其项背",
+            position: "left",
+            items: [
+              {
+                to: "https://www.ruanyifeng.com/blog/archives.html",
+                label: "阮一峰的网络日志",
+              },
+            ],
+          },
+          {
+            type: "dropdown",
             label: "其他",
             position: "left",
-            items: [{ type: "docSidebar", label: "Git", sidebarId: "git" }],
-          },
-          {
-            type: "doc",
-            docId: "code-specification",
-            label: "代码规范",
-            position: "left",
-          },
-          {
-            type: "doc",
-            docId: "copywriting-guide",
-            label: "设计",
-            position: "left",
-          },
-          {
-            type: "search",
-            position: "right",
+            items: [
+              { type: "docSidebar", label: "Git", sidebarId: "git" },
+              {
+                type: "doc",
+                docId: "code-specification",
+                label: "代码规范",
+              },
+              {
+                type: "doc",
+                docId: "copywriting-guide",
+                label: "设计",
+              },
+              {
+                to: "https://www.5axxw.com/wiki/topic/vxf8nl",
+                label: "Markdown 入门教程",
+              },
+              {
+                to: "https://docusaurus.io/docs",
+                label: "Docusaurus",
+              },
+            ],
           },
           {
             href: "https://github.com/ChenWenWu223/",
