@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcww_blog=self.webpackChunkcww_blog||[]).push([[2774],{3387:function(o){o.exports=JSON.parse('{"permalink":"/blog/blog/tags/facebook","page":1,"postsPerPage":1,"totalPages":1,"totalCount":1,"blogDescription":"Stay Hungry Stay Foolish!","blogTitle":"Cww\'s Blog!"}')}}]);

@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkcww_blog=self.webpackChunkcww_blog||[]).push([[1997],{4507:function(o){o.exports=JSON.parse('{"permalink":"/blog/blog/tags/docusaurus","page":1,"postsPerPage":4,"totalPages":1,"totalCount":4,"blogDescription":"Stay Hungry Stay Foolish!","blogTitle":"Cww\'s Blog!"}')}}]);
