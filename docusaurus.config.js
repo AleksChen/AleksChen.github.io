@@ -149,7 +149,11 @@ const config = {
             label: "计算机",
             position: "left",
             items: [
-              { type: "docSidebar", label: "算法", sidebarId: "algorithm" },
+              {
+                type: "docSidebar",
+                label: "数据结构与算法",
+                sidebarId: "algorithm",
+              },
               {
                 type: "docSidebar",
                 label: "计算机网络",

@@ -197,7 +197,30 @@ const sidebars = {
 
   git: [doc("git/index", "Git")],
 
-  algorithm: [doc("algorithm/index", "算法")],
+  algorithm: [
+    category("algorithm/dataStructure/index", "数据结构", [
+      category("algorithm/dataStructure/binary-tree/index", "二叉树", [
+        doc(
+          "algorithm/dataStructure/binary-tree/basic-operation",
+          "二叉树的基本操作"
+        ),
+        doc(
+          "algorithm/dataStructure/binary-tree/binary-tree-preorder-traversal",
+          "二叉树的前序遍历"
+        ),
+        doc(
+          "algorithm/dataStructure/binary-tree/binary-tree-inorder-traversal",
+          "二叉树的中序遍历"
+        ),
+        doc(
+          "algorithm/dataStructure/binary-tree/binary-tree-postorder-traversal",
+          "二叉树的后序遍历"
+        ),
+      ]),
+    ]),
+    category("algorithm/algorithm/index", "算法", []),
+    doc("algorithm/leetcode/index", "Leetcode"),
+  ],
 
   computer_network: [
     doc("computer-network/index", "计算机网络"),
