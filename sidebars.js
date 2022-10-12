@@ -216,6 +216,10 @@ const sidebars = {
           "algorithm/dataStructure/binary-tree/binary-tree-postorder-traversal",
           "二叉树的后序遍历"
         ),
+        doc(
+          "algorithm/dataStructure/binary-tree/insert-into-a-binary-search-tree",
+          "二叉搜索树中的插入操作"
+        ),
       ]),
     ]),
     category("algorithm/algorithm/index", "算法", []),
