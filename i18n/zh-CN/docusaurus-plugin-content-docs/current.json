@@ -194,5 +194,585 @@
   "sidebar.design.category.Figma": {
     "message": "Figma",
     "description": "The label for category Figma in sidebar design"
+  },
+  "sidebar.html.category.标签": {
+    "message": "标签",
+    "description": "The label for category 标签 in sidebar html"
+  },
+  "sidebar.html.category.解决方案": {
+    "message": "解决方案",
+    "description": "The label for category 解决方案 in sidebar html"
+  },
+  "sidebar.html.doc.HTML": {
+    "message": "HTML",
+    "description": "The label for the doc item HTML in sidebar html, linking to the doc html/index"
+  },
+  "sidebar.html.doc.文本": {
+    "message": "文本",
+    "description": "The label for the doc item 文本 in sidebar html, linking to the doc html/elements/text"
+  },
+  "sidebar.html.doc.超链接": {
+    "message": "超链接",
+    "description": "The label for the doc item 超链接 in sidebar html, linking to the doc html/elements/hyperlink"
+  },
+  "sidebar.html.doc.图片": {
+    "message": "图片",
+    "description": "The label for the doc item 图片 in sidebar html, linking to the doc html/elements/img"
+  },
+  "sidebar.html.doc.字符实体": {
+    "message": "字符实体",
+    "description": "The label for the doc item 字符实体 in sidebar html, linking to the doc html/character-entities"
+  },
+  "sidebar.html.doc.禁用浏览器的自动补全": {
+    "message": "禁用浏览器的自动补全",
+    "description": "The label for the doc item 禁用浏览器的自动补全 in sidebar html, linking to the doc html/solutions/autocomplete"
+  },
+  "sidebar.css.category.字体": {
+    "message": "字体",
+    "description": "The label for category 字体 in sidebar css"
+  },
+  "sidebar.css.category.List": {
+    "message": "List",
+    "description": "The label for category List in sidebar css"
+  },
+  "sidebar.css.category.属性": {
+    "message": "属性",
+    "description": "The label for category 属性 in sidebar css"
+  },
+  "sidebar.css.category.解决方案": {
+    "message": "解决方案",
+    "description": "The label for category 解决方案 in sidebar css"
+  },
+  "sidebar.css.doc.CSS": {
+    "message": "CSS",
+    "description": "The label for the doc item CSS in sidebar css, linking to the doc css/index"
+  },
+  "sidebar.css.doc.选择器": {
+    "message": "选择器",
+    "description": "The label for the doc item 选择器 in sidebar css, linking to the doc css/selectors"
+  },
+  "sidebar.css.doc.盒子模型": {
+    "message": "盒子模型",
+    "description": "The label for the doc item 盒子模型 in sidebar css, linking to the doc css/box-model"
+  },
+  "sidebar.css.doc.字符实体": {
+    "message": "字符实体",
+    "description": "The label for the doc item 字符实体 in sidebar css, linking to the doc css/entities"
+  },
+  "sidebar.css.doc.导入字体": {
+    "message": "导入字体",
+    "description": "The label for the doc item 导入字体 in sidebar css, linking to the doc css/font/import"
+  },
+  "sidebar.css.doc.字体显示": {
+    "message": "字体显示",
+    "description": "The label for the doc item 字体显示 in sidebar css, linking to the doc css/font/display"
+  },
+  "sidebar.css.doc.list-style-type": {
+    "message": "list-style-type",
+    "description": "The label for the doc item list-style-type in sidebar css, linking to the doc css/list/list-style-type"
+  },
+  "sidebar.css.doc.box-shadow": {
+    "message": "box-shadow",
+    "description": "The label for the doc item box-shadow in sidebar css, linking to the doc css/properties/box-shadow"
+  },
+  "sidebar.css.doc.overflow": {
+    "message": "overflow",
+    "description": "The label for the doc item overflow in sidebar css, linking to the doc css/properties/overflow"
+  },
+  "sidebar.css.doc.resize": {
+    "message": "resize",
+    "description": "The label for the doc item resize in sidebar css, linking to the doc css/properties/resize"
+  },
+  "sidebar.css.doc.white-space": {
+    "message": "white-space",
+    "description": "The label for the doc item white-space in sidebar css, linking to the doc css/properties/white-space"
+  },
+  "sidebar.css.doc.隐藏滚动条样式": {
+    "message": "隐藏滚动条样式",
+    "description": "The label for the doc item 隐藏滚动条样式 in sidebar css, linking to the doc css/hide-scroll-bar-style"
+  },
+  "sidebar.css.doc.代码变更效果": {
+    "message": "代码变更效果",
+    "description": "The label for the doc item 代码变更效果 in sidebar css, linking to the doc css/solutions/code-change-design"
+  },
+  "sidebar.css.doc.修改 SVG 样式": {
+    "message": "修改 SVG 样式",
+    "description": "The label for the doc item 修改 SVG 样式 in sidebar css, linking to the doc css/solutions/svg"
+  },
+  "sidebar.css.doc.Bootstrap": {
+    "message": "Bootstrap",
+    "description": "The label for the doc item Bootstrap in sidebar css, linking to the doc css/solutions/bootstrap"
+  },
+  "sidebar.javascript.category.数据类型": {
+    "message": "数据类型",
+    "description": "The label for category 数据类型 in sidebar javascript"
+  },
+  "sidebar.javascript.category.运算符和表达式": {
+    "message": "运算符和表达式",
+    "description": "The label for category 运算符和表达式 in sidebar javascript"
+  },
+  "sidebar.javascript.category.引用类型": {
+    "message": "引用类型",
+    "description": "The label for category 引用类型 in sidebar javascript"
+  },
+  "sidebar.javascript.category.数组": {
+    "message": "数组",
+    "description": "The label for category 数组 in sidebar javascript"
+  },
+  "sidebar.javascript.category.DOM": {
+    "message": "DOM",
+    "description": "The label for category DOM in sidebar javascript"
+  },
+  "sidebar.javascript.category.解决方案": {
+    "message": "解决方案",
+    "description": "The label for category 解决方案 in sidebar javascript"
+  },
+  "sidebar.javascript.doc.JavaScript": {
+    "message": "JavaScript",
+    "description": "The label for the doc item JavaScript in sidebar javascript, linking to the doc javascript/index"
+  },
+  "sidebar.javascript.doc.代码规范": {
+    "message": "代码规范",
+    "description": "The label for the doc item 代码规范 in sidebar javascript, linking to the doc javascript/code-specification"
+  },
+  "sidebar.javascript.doc.变量": {
+    "message": "变量",
+    "description": "The label for the doc item 变量 in sidebar javascript, linking to the doc javascript/variable"
+  },
+  "sidebar.javascript.doc.Number": {
+    "message": "Number",
+    "description": "The label for the doc item Number in sidebar javascript, linking to the doc javascript/data-type/number"
+  },
+  "sidebar.javascript.doc.String": {
+    "message": "String",
+    "description": "The label for the doc item String in sidebar javascript, linking to the doc javascript/data-type/string"
+  },
+  "sidebar.javascript.doc.类型转换": {
+    "message": "类型转换",
+    "description": "The label for the doc item 类型转换 in sidebar javascript, linking to the doc javascript/data-type/type-conversion"
+  },
+  "sidebar.javascript.doc.按位非 ~": {
+    "message": "按位非 ~",
+    "description": "The label for the doc item 按位非 ~ in sidebar javascript, linking to the doc javascript/operators-and-expressions/bitwise-not"
+  },
+  "sidebar.javascript.doc.逻辑或 ||": {
+    "message": "逻辑或 ||",
+    "description": "The label for the doc item 逻辑或 || in sidebar javascript, linking to the doc javascript/operators-and-expressions/logic-or"
+  },
+  "sidebar.javascript.doc.空值合并 ??": {
+    "message": "空值合并 ??",
+    "description": "The label for the doc item 空值合并 ?? in sidebar javascript, linking to the doc javascript/operators-and-expressions/nullish-coalescing"
+  },
+  "sidebar.javascript.doc.逻辑空赋值 ??=": {
+    "message": "逻辑空赋值 ??=",
+    "description": "The label for the doc item 逻辑空赋值 ??= in sidebar javascript, linking to the doc javascript/operators-and-expressions/logical-nullish-assignment"
+  },
+  "sidebar.javascript.doc.可选链 ?.": {
+    "message": "可选链 ?.",
+    "description": "The label for the doc item 可选链 ?. in sidebar javascript, linking to the doc javascript/operators-and-expressions/option-chaining"
+  },
+  "sidebar.javascript.doc.解构赋值": {
+    "message": "解构赋值",
+    "description": "The label for the doc item 解构赋值 in sidebar javascript, linking to the doc javascript/operators-and-expressions/destructuring-assignment"
+  },
+  "sidebar.javascript.doc.splice": {
+    "message": "splice",
+    "description": "The label for the doc item splice in sidebar javascript, linking to the doc javascript/reference-types/array/splice"
+  },
+  "sidebar.javascript.doc.类数组对象": {
+    "message": "类数组对象",
+    "description": "The label for the doc item 类数组对象 in sidebar javascript, linking to the doc javascript/reference-types/array-like-object"
+  },
+  "sidebar.javascript.doc.合并数组、对象": {
+    "message": "合并数组、对象",
+    "description": "The label for the doc item 合并数组、对象 in sidebar javascript, linking to the doc javascript/reference-types/join"
+  },
+  "sidebar.javascript.doc.🚀 深复制与浅复制": {
+    "message": "🚀 深复制与浅复制",
+    "description": "The label for the doc item 🚀 深复制与浅复制 in sidebar javascript, linking to the doc javascript/reference-types/shallowcopy-and-deepcopy"
+  },
+  "sidebar.javascript.doc.DOM 事件": {
+    "message": "DOM 事件",
+    "description": "The label for the doc item DOM 事件 in sidebar javascript, linking to the doc javascript/dom/events"
+  },
+  "sidebar.javascript.doc.获取设备类型": {
+    "message": "获取设备类型",
+    "description": "The label for the doc item 获取设备类型 in sidebar javascript, linking to the doc javascript/solutions/get-device-type"
+  },
+  "sidebar.javascript.doc.获取文件类型": {
+    "message": "获取文件类型",
+    "description": "The label for the doc item 获取文件类型 in sidebar javascript, linking to the doc javascript/solutions/get-file-type"
+  },
+  "sidebar.javascript.doc.从 HTML 中提取文字": {
+    "message": "从 HTML 中提取文字",
+    "description": "The label for the doc item 从 HTML 中提取文字 in sidebar javascript, linking to the doc javascript/solutions/get-text-from-html"
+  },
+  "sidebar.javascript.doc.日期、时间处理": {
+    "message": "日期、时间处理",
+    "description": "The label for the doc item 日期、时间处理 in sidebar javascript, linking to the doc javascript/solutions/possessing-date"
+  },
+  "sidebar.javascript.doc.获取 URL Query 参数": {
+    "message": "获取 URL Query 参数",
+    "description": "The label for the doc item 获取 URL Query 参数 in sidebar javascript, linking to the doc javascript/solutions/get-url-parameter"
+  },
+  "sidebar.javascript.doc.复制文本至剪切板": {
+    "message": "复制文本至剪切板",
+    "description": "The label for the doc item 复制文本至剪切板 in sidebar javascript, linking to the doc javascript/solutions/copy-text-to-clipboard"
+  },
+  "sidebar.javascript.doc.生成 GUID": {
+    "message": "生成 GUID",
+    "description": "The label for the doc item 生成 GUID in sidebar javascript, linking to the doc javascript/solutions/generate-a-guid"
+  },
+  "sidebar.typescript.category.类型": {
+    "message": "类型",
+    "description": "The label for category 类型 in sidebar typescript"
+  },
+  "sidebar.typescript.category.最佳实践": {
+    "message": "最佳实践",
+    "description": "The label for category 最佳实践 in sidebar typescript"
+  },
+  "sidebar.typescript.doc.TypeScript": {
+    "message": "TypeScript",
+    "description": "The label for the doc item TypeScript in sidebar typescript, linking to the doc typescript/index"
+  },
+  "sidebar.typescript.doc.搭建环境": {
+    "message": "搭建环境",
+    "description": "The label for the doc item 搭建环境 in sidebar typescript, linking to the doc typescript/environment"
+  },
+  "sidebar.typescript.doc.运行与调试": {
+    "message": "运行与调试",
+    "description": "The label for the doc item 运行与调试 in sidebar typescript, linking to the doc typescript/debug"
+  },
+  "sidebar.typescript.doc.内置类型": {
+    "message": "内置类型",
+    "description": "The label for the doc item 内置类型 in sidebar typescript, linking to the doc typescript/types/built-in"
+  },
+  "sidebar.typescript.doc.any": {
+    "message": "any",
+    "description": "The label for the doc item any in sidebar typescript, linking to the doc typescript/types/any"
+  },
+  "sidebar.typescript.doc.enum": {
+    "message": "enum",
+    "description": "The label for the doc item enum in sidebar typescript, linking to the doc typescript/types/enum"
+  },
+  "sidebar.typescript.doc.Tuple": {
+    "message": "Tuple",
+    "description": "The label for the doc item Tuple in sidebar typescript, linking to the doc typescript/types/tuple"
+  },
+  "sidebar.typescript.doc.Array": {
+    "message": "Array",
+    "description": "The label for the doc item Array in sidebar typescript, linking to the doc typescript/types/array"
+  },
+  "sidebar.typescript.doc.Object": {
+    "message": "Object",
+    "description": "The label for the doc item Object in sidebar typescript, linking to the doc typescript/types/object"
+  },
+  "sidebar.typescript.doc.Function": {
+    "message": "Function",
+    "description": "The label for the doc item Function in sidebar typescript, linking to the doc typescript/types/function"
+  },
+  "sidebar.typescript.doc.类型别名": {
+    "message": "类型别名",
+    "description": "The label for the doc item 类型别名 in sidebar typescript, linking to the doc typescript/types/type-alias"
+  },
+  "sidebar.typescript.doc.联合类型": {
+    "message": "联合类型",
+    "description": "The label for the doc item 联合类型 in sidebar typescript, linking to the doc typescript/types/union-type"
+  },
+  "sidebar.typescript.doc.交叉类型": {
+    "message": "交叉类型",
+    "description": "The label for the doc item 交叉类型 in sidebar typescript, linking to the doc typescript/types/intersection-type"
+  },
+  "sidebar.typescript.doc.字面量类型": {
+    "message": "字面量类型",
+    "description": "The label for the doc item 字面量类型 in sidebar typescript, linking to the doc typescript/types/literal-type"
+  },
+  "sidebar.typescript.doc.可空类型": {
+    "message": "可空类型",
+    "description": "The label for the doc item 可空类型 in sidebar typescript, linking to the doc typescript/types/nullable-type"
+  },
+  "sidebar.typescript.doc.TSConfig": {
+    "message": "TSConfig",
+    "description": "The label for the doc item TSConfig in sidebar typescript, linking to the doc typescript/tsconfig"
+  },
+  "sidebar.typescript.doc.实现数据模型映射": {
+    "message": "实现数据模型映射",
+    "description": "The label for the doc item 实现数据模型映射 in sidebar typescript, linking to the doc typescript/best-practice/map-data-model"
+  },
+  "sidebar.react.category.Hooks": {
+    "message": "Hooks",
+    "description": "The label for category Hooks in sidebar react"
+  },
+  "sidebar.react.category.DOM": {
+    "message": "DOM",
+    "description": "The label for category DOM in sidebar react"
+  },
+  "sidebar.react.category.样式和 CSS": {
+    "message": "样式和 CSS",
+    "description": "The label for category 样式和 CSS in sidebar react"
+  },
+  "sidebar.react.category.解决方案": {
+    "message": "解决方案",
+    "description": "The label for category 解决方案 in sidebar react"
+  },
+  "sidebar.react.category.最佳实践": {
+    "message": "最佳实践",
+    "description": "The label for category 最佳实践 in sidebar react"
+  },
+  "sidebar.react.category.Create React App": {
+    "message": "Create React App",
+    "description": "The label for category Create React App in sidebar react"
+  },
+  "sidebar.react.category.React Router": {
+    "message": "React Router",
+    "description": "The label for category React Router in sidebar react"
+  },
+  "sidebar.react.category.组件": {
+    "message": "组件",
+    "description": "The label for category 组件 in sidebar react"
+  },
+  "sidebar.react.category.Redux": {
+    "message": "Redux",
+    "description": "The label for category Redux in sidebar react"
+  },
+  "sidebar.react.category.使用 TypeScript": {
+    "message": "使用 TypeScript",
+    "description": "The label for category 使用 TypeScript in sidebar react"
+  },
+  "sidebar.react.doc.React": {
+    "message": "React",
+    "description": "The label for the doc item React in sidebar react, linking to the doc react/index"
+  },
+  "sidebar.react.doc.useState": {
+    "message": "useState",
+    "description": "The label for the doc item useState in sidebar react, linking to the doc react/hooks/useState"
+  },
+  "sidebar.react.doc.useEffect": {
+    "message": "useEffect",
+    "description": "The label for the doc item useEffect in sidebar react, linking to the doc react/hooks/useEffect"
+  },
+  "sidebar.react.doc.useRef": {
+    "message": "useRef",
+    "description": "The label for the doc item useRef in sidebar react, linking to the doc react/hooks/useRef"
+  },
+  "sidebar.react.doc.useContext": {
+    "message": "useContext",
+    "description": "The label for the doc item useContext in sidebar react, linking to the doc react/hooks/useContext"
+  },
+  "sidebar.react.doc.DOM 元素": {
+    "message": "DOM 元素",
+    "description": "The label for the doc item DOM 元素 in sidebar react, linking to the doc react/dom/dom-elements"
+  },
+  "sidebar.react.doc.CSS in JavaScript": {
+    "message": "CSS in JavaScript",
+    "description": "The label for the doc item CSS in JavaScript in sidebar react, linking to the doc react/style-and-css/css-in-javascript"
+  },
+  "sidebar.react.doc.组件交互": {
+    "message": "组件交互",
+    "description": "The label for the doc item 组件交互 in sidebar react, linking to the doc react/components-interaction"
+  },
+  "sidebar.react.doc.文件下载": {
+    "message": "文件下载",
+    "description": "The label for the doc item 文件下载 in sidebar react, linking to the doc react/solutions/download-file"
+  },
+  "sidebar.react.doc.图片导入": {
+    "message": "图片导入",
+    "description": "The label for the doc item 图片导入 in sidebar react, linking to the doc react/solutions/import-image"
+  },
+  "sidebar.react.doc.组件设计": {
+    "message": "组件设计",
+    "description": "The label for the doc item 组件设计 in sidebar react, linking to the doc react/best-practice/component-design"
+  },
+  "sidebar.react.doc.配置绝对路径": {
+    "message": "配置绝对路径",
+    "description": "The label for the doc item 配置绝对路径 in sidebar react, linking to the doc react/create-react-app/configure-absolute-path"
+  },
+  "sidebar.react.doc.环境变量": {
+    "message": "环境变量",
+    "description": "The label for the doc item 环境变量 in sidebar react, linking to the doc react/create-react-app/environment-variable"
+  },
+  "sidebar.react.doc.安装 React Router": {
+    "message": "安装 React Router",
+    "description": "The label for the doc item 安装 React Router in sidebar react, linking to the doc react/react-router/installation"
+  },
+  "sidebar.react.doc.路由": {
+    "message": "路由",
+    "description": "The label for the doc item 路由 in sidebar react, linking to the doc react/react-router/routers"
+  },
+  "sidebar.react.doc.🚀 Link": {
+    "message": "🚀 Link",
+    "description": "The label for the doc item 🚀 Link in sidebar react, linking to the doc react/react-router/components/link"
+  },
+  "sidebar.react.doc.React i18next": {
+    "message": "React i18next",
+    "description": "The label for the doc item React i18next in sidebar react, linking to the doc react/react-i18next"
+  },
+  "sidebar.react.doc.安装 Redux": {
+    "message": "安装 Redux",
+    "description": "The label for the doc item 安装 Redux in sidebar react, linking to the doc react/redux/installation"
+  },
+  "sidebar.react.doc.React 中的类型": {
+    "message": "React 中的类型",
+    "description": "The label for the doc item React 中的类型 in sidebar react, linking to the doc react/use-typescript/types-in-react"
+  },
+  "sidebar.vue.doc.Vue": {
+    "message": "Vue",
+    "description": "The label for the doc item Vue in sidebar vue, linking to the doc vue/index"
+  },
+  "sidebar.tailwind.doc.Tailwind": {
+    "message": "Tailwind",
+    "description": "The label for the doc item Tailwind in sidebar tailwind, linking to the doc tailwind/index"
+  },
+  "sidebar.npm.doc.npm": {
+    "message": "npm",
+    "description": "The label for the doc item npm in sidebar npm, linking to the doc npm/index"
+  },
+  "sidebar.npm.doc.升级 Node 版本": {
+    "message": "升级 Node 版本",
+    "description": "The label for the doc item 升级 Node 版本 in sidebar npm, linking to the doc npm/upgrade-node"
+  },
+  "sidebar.npm.doc.升级 npm 版本": {
+    "message": "升级 npm 版本",
+    "description": "The label for the doc item 升级 npm 版本 in sidebar npm, linking to the doc npm/upgrade-npm"
+  },
+  "sidebar.npm.doc.classnames": {
+    "message": "classnames",
+    "description": "The label for the doc item classnames in sidebar npm, linking to the doc npm/classnames"
+  },
+  "sidebar.npm.doc.clsx": {
+    "message": "clsx",
+    "description": "The label for the doc item clsx in sidebar npm, linking to the doc npm/clsx"
+  },
+  "sidebar.npm.doc.dotenv": {
+    "message": "dotenv",
+    "description": "The label for the doc item dotenv in sidebar npm, linking to the doc npm/dotenv"
+  },
+  "sidebar.npm.doc.Moment.js": {
+    "message": "Moment.js",
+    "description": "The label for the doc item Moment.js in sidebar npm, linking to the doc npm/momentjs"
+  },
+  "sidebar.npm.doc.N Module": {
+    "message": "N Module",
+    "description": "The label for the doc item N Module in sidebar npm, linking to the doc npm/n-module"
+  },
+  "sidebar.npm.doc.nodemon": {
+    "message": "nodemon",
+    "description": "The label for the doc item nodemon in sidebar npm, linking to the doc npm/nodemon"
+  },
+  "sidebar.npm.doc.patch-package": {
+    "message": "patch-package",
+    "description": "The label for the doc item patch-package in sidebar npm, linking to the doc npm/patch-package"
+  },
+  "sidebar.npm.doc.ts-node": {
+    "message": "ts-node",
+    "description": "The label for the doc item ts-node in sidebar npm, linking to the doc npm/ts-node"
+  },
+  "sidebar.npm.doc.uuid": {
+    "message": "uuid",
+    "description": "The label for the doc item uuid in sidebar npm, linking to the doc npm/uuid"
+  },
+  "sidebar.npm.doc.Axios": {
+    "message": "Axios",
+    "description": "The label for the doc item Axios in sidebar npm, linking to the doc npm/axios"
+  },
+  "sidebar.yarn.doc.Yarn": {
+    "message": "Yarn",
+    "description": "The label for the doc item Yarn in sidebar yarn, linking to the doc yarn/index"
+  },
+  "sidebar.yarn.doc.CLI": {
+    "message": "CLI",
+    "description": "The label for the doc item CLI in sidebar yarn, linking to the doc yarn/cli"
+  },
+  "sidebar.vite.doc.Vite": {
+    "message": "Vite",
+    "description": "The label for the doc item Vite in sidebar vite, linking to the doc vite/index"
+  },
+  "sidebar.vite.doc.项目搭建": {
+    "message": "项目搭建",
+    "description": "The label for the doc item 项目搭建 in sidebar vite, linking to the doc vite/installation"
+  },
+  "sidebar.graphql.doc.GraphQL": {
+    "message": "GraphQL",
+    "description": "The label for the doc item GraphQL in sidebar graphql, linking to the doc graphql/index"
+  },
+  "sidebar.graphql.doc.🚀 安装": {
+    "message": "🚀 安装",
+    "description": "The label for the doc item 🚀 安装 in sidebar graphql, linking to the doc graphql/installation"
+  },
+  "sidebar.nodejs.doc.Node.js": {
+    "message": "Node.js",
+    "description": "The label for the doc item Node.js in sidebar nodejs, linking to the doc nodejs/index"
+  },
+  "sidebar.nodejs.doc.🚀 搭建环境": {
+    "message": "🚀 搭建环境",
+    "description": "The label for the doc item 🚀 搭建环境 in sidebar nodejs, linking to the doc nodejs/environment"
+  },
+  "sidebar.nodejs.doc.环境变量": {
+    "message": "环境变量",
+    "description": "The label for the doc item 环境变量 in sidebar nodejs, linking to the doc nodejs/environment-variable"
+  },
+  "sidebar.mongodb.doc.MongoDB": {
+    "message": "MongoDB",
+    "description": "The label for the doc item MongoDB in sidebar mongodb, linking to the doc mongodb/index"
+  },
+  "sidebar.git.doc.Git": {
+    "message": "Git",
+    "description": "The label for the doc item Git in sidebar git, linking to the doc git/index"
+  },
+  "sidebar.algorithm.category.数据结构": {
+    "message": "数据结构",
+    "description": "The label for category 数据结构 in sidebar algorithm"
+  },
+  "sidebar.algorithm.category.二叉树": {
+    "message": "二叉树",
+    "description": "The label for category 二叉树 in sidebar algorithm"
+  },
+  "sidebar.algorithm.doc.二叉树的基本操作": {
+    "message": "二叉树的基本操作",
+    "description": "The label for the doc item 二叉树的基本操作 in sidebar algorithm, linking to the doc algorithm/dataStructure/binary-tree/basic-operation"
+  },
+  "sidebar.algorithm.doc.二叉树的前序遍历": {
+    "message": "二叉树的前序遍历",
+    "description": "The label for the doc item 二叉树的前序遍历 in sidebar algorithm, linking to the doc algorithm/dataStructure/binary-tree/binary-tree-preorder-traversal"
+  },
+  "sidebar.algorithm.doc.二叉树的中序遍历": {
+    "message": "二叉树的中序遍历",
+    "description": "The label for the doc item 二叉树的中序遍历 in sidebar algorithm, linking to the doc algorithm/dataStructure/binary-tree/binary-tree-inorder-traversal"
+  },
+  "sidebar.algorithm.doc.二叉树的后序遍历": {
+    "message": "二叉树的后序遍历",
+    "description": "The label for the doc item 二叉树的后序遍历 in sidebar algorithm, linking to the doc algorithm/dataStructure/binary-tree/binary-tree-postorder-traversal"
+  },
+  "sidebar.algorithm.doc.二叉搜索树中的插入操作": {
+    "message": "二叉搜索树中的插入操作",
+    "description": "The label for the doc item 二叉搜索树中的插入操作 in sidebar algorithm, linking to the doc algorithm/dataStructure/binary-tree/insert-into-a-binary-search-tree"
+  },
+  "sidebar.algorithm.doc.Leetcode": {
+    "message": "Leetcode",
+    "description": "The label for the doc item Leetcode in sidebar algorithm, linking to the doc algorithm/leetcode/index"
+  },
+  "sidebar.computer_network.category.DNS": {
+    "message": "DNS",
+    "description": "The label for category DNS in sidebar computer_network"
+  },
+  "sidebar.computer_network.doc.计算机网络": {
+    "message": "计算机网络",
+    "description": "The label for the doc item 计算机网络 in sidebar computer_network, linking to the doc computer-network/index"
+  },
+  "sidebar.computer_network.doc.清除 DNS 缓存": {
+    "message": "清除 DNS 缓存",
+    "description": "The label for the doc item 清除 DNS 缓存 in sidebar computer_network, linking to the doc computer-network/dns/flush-cache"
+  },
+  "sidebar.backend.doc.🚀 搭建环境": {
+    "message": "🚀 搭建环境",
+    "description": "The label for the doc item 🚀 搭建环境 in sidebar backend, linking to the doc mongodb/environment"
+  },
+  "sidebar.design.doc.文案排版指南": {
+    "message": "文案排版指南",
+    "description": "The label for the doc item 文案排版指南 in sidebar design, linking to the doc copywriting-guide"
+  },
+  "sidebar.design.doc.优质网站设计": {
+    "message": "优质网站设计",
+    "description": "The label for the doc item 优质网站设计 in sidebar design, linking to the doc best-website-design"
   }
 }
