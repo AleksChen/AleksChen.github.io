@@ -162,6 +162,7 @@ const sidebars = {
   vue: [doc("vue/index", "Vue")],
 
   tailwind: [doc("tailwind/index", "Tailwind")],
+  webpack: [doc("webpack/index", "Webpack")],
 
   // sass: [doc("sass/index", "Sass")],
 
