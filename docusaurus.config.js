@@ -13,7 +13,7 @@ const config = {
   customFields: { apiBaseUrl: process.env.API_BASE_URL },
   title: "Cww's Blog",
   tagline: "Today is a present",
-  url: "https://chenwenwu223.github.io/blog/",
+  url: "https://chenwenwu223.github.io",
   baseUrl: "/blog/",
   baseUrlIssueBanner: true,
   onBrokenLinks: "throw",
@@ -131,6 +131,7 @@ const config = {
               },
               { type: "docSidebar", label: "React", sidebarId: "react" },
               { type: "docSidebar", label: "Vue", sidebarId: "vue" },
+              { type: "docSidebar", label: "Webpack", sidebarId: "webpack" },
               // {
               //   type: "docSidebar",
               //   label: "Sass",

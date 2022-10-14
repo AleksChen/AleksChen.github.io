@@ -11,6 +11,9 @@ const sidebars = {
     category("html/solutions/index", "解决方案", [
       doc("html/solutions/autocomplete", "禁用浏览器的自动补全"),
     ]),
+    category("html/canvas/index", "Canvas", [
+      doc("html/canvas/canvas-clock", "Canvas 时钟"),
+    ]),
   ],
 
   css: [

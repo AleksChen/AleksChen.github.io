@@ -7,6 +7,7 @@ import react from "@site/static/img/icon/react.png";
 import vue from "@site/static/img/icon/vue.png";
 // import tailwindcss from "@site/static/img/icon/tailwindcss.png";
 // import sass from "@site/static/img/icon/sass.png";
+import webpack from "@site/static/img/icon/webpack.png";
 import npm from "@site/static/img/icon/npm.png";
 import yarn from "@site/static/img/icon/yarn.png";
 import vite from "@site/static/img/icon/vite.png";
@@ -54,6 +55,7 @@ const frontendGridList: Array<GridItemType> = [
   gridItem(frontendData.typescript, "/docs/typescript", typescript),
   gridItem(frontendData.react, "/docs/react", react),
   gridItem(frontendData.vue, "/docs/vue", vue),
+  gridItem(frontendData.webpack, "/docs/webpack", webpack),
   gridItem(frontendData.npm, "/docs/npm", npm),
   gridItem(frontendData.yarn, "/docs/yarn", yarn),
   gridItem(frontendData.vite, "/docs/vite", vite),

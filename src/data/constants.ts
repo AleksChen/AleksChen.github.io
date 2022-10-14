@@ -7,6 +7,7 @@ const TYPESCRIPT = "TypeScript";
 const REACT = "React";
 const VUE = "Vue";
 const TAILWIND = "Tailwind";
+const WEBPACK = "Webpack";
 // const SASS = "Sass";
 const NPM = "npm";
 const YARN = "Yarn";
@@ -41,6 +42,7 @@ interface FrontendMenuData {
   readonly react: string;
   readonly vue: string;
   readonly tailwind: string;
+  readonly webpack: string;
   // readonly sass: string;
   readonly npm: string;
   readonly yarn: string;
@@ -76,6 +78,7 @@ const frontendMenuData: FrontendMenuData = {
   react: REACT,
   vue: VUE,
   tailwind: TAILWIND,
+  webpack: WEBPACK,
   // sass: SASS,
   npm: NPM,
   yarn: YARN,
