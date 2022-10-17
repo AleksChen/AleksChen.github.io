@@ -54,17 +54,18 @@ const frontendGridList: Array<GridItemType> = [
   gridItem(frontendData.javascript, "/docs/javascript", javascript),
   gridItem(frontendData.typescript, "/docs/typescript", typescript),
   gridItem(frontendData.react, "/docs/react", react),
+  gridItem(frontendData.rn, "/docs/rn", react),
   gridItem(frontendData.vue, "/docs/vue", vue),
   gridItem(frontendData.webpack, "/docs/webpack", webpack),
-  gridItem(frontendData.npm, "/docs/npm", npm),
-  gridItem(frontendData.yarn, "/docs/yarn", yarn),
   gridItem(frontendData.vite, "/docs/vite", vite),
-  gridItem(frontendData.graphql, "/docs/graphql", graphql),
+  gridItem(frontendData.yarn, "/docs/yarn", yarn),
+  gridItem(frontendData.npm, "/docs/npm", npm),
 ];
 
 const backendGridList: Array<GridItemType> = [
   gridItem(backendData.nodejs, "/docs/nodejs", nodejs),
   gridItem(backendData.mongodb, "/docs/mongodb", mongodb),
+  gridItem(frontendData.graphql, "/docs/graphql", graphql),
 ];
 
 const othersGridList: Array<GridItemType> = [

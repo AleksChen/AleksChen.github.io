@@ -4,7 +4,7 @@ hide_title: true
 description: ""
 tags:
   - label: "Canvas"
-    permalink: "html"
+    permalink: "html" 
 last_update:
   date: "2022-10-13"
   author: "Cww"
@@ -21,7 +21,7 @@ import html from "@site/static/img/icon/html.png";
 
 ## Canvas 简介
 
-Canvas 本质上就是 HTML 的一个标签。`<canvas>` 标签有默认大小，如果需要设置画布大小可以通过 `width` 和 `height`
+Canvas 本质上就是 HTML 的一个标签。`canvas` 标签有默认大小，如果需要设置画布大小可以通过 `width` 和 `height`
 
 ```html
 <canvas id="canvas" width="1024" height="768" style="border: 1px solid #aaa;">
@@ -96,7 +96,7 @@ context.arc(
 
 第六个参数 `anticlockwise` 默认是 false 顺时针判断
 
-<img src="canvas-clock.assets/image-20221013165548585.png" alt="image-20221013165548585" style="zoom:33%;" />
+<img src="canvas-clock.assets/image-20221013165548585.png" alt="image-20221013165548585" />
 
 
 
@@ -142,7 +142,7 @@ for (let i = 0; i < 10; i++) {
 
 ## 点阵
 
-通过二维数组去映射数字，点位为 1 说明该位置应该渲染成一个圆。
+通过二维数组去映射数字，点位为 1 说明该位置应该渲染成一个圆。通过圆形图案的组合去表现数字。
 
 ![image-20221013171020031](canvas-clock.assets/image-20221013171020031.png)
 
@@ -156,7 +156,7 @@ for (let i = 0; i < 10; i++) {
 
 ## 动画
 
-通过 `setInterval` 去更新视图可以实现动画效果。
+通过 `setInterval` 去更新视图可以实现动画效果。在间隔执行的函数中一般要完成两个操作：渲染视图和更新数据。
 
 ```javascript
 setInterval(

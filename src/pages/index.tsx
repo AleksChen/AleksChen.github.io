@@ -7,7 +7,7 @@ import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import { isMobile, setClipBoardText } from "@site/src/utils";
 import {
   contactMeData,
-  frontendGridList,
+  frontendGridList, 
   backendGridList,
   frontendMenuData,
   backendMenuData,
@@ -36,6 +36,7 @@ type ContactMeBtnProps = {
 };
 
 export default function Home(): JSX.Element {
+  console.log('@@Home')
   return (
     <BrowserOnly fallback={undefined}>
       {() => {

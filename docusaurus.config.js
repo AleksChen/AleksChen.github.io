@@ -14,7 +14,7 @@ const config = {
   title: "Cww's Blog",
   tagline: "Today is a present",
   url: "https://chenwenwu223.github.io",
-  baseUrl: "/blog/",
+  baseUrl: "/",
   baseUrlIssueBanner: true,
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
@@ -132,6 +132,11 @@ const config = {
               { type: "docSidebar", label: "React", sidebarId: "react" },
               { type: "docSidebar", label: "Vue", sidebarId: "vue" },
               { type: "docSidebar", label: "Webpack", sidebarId: "webpack" },
+              {
+                type: "docSidebar",
+                label: "React Native",
+                sidebarId: "rn",
+              },
               // {
               //   type: "docSidebar",
               //   label: "Sass",
@@ -140,7 +145,6 @@ const config = {
               { type: "docSidebar", label: "npm", sidebarId: "npm" },
               { type: "docSidebar", label: "Yarn", sidebarId: "yarn" },
               { type: "docSidebar", label: "Vite", sidebarId: "vite" },
-              { type: "docSidebar", label: "GraphQL", sidebarId: "graphql" },
             ],
           },
           {
@@ -151,6 +155,7 @@ const config = {
               { type: "doc", label: "Home", docId: "back-end" },
               { type: "docSidebar", label: "Node.js", sidebarId: "nodejs" },
               { type: "docSidebar", label: "MongoDB", sidebarId: "mongodb" },
+              { type: "docSidebar", label: "GraphQL", sidebarId: "graphql" },
             ],
           },
           {
@@ -233,7 +238,7 @@ const config = {
         },
         style: "dark", // "light" | "dark"
         links: [],
-        copyright: `Copyright © ${new Date().getFullYear()} Docusaurus. Hosted by Vercel.`,
+        copyright: `Copyright © ${new Date().getFullYear()} Docusaurus. Hosted by Github Pages.`,
       },
       tableOfContents: {
         minHeadingLevel: 2,

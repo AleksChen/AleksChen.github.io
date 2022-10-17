@@ -10,5 +10,5 @@ This is my personal Blog website for recording web development knowledge.
 
 ## Others
 
-- Host by Vercel
+- Host by Github Pages
 - UI design inspired by Notion

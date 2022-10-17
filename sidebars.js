@@ -20,26 +20,6 @@ const sidebars = {
     doc("css/index", "CSS"),
     doc("css/selectors", "选择器"),
     doc("css/box-model", "盒子模型"),
-    doc("css/entities", "字符实体"),
-    category("css/font/index", "字体", [
-      doc("css/font/import", "导入字体"),
-      doc("css/font/display", "字体显示"),
-    ]),
-    category("css/list/index", "List", [
-      doc("css/list/list-style-type", "list-style-type"),
-    ]),
-    category("css/properties/index", "属性", [
-      doc("css/properties/box-shadow", "box-shadow"),
-      doc("css/properties/overflow", "overflow"),
-      doc("css/properties/resize", "resize"),
-      doc("css/properties/white-space", "white-space"),
-    ]),
-    doc("css/hide-scroll-bar-style", "隐藏滚动条样式"),
-    category("css/solutions/index", "解决方案", [
-      doc("css/solutions/code-change-design", "代码变更效果"),
-      doc("css/solutions/svg", "修改 SVG 样式"),
-      doc("css/solutions/bootstrap", "Bootstrap"),
-    ]),
   ],
 
   javascript: [
@@ -163,6 +143,7 @@ const sidebars = {
 
   tailwind: [doc("tailwind/index", "Tailwind")],
   webpack: [doc("webpack/index", "Webpack")],
+  rn: [doc("rn/index", "React Native")],
 
   // sass: [doc("sass/index", "Sass")],
 
