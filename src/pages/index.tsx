@@ -36,7 +36,6 @@ type ContactMeBtnProps = {
 };
 
 export default function Home(): JSX.Element {
-  console.log('@@Home')
   return (
     <BrowserOnly fallback={undefined}>
       {() => {
@@ -72,7 +71,7 @@ export default function Home(): JSX.Element {
 
 function HomepageHeader({ isMobileDevice }: HomepageHeaderProps): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
-  const Creator = "Cww";
+  const Creator = "Winwoo";
   const TO_BLOG_BUTTON_TEXT = "Go to Blog";
   const COPY_SUCCESS = "已复制到剪切板";
   const [show, setShow] = useState<boolean>(false);
@@ -91,7 +90,7 @@ function HomepageHeader({ isMobileDevice }: HomepageHeaderProps): JSX.Element {
         <div className={styles.heroTextArea}>
           {!isMobileDevice && (
             <div className={styles.avatarArea}>
-              <img src={favicon} alt="Cww" />
+              <img src={favicon} alt="Winwoo" />
             </div>
           )}
           <p className={styles.heroTextTitle}>{Creator}</p>

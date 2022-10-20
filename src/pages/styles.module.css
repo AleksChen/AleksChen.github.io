@@ -1,3 +1,4 @@
+
 .heroBanner {
   position: relative;
   display: flex;
@@ -5,10 +6,17 @@
   text-align: center;
   background-position: center;
   background-size: cover;
-  background-image: url("/static/img/background/home_background.jpeg");
   background-color: var(--ifm-hero-background-color);
   color: var(--ifm-hero-text-color);
   height: 30vh;
+}
+
+[data-theme="light"] .heroBanner {
+  background-image: url("/static/img/background/light_home_background.jpeg");
+}
+
+[data-theme="dark"] .heroBanner {
+  background-image: url("/static/img/background/dark_home_background.jpg");
 }
 
 .heroTextContainer {
@@ -120,7 +128,7 @@
 
 @media screen and (min-width: 576px) {
   .heroBanner {
-    height: 100vh;
+    height: 95vh;
   }
 
   .heroTextContainer {

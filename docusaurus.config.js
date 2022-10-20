@@ -11,15 +11,15 @@ require("dotenv").config();
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   customFields: { apiBaseUrl: process.env.API_BASE_URL },
-  title: "Cww's Blog",
-  tagline: "Today is a present",
+  title: "Winwoo's Blog",
+  tagline: "Today is a present.",
   url: "https://chenwenwu223.github.io",
   baseUrl: "/blog/",
   baseUrlIssueBanner: true,
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
   favicon: "img/favicon/favicon.png",
-  organizationName: "Cww's Blog",
+  organizationName: "Winwoo's Blog",
   projectName: "blog",
 
   i18n: {
@@ -65,7 +65,7 @@ const config = {
           showReadingTime: true,
           readingTime: ({ content, frontMatter, defaultReadingTime }) =>
             defaultReadingTime({ content, options: { wordsPerMinute: 300 } }),
-          blogTitle: `Cww's Blog!`,
+          blogTitle: `Winwoo's Blog!`,
           blogDescription: "Stay Hungry Stay Foolish!",
           postsPerPage: "ALL",
           blogSidebarTitle: "All posts",
@@ -99,9 +99,9 @@ const config = {
         isCloseable: true,
       },
       navbar: {
-        title: "Cww's Blog",
+        title: "Winwoo's Blog",
         logo: {
-          alt: "Cww's Blog",
+          alt: "Winwoo's Blog",
           src: "img/favicon/favicon.png",
           srcDark: "img/favicon/favicon.png",
           target: "_self",
@@ -216,7 +216,7 @@ const config = {
             href: "https://github.com/ChenWenWu223/",
             position: "right",
             className: "header-github-link",
-            title: "前往 Cww 的 GitHub 主页",
+            title: "前往 Winwoo 的 GitHub 主页",
             "aria-label": "GitHub repository",
           },
         ],
@@ -234,7 +234,7 @@ const config = {
           width: 40,
           height: 40,
           style: { borderRadius: 100 },
-          alt: "cww",
+          alt: "Winwoo",
         },
         style: "dark", // "light" | "dark"
         links: [],
