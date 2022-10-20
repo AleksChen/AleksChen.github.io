@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://chenwenwu223.github.io/blog/blog</id>
-    <title>Cww's Blog Blog</title>
+    <title>Winwoo's Blog Blog</title>
     <updated>2021-08-26T00:00:00.000Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://chenwenwu223.github.io/blog/blog"/>
-    <subtitle>Cww's Blog Blog</subtitle>
+    <subtitle>Winwoo's Blog Blog</subtitle>
     <icon>https://chenwenwu223.github.io/blog/img/favicon/favicon.png</icon>
     <entry>
         <title type="html"><![CDATA[Welcome]]></title>
