@@ -19,7 +19,7 @@ const sidebars = {
   css: [
     doc("css/index", "CSS"),
     doc("css/selectors", "选择器"),
-    doc("css/box-model", "盒子模型"),
+    doc("css/box-model", "盒模型"),
   ],
 
   javascript: [
@@ -202,12 +202,38 @@ const sidebars = {
           "二叉树的后序遍历"
         ),
         doc(
+          "algorithm/dataStructure/binary-tree/minimum-depth-of-binary-tree",
+          "二叉树的最小深度"
+        ),
+        doc(
+          "algorithm/dataStructure/binary-tree/maximum-depth-of-binary-tree",
+          "二叉树的最大深度"
+        ),
+        doc(
           "algorithm/dataStructure/binary-tree/insert-into-a-binary-search-tree",
           "二叉搜索树中的插入操作"
         ),
+        doc(
+          "algorithm/dataStructure/binary-tree/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof",
+          "二叉搜索树后序遍历验证"
+        ),
       ]),
     ]),
-    category("algorithm/algorithm/index", "算法", []),
+    category("algorithm/algorithm/index", "算法", [
+      category("algorithm/algorithm/dp/index", "动态规划", [
+        doc(
+          "algorithm/algorithm/dp/longest-common-subsequence",
+          "最长公共子序列"
+        ),
+        doc(
+          "algorithm/algorithm/dp/longest-increasing-subsequence",
+          "最长递增子序列"
+        ),
+        doc("algorithm/algorithm/dp/maximum-subarray", "最大子数组和"),
+        doc("algorithm/algorithm/dp/coin-change", "零钱兑换"),
+      ]),
+      category("algorithm/algorithm/greedy/index", "贪心算法", []),
+    ]),
     doc("algorithm/leetcode/index", "Leetcode"),
   ],
 
@@ -243,6 +269,12 @@ const sidebars = {
     { type: "doc", id: "copywriting-guide", label: "文案排版指南" },
     // 优质网站设计
     { type: "doc", id: "best-website-design", label: "优质网站设计" },
+  ],
+  interview: [
+    doc("interview/index", "前端面试"),
+    category("computer-network/dns/index", "DNS", [
+      doc("computer-network/dns/flush-cache", "清除 DNS 缓存"),
+    ]),
   ],
 };
 

@@ -1,5 +1,5 @@
 ---
-title: 二叉搜索树中的插入操作
+title: 平衡二叉树
 ---
 
 [110. 平衡二叉树](https://leetcode.cn/problems/balanced-binary-tree/)

@@ -210,6 +210,11 @@ const config = {
                 to: "https://docusaurus.io/docs",
                 label: "Docusaurus",
               },
+              {
+                type: "docSidebar",
+                label: "Interview",
+                sidebarId: "interview",
+              },
             ],
           },
           {

@@ -251,9 +251,9 @@
     "message": "选择器",
     "description": "The label for the doc item 选择器 in sidebar css, linking to the doc css/selectors"
   },
-  "sidebar.css.doc.盒子模型": {
-    "message": "盒子模型",
-    "description": "The label for the doc item 盒子模型 in sidebar css, linking to the doc css/box-model"
+  "sidebar.css.doc.盒模型": {
+    "message": "盒模型",
+    "description": "The label for the doc item 盒模型 in sidebar css, linking to the doc css/box-model"
   },
   "sidebar.css.doc.字符实体": {
     "message": "字符实体",

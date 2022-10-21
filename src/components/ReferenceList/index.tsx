@@ -4,6 +4,7 @@ import clsx from "clsx";
 import Link from "@docusaurus/Link";
 import ThemedImage from "@theme/ThemedImage";
 import LinkSVG from "@site/static/svg/link.svg";
+import DefaultImg from "@site/static/img/icon/chrome.png";
 import type LinkItemType from "@components/LinkItem";
 
 type ReferenceListProps = {
@@ -28,8 +29,8 @@ export default function ReferenceList({
             <li className={styles.listItem} key={index}>
               <ThemedImage
                 sources={{
-                  light: item.src,
-                  dark: item.srcDark ? item.srcDark : item.src,
+                  light: item.src || DefaultImg,
+                  dark: item.srcDark ? item.srcDark : item.src || DefaultImg,
                 }}
                 alt={item.title}
                 loading="lazy"
