@@ -62,6 +62,7 @@ const sidebars = {
     category("javascript/dom/index", "DOM", [
       doc("javascript/dom/events", "DOM 事件"),
     ]),
+    category("javascript/module/index", "模块化", []),
     category("javascript/solutions/index", "解决方案", [
       doc("javascript/solutions/get-device-type", "获取设备类型"),
       doc("javascript/solutions/get-file-type", "获取文件类型"),
@@ -173,9 +174,14 @@ const sidebars = {
   ],
 
   nodejs: [
-    doc("nodejs/index", "Node.js"),
-    doc("nodejs/environment", "🚀 搭建环境"),
-    doc("nodejs/environment-variable", "环境变量"),
+    category("nodejs/index", "Node.js", [
+      doc("nodejs/environment", "🚀 搭建环境"),
+      doc("nodejs/environment-variable", "环境变量"),
+    ]),
+    category("nodejs/koa/index", "Koa", []),
+    category("nodejs/express/index", "Express", [
+      doc("nodejs/express/middleware", "Express Middleware"),
+    ]),
   ],
 
   mongodb: [doc("mongodb/index", "MongoDB")],
@@ -240,8 +246,12 @@ const sidebars = {
   computer_network: [
     doc("computer-network/index", "计算机网络"),
     category("computer-network/dns/index", "DNS", [
-      doc("computer-network/dns/flush-cache", "清除 DNS 缓存"),
+      doc(
+        "computer-network/dns/protocol-used-by-DNS",
+        "DNS 用的是 TCP 协议还是 UDP 协议"
+      ),
     ]),
+    category("computer-network/cdn/index", "CDN", []),
   ],
 
   backend: [
@@ -272,8 +282,8 @@ const sidebars = {
   ],
   interview: [
     doc("interview/index", "前端面试"),
-    category("computer-network/dns/index", "DNS", [
-      doc("computer-network/dns/flush-cache", "清除 DNS 缓存"),
+    category("interview/javascript/index", "JavaScript", [
+      doc("interview/javascript/arrow-function", "箭头函数"),
     ]),
   ],
 };
