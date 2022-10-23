@@ -63,6 +63,7 @@ const sidebars = {
       doc("javascript/dom/events", "DOM 事件"),
     ]),
     category("javascript/module/index", "模块化", []),
+    doc("javascript/event-loop", "事件循环"),
     category("javascript/solutions/index", "解决方案", [
       doc("javascript/solutions/get-device-type", "获取设备类型"),
       doc("javascript/solutions/get-file-type", "获取文件类型"),
@@ -283,7 +284,32 @@ const sidebars = {
   interview: [
     doc("interview/index", "前端面试"),
     category("interview/javascript/index", "JavaScript", [
-      doc("interview/javascript/arrow-function", "箭头函数"),
+      doc(
+        "interview/javascript/difference-arrow-function",
+        "箭头函数与普通函数的区别"
+      ),
+    ]),
+    category("interview/hands-on-practice/index", "手写实现", [
+      doc("interview/hands-on-practice/call-apply-bind", "call、apply、bind"),
+      doc("interview/hands-on-practice/throttle-debounce", "防抖节流"),
+      doc("interview/hands-on-practice/hands-on-promise", "Promise"),
+      doc(
+        "interview/hands-on-practice/promise-ajax",
+        "基于 Promise 的 Ajax 封装"
+      ),
+      doc("interview/hands-on-practice/async-print", "异步循环打印"),
+      doc(
+        "interview/hands-on-practice/hands-on-instanceof",
+        "模拟实现 instanceof"
+      ),
+      doc("interview/hands-on-practice/hands-on-new", "模拟实现 new"),
+      doc("interview/hands-on-practice/deep-copy", "深、浅拷贝"),
+      doc("interview/hands-on-practice/singleton", "单例模式"),
+      doc("interview/hands-on-practice/es5-inheritance", "手动实现 ES5 继承"),
+      doc(
+        "interview/hands-on-practice/vitual-dom",
+        "将 Virtual Dom 转化为真实 DOM 结构"
+      ),
     ]),
   ],
 };

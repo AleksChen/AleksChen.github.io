@@ -1,0 +1,28 @@
+---
+title: 模拟实现 instanceof
+---
+
+## 原理
+
+```js
+a instanceof Object
+```
+
+判断 Object 的 prototype 是否在 a 的原型链上。
+
+## 实现
+
+```js
+function _instanceof(target, origin) {
+  const proto = target.__proto__;
+  if (proto) {
+    if (origin.prototype === proto) {
+      return true;
+    } else {
+      return _instanceof(proto, origin)
+    }
+  } else {
+    return false;
+  }
+}
+```
