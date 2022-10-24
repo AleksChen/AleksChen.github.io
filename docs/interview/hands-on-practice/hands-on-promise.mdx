@@ -2,6 +2,9 @@
 title: 模拟实现 Promise
 ---
 
+import javascript from "@site/static/img/icon/javascript.png";
+import ReferenceList from "@site/src/components/ReferenceList";
+
 ## 基础版本
 
 - 设定三个状态 `PENDING、FULFILLED、REJECTED` ，只能由`PENDING`改变为`FULFILLED、REJECTED`，并且只能改变一次
@@ -341,7 +344,6 @@ MyPromise.race = function (promises) {
         if (promises.length === 0) {
             resolve();
         } else {
-            let index = 0;
             for (let i = 0; i < promises.length; i++) {
                 promises[i].then(data => {
                     resolve(data);
@@ -354,3 +356,15 @@ MyPromise.race = function (promises) {
     });
 
 ```
+
+## 参考
+
+<ReferenceList
+  data={[
+    {
+      title: "MDN",
+      link: "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise",
+      src: javascript,
+    },
+  ]}
+/>

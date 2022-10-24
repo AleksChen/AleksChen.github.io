@@ -1,3 +1,144 @@
 ---
 title: 垂直水平居中
 ---
+
+import ReferenceList from "@site/src/components/ReferenceList";
+
+- flex
+
+- grid 
+
+- table
+
+
+
+## absoulte + 负 margin
+
+```Css
+/* 此处引用上面的公共代码 */
+/* 此处引用上面的公共代码 */
+
+/* 定位代码 */
+.wp {
+    position: relative;
+}
+.box {
+    position: absolute;;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+}
+```
+
+
+
+## absoulte + margin auto
+
+```Css
+/* 此处引用上面的公共代码 */
+/* 此处引用上面的公共代码 */
+
+/* 定位代码 */
+.wp {
+    position: relative;
+}
+.box {
+    position: absolute;;
+    top: 50%;
+    left: 50%;
+    margin-left: -50px;
+    margin-top: -50px;
+}
+```
+
+
+
+## absoulte + calc
+
+```Css
+/* 此处引用上面的公共代码 */
+/* 此处引用上面的公共代码 */
+
+/* 定位代码 */
+.wp {
+    position: relative;
+}
+.box {
+    position: absolute;;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+}
+```
+
+
+
+## absolute + transform
+
+```css
+/* 此处引用上面的公共代码 */
+/* 此处引用上面的公共代码 */
+
+/* 定位代码 */
+.wp {
+    position: relative;
+}
+.box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+```
+
+
+
+## flex
+
+```html
+<div class="wp">
+    <div class="box">123123</div>
+</div>
+```
+
+```css
+.wp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+```
+
+
+
+
+
+## grid
+
+```html
+<div class="wp">
+    <div class="box">123123</div>
+</div>
+```
+
+```css
+.wp {
+    display: grid;
+}
+.box {
+    align-self: center;
+    justify-self: center;
+}
+```
+
+
+## 参考
+
+<ReferenceList
+  data={[
+    {
+      title: "CSS 实现水平垂直居中的 10 种方式",
+      link: "https://juejin.cn/post/6844903679242305544#heading-0",
+    },
+  ]}
+/>
