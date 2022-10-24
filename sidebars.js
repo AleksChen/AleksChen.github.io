@@ -20,6 +20,8 @@ const sidebars = {
     doc("css/index", "CSS"),
     doc("css/selectors", "选择器"),
     doc("css/box-model", "盒模型"),
+    doc("css/bfc", "BFC"),
+    doc("css/centered", "垂直水平居中"),
   ],
 
   javascript: [
@@ -253,6 +255,10 @@ const sidebars = {
       ),
     ]),
     category("computer-network/cdn/index", "CDN", []),
+  ],
+  computer_system: [
+    doc("computer-system/index", "操作系统"),
+    [doc("computer-system/process-management", "进程管理")],
   ],
 
   backend: [

@@ -9,30 +9,23 @@ import ReferenceList from "@site/src/components/ReferenceList";
 
 使用 new 命令时，它后面的函数依次执行下面的步骤。
 
-1. 创建一个空对象，作为将要返回的对象实例。
-2. 将这个空对象的原型，指向构造函数的`prototype`属性。
-3. 将这个空对象赋值给函数内部的`this`关键字。
-4. 开始执行构造函数内部的代码。
+1. 首先创建一个新对象，这个新对象的`__proto__`属性指向构造函数的`prototype`属性
+2. 此时构造函数执行环境的this指向这个新对象
+3. 执行构造函数中的代码，一般是通过this给新对象添加新的成员属性或方法。
+4. 最后返回这个新对象。
 
 ## 实现
 
 ```js
-const objectFactory = function () {
-  // 创建一个空对象
-  // var obj = {}; 和下面的是同样的效果
-  var obj = new Object();
-  // 获得一个构造函数
-  // Constructor = [].shift.apply(arguments);
-  Constructor = [].shift.call(arguments);
-  // 将构造函数的原型对象，作为新对象的原型对象
-  obj.__proto__ = Constructor.prototype;
-  // 绑定this，让this指向新的对象
-  // var ret = Constructor.apply(obj,arguments)
-  // var ret = Constructor.call(obj,arguments[0],arguments[1],arguments[2])
-  var ret = Constructor.call(obj, ...arguments);
-  // 确保 使用new返回的是一个 object 对像
-  return typeof ret === "object" ? ret : obj;
-};
+function _new(constructor, ...args) {
+  // 创建一个空对象，继承构造函数的 prototype 属性
+  var obj = Object.create(constructor.prototype);
+  // 执行构造函数 获得返回值
+  var res = constructor.apply(obj, args);
+  // 如果返回结果是对象，就直接返回，否则返回 obj 对象
+  return (typeof res === 'object' && res != null) ? res : obj;
+}
+
 ```
 
 ## 参考
@@ -42,6 +35,11 @@ const objectFactory = function () {
     {
       title: "new 原理",
       link: "https://wangdoc.com/javascript/oop/new.html#new-%E5%91%BD%E4%BB%A4%E7%9A%84%E5%8E%9F%E7%90%86",
+      src: javascript,
+    },
+    {
+      title: "JS 中 new 关键字的模拟实现",
+      link: "https://www.cnblogs.com/dark-duck/p/14286711.html",
       src: javascript,
     },
 ]}

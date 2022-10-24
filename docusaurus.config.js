@@ -170,6 +170,11 @@ const config = {
               },
               {
                 type: "docSidebar",
+                label: "操作系统",
+                sidebarId: "computer_system",
+              },
+              {
+                type: "docSidebar",
                 label: "计算机网络",
                 sidebarId: "computer_network",
               },
