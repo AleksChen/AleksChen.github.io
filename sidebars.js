@@ -260,7 +260,6 @@ const sidebars = {
     doc("computer-system/index", "操作系统"),
     [doc("computer-system/process-management", "进程管理")],
   ],
-
   backend: [
     // MongoDB
     {
@@ -293,6 +292,10 @@ const sidebars = {
       doc(
         "interview/javascript/difference-arrow-function",
         "箭头函数与普通函数的区别"
+      ),
+      doc(
+        "interview/javascript/export-and-export-default",
+        "export 和 export default 的区别"
       ),
     ]),
     category("interview/hands-on-practice/index", "手写实现", [
