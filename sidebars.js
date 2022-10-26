@@ -288,6 +288,15 @@ const sidebars = {
   ],
   interview: [
     doc("interview/index", "前端面试"),
+    category("interview/interview-questions/index", "面经", [
+      doc("interview/interview-questions/network", "计算机网络"),
+      doc("interview/interview-questions/broswer", "浏览器"),
+      doc("interview/interview-questions/HTML&CSS", "HTML&CSS"),
+      doc("interview/interview-questions/JavaScript", "JavaScript"),
+      doc("interview/interview-questions/TypeScript", "TypeScript"),
+      doc("interview/interview-questions/Vue", "Vue"),
+      doc("interview/interview-questions/React", "React"),
+    ]),
     category("interview/javascript/index", "JavaScript", [
       doc(
         "interview/javascript/difference-arrow-function",

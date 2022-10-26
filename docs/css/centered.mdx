@@ -4,25 +4,16 @@ title: 垂直水平居中
 
 import ReferenceList from "@site/src/components/ReferenceList";
 
-- flex
+## 居中元素尺寸固定
 
-- grid 
-
-- table
-
-
-
-## absoulte + 负 margin
+### absoulte + 负 margin
 
 ```Css
-/* 此处引用上面的公共代码 */
-/* 此处引用上面的公共代码 */
 
-/* 定位代码 */
-.wp {
+.father {
     position: relative;
 }
-.box {
+.son {
     position: absolute;;
     top: 50%;
     left: 50%;
@@ -31,106 +22,129 @@ import ReferenceList from "@site/src/components/ReferenceList";
 }
 ```
 
-
-
-## absoulte + margin auto
+### absoulte + calc
 
 ```Css
-/* 此处引用上面的公共代码 */
-/* 此处引用上面的公共代码 */
 
-/* 定位代码 */
-.wp {
+.father {
     position: relative;
 }
-.box {
-    position: absolute;;
-    top: 50%;
-    left: 50%;
-    margin-left: -50px;
-    margin-top: -50px;
-}
-```
-
-
-
-## absoulte + calc
-
-```Css
-/* 此处引用上面的公共代码 */
-/* 此处引用上面的公共代码 */
-
-/* 定位代码 */
-.wp {
-    position: relative;
-}
-.box {
+.son {
     position: absolute;;
     top: calc(50% - 50px);
     left: calc(50% - 50px);
 }
 ```
 
+### table-cell
 
+这种方式需要父元素的宽高都是确定的，才能保证子元素在父元素中垂直水平都居中。
 
-## absolute + transform
+```Css
 
-```css
-/* 此处引用上面的公共代码 */
-/* 此处引用上面的公共代码 */
+.father {
+    height: 500px;
+    width: 500px;
+    display: table-cell;
+    vertical-align: middle;
+text-align: center;
+}
+.son {
+    display: inline-block;
 
-/* 定位代码 */
-.wp {
+}
+```
+
+## 居中元素尺寸不固定
+
+### absoulte + margin auto
+
+```Css
+
+.father {
     position: relative;
 }
-.box {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.son {
+    position: absolute;;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
 }
 ```
 
+### absolute + transform
 
+```css
+.father {
+  position: relative;
+}
+.son {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+```
 
-## flex
+### flex
 
 ```html
-<div class="wp">
-    <div class="box">123123</div>
+<div class="father">
+  <div class="son">123123</div>
 </div>
 ```
 
 ```css
-.wp {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.father {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 ```
 
-
-
-
-
-## grid
+### grid（兼容性存在问题）
 
 ```html
-<div class="wp">
-    <div class="box">123123</div>
+<div class="father">
+  <div class="son">123123</div>
 </div>
 ```
 
 ```css
-.wp {
-    display: grid;
+.father {
+  display: grid;
 }
-.box {
-    align-self: center;
-    justify-self: center;
+.son {
+  align-self: center; /*设置单元格内容的垂直位置*/
+  justify-self: center; /*设置单元格内容的水平位置*/
 }
 ```
 
+## 行内元素垂直水平居中
+
+### line-height
+
+```html
+<div class="father">
+  <div class="son">123123</div>
+</div>
+```
+
+```css
+.father {
+  width: 500px;
+  height: 500px;
+  line-height: 500px;
+  text-align: center;
+}
+.son {
+  display: inline-block;
+  vertical-align: middle;
+  line-height: inherit;
+}
+```
 
 ## 参考
 

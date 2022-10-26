@@ -196,6 +196,11 @@ const config = {
             label: "其他",
             position: "left",
             items: [
+              {
+                type: "docSidebar",
+                label: "Interview",
+                sidebarId: "interview",
+              },
               { type: "docSidebar", label: "Git", sidebarId: "git" },
               {
                 type: "doc",
@@ -214,11 +219,6 @@ const config = {
               {
                 to: "https://docusaurus.io/docs",
                 label: "Docusaurus",
-              },
-              {
-                type: "docSidebar",
-                label: "Interview",
-                sidebarId: "interview",
               },
             ],
           },
