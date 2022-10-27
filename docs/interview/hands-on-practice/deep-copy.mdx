@@ -76,8 +76,6 @@ let copyObj = copy(obj);
 console.log(obj, copyObj);
 ```
 
-措施：用`Map`记录下对象中的所有对象，并与新创建的对象一一对应，即记录引用关系。
-
 ```js
 let map = new Map();
 function deepClone(origin) {
@@ -97,13 +95,59 @@ function deepClone(origin) {
   }
   return target;
 }
+```
+
+> 注意：如果遇到时间对象，正则等类型，需要通过`new`关键字去创建
+
+措施：用`WeakMap`记录下对象中的所有对象，并与新创建的对象一一对应，即记录引用关系。
+
+
+## 完整版
+
+```js
+// 利用 WeakMap 解决循环引用
+let map = new WeakMap();
+function deepClone(obj) {
+  if (obj instanceof Object) {
+    if (map.has(obj)) {
+      return map.get(obj);
+    }
+    let newObj;
+    if (obj instanceof Array) {
+      newObj = [];
+    } else if (obj instanceof Function) {
+      newObj = function () {
+        return obj.apply(this, arguments);
+      };
+    } else if (obj instanceof RegExp) {
+      // 拼接正则
+      newobj = new RegExp(obj.source, obj.flags);
+    } else if (obj instanceof Date) {
+      newobj = new Date(obj);
+    } else {
+      newObj = {};
+    }
+    // 克隆一份对象出来
+    // Object.getOwnPropertyDescriptors() 方法用来获取一个对象的所有自身属性的描述符。
+    // 所指定对象的所有自身属性的描述符，如果没有任何自身属性，则返回空对象。
+    let desc = Object.getOwnPropertyDescriptors(obj);
+    let clone = Object.create(Object.getPrototypeOf(obj), desc);
+    map.set(obj, clone);
+    for (let key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        newObj[key] = deepClone(obj[key]);
+      }
+    }
+    return newObj;
+  }
+  return obj;
+}
 
 obj.b = obj;
 let copyObj = deepClone(obj);
 console.log(obj, copyObj);
 ```
 
-> 注意：如果遇到时间对象，正则等类型，需要通过`new`关键字去创建
 
 ### 复杂版本实现
 
