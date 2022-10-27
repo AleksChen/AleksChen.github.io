@@ -315,6 +315,7 @@ const sidebars = {
         "interview/hands-on-practice/promise-ajax",
         "基于 Promise 的 Ajax 封装"
       ),
+      doc("interview/hands-on-practice/concurrent-requests", "异步并发控制"),
       doc("interview/hands-on-practice/async-print", "异步循环打印"),
       doc(
         "interview/hands-on-practice/hands-on-instanceof",

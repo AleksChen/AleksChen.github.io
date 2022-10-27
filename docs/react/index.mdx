@@ -21,6 +21,15 @@ import redux from "@site/static/img/icon/redux.png";
 import typescript from "@site/static/img/icon/typescript.png";
 
 <FeatureIcon src={react} title="React" />
+
+
+## Fiber是什么？
+
+- Fiber 就是重新实现的堆栈帧，本质上 Fiber 也可以理解为是一个虚拟的堆栈帧，将可中断的任务拆分成多个子任务，通过按照优先级来自由调度子任务，分段更新，从而将之前的同步渲染改为异步渲染。
+- 所以我们可以说 Fiber 是一种数据结构(堆栈帧)，也可以说是一种解决可中断的调用任务的一种解决方案，它的特性就是时间分片(time slicing)和暂停(supense)。
+
+
+
 <LinkList
   data={[
     {
