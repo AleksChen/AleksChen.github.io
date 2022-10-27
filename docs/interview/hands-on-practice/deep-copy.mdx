@@ -19,6 +19,8 @@ arr.concat();
 JSON.parse(JSON.stringify(obj));
 ```
 
+> 这种拷贝方式局限性比较大，但是在日常开发中一般只是拷贝基本的数据类型，个人在开发中用的还是比较多
+
 **缺陷**
 
 1. 如果`JSON`里面有时间对象，则序列化后会将时间对象转换为字符串格式
@@ -27,7 +29,83 @@ JSON.parse(JSON.stringify(obj));
 4. 如果`JSON`里有对象是由构造函数生成的，则序列化的结果会丢弃对象的 constructor
 5. 如果对象中存在循环引用的情况将抛出错误
 
-### 手动实现
+```js
+let obj = {
+  a: undefined,
+  b: {
+    c: function () {
+      console.log(1);
+    },
+    d: null,
+    e: new Date(),
+    f: new RegExp("\\w+"),
+    g: NaN,
+  },
+};
+obj.c = obj;
+
+let copyObj = JSON.parse(JSON.stringify(obj));
+console.log(obj, copyObj);
+```
+
+### 递归实现
+
+```js
+function deepClone(obj) {
+  let newobj = null;
+  if (typeof obj == "object" && obj !== null) {
+    newobj = obj instanceof Array ? [] : {};
+    for (var i in obj) {
+      newobj[i] = deepClone(obj[i]);
+    }
+  } else {
+    newobj = obj;
+  }
+  return newobj;
+}
+```
+
+上述方法存在循环引用的问题
+
+```js
+let obj = {
+  a: 1,
+};
+obj.a = obj;
+let copyObj = copy(obj);
+console.log(obj, copyObj);
+```
+
+措施：用`Map`记录下对象中的所有对象，并与新创建的对象一一对应，即记录引用关系。
+
+```js
+let map = new Map();
+function deepClone(origin) {
+  let target = null;
+  if (typeof origin == "object" && origin !== null) {
+    if (map.get(origin)) {
+      target = map.get(origin); // 记录引用关系
+    } else {
+      target = Array.isArray(origin) ? [] : {};
+      map.set(origin, target);
+      for (var i in origin) {
+        target[i] = deepClone(origin[i]);
+      }
+    }
+  } else {
+    target = origin;
+  }
+  return target;
+}
+
+obj.b = obj;
+let copyObj = deepClone(obj);
+console.log(obj, copyObj);
+```
+
+> 注意：如果遇到时间对象，正则等类型，需要通过`new`关键字去创建
+
+### 复杂版本实现
 
 ```js
 const mapTag = "[object Map]";

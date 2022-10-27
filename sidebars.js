@@ -309,21 +309,21 @@ const sidebars = {
       ),
     ]),
     category("interview/hands-on-practice/index", "手写实现", [
-      doc("interview/hands-on-practice/call-apply-bind", "call、apply、bind"),
+      doc("interview/hands-on-practice/concurrent-requests", "异步并发控制"),
+      doc("interview/hands-on-practice/deep-copy", "深、浅拷贝"),
       doc("interview/hands-on-practice/throttle-debounce", "防抖节流"),
+      doc("interview/hands-on-practice/call-apply-bind", "call、apply、bind"),
       doc("interview/hands-on-practice/hands-on-promise", "Promise"),
       doc(
         "interview/hands-on-practice/promise-ajax",
         "基于 Promise 的 Ajax 封装"
       ),
-      doc("interview/hands-on-practice/concurrent-requests", "异步并发控制"),
       doc("interview/hands-on-practice/async-print", "异步循环打印"),
       doc(
         "interview/hands-on-practice/hands-on-instanceof",
         "模拟实现 instanceof"
       ),
       doc("interview/hands-on-practice/hands-on-new", "模拟实现 new"),
-      doc("interview/hands-on-practice/deep-copy", "深、浅拷贝"),
       doc("interview/hands-on-practice/singleton", "单例模式"),
       doc("interview/hands-on-practice/es5-inheritance", "手动实现 ES5 继承"),
       doc(
