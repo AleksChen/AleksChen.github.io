@@ -23,6 +23,33 @@ import typescript from "@site/static/img/icon/typescript.png";
 <FeatureIcon src={react} title="React" />
 
 
+## 生命周期
+
+[React 生命周期](https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/)指的是组件从创建到卸载的整个过程每个过程都有对应的钩子函数它主要有以下几个阶段：
+
+1. 挂载阶段组件实例被创建和插入 DOM 树的过程，其生命周期调用顺序如下：
+   1. [**`constructor()`**](https://zh-hans.reactjs.org/docs/react-component.html#constructor)
+   2. [`static getDerivedStateFromProps()`](https://zh-hans.reactjs.org/docs/react-component.html#static-getderivedstatefromprops)
+   3. [**`render()`**](https://zh-hans.reactjs.org/docs/react-component.html#render)
+   4. [**`componentDidMount()`**](https://zh-hans.reactjs.org/docs/react-component.html#componentdidmount)
+2. 更新阶段组件被重新渲染的过程。当组件的 props 或 state 发生变化时会触发更新。组件更新的生命周期调用顺序如下：
+   1. [`static getDerivedStateFromProps()`](https://zh-hans.reactjs.org/docs/react-component.html#static-getderivedstatefromprops)
+   2. [`shouldComponentUpdate()`](https://zh-hans.reactjs.org/docs/react-component.html#shouldcomponentupdate)
+   3. [**`render()`**](https://zh-hans.reactjs.org/docs/react-component.html#render)
+   4. [`getSnapshotBeforeUpdate()`](https://zh-hans.reactjs.org/docs/react-component.html#getsnapshotbeforeupdate)
+   5. [**`componentDidUpdate()`**](https://zh-hans.reactjs.org/docs/react-component.html#componentdidupdate)
+3. 卸载阶段组件从Dom树中被删除的过程。当组件从 DOM 中移除时会调用如下方法：
+   - [**`componentWillUnmount()`**](https://zh-hans.reactjs.org/docs/react-component.html#componentwillunmount)
+4. 错误处理。当渲染过程，生命周期，或子组件的构造函数中抛出错误时，会调用如下方法：
+   - [`static getDerivedStateFromError()`](https://zh-hans.reactjs.org/docs/react-component.html#static-getderivedstatefromerror)
+   - [`componentDidCatch()`](https://zh-hans.reactjs.org/docs/react-component.html#componentdidcatch)
+
+
+
+![image-20221027132604772](index.assets/image-20221027132604772.png)
+
+![image-20221027132634066](index.assets/image-20221027132634066.png)
+
 ## Fiber是什么？
 
 - Fiber 就是重新实现的堆栈帧，本质上 Fiber 也可以理解为是一个虚拟的堆栈帧，将可中断的任务拆分成多个子任务，通过按照优先级来自由调度子任务，分段更新，从而将之前的同步渲染改为异步渲染。

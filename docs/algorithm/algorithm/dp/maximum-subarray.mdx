@@ -32,3 +32,30 @@ title: 53. 最大子数组和
 
 ## 解析
 
+**以 `nums[i]` 为结尾的「最大子数组和」为 `dp[i]`。**
+
+`dp[i]` 有两种「选择」，要么与前面的相邻子数组连接，形成一个和更大的子数组；要么不与前面的子数组连接，自成一派，自己作为一个子数组。
+
+动态规划转移方程：`dp[i] = max{dp[i-1] + nums[i], nums[i]}`
+
+
+
+## 代码实现
+
+```js
+var maxSubArray = function(nums) {
+    let pre = 0, maxAns = nums[0];
+    nums.forEach((x) => {
+        pre = Math.max(pre + x, x);
+        maxAns = Math.max(maxAns, pre);
+    });
+    return maxAns;
+};
+```
+
+
+
+## 复杂度
+
+时间复杂度：`O(n)`，其中 n 为 nums 数组的长度。我们只需要遍历一遍数组即可求得答案。
+空间复杂度：`O(1)`。我们只需要常数空间存放若干变量。

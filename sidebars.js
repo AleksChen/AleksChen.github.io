@@ -229,6 +229,7 @@ const sidebars = {
       ]),
     ]),
     category("algorithm/algorithm/index", "算法", [
+      category("algorithm/algorithm/sort/index", "排序", []),
       category("algorithm/algorithm/dp/index", "动态规划", [
         doc(
           "algorithm/algorithm/dp/longest-common-subsequence",
