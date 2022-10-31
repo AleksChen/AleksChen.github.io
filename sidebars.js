@@ -298,6 +298,9 @@ const sidebars = {
       doc("interview/interview-questions/Vue", "Vue"),
       doc("interview/interview-questions/React", "React"),
     ]),
+    category("interview/css/index", "CSS", [
+      doc("interview/css/two-columns", "两栏布局"),
+    ]),
     category("interview/javascript/index", "JavaScript", [
       doc(
         "interview/javascript/difference-arrow-function",
@@ -330,6 +333,7 @@ const sidebars = {
         "interview/hands-on-practice/vitual-dom",
         "将 Virtual Dom 转化为真实 DOM 结构"
       ),
+      doc("interview/hands-on-practice/carousel", "轮播图实现"),
     ]),
   ],
 };

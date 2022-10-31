@@ -1,0 +1,340 @@
+---
+title: 轮播图实现
+---
+
+import javascript from "@site/static/img/icon/javascript.png";
+import ReferenceList from "@site/src/components/ReferenceList";
+
+## CSS 动画实现
+
+1. 设置大的`container`
+   1. 设置绝对定位，定位位置
+   2. 设置图片展示出来的高度和宽度（height 和 width）
+   3. 设置`overflow:hidden`;设置超出部分隐藏；使得图片只能在这个框中显示；
+2. 设置小的 div `items`,将所有图片都包起来；宽度是所有图片的宽度；设置`position:relative`或`position:absolute`来让它可以实现轮播的功能；必不可少
+3. 给里面的图片设置`float:left;`向左浮动，可以让所有图片都在同一行；如果没有`float:left;`会导致图片轮播的时候出现空白；
+4. 加入动画；每次都向左偏移一个图片的宽度，即可实现图片轮播；
+5. 将第一张图片与最后一张图片设置成一样的，是为了实现视觉上的无缝连接。
+
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Carousel</title>
+    <style>
+      * {
+        padding: 0;
+        margin: 0;
+      }
+      .container {
+        height: 333px;
+        width: 500px;
+        overflow: hidden;
+        position: relative;
+      }
+      .items {
+        height: 333px;
+        width: 2500px;
+        /* 触发 BFC */
+        position: absolute;
+        animation: carousel 25s ease-out infinite normal;
+      }
+      .items img {
+        width: 500px;
+        height: 333px;
+        float: left;
+      }
+      .container:hover .items {
+        animation-play-state: paused;
+      }
+
+      @keyframes carousel {
+        0% {
+          left: 0;
+        }
+        25% {
+          left: -500px;
+        }
+        50% {
+          left: -1000px;
+        }
+        75% {
+          left: -1500px;
+        }
+        100% {
+          left: -2000px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="items">
+        <img src="./imgs/1.jpg" />
+        <img src="./imgs/2.jpg" />
+        <img src="./imgs/3.jpg" />
+        <img src="./imgs/4.jpg" />
+        <img src="./imgs/5.jpg" />
+      </div>
+    </div>
+  </body>
+</html>
+```
+
+## JavaScript 实现
+
+1. 自动轮播
+
+   - 用 setInterval(调用的函数，时间)； 注意"调用的函数"处要写成函数名，不能带括号，带括号表示立即调用这个函数，不带则表示指向函数的指针。
+   - 被调用的函数 ，我的代码中呢，是 xunhuan() ； 不断地自加，也就是不断地往后循环，if 语句实现的是：当图片到最后一张时，让其跳转到第一张。
+   - 调用的 change1()函数呢，实际上就是实现轮播的较为核心的部分；先将所有图片，点点的样式设置为一样的，再对当前索引对应的图片，点点设置特别的样式。
+
+2. 鼠标移入，移出事件；
+   - 接下来的 pointlist,以及两个 for 循环 里的事件监听事件，都是为了实现鼠标的移入，移出。
+   - pointlist 点点；imgs 图片； spans 左右按钮。
+
+> 注意：
+1. 如果你想要通过点击事件来改变图片的移动时，就必须让鼠标移动到上面时设置清除计时器；因为如果不设置的话，当你通过点击事件改变它时，它自身也会自己改变，会出现混乱。
+2. 当清除完后，鼠标移出后需要重新启动计时器，这时候不能再给它设置 var jishi;因为如果再加上 var 的话，相当于重新又定义了一个变量，会有好几个计时器同时进行，会越来越快。
+
+3. 手动轮播 底下小点点的按钮控制
+
+   - 判断点击的是哪个点点，然后将它的索引值赋值给 index，再通过调用 change1()函数，来实现它的改变。
+   - 这里我是通过将点击元素的父元素来和所有的 li 进行比较，如果一样，则将对应的索引值赋值给 index.
+
+4. 左右按钮的控制
+   - 让它实现自增或自减，然后调用 change1()函数来改变样式。 其实这里的知识点和自动轮播里的知识点差不多。（从最后一张图片跳转到第一张图片 ，从第一张跳转到最后一张。）
+   - **无论是自动轮播，还是点击控制，都要加入 change1() 以及 index 来实现对样式的控制，从而实现轮播的效果。**
+
+
+### HTML
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JS Carousel</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="items" id="items">
+        <ul id="pic">
+          <li class="imgs"><img src="./imgs/1.jpg" /></li>
+          <li class="imgs"><img src="./imgs/2.jpg" /></li>
+          <li class="imgs"><img src="./imgs/3.jpg" /></li>
+          <li class="imgs"><img src="./imgs/4.jpg" /></li>
+          <li class="imgs"><img src="./imgs/5.jpg" /></li>
+        </ul>
+        <ul class="sbutton" id="pointList">
+          <li class="point">1</li>
+          <li class="point">2</li>
+          <li class="point">3</li>
+          <li class="point">4</li>
+          <li class="point">5</li>
+        </ul>
+      </div>
+      <div>
+        <span class="arrow left"> < </span> <span class="arrow right"> > </span>
+      </div>
+    </div>
+  </body>
+</html>
+```
+
+### JavaScript
+
+```js
+window.onload = function () {
+  const ANIMATION_INTERVAL = 5000;
+
+  var index = 0;
+  var pointList = document.getElementById("pointList");
+  var liArr = document.getElementsByClassName("point");
+  var imgArr = document.getElementsByClassName("imgs");
+  var spanArr = document.getElementsByTagName("span");
+  var items = document.getElementById("items");
+
+  liArr[0].style.color = "black";
+
+  function autoScroll() {
+    if (index >= liArr.length - 1) {
+      index = -1;
+    }
+    index += 1; // 自动跳转
+    console.log("@@", index);
+    render(index);
+  }
+
+  var timer = setInterval(autoScroll, ANIMATION_INTERVAL);
+
+  pointList.addEventListener("mouseover", function () {
+    // 鼠标移入指示器时，停止轮播
+    clearInterval(timer);
+  });
+  pointList.addEventListener("mouseout", function () {
+    // 离开时继续执行
+    timer = setInterval(autoScroll, ANIMATION_INTERVAL);
+  });
+
+  for (let i = 0; i < imgArr.length; i++) {
+    imgArr[i].addEventListener("mouseover", function () {
+      clearInterval(timer);
+    });
+  }
+  for (let i = 0; i < imgArr.length; i++) {
+    imgArr[i].addEventListener("mouseout", function () {
+      // 离开时继续执行
+      timer = setInterval(autoScroll, ANIMATION_INTERVAL);
+    });
+  }
+
+  for (let i = 0; i < spanArr.length; i++) {
+    spanArr[i].addEventListener("mouseover", function () {
+      clearInterval(timer);
+    });
+  }
+  for (let i = 0; i < spanArr.length; i++) {
+    spanArr[i].addEventListener("mouseout", function () {
+      // 离开时继续执行
+      timer = setInterval(autoScroll, ANIMATION_INTERVAL);
+    });
+  }
+
+  function render(currentIndex) {
+    for (let i = 0; i < liArr.length; i++) {
+      imgArr[i].className = "imgs picHidden";
+      liArr[i].style.color = "white";
+    }
+    imgArr[currentIndex].className = "imgs picShow";
+    liArr[currentIndex].style.color = "black";
+  }
+
+  // 手动轮播
+  for (let i = 0; i < liArr.length; i++) {
+    liArr[i].addEventListener("click", function (event) {
+      let target = event.target;
+      for (let j = 0; j < liArr.length; j++) {
+        if (target === liArr[j]) {
+          index = j;
+          render(j);
+        }
+      }
+    });
+  }
+
+  // 左右箭头控制
+  spanArr[1].addEventListener("click", function () {
+    if (index < 4) {
+      index += 1;
+    } else {
+      index = 0;
+    }
+    render(index);
+  });
+  // 左右箭头控制
+  spanArr[0].addEventListener("click", function () {
+    if (index > 0) {
+      index -= 1;
+    } else {
+      index = 4;
+    }
+    render(index);
+  });
+};
+```
+
+
+### CSS
+
+```css
+* {
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  height: 600px;
+  width: 500px;
+  overflow: hidden;
+  position: absolute;
+  top: 20px;
+  left: 500px;
+}
+
+.items img {
+  width: 500px;
+  height: 600px;
+}
+
+.pic li {
+  float: left;
+}
+
+.sbutton {
+  position: absolute;
+  width: 200px;
+  height: 50px;
+  top: 530px;
+  left: 170px;
+}
+
+.sbutton li {
+  width: 30px;
+  height: 20px;
+  margin-right: 10px;
+  margin-top: 20px;
+  background-color: #9e9e9e4f;
+  color: white;
+  list-style-type: none;
+  text-align: center;
+  float: left;
+  cursor: pointer;
+}
+
+.picHidden {
+  display: none;
+}
+
+.picShow {
+  display: block;
+}
+
+.arrow {
+  width: 50px;
+  height: 50px;
+  font-size: 40px;
+  text-align: center;
+  font-weight: bold;
+  position: absolute;
+  top: 240px;
+  cursor: pointer;
+  background-color: #9e9e9e4f;
+}
+
+.left {
+  left: 0;
+}
+
+.right {
+  right: 0;
+}
+```
+
+## 参考
+
+<ReferenceList
+  data={[
+    {
+      title: "用四种方法实现轮播图",
+      link: "https://www.jianshu.com/p/17cb58713abb",
+      src: javascript,
+    },
+  ]}
+/>
