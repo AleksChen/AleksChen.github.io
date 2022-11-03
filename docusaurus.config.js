@@ -66,7 +66,8 @@ const config = {
           readingTime: ({ content, frontMatter, defaultReadingTime }) =>
             defaultReadingTime({ content, options: { wordsPerMinute: 300 } }),
           blogTitle: `Winwoo's Blog!`,
-          blogDescription: "Stay Hungry Stay Foolish!",
+          blogDescription:
+            "Success is never owned, it is rented and the rent is due every day.",
           postsPerPage: "ALL",
           blogSidebarTitle: "All posts",
           blogSidebarCount: "ALL",
@@ -87,13 +88,21 @@ const config = {
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      metadata: [
+        {
+          name: "keywords",
+          content:
+            "React, Vue, Redux, Vuew, JavaScript, CSS, HTML, Winwoo, blog",
+        },
+      ],
       colorMode: {
         defaultMode: "light",
         disableSwitch: false,
       },
       announcementBar: {
         id: "support_us",
-        content: "Stay hungry，Stay foolish",
+        content:
+          "Success is never owned, it is rented and the rent is due every day.",
         backgroundColor: "#fafbfc",
         textColor: "#091E42",
         isCloseable: true,
@@ -223,6 +232,10 @@ const config = {
             ],
           },
           {
+            type: "search",
+            position: "right",
+          },
+          {
             href: "https://github.com/ChenWenWu223/",
             position: "right",
             className: "header-github-link",
@@ -274,6 +287,15 @@ const config = {
           "vim",
           "docker",
         ],
+      },
+      algolia: {
+        appId: "DJG32V4UWH",
+        apiKey: "820440eab4e5dee575054a9dd65100cf",
+        indexName: "winwoo_query_suggestions",
+        contextualSearch: true,
+        externalUrlRegex: "external\\.com|domain\\.com",
+        searchParameters: {},
+        searchPagePath: "search",
       },
       liveCodeBlock: {
         playgroundPosition: "bottom",
