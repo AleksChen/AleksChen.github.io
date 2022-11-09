@@ -288,15 +288,6 @@ const config = {
           "docker",
         ],
       },
-      algolia: {
-        appId: "DJG32V4UWH",
-        apiKey: "d94f48bd1565580be01100171495d149",
-        indexName: "winwoo_query_suggestions",
-        contextualSearch: false,
-        externalUrlRegex: "external\\.com|domain\\.com",
-        searchParameters: {},
-        searchPagePath: "search",
-      },
       liveCodeBlock: {
         playgroundPosition: "bottom",
       },
