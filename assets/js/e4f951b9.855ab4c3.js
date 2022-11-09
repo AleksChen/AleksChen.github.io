@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkWinwoo_blog=self.webpackChunkWinwoo_blog||[]).push([[1997],{4507:e=>{e.exports=JSON.parse('{"permalink":"/blog/blog/tags/docusaurus","page":1,"postsPerPage":4,"totalPages":1,"totalCount":4,"blogDescription":"Success is never owned, it is rented and the rent is due every day.","blogTitle":"Winwoo\'s Blog!"}')}}]);
