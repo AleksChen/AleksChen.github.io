@@ -16,6 +16,7 @@
     "commit": "git-cz"
   },
   "dependencies": {
+    "@docsearch/js": "3",
     "@docusaurus/core": "latest",
     "@docusaurus/plugin-sitemap": "latest",
     "@docusaurus/preset-classic": "latest",

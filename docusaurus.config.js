@@ -290,9 +290,9 @@ const config = {
       },
       algolia: {
         appId: "DJG32V4UWH",
-        apiKey: "820440eab4e5dee575054a9dd65100cf",
+        apiKey: "d94f48bd1565580be01100171495d149",
         indexName: "winwoo_query_suggestions",
-        contextualSearch: true,
+        contextualSearch: false,
         externalUrlRegex: "external\\.com|domain\\.com",
         searchParameters: {},
         searchPagePath: "search",
