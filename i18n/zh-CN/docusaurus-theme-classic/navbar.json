@@ -118,5 +118,25 @@
   "item.label.Docusaurus": {
     "message": "Docusaurus",
     "description": "Navbar item with label Docusaurus"
+  },
+  "item.label.Webpack": {
+    "message": "Webpack",
+    "description": "Navbar item with label Webpack"
+  },
+  "item.label.React Native": {
+    "message": "React Native",
+    "description": "Navbar item with label React Native"
+  },
+  "item.label.操作系统": {
+    "message": "操作系统",
+    "description": "Navbar item with label 操作系统"
+  },
+  "item.label.Interview": {
+    "message": "Interview",
+    "description": "Navbar item with label Interview"
+  },
+  "item.label.Docusaurus 文档": {
+    "message": "Docusaurus 文档",
+    "description": "Navbar item with label Docusaurus 文档"
   }
 }

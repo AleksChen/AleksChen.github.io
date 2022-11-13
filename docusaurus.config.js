@@ -179,24 +179,13 @@ const config = {
               },
               {
                 type: "docSidebar",
-                label: "操作系统",
-                sidebarId: "computer_system",
-              },
-              {
-                type: "docSidebar",
                 label: "计算机网络",
                 sidebarId: "computer_network",
               },
-            ],
-          },
-          {
-            type: "dropdown",
-            label: "望其项背",
-            position: "left",
-            items: [
               {
-                to: "https://www.ruanyifeng.com/blog/archives.html",
-                label: "阮一峰的网络日志",
+                type: "docSidebar",
+                label: "操作系统",
+                sidebarId: "computer_system",
               },
             ],
           },
@@ -227,7 +216,7 @@ const config = {
               },
               {
                 to: "https://docusaurus.io/docs",
-                label: "Docusaurus",
+                label: "Docusaurus 文档",
               },
             ],
           },

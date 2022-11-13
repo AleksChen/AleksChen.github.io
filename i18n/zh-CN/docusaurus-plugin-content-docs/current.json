@@ -774,5 +774,205 @@
   "sidebar.design.doc.优质网站设计": {
     "message": "优质网站设计",
     "description": "The label for the doc item 优质网站设计 in sidebar design, linking to the doc best-website-design"
+  },
+  "sidebar.html.category.Canvas": {
+    "message": "Canvas",
+    "description": "The label for category Canvas in sidebar html"
+  },
+  "sidebar.html.doc.Canvas 时钟": {
+    "message": "Canvas 时钟",
+    "description": "The label for the doc item Canvas 时钟 in sidebar html, linking to the doc html/canvas/canvas-clock"
+  },
+  "sidebar.css.doc.BFC": {
+    "message": "BFC",
+    "description": "The label for the doc item BFC in sidebar css, linking to the doc css/bfc"
+  },
+  "sidebar.css.doc.垂直水平居中": {
+    "message": "垂直水平居中",
+    "description": "The label for the doc item 垂直水平居中 in sidebar css, linking to the doc css/centered"
+  },
+  "sidebar.javascript.doc.事件循环": {
+    "message": "事件循环",
+    "description": "The label for the doc item 事件循环 in sidebar javascript, linking to the doc javascript/event-loop"
+  },
+  "sidebar.webpack.doc.Webpack": {
+    "message": "Webpack",
+    "description": "The label for the doc item Webpack in sidebar webpack, linking to the doc webpack/index"
+  },
+  "sidebar.rn.doc.React Native": {
+    "message": "React Native",
+    "description": "The label for the doc item React Native in sidebar rn, linking to the doc rn/index"
+  },
+  "sidebar.nodejs.category.Node.js": {
+    "message": "Node.js",
+    "description": "The label for category Node.js in sidebar nodejs"
+  },
+  "sidebar.nodejs.category.Express": {
+    "message": "Express",
+    "description": "The label for category Express in sidebar nodejs"
+  },
+  "sidebar.nodejs.doc.Express Middleware": {
+    "message": "Express Middleware",
+    "description": "The label for the doc item Express Middleware in sidebar nodejs, linking to the doc nodejs/express/middleware"
+  },
+  "sidebar.algorithm.category.算法": {
+    "message": "算法",
+    "description": "The label for category 算法 in sidebar algorithm"
+  },
+  "sidebar.algorithm.category.动态规划": {
+    "message": "动态规划",
+    "description": "The label for category 动态规划 in sidebar algorithm"
+  },
+  "sidebar.algorithm.doc.二叉树的最小深度": {
+    "message": "二叉树的最小深度",
+    "description": "The label for the doc item 二叉树的最小深度 in sidebar algorithm, linking to the doc algorithm/dataStructure/binary-tree/minimum-depth-of-binary-tree"
+  },
+  "sidebar.algorithm.doc.二叉树的最大深度": {
+    "message": "二叉树的最大深度",
+    "description": "The label for the doc item 二叉树的最大深度 in sidebar algorithm, linking to the doc algorithm/dataStructure/binary-tree/maximum-depth-of-binary-tree"
+  },
+  "sidebar.algorithm.doc.二叉搜索树后序遍历验证": {
+    "message": "二叉搜索树后序遍历验证",
+    "description": "The label for the doc item 二叉搜索树后序遍历验证 in sidebar algorithm, linking to the doc algorithm/dataStructure/binary-tree/er-cha-sou-suo-shu-de-hou-xu-bian-li-xu-lie-lcof"
+  },
+  "sidebar.algorithm.doc.最长公共子序列": {
+    "message": "最长公共子序列",
+    "description": "The label for the doc item 最长公共子序列 in sidebar algorithm, linking to the doc algorithm/algorithm/dp/longest-common-subsequence"
+  },
+  "sidebar.algorithm.doc.最长递增子序列": {
+    "message": "最长递增子序列",
+    "description": "The label for the doc item 最长递增子序列 in sidebar algorithm, linking to the doc algorithm/algorithm/dp/longest-increasing-subsequence"
+  },
+  "sidebar.algorithm.doc.最大子数组和": {
+    "message": "最大子数组和",
+    "description": "The label for the doc item 最大子数组和 in sidebar algorithm, linking to the doc algorithm/algorithm/dp/maximum-subarray"
+  },
+  "sidebar.algorithm.doc.零钱兑换": {
+    "message": "零钱兑换",
+    "description": "The label for the doc item 零钱兑换 in sidebar algorithm, linking to the doc algorithm/algorithm/dp/coin-change"
+  },
+  "sidebar.computer_network.doc.DNS 用的是 TCP 协议还是 UDP 协议": {
+    "message": "DNS 用的是 TCP 协议还是 UDP 协议",
+    "description": "The label for the doc item DNS 用的是 TCP 协议还是 UDP 协议 in sidebar computer_network, linking to the doc computer-network/dns/protocol-used-by-DNS"
+  },
+  "sidebar.computer_system.doc.操作系统": {
+    "message": "操作系统",
+    "description": "The label for the doc item 操作系统 in sidebar computer_system, linking to the doc computer-system/index"
+  },
+  "sidebar.computer_system.doc.进程管理": {
+    "message": "进程管理",
+    "description": "The label for the doc item 进程管理 in sidebar computer_system, linking to the doc computer-system/process-management"
+  },
+  "sidebar.interview.category.面经": {
+    "message": "面经",
+    "description": "The label for category 面经 in sidebar interview"
+  },
+  "sidebar.interview.category.CSS": {
+    "message": "CSS",
+    "description": "The label for category CSS in sidebar interview"
+  },
+  "sidebar.interview.category.JavaScript": {
+    "message": "JavaScript",
+    "description": "The label for category JavaScript in sidebar interview"
+  },
+  "sidebar.interview.category.手写实现": {
+    "message": "手写实现",
+    "description": "The label for category 手写实现 in sidebar interview"
+  },
+  "sidebar.interview.doc.前端面试": {
+    "message": "前端面试",
+    "description": "The label for the doc item 前端面试 in sidebar interview, linking to the doc interview/index"
+  },
+  "sidebar.interview.doc.计算机网络": {
+    "message": "计算机网络",
+    "description": "The label for the doc item 计算机网络 in sidebar interview, linking to the doc interview/interview-questions/network"
+  },
+  "sidebar.interview.doc.浏览器": {
+    "message": "浏览器",
+    "description": "The label for the doc item 浏览器 in sidebar interview, linking to the doc interview/interview-questions/broswer"
+  },
+  "sidebar.interview.doc.HTML&CSS": {
+    "message": "HTML&CSS",
+    "description": "The label for the doc item HTML&CSS in sidebar interview, linking to the doc interview/interview-questions/HTML&CSS"
+  },
+  "sidebar.interview.doc.JavaScript": {
+    "message": "JavaScript",
+    "description": "The label for the doc item JavaScript in sidebar interview, linking to the doc interview/interview-questions/JavaScript"
+  },
+  "sidebar.interview.doc.TypeScript": {
+    "message": "TypeScript",
+    "description": "The label for the doc item TypeScript in sidebar interview, linking to the doc interview/interview-questions/TypeScript"
+  },
+  "sidebar.interview.doc.Vue": {
+    "message": "Vue",
+    "description": "The label for the doc item Vue in sidebar interview, linking to the doc interview/interview-questions/Vue"
+  },
+  "sidebar.interview.doc.React": {
+    "message": "React",
+    "description": "The label for the doc item React in sidebar interview, linking to the doc interview/interview-questions/React"
+  },
+  "sidebar.interview.doc.两栏布局": {
+    "message": "两栏布局",
+    "description": "The label for the doc item 两栏布局 in sidebar interview, linking to the doc interview/css/two-columns"
+  },
+  "sidebar.interview.doc.箭头函数与普通函数的区别": {
+    "message": "箭头函数与普通函数的区别",
+    "description": "The label for the doc item 箭头函数与普通函数的区别 in sidebar interview, linking to the doc interview/javascript/difference-arrow-function"
+  },
+  "sidebar.interview.doc.export 和 export default 的区别": {
+    "message": "export 和 export default 的区别",
+    "description": "The label for the doc item export 和 export default 的区别 in sidebar interview, linking to the doc interview/javascript/export-and-export-default"
+  },
+  "sidebar.interview.doc.异步并发控制": {
+    "message": "异步并发控制",
+    "description": "The label for the doc item 异步并发控制 in sidebar interview, linking to the doc interview/hands-on-practice/concurrent-requests"
+  },
+  "sidebar.interview.doc.深、浅拷贝": {
+    "message": "深、浅拷贝",
+    "description": "The label for the doc item 深、浅拷贝 in sidebar interview, linking to the doc interview/hands-on-practice/deep-copy"
+  },
+  "sidebar.interview.doc.防抖节流": {
+    "message": "防抖节流",
+    "description": "The label for the doc item 防抖节流 in sidebar interview, linking to the doc interview/hands-on-practice/throttle-debounce"
+  },
+  "sidebar.interview.doc.call、apply、bind": {
+    "message": "call、apply、bind",
+    "description": "The label for the doc item call、apply、bind in sidebar interview, linking to the doc interview/hands-on-practice/call-apply-bind"
+  },
+  "sidebar.interview.doc.Promise": {
+    "message": "Promise",
+    "description": "The label for the doc item Promise in sidebar interview, linking to the doc interview/hands-on-practice/hands-on-promise"
+  },
+  "sidebar.interview.doc.基于 Promise 的 Ajax 封装": {
+    "message": "基于 Promise 的 Ajax 封装",
+    "description": "The label for the doc item 基于 Promise 的 Ajax 封装 in sidebar interview, linking to the doc interview/hands-on-practice/promise-ajax"
+  },
+  "sidebar.interview.doc.异步循环打印": {
+    "message": "异步循环打印",
+    "description": "The label for the doc item 异步循环打印 in sidebar interview, linking to the doc interview/hands-on-practice/async-print"
+  },
+  "sidebar.interview.doc.模拟实现 instanceof": {
+    "message": "模拟实现 instanceof",
+    "description": "The label for the doc item 模拟实现 instanceof in sidebar interview, linking to the doc interview/hands-on-practice/hands-on-instanceof"
+  },
+  "sidebar.interview.doc.模拟实现 new": {
+    "message": "模拟实现 new",
+    "description": "The label for the doc item 模拟实现 new in sidebar interview, linking to the doc interview/hands-on-practice/hands-on-new"
+  },
+  "sidebar.interview.doc.单例模式": {
+    "message": "单例模式",
+    "description": "The label for the doc item 单例模式 in sidebar interview, linking to the doc interview/hands-on-practice/singleton"
+  },
+  "sidebar.interview.doc.手动实现 ES5 继承": {
+    "message": "手动实现 ES5 继承",
+    "description": "The label for the doc item 手动实现 ES5 继承 in sidebar interview, linking to the doc interview/hands-on-practice/es5-inheritance"
+  },
+  "sidebar.interview.doc.将 Virtual Dom 转化为真实 DOM 结构": {
+    "message": "将 Virtual Dom 转化为真实 DOM 结构",
+    "description": "The label for the doc item 将 Virtual Dom 转化为真实 DOM 结构 in sidebar interview, linking to the doc interview/hands-on-practice/vitual-dom"
+  },
+  "sidebar.interview.doc.轮播图实现": {
+    "message": "轮播图实现",
+    "description": "The label for the doc item 轮播图实现 in sidebar interview, linking to the doc interview/hands-on-practice/carousel"
   }
 }
