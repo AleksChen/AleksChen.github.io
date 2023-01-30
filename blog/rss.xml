@@ -4,45 +4,27 @@
         <title>Winwoo's Blog Blog</title>
         <link>https://chenwenwu223.github.io/blog/blog</link>
         <description>Winwoo's Blog Blog</description>
-        <lastBuildDate>Thu, 26 Aug 2021 00:00:00 GMT</lastBuildDate>
+        <lastBuildDate>Mon, 30 Jan 2023 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
         <language>zh-CN</language>
         <item>
-            <title><![CDATA[Welcome]]></title>
-            <link>https://chenwenwu223.github.io/blog/blog/welcome</link>
-            <guid>welcome</guid>
-            <pubDate>Thu, 26 Aug 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[Docusaurus blogging features are powered by the blog plugin.]]></description>
-            <category>facebook</category>
-            <category>hello</category>
-            <category>docusaurus</category>
+            <title><![CDATA[你累死累活做业务，绩效还不怎么样，我只能帮你到这了……]]></title>
+            <link>https://chenwenwu223.github.io/blog/blog/你累死累活做业务，绩效还不怎么样，我只能帮你到这了……</link>
+            <guid>你累死累活做业务，绩效还不怎么样，我只能帮你到这了……</guid>
+            <pubDate>Mon, 30 Jan 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[前言]]></description>
+            <category>转载</category>
+            <category>好文章</category>
         </item>
         <item>
-            <title><![CDATA[MDX Blog Post]]></title>
-            <link>https://chenwenwu223.github.io/blog/blog/mdx-blog-post</link>
-            <guid>mdx-blog-post</guid>
-            <pubDate>Sun, 01 Aug 2021 00:00:00 GMT</pubDate>
-            <description><![CDATA[Blog posts support Docusaurus Markdown features, such as MDX.]]></description>
-            <category>docusaurus</category>
-        </item>
-        <item>
-            <title><![CDATA[Long Blog Post]]></title>
-            <link>https://chenwenwu223.github.io/blog/blog/long-blog-post</link>
-            <guid>long-blog-post</guid>
-            <pubDate>Wed, 29 May 2019 00:00:00 GMT</pubDate>
-            <description><![CDATA[This is the summary of a very long blog post,]]></description>
-            <category>hello</category>
-            <category>docusaurus</category>
-        </item>
-        <item>
-            <title><![CDATA[First Blog Post]]></title>
-            <link>https://chenwenwu223.github.io/blog/blog/first-blog-post</link>
-            <guid>first-blog-post</guid>
-            <pubDate>Tue, 28 May 2019 00:00:00 GMT</pubDate>
-            <description><![CDATA[Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque elementum dignissim ultricies. Fusce rhoncus ipsum tempor eros aliquam consequat. Lorem ipsum dolor sit amet]]></description>
-            <category>hola</category>
-            <category>docusaurus</category>
+            <title><![CDATA[工作本身：简单的基层工作是长远发展的分水岭]]></title>
+            <link>https://chenwenwu223.github.io/blog/blog/工作本身：简单的基层工作是长远发展的分水岭</link>
+            <guid>工作本身：简单的基层工作是长远发展的分水岭</guid>
+            <pubDate>Fri, 20 Jan 2023 00:00:00 GMT</pubDate>
+            <description><![CDATA[当时公司招了大批应届本科和研究生毕业的新新人类。平均年龄 25 岁。那个新的助理，是经过多次面试后，我亲自招回来的一个女孩。名牌大学本科毕业，聪明，性格活泼。私下里我得承认，我招她的一个很重要的原因，除了她在大学里优秀的表现之外，还因为她写了一手漂亮的字。女孩能写一手好字的不多，尤其像她，看起来长发飘飘，多么女性化的一个姑娘，一手字却写的铿锵倜傥，让我对她不由多了很多好感。]]></description>
+            <category>转载</category>
+            <category>好文章</category>
         </item>
     </channel>
 </rss>
