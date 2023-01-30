@@ -18,10 +18,10 @@ const sidebars = {
 
   css: [
     doc("css/index", "CSS"),
+    doc("css/layout", "布局"),
     doc("css/selectors", "选择器"),
     doc("css/box-model", "盒模型"),
     doc("css/bfc", "BFC"),
-    doc("css/centered", "垂直水平居中"),
   ],
 
   javascript: [
@@ -66,6 +66,7 @@ const sidebars = {
     ]),
     category("javascript/module/index", "模块化", []),
     doc("javascript/event-loop", "事件循环"),
+    doc("javascript/curring", "柯里化"),
     category("javascript/solutions/index", "解决方案", [
       doc("javascript/solutions/get-device-type", "获取设备类型"),
       doc("javascript/solutions/get-file-type", "获取文件类型"),
