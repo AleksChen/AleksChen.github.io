@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwinwoo_blog=self.webpackChunkwinwoo_blog||[]).push([[3921],{6812:o=>{o.exports=JSON.parse('{"permalink":"/cww/blog","page":1,"postsPerPage":2,"totalPages":1,"totalCount":2,"blogDescription":"Blog","blogTitle":"Blog"}')}}]);

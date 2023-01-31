@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwinwoo_blog=self.webpackChunkwinwoo_blog||[]).push([[6674],{7571:e=>{e.exports=JSON.parse('{"permalink":"/cww/blog/tags/\u597d\u6587\u7ae0","page":1,"postsPerPage":2,"totalPages":1,"totalCount":2,"blogDescription":"Success is never owned, it is rented and the rent is due every day.","blogTitle":"Winwoo\'s Blog!"}')}}]);

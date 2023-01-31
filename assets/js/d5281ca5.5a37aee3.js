@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkwinwoo_blog=self.webpackChunkwinwoo_blog||[]).push([[4242],{6078:e=>{e.exports=JSON.parse('{"label":"React i18next","permalink":"/cww/docs/tags/react-i18next","allTagsPath":"/cww/docs/tags","count":1,"items":[{"id":"react/react-i18next","title":"React i18next","description":"","permalink":"/cww/docs/react/react-i18next"}]}')}}]);
