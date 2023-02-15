@@ -14,7 +14,7 @@ const config = {
   title: "Winwoo's Blog",
   tagline: "Today is a present.",
   url: "https://chenwenwu223.github.io",
-  baseUrl: "/cww/",
+  baseUrl: "/blog/",
   baseUrlIssueBanner: true,
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
