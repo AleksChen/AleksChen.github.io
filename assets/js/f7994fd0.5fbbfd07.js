@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwinwoo_blog=self.webpackChunkwinwoo_blog||[]).push([[3828],{3262:l=>{l.exports=JSON.parse('{"label":"\u8f6c\u8f7d","permalink":"/cww/blog/tags/\u8f6c\u8f7d","allTagsPath":"/cww/blog/tags","count":2}')}}]);
