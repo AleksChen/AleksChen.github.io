@@ -118,11 +118,11 @@ const config = {
         },
         hideOnScroll: true,
         items: [
-          { to: "blog", label: "博客", position: "left" },
+          { to: "blog", label: "Blog", position: "left" },
           // Left
           {
             type: "dropdown",
-            label: "前端",
+            label: "FE",
             position: "left",
             items: [
               { type: "doc", label: "Home", docId: "front-end" },
@@ -158,7 +158,7 @@ const config = {
           },
           {
             type: "dropdown",
-            label: "后端",
+            label: "BE",
             position: "left",
             items: [
               { type: "doc", label: "Home", docId: "back-end" },
@@ -169,29 +169,29 @@ const config = {
           },
           {
             type: "dropdown",
-            label: "计算机",
+            label: "CS",
             position: "left",
             items: [
               {
                 type: "docSidebar",
-                label: "数据结构与算法",
+                label: "Data Structure & Algorithm",
                 sidebarId: "algorithm",
               },
               {
                 type: "docSidebar",
-                label: "计算机网络",
+                label: "Computer Network",
                 sidebarId: "computer_network",
               },
               {
                 type: "docSidebar",
-                label: "操作系统",
+                label: "Coumpter System",
                 sidebarId: "computer_system",
               },
             ],
           },
           {
             type: "dropdown",
-            label: "其他",
+            label: "Other",
             position: "left",
             items: [
               {
@@ -228,7 +228,7 @@ const config = {
             href: "https://github.com/ChenWenWu223/",
             position: "right",
             className: "header-github-link",
-            title: "前往 Winwoo 的 GitHub 主页",
+            title: "Winwoo's GitHub Page",
             "aria-label": "GitHub repository",
           },
         ],

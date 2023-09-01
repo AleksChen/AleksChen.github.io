@@ -10,8 +10,8 @@ import ReferenceList from "@site/src/components/ReferenceList";
 使用 new 命令时，它后面的函数依次执行下面的步骤。
 
 1. 首先创建一个新对象，这个新对象的`__proto__`属性指向构造函数的`prototype`属性
-2. 此时构造函数执行环境的this指向这个新对象
-3. 执行构造函数中的代码，一般是通过this给新对象添加新的成员属性或方法。
+2. 此时构造函数执行环境的 this 指向这个新对象
+3. 执行构造函数中的代码，一般是通过`this`给新对象添加新的成员属性或方法。
 4. 最后返回这个新对象。
 
 ## 实现
@@ -23,9 +23,8 @@ function _new(constructor, ...args) {
   // 执行构造函数 获得返回值
   var res = constructor.apply(obj, args);
   // 如果返回结果是对象，就直接返回，否则返回 obj 对象
-  return (typeof res === 'object' && res != null) ? res : obj;
+  return typeof res === "object" && res != null ? res : obj;
 }
-
 ```
 
 ## 参考
@@ -42,5 +41,5 @@ function _new(constructor, ...args) {
       link: "https://www.cnblogs.com/dark-duck/p/14286711.html",
       src: javascript,
     },
-]}
+  ]}
 />
