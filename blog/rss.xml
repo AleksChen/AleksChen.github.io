@@ -2,7 +2,7 @@
 <rss version="2.0">
     <channel>
         <title>Winwoo's Blog Blog</title>
-        <link>https://chenwenwu223.github.io/blog/blog</link>
+        <link>https://alekschen.github.io/blog/blog</link>
         <description>Winwoo's Blog Blog</description>
         <lastBuildDate>Thu, 30 Jan 2020 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
@@ -10,7 +10,7 @@
         <language>zh-CN</language>
         <item>
             <title><![CDATA[前端应该如何工作]]></title>
-            <link>https://chenwenwu223.github.io/blog/blog/前端应该如何工作</link>
+            <link>https://alekschen.github.io/blog/blog/前端应该如何工作</link>
             <guid>前端应该如何工作</guid>
             <pubDate>Thu, 30 Jan 2020 00:00:00 GMT</pubDate>
             <description><![CDATA[前言]]></description>
@@ -18,7 +18,7 @@
         </item>
         <item>
             <title><![CDATA[简单的基层工作是长远发展的分水岭]]></title>
-            <link>https://chenwenwu223.github.io/blog/blog/简单的基层工作是长远发展的分水岭</link>
+            <link>https://alekschen.github.io/blog/blog/简单的基层工作是长远发展的分水岭</link>
             <guid>简单的基层工作是长远发展的分水岭</guid>
             <pubDate>Fri, 20 Jan 2017 00:00:00 GMT</pubDate>
             <description><![CDATA[当时公司招了大批应届本科和研究生毕业的新新人类。平均年龄 25 岁。那个新的助理，是经过多次面试后，我亲自招回来的一个女孩。名牌大学本科毕业，聪明，性格活泼。私下里我得承认，我招她的一个很重要的原因，除了她在大学里优秀的表现之外，还因为她写了一手漂亮的字。女孩能写一手好字的不多，尤其像她，看起来长发飘飘，多么女性化的一个姑娘，一手字却写的铿锵倜傥，让我对她不由多了很多好感。]]></description>
