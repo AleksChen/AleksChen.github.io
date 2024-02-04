@@ -1,0 +1,136 @@
+---
+title: "React i18next"
+description: ""
+tags:
+  - label: "React"
+    permalink: "react"
+  - label: "React i18next"
+    permalink: "react-i18next"
+last_update:
+  date: "2022-08-14"
+  author: "Winwoo"
+---
+
+import TH from "@site/src/components/TextHighlight/index";
+import i18next from "@site/static/img/icon/i18next.png";
+import ReferenceList from "@site/src/components/ReferenceList";
+
+## 在 React 组件外部使用
+
+`export` i18n 实例，然后在 `.js` 或 `.ts` 文件中引入。
+
+```javascript title="JavaScript"
+import { i18n } from "./i18n";
+
+const animal = i18n.t("ANIMAL");
+```
+
+## 字符串插值
+
+在 JSON 文件定义的 Value 字符串中<TH>添加双花括号</TH>声明多语言字符串变量。
+
+```json title="JSON"
+{
+  "Method": "Method:{{method}}"
+}
+```
+
+```jsx {6} title="JavaScript" showLineNumbers
+import React from "react";
+import { useTranslation } from "react-i18next";
+
+function Component() {
+  const { t, i18n } = useTranslation();
+  return <p>{t("Method", { method: "HighOrderFunction" })}</p>;
+  // 输出的文本结果为： Method:HighOrderFunction
+}
+```
+
+## Trans 组件
+
+**Trans** 组件可以让我们在多语言中插入 HTML，`i18nKey` 即为 `<Trans />` 组件对应多语言文件的 Key。
+
+```jsx {7,11} title="JavaScript" showLineNumbers
+import React from "react";
+import { Trans } from "react-i18next";
+
+function Component() {
+  return (
+    <>
+      <Trans i18nKey="TASKWARD.APP.DESCRIPTION.FIRST.LINE">
+        {"Taskward means"}
+        <span className="underline">{"task-oriented"}</span>
+        {", is a Todo&Tasks App."}
+      </Trans>
+    </>
+  );
+}
+```
+
+```json title="en.json"
+{
+  "TASKWARD.APP.DESCRIPTION.FIRST.LINE": "Taskward means <1>task-oriented</1>, is a Todo&Tasks App."
+}
+```
+
+可以看到多语言文件里的值中被伪元素 `<1>` `</1>` 隔开成了三个部分，分别对应 `<Trans />` 组件里的三个部分。  
+`<1>` `<3>` 这样的伪元素中的 1、3 代表当前部分的 `index`，如下组件根据 `index` 分成了五个部分，其中有两个 HTML 元素。
+
+```jsx title="JavaScript" showLineNumbers
+import React from "react";
+import { Trans } from "react-i18next";
+
+function Component() {
+  return (
+    <>
+      <Trans>
+        Translating content with {/* index 0 */}
+        <strong>formatting</strong> {/* index 1 */}
+        or a {/* index 2 */}
+        <a href="#">link</a> {/* index 3 */}
+        is a pain. {/* index 4 */}
+      </Trans>
+    </>
+  );
+}
+```
+
+在多语言文件中，我们需要用 `<1>` `<3>` 这样的伪元素，将翻译文字隔开。
+
+```json title="JSON"
+{
+  "Translating content with <1>formatting</1> or a <3>link</3> is a pain.": "Translating content with <1>formatting</1> or a <3>link</3> is a pain."
+}
+```
+
+## 多个翻译文件
+
+使用多个翻译文件在大型项目中
+
+## TypeScript 类型错误
+
+在 TypeScript 中，使用模板字面量字符串含有表达式时，会出现类型错误。
+
+```tsx title="TSX"
+const { t } = useTranslation();
+t(`${expression}.title`);
+```
+
+声明模板字面量字符串时使用 `as const` 可以很好解决这个问题。
+
+```tsx title="TSX"
+const { t } = useTranslation();
+t(`${expression}.title` as const);
+```
+
+## 参考
+
+<ReferenceList
+  data={[
+    {
+      title: "react-i18next documentation",
+      link: "https://react.i18next.com/",
+      src: i18next,
+    },
+  ]}
+/>

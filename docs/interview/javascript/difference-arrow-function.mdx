@@ -1,0 +1,39 @@
+---
+title: 箭头函数和普通函数的区别
+---
+
+
+1. 箭头函数更简洁
+
+2. 箭头函数没有自己的`this`，他只会使用上一层作用域的`this`。
+
+3. 箭头函数继承来的`this`指向永远不会改变
+
+   ```javascript
+   var id = 'GLOBAL';
+   var obj = {
+       id: 'OBJ',
+       a: function(){
+           console.log(this.id);
+       },
+       b: () => {
+           console.log(this.id);
+       }
+   };
+   obj.a();    // 'OBJ'
+   obj.b();    // 'GLOBAL'
+   new obj.a()  // undefined
+   new obj.b()  // Uncaught TypeError: obj.b is not a constructor
+   ```
+
+   > 对象obj的方法b是使用箭头函数定义的，这个函数中的this就永远指向它定义时所处的全局执行环境中的this，即便这个函数是作为对象obj的方法调用，this依旧指向Window对象。需要注意，定义对象的大括号**{ }**是无法形成一个单独的执行环境的，它依旧是处于全局执行环境中。
+
+4. `call()`、`apply()`、`bind()`等方法不能改变箭头函数中`this`的指向 
+
+5. 箭头函数不能作为构造函数使用。由于箭头函数时没有自己的`this`，且this指向外层的执行环境，且不能改变指向，所以不能当做构造函数使用。
+
+6. 箭头函数没有自己的`arguments`。箭头函数没有自己的arguments对象。在箭头函数中访问`arguments`实际上获得的是它外层函数的`arguments`值。
+
+7. 箭头函数没有`prototype`
+
+8. 箭头函数的`this`指向哪⾥？箭头函数不同于传统JavaScript中的函数，箭头函数并没有属于⾃⼰的`this`，它所谓的this是捕获其所在上下⽂的 `this` 值，作为⾃⼰的 `this` 值，并且由于没有属于⾃⼰的`this`，所以是不会被`new`调⽤的，这个所谓的`this`也不会被改变。

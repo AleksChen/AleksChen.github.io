@@ -1,0 +1,81 @@
+.listWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.cardWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 128px;
+  height: 128px;
+  border-radius: 1rem;
+  margin: 1rem;
+  padding: 5px;
+  cursor: pointer;
+  background-color: var(--ifm-color-primary);
+  color: #f5f5f5;
+}
+
+.cardWrapper:hover {
+  background-color: white;
+  color: black;
+  box-shadow: black 0px 0px 10px;
+}
+
+[data-theme="dark"] .cardWrapper:hover {
+  box-shadow: white 0px 0px 10px;
+}
+
+.mobileCardWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  margin: 1rem;
+  cursor: pointer;
+  border: 2px solid black;
+}
+
+.image {
+  width: 100px;
+  height: 100px;
+  padding: 0.5rem;
+  max-width: 100%;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 5px;
+  line-height: 1.5rem;
+  white-space: nowrap;
+  vertical-align: bottom;
+}
+
+.title_sm {
+  font-size: 0.6rem;
+}
+
+.title_md {
+  font-size: 0.8rem;
+}
+
+@media screen and (min-width: 576px) {
+  .cardWrapper:hover .image {
+    opacity: 1;
+    transition: ease-in 0.4s;
+    transform-style: preserve-3d;
+    transform: rotateZ(1turn);
+    -webkit-transform: rotateZ(1turn);
+    -moz-transform: rotateZ(1turn);
+    -o-transform: rotateZ(1turn);
+    -ms-transform: rotateZ(1turn);
+    cursor: pointer;
+  }
+}

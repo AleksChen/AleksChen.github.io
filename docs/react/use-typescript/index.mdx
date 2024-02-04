@@ -1,0 +1,88 @@
+---
+title: "使用 TypeScript"
+hide_title: true
+description: ""
+tags:
+  - label: "React"
+    permalink: "react"
+last_update:
+  date: "2022-07-19"
+  author: "Winwoo"
+---
+
+import FeatureIcon from "/src/components/FeatureIcon/index";
+import LinkList from "/src/components/LinkList/index";
+import typescript from "@site/static/img/icon/typescript.png";
+import react_typescript from "@site/static/img/icon/react_typescript.png";
+import ReferenceList from "@site/src/components/ReferenceList";
+
+<FeatureIcon src={typescript} title="使用 TypeScript" />
+<LinkList
+  data={[
+    {
+      title: "React 中的类型",
+      link: "/docs/react/use-typescript/types-in-react",
+      src: typescript,
+    },
+  ]}
+/>
+
+## 资源
+
+<ReferenceList
+  data={[
+    {
+      title: "React+TypeScript Cheatsheets",
+      link: "https://github.com/typescript-cheatsheets/react#reacttypescript-cheatsheets",
+      src: react_typescript,
+    },
+  ]}
+/>
+
+<!-- TODO - Publish -->
+
+<!-- ```tsx title="TSX" showLineNumbers
+import React, { type ReactNode } from "react";
+const HyperLink: React.FC<HyperLinkProps> = ({
+  bold = false,
+  children,
+  customStyle,
+  link,
+  openWindow = false,
+  wrapperClassName,
+}: HyperLinkProps) => {
+  return <></>;
+};
+export default HyperLink;
+```
+
+```tsx title="TSX" showLineNumbers
+import React, { type ReactNode } from "react";
+export default function HyperLink({
+  bold = false,
+  children,
+  customStyle,
+  link,
+  openWindow = false,
+  wrapperClassName,
+}: HyperLinkProps): JSX.Element {
+  const { siteConfig } = useDocusaurusContext();
+  return (
+    <span
+      style={customStyle}
+      className={clsx(styles.linkWrapper, wrapperClassName)}
+    >
+      <Link to={openWindow ? siteConfig.url + link : link}>
+        <span className={clsx(styles.textArea, bold && styles.textBold)}>
+          {children}
+          {openWindow && (
+            <span className={styles.linkSVG}>
+              <LinkSVG />
+            </span>
+          )}
+        </span>
+      </Link>
+    </span>
+  );
+}
+``` -->

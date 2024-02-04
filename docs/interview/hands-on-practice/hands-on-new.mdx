@@ -1,0 +1,45 @@
+---
+title: 模拟实现 new
+---
+
+import javascript from "@site/static/img/icon/javascript.png";
+import ReferenceList from "@site/src/components/ReferenceList";
+
+## 原理
+
+使用 new 命令时，它后面的函数依次执行下面的步骤。
+
+1. 首先创建一个新对象，这个新对象的`__proto__`属性指向构造函数的`prototype`属性
+2. 此时构造函数执行环境的 this 指向这个新对象
+3. 执行构造函数中的代码，一般是通过`this`给新对象添加新的成员属性或方法。
+4. 最后返回这个新对象。
+
+## 实现
+
+```js
+function _new(constructor, ...args) {
+  // 创建一个空对象，继承构造函数的 prototype 属性
+  var obj = Object.create(constructor.prototype);
+  // 执行构造函数 获得返回值
+  var res = constructor.apply(obj, args);
+  // 如果返回结果是对象，就直接返回，否则返回 obj 对象
+  return typeof res === "object" && res != null ? res : obj;
+}
+```
+
+## 参考
+
+<ReferenceList
+  data={[
+    {
+      title: "new 原理",
+      link: "https://wangdoc.com/javascript/oop/new.html#new-%E5%91%BD%E4%BB%A4%E7%9A%84%E5%8E%9F%E7%90%86",
+      src: javascript,
+    },
+    {
+      title: "JS 中 new 关键字的模拟实现",
+      link: "https://www.cnblogs.com/dark-duck/p/14286711.html",
+      src: javascript,
+    },
+  ]}
+/>

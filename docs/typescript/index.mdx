@@ -1,0 +1,69 @@
+---
+title: "TypeScript"
+hide_title: true
+description: ""
+tags:
+  - label: "TypeScript"
+    permalink: "typescript"
+last_update:
+  date: "2022-07-15"
+  author: "Winwoo"
+---
+
+import FeatureIcon from "@site/src/components/FeatureIcon";
+import LinkList from "@site/src/components/LinkList";
+import typescript from "@site/static/img/icon/typescript.png";
+import ReferenceList from "@site/src/components/ReferenceList";
+import eslint from "@site/static/img/icon/eslint.png";
+
+<FeatureIcon src={typescript} title="TypeScript" />
+
+> **TypeScript** 是 **JavaScript** 的严格语法超集，有着强大的**静态类型检查**能力。
+
+<LinkList
+  wrapperStyle={{ marginTop: 40 }}
+  data={[
+    {
+      title: "搭建环境",
+      link: "/docs/typescript/environment",
+      src: typescript,
+    },
+    {
+      title: "运行与调试",
+      link: "/docs/typescript/debug",
+      src: typescript,
+    },
+    {
+      title: "类型",
+      link: "/docs/typescript/types",
+      src: typescript,
+    },
+    {
+      title: "TSConfig",
+      link: "/docs/typescript/tsconfig",
+      src: typescript,
+    },
+    {
+      title: "最佳实践",
+      link: "/docs/typescript/best-practice",
+      src: typescript,
+    },
+  ]}
+/>
+
+## 参考
+
+<ReferenceList
+  data={[
+    {
+      title: "TypeScript Docs",
+      link: "https://www.typescriptlang.org/docs/",
+      src: typescript,
+    },
+    {
+      title: "ESLint",
+      link: "https://typescript-eslint.io/",
+      src: eslint,
+    },
+  ]}
+/>

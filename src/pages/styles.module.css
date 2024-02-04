@@ -1,0 +1,411 @@
+.homepageContent {
+  position: relative;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  background-position: center;
+  background-size: cover;
+  background-color: var(--ifm-hero-background-color);
+  color: var(--ifm-hero-text-color);
+  height: 90vh;
+}
+
+.heroTextContainer {
+  z-index: 9;
+  margin: 0 auto;
+  max-width: var(--ifm-container-width);
+  min-width: fit-content;
+  border: 4px solid white;
+  border-radius: 2rem;
+  margin-bottom: 100px;
+}
+
+.mobileHeroTextContainer {
+  z-index: 9;
+  margin: 0 auto;
+  max-width: var(--ifm-container-width);
+  min-width: fit-content;
+  border: 4px solid white;
+  border-radius: 2rem;
+  margin-bottom: 100px;
+}
+
+.mobileHeroTextArea {
+  padding: 2rem 1rem;
+  border-radius: 2rem;
+  margin-bottom: 0;
+}
+
+.mobileAvatarArea > img {
+  width: 120px;
+  height: 120px;
+  border-radius: 100%;
+  padding: 6px;
+  margin-bottom: 10px;
+  background-color: darkgrey;
+  box-shadow: inset 0 0 10px white;
+}
+
+[data-theme="dark"] .mobileHeroTextArea {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="light"] .mobileHeroTextArea {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.mobileHeroTextSubTitle {
+  color: white;
+  font-size: 1.5rem;
+  font-family: "Yusei Magic", sans-serif;
+  margin-bottom: 0;
+  font-weight: 700;
+}
+
+.heroTextSubTitle {
+  color: white;
+  font-size: 1.5rem;
+  font-family: "Yusei Magic", sans-serif;
+  margin-bottom: 0;
+}
+
+@media screen and (min-width: 576px) {
+  .homepageContent {
+    height: 90vh;
+  }
+
+  .avatarArea > img {
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    padding: 6px;
+    background-color: darkgrey;
+    box-shadow: inset 0 0 10px white;
+    transition: ease 1s;
+    -webkit-transition: ease 1s;
+    -moz-transition: ease 1s;
+    -o-transition: ease 1s;
+    -ms-transition: ease 1s;
+  }
+
+  .avatarArea > img:hover {
+    cursor: pointer;
+    transform: rotate(360deg) scale(1.1);
+    transition: transform 0.6s;
+    -webkit-transform: rotate(360deg) scale(1.1);
+    -moz-transform: rotate(360deg) scale(1.1);
+    -o-transform: rotate(360deg) scale(1.1);
+    -ms-transform: rotate(360deg) scale(1.1);
+  }
+
+  .heroTextArea {
+    padding: 2rem 5rem;
+    border-radius: 2rem;
+    margin-bottom: 0;
+  }
+
+  [data-theme="dark"] .heroTextArea {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  [data-theme="light"] .heroTextArea {
+    background: rgba(0, 0, 0, 0.4);
+  }
+
+  .heroTextSubTitle::selection {
+    color: var(--ifm-color-primary);
+  }
+}
+
+/* 明亮模式 */
+@keyframes mission-impossible-rotate {
+  0%,
+  100% {
+    transform: rotate3d(0, 1, 0, 0deg);
+    rotate: 0;
+  }
+
+  30% {
+    rotate: -5deg;
+  }
+
+  75% {
+    transform: rotate3d(0, 1, 0, 5deg);
+  }
+}
+
+[data-theme="dark"] .missionImpossible {
+  display: none;
+}
+
+[data-theme="light"] .missionImpossible {
+  font-size: 0.9vmin;
+  width: 90em;
+  aspect-ratio: 1;
+  position: absolute;
+  top: 35%;
+  left: 46.5%;
+  transform: translate(-50%, -50%);
+  border-radius: 50% 50% 0 0;
+  background: radial-gradient(100% 100% at 56% 100%, #fff0 75%, #ffff 0),
+    repeating-linear-gradient(-25deg, #0000 0 9.75%, #c9c7 0 10%) 100% 100%/86%
+      80%,
+    repeating-linear-gradient(25deg, #0000 0 9.75%, #c9c7 0 10%) 100% 50%/80%
+      86%,
+    radial-gradient(45% 25% at 50% 70%, #ccc4 99%, #ccc0 0), #f000;
+  background-repeat: no-repeat;
+}
+
+[data-theme="light"] .missionImpossible::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: -70px;
+  width: 63em;
+  height: 63em;
+  transform: skewY(25deg);
+  background: linear-gradient(-85deg, #0000 20%, #ba9 0 80%, #0000 0) 44% 46%/10%
+      20%,
+    linear-gradient(-85deg, #0000 20%, #cba 0 80%, #0000 0) 46% 44%/10% 20%,
+    linear-gradient(-85deg, #0000 20%, #cba 0 80%, #0000 0) 45.5% 44.5%/10% 20%,
+    linear-gradient(-85deg, #0000 20%, #cba 0 80%, #0000 0) 45% 45%/10% 20%,
+    linear-gradient(-85deg, #0000 20%, #cba 0 80%, #0000 0) 44.5% 45.5%/10% 20%,
+    linear-gradient(#dcb 0 0) 48% 27%/35% 30%,
+    linear-gradient(#edc 0 0) 50% 25%/35% 30%,
+    linear-gradient(#edc 0 0) 49.5% 25.5%/35% 30%,
+    linear-gradient(#edc 0 0) 49% 26%/35% 30%,
+    linear-gradient(#edc 0 0) 48.5% 26.5%/35% 30%,
+    linear-gradient(-45deg, #0000 22%, #a98 0 78%, #0000 0) 18.5em
+      calc(100% - 25em) / 19em 6em,
+    linear-gradient(-45deg, #0000 22%, #987 0 78%, #0000 0) 18.5em
+      calc(100% - 24.5em) / 19em 6em,
+    linear-gradient(#445 0 0) 4em calc(100% - 4em) / 40em 20em,
+    linear-gradient(#445 0 0) 4em calc(100% - 2em) / 2em 2.5em,
+    linear-gradient(#445 0 0) 42em calc(100% - 2em) / 2em 2.5em,
+    linear-gradient(-45deg, #0000 35%, #334 0 66.6%, #0000 0) 43.9em
+      calc(100% - 4em) / 20em 40em,
+    linear-gradient(-45deg, #0000 25%, #334 0 66.6%, #0000 0) 6em
+      calc(100% - 2em) / 2em 5em,
+    linear-gradient(-45deg, #0000 25%, #334 0 66.6%, #0000 0) 43.9em
+      calc(100% - 2em) / 2em 6em,
+    linear-gradient(-45deg, #0000 25%, #334 0 66.6%, #0000 0) 60.9em
+      calc(100% - 19.5em) / 2.1em 6em,
+    linear-gradient(#223 0 0) calc(100% - 2em) calc(100% - 19.5em) / 2em 3em,
+    linear-gradient(-45deg, #0000 24.1%, #556 0 75.6%, #0000 0) 4em
+      calc(100% - 23.9em) / 59em 19.1em,
+    linear-gradient(-45deg, #0000 23%, #ccc4 0 63.5%, #0000 0) 0 100%/65em 35em,
+    #f000;
+  background-repeat: no-repeat;
+}
+
+[data-theme="light"] .missionImpossible::after {
+  --skin: #fca;
+  --hair: #420;
+  content: "";
+  width: 80%;
+  height: 60%;
+  position: absolute;
+  top: 5%;
+  right: -40px;
+  animation: 3s infinite alternate mission-impossible-rotate;
+  transform-origin: 52% 0;
+  background: repeating-linear-gradient(45deg, #ddd 0 2%, #ccc 0 2.5%) 52% 0/1%
+      56% no-repeat,
+    radial-gradient(70% 100% at 10% 55%, #0000 49%, #ccc 0 60%, #0000 0) 55%
+      65.3%/10% 16.8%,
+    radial-gradient(circle at 25% 56%, #000 0.5em, #0000 0),
+    radial-gradient(circle at 20% 56%, #000 0.5em, #0000 0),
+    linear-gradient(to top right, #0000 50%, var(--skin) 0) 22% 58%/3% 10%,
+    conic-gradient(at 0 100%, #0000 10deg, #f003 0 80deg, #0000 0) 22% 59%/3% 8%,
+    radial-gradient(farthest-side at 50% 100%, #a00 99%, #0000 0) 24% 64%/3% 2%,
+    radial-gradient(8% 15% at 31% 60%, var(--skin) 25%, #0000 0),
+    radial-gradient(60% 80% at 43% 0, var(--hair) 23%, #0000 0)-16% 82%/65% 48%,
+    radial-gradient(12% 30% at 31% 52%, var(--hair) 25%, #0000 0),
+    conic-gradient(at 0 0, #0000 100deg, var(--hair) 0 140deg, #0000 0) 16.25%
+      45.25%/10% 10%,
+    conic-gradient(at 0 100%, #0000 30deg, var(--hair) 0 110deg, #0000 0) 28%
+      49%/7% 7%,
+    radial-gradient(farthest-side, var(--hair) 23%, #0000 0)-20% 40%/65% 40%,
+    radial-gradient(50% 100% at 25% 55%, var(--skin) 13%, #0000 0),
+    radial-gradient(farthest-side at 60% 0, var(--skin) 99%, #0000 0) 20% 54%/10%
+      20%,
+    radial-gradient(50% 65% at 23% 50%, var(--hair) 13%, #0000 0),
+    radial-gradient(60% 50% at 20.5% 67%, #000 2%, #0000 0),
+    radial-gradient(farthest-side at 100% 50%, #0000 80%, #ccc 0 99%, #0000) 17%
+      63%/4% 12%,
+    radial-gradient(farthest-side at 50% 50%, #f004 99%, #0000 0) 27% 63.4%/8%
+      8%,
+    radial-gradient(farthest-side at 50% 50%, var(--skin) 99%, #0000 0) 27%
+      63.4%/8% 8%,
+    radial-gradient(farthest-side at 55% 50%, #222 99%, #0000) 14.5% 95.5%/10%
+      8%,
+    radial-gradient(farthest-side at 50% 100%, #222 99%, #0000) 35% 74%/8% 13%,
+    radial-gradient(farthest-side at 50% 30%, var(--skin) 99%, #0000) 35.25% 94%/7%
+      20%,
+    radial-gradient(farthest-side at 60% 50%, var(--skin) 99%, #0000) 25.25% 95%/17%
+      7%,
+    radial-gradient(farthest-side at 50% 40%, #666 99%, #0000) 38% 68%/28% 19%,
+    radial-gradient(farthest-side at 50% 80%, #000 99%, #0000) 58% 63.4%/18% 13%,
+    radial-gradient(farthest-side at 50% 80%, #222 99%, #0000) 56% 62%/18% 13%,
+    radial-gradient(farthest-side at 50% 50%, #000 99%, #0000) 57% 67%/20% 13%,
+    radial-gradient(farthest-side at 50% 80%, #000 99%, #0000) 77% 67%/30% 12%,
+    radial-gradient(50% 80% at 70% 55%, #000 99%, #0000) 82.5% 60%/7% 24%,
+    linear-gradient(#333 0 0) 90.5% 37%/15.5% 2%,
+    radial-gradient(60% 50% at 0 -10%, #ccc 99%, #0000) 100% 47.7%/20% 20%,
+    radial-gradient(60% 50% at 100% -10%, #ccc 99%, #0000) 79% 47.7%/7% 20%,
+    radial-gradient(60% 80% at 50% 80%, #222 99%, #0000) 70% 60%/25% 7%,
+    conic-gradient(at 90% -50%, #0000 196deg, #222 0 216deg, #0000 0) 90% 60%/35%
+      22%,
+    linear-gradient(#555 0 0) 95% 38%/15.5% 2%,
+    radial-gradient(60% 50% at 0 -10%, #ddd 99%, #0000) 105% 49%/20% 20%,
+    radial-gradient(60% 50% at 100% -10%, #ddd 99%, #0000) 85% 49%/7% 20%,
+    radial-gradient(farthest-side at 50% 55%, #222 99%, #0000) 16.25% 58%/7% 12%,
+    radial-gradient(farthest-side at 50% 45%, var(--skin) 99%, #0000) 16.5%
+      80.25%/5.5% 24%,
+    linear-gradient(-65deg, #f000 55%, #222 0 80%, #f000 0) 25% 68%/30% 10%,
+    radial-gradient(
+        farthest-side at 100% 100%,
+        #0000 80%,
+        var(--skin) 0 99%,
+        #0000 0
+      )
+      24% 77%/23% 25%,
+    radial-gradient(farthest-side at 0 0, #0000 80%, var(--skin) 0 99%, #0000 0)
+      21% 79%/12% 30%,
+    #f000;
+  background-repeat: no-repeat;
+  -webkit-mask: linear-gradient(#0000, #000 10%);
+}
+
+/* 暗黑模式宇航员 */
+/* From: https://cssdrawings.com/ */
+@keyframes space-float {
+  0% {
+    transform: translate(-50vw, -40%) rotate(0) scale(2);
+  }
+  33% {
+    transform: translate(-30vw, -20%) rotate(180deg) scale(1.5);
+  }
+  66% {
+    transform: translate(10vw, -10%) rotate(360deg) scale(1);
+  }
+  100% {
+    transform: translate(55vw, -60%) rotate(540deg) scale(0.5);
+  }
+}
+
+[data-theme="light"] .space {
+  display: none;
+}
+
+[data-theme="dark"] .space {
+  font-size: 0.5vmin;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: radial-gradient(circle at 17% 15%, #eebb64 2%, #0000 0),
+    radial-gradient(circle at 20% 2%, #eebb64 3.5%, #0000 0),
+    radial-gradient(circle at 10% 0, #f6ed6b 15%, #0000 0),
+    radial-gradient(circle at 20% 20%, #fff8 0.25%, #0000 0),
+    radial-gradient(circle at 40% 34%, #fff8 0.5%, #0000 0) 20% 50%/60% 60%,
+    radial-gradient(circle at 40% 34%, #fff8 0.5%, #0000 0) 50% 20%/60% 60%,
+    radial-gradient(circle at 30% 38%, #fff8 0.25%, #0000 0),
+    radial-gradient(circle at 40% 34%, #fff8 0.65%, #0000 0) 10% -10%/50% 50%,
+    linear-gradient(#0000, #0002), #123;
+}
+
+[data-theme="dark"] .space::before {
+  animation: 30s linear infinite space-float;
+  content: "";
+  position: absolute;
+  top: 75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60em;
+  height: 60em;
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+  background: radial-gradient(circle at 54% 11%, #cffc 2%, #0000 0),
+    radial-gradient(circle at 59% 14%, #cffc 3%, #0000 0),
+    radial-gradient(50% 45% at 50% 50%, #123 99%, #0000) 50% 6.6%/31% 25%,
+    radial-gradient(50% 50% at 50% 50%, #aaa 99%, #0000) 50% 5%/32% 25%,
+    radial-gradient(farthest-side at 50% 0, #889 99%, #0000) 50% 20%/32% 16%,
+    radial-gradient(closest-side circle at 50% 16%, #eee 99%, #eee0),
+    radial-gradient(40% 50% at 35% 17%, #eee 10%, #0000 0),
+    radial-gradient(40% 50% at 65% 17%, #eee 10%, #0000 0),
+    linear-gradient(#aaa 0 0) 40% 64.5%/5% 8%,
+    linear-gradient(#aaa 0 0) 60% 64.5%/5% 8%,
+    linear-gradient(#ccc 0 0) 50% 64%/35.5% 6%,
+    linear-gradient(orange 0 0) 46% 46%/3% 7%,
+    radial-gradient(circle at 54% 45%, red 1%, #0000 0),
+    radial-gradient(circle at 54% 48%, green 1%, #0000 0),
+    linear-gradient(#ccc 0 0) 50% 46%/14% 10%,
+    radial-gradient(85% 25% at 50% 67%, #eee 20.25%, #0000 20.5%),
+    radial-gradient(farthest-side at 50% 100%, #eee 99%, #0000) 50% 45%/35% 40%,
+    radial-gradient(closest-side circle at 14% 8%, #ccc 99%, #0000 0),
+    radial-gradient(farthest-side at 80% 20%, #0000 70%, #eee 0 99%, #0000) 14%
+      14%/33% 30%,
+    radial-gradient(circle at 85% 65%, #ccc 7%, #0000 0),
+    radial-gradient(farthest-side at 30% 80%, #0000 70%, #eee 0 99%, #0000) 83%
+      44%/40% 32%,
+    linear-gradient(12deg, #0000 50%, #0002 0 55%, #0000 0) 32% 90%/11% 10%,
+    linear-gradient(-14deg, #0000 50%, #0002 0 55%, #0000 0) 71.5% 89%/13% 10%,
+    linear-gradient(12deg, #ccc 55%, #0000 0) 23.5% 100%/22.5% 10%,
+    linear-gradient(-12deg, #ccc 50%, #0000 0) 83.75% 98%/21% 10%,
+    radial-gradient(farthest-side at 100% 80%, #0000 55%, #eee 0 99%, #0000)
+      37.5% 100%/25% 50%,
+    linear-gradient(65deg, #0000 30%, #eee 0 55%, #0000 0) 85% 97%/40% 35%,
+    radial-gradient(140% 120% at 80% 93%, #eee 5%, #0000 0),
+    radial-gradient(140% 120% at 25% 95%, #eee 5%, #0000 0),
+    radial-gradient(66% 66%, #89a 99%, #0000 0) 50% 48%/39% 40%, #f000;
+  background-repeat: no-repeat;
+}
+
+[data-theme="dark"] .space::after {
+  animation: 30s linear infinite space-float;
+  animation-direction: reverse;
+  content: "";
+  position: absolute;
+  top: 25%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 40em;
+  height: 40em;
+  clip-path: polygon(0 0, 100% 0, 100% 90%, 50% 100%, 0 90%);
+  background: radial-gradient(circle at 54% 11%, #cffc 2%, #0000 0),
+    radial-gradient(circle at 59% 14%, #cffc 3%, #0000 0),
+    radial-gradient(50% 45% at 50% 50%, #123 99%, #0000) 50% 6.6%/31% 25%,
+    radial-gradient(50% 50% at 50% 50%, #aaa 99%, #0000) 50% 5%/32% 25%,
+    radial-gradient(farthest-side at 50% 0, #889 99%, #0000) 50% 20%/32% 16%,
+    radial-gradient(closest-side circle at 50% 16%, #eee 99%, #eee0),
+    radial-gradient(40% 50% at 35% 17%, #eee 10%, #0000 0),
+    radial-gradient(40% 50% at 65% 17%, #eee 10%, #0000 0),
+    linear-gradient(#aaa 0 0) 40% 64.5%/5% 8%,
+    linear-gradient(#aaa 0 0) 60% 64.5%/5% 8%,
+    linear-gradient(#ccc 0 0) 50% 64%/35.5% 6%,
+    linear-gradient(orange 0 0) 46% 46%/3% 7%,
+    radial-gradient(circle at 54% 45%, red 1%, #0000 0),
+    radial-gradient(circle at 54% 48%, green 1%, #0000 0),
+    linear-gradient(#ccc 0 0) 50% 46%/14% 10%,
+    radial-gradient(85% 25% at 50% 67%, #eee 20.25%, #0000 20.5%),
+    radial-gradient(farthest-side at 50% 100%, #eee 99%, #0000) 50% 45%/35% 40%,
+    radial-gradient(closest-side circle at 14% 8%, #ccc 99%, #0000 0),
+    radial-gradient(farthest-side at 80% 20%, #0000 70%, #eee 0 99%, #0000) 14%
+      14%/33% 30%,
+    radial-gradient(circle at 85% 65%, #ccc 7%, #0000 0),
+    radial-gradient(farthest-side at 30% 80%, #0000 70%, #eee 0 99%, #0000) 83%
+      44%/40% 32%,
+    linear-gradient(12deg, #0000 50%, #0002 0 55%, #0000 0) 32% 90%/11% 10%,
+    linear-gradient(-14deg, #0000 50%, #0002 0 55%, #0000 0) 71.5% 89%/13% 10%,
+    linear-gradient(12deg, #ccc 55%, #0000 0) 23.5% 100%/22.5% 10%,
+    linear-gradient(-12deg, #ccc 50%, #0000 0) 83.75% 98%/21% 10%,
+    radial-gradient(farthest-side at 100% 80%, #0000 55%, #eee 0 99%, #0000)
+      37.5% 100%/25% 50%,
+    linear-gradient(65deg, #0000 30%, #eee 0 55%, #0000 0) 85% 97%/40% 35%,
+    radial-gradient(140% 120% at 80% 93%, #eee 5%, #0000 0),
+    radial-gradient(140% 120% at 25% 95%, #eee 5%, #0000 0),
+    radial-gradient(66% 66%, #89a 99%, #0000 0) 50% 48%/39% 40%, #f000;
+  background-repeat: no-repeat;
+}

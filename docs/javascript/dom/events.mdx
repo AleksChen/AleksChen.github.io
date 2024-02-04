@@ -1,0 +1,46 @@
+---
+title: DOM 事件
+---
+
+## 事件冒泡
+
+
+
+### addEventListener
+
+`addEventListener()`，接收3个参数。
+
+- 第一个参数event（监听的事件）
+- 第二个参数是事件触发的执行函数
+- 第三个参数是 useCapture（Boolean 类型，默认是 false，即事件冒泡），用来判断是捕获还是冒泡
+  - 当`useCapture`为`true`的时候是在捕获阶段触发事件，捕获事件触发顺序是由父到子
+  - 当`useCapture`为`false`的时候是在冒泡阶段触发事件（默认为`false`），冒泡事件触发顺序是由子到父
+
+```html
+<div id="father">
+    <div id="child">
+        event
+    </div>
+</div>
+<script>
+    var father = document.getElementById('father');
+    var child = document.getElementById('child');
+    father.addEventListener('click', ()=>{
+        console.log(1)
+    }, true)
+    
+    father.addEventListener('click', ()=>{
+        console.log(2)
+    }, false)
+    
+    child.addEventListener('click', ()=>{
+        console.log(3)
+    }, true)
+    
+    child.addEventListener('click', ()=>{
+        console.log(4)
+    }, false)
+</script>
+```
+
+> 答案：父级的捕获事件->子元素的捕获事件->子元素的冒泡事件->父级的冒泡事件

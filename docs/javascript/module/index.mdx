@@ -1,0 +1,339 @@
+---
+title: 模块化
+hide_title: true
+---
+
+import FeatureIcon from "@site/src/components/FeatureIcon";
+import ReferenceList from "@site/src/components/ReferenceList";
+import LinkList from "@site/src/components/LinkList";
+import TH from "@site/src/components/TextHighlight/index";
+import modules from "@site/static/temp/modules.png";
+
+<FeatureIcon src={modules} title="模块化" />
+
+## 理解
+
+### 什么是模块
+
+- 将一个复杂的程序依据一定的规则封装成几个块(文件), 并进行组合在一起
+- 块的内部数据与实现是**私有的**, 只是向外部暴露一些接口(方法)与外部其它模块通信
+
+### 模块化的进化过程
+
+#### 全局 function 模式：将不同的功能封装成不同的全局函数
+
+- 编码: 将不同的功能封装成不同的全局函数
+- 问题: 污染全局命名空间, 容易引起命名冲突或数据不安全，而且模块成员之间看不出直接关系
+
+```js
+function m1() {
+  //...
+}
+function m2() {
+  //...
+}
+```
+
+#### namespace 模式：简单对象封装
+
+- 作用: 减少了全局变量，解决命名冲突
+- 问题: 数据不安全（外部可以直接修改模块内部的数据）
+
+```js
+let myModule = {
+  data: "www.baidu.com",
+  foo() {
+    console.log(`foo() ${this.data}`);
+  },
+  bar() {
+    console.log(`bar() ${this.data}`);
+  },
+};
+myModule.data = "other data"; //能直接修改模块内部的数据
+myModule.foo(); // foo() other data
+```
+
+#### IIFE 模式：匿名函数自调用(闭包)
+
+- 作用: 数据是私有的, 外部只能通过暴露的方法操作
+- 编码: 将数据和行为封装到一个函数内部，通过给`window`添加属性来向外暴露接口
+- 问题: 无法处理模块依赖问题，当前模块依赖外部模块如何处理？
+
+```html
+// index.html文件
+<script type="text/javascript" src="module.js"></script>
+<script type="text/javascript">
+  myModule.foo();
+  myModule.bar();
+  console.log(myModule.data); // undefined 不能访问模块内部数据
+  myModule.data = "xxxx"; //不是修改的模块内部的data
+  myModule.foo(); //没有改变
+</script>
+```
+
+```js
+// module.js 文件
+(function (window) {
+  let data = "www.baidu.com";
+  // 操作数据的函数
+  function foo() {
+    // 用于暴露有函数
+    console.log(`foo() ${data}`);
+  }
+  function bar() {
+    // 用于暴露有函数
+    console.log(`bar() ${data}`);
+    otherFun(); // 内部调用
+  }
+  function otherFun() {
+    // 内部私有的函数
+    console.log("otherFun()");
+  }
+  // 暴露行为
+  window.myModule = { foo, bar }; // ES6写法
+})(window);
+```
+
+#### IIFE 模式增强 : 引入依赖
+
+将依赖作为参数传递给闭包函数
+
+```html
+// index.html文件
+<!-- 引入的js必须有一定顺序 -->
+<script type="text/javascript" src="jquery-1.10.1.js"></script>
+<script type="text/javascript" src="module.js"></script>
+<script type="text/javascript">
+  myModule.foo();
+</script>
+```
+
+```js
+// module.js文件
+(function (window, $) {
+  let data = "www.baidu.com";
+  //操作数据的函数
+  function foo() {
+    //用于暴露有函数
+    console.log(`foo() ${data}`);
+    $("body").css("background", "red");
+  }
+  function bar() {
+    //用于暴露有函数
+    console.log(`bar() ${data}`);
+    otherFun(); //内部调用
+  }
+  function otherFun() {
+    //内部私有的函数
+    console.log("otherFun()");
+  }
+  //暴露行为
+  window.myModule = { foo, bar };
+})(window, jQuery);
+```
+
+### 模块化的好处
+
+- 避免命名冲突(减少命名空间污染)
+
+- 更好的分离, 按需加载
+
+- 更高复用性
+
+- 高可维护性
+
+
+### 引入多个`script`的问题
+
+- 请求过多：首先我们要依赖多个模块，那样就会发送多个请求，导致请求过多
+
+- 依赖模糊：我们不知道他们的具体依赖关系是什么，也就是说很容易因为不了解他们之间的依赖关系导致加载先后顺序出错。
+
+- 难以维护：以上两种原因就导致了很难维护，很可能出现牵一发而动全身的情况导致项目出现严重的问题。 模块化固然有多个好处，然而一个页面需要引入多个 js 文件，就会出现以上这些问题。而这些问题可以通过模块化规范来解决，下面介绍开发中最流行的 CommonJS, AMD, ES6, CMD 规范。
+
+## ES6 Module
+
+ES6 模块的设计思想是尽量的**静态化，使得编译时就能确定模块的依赖关系**，以及输入和输出的变量。CommonJS 和 AMD 模块，都只能在运行时确定这些东西。比如，CommonJS 模块就是对象，输入时必须查找对象属性。
+
+### 语法
+
+`export`命令用于规定模块的对外接口，`import`命令用于输入其他模块提供的功能。
+
+```js
+/** 定义模块 math.js **/
+var basicNum = 0;
+var add = function (a, b) {
+  return a + b;
+};
+export { basicNum, add };
+
+/** 引用模块 **/
+import { basicNum, add } from "./math";
+function test(ele) {
+  ele.textContent = add(99 + basicNum);
+}
+```
+
+如上例所示，使用 import 命令的时候，用户需要知道所要加载的变量名或函数名，否则无法加载。为了给用户提供方便，让他们不用阅读文档就能加载模块，就要用到 export default 命令，为模块指定默认输出。
+
+```javascript
+// export-default.js
+export default function () {
+  console.log("foo");
+}
+
+// import-default.js
+import customName from "./export-default";
+customName(); // 'foo'
+```
+
+模块默认输出，其他模块加载该模块时，`import`命令可以为该匿名函数指定任意名字。
+
+### 特点
+
+- 只能作为模块顶层的语句出现
+- `import` 的模块名只能是字符串常量
+- import binding 是 immutable 的
+
+> 依赖关系是确定的，和运行时的状态无关，可以进行可靠的静态分析，然后消除无用模块
+
+ES6模块依赖关系是确定的，和运行时的状态无关，可以进行可靠的静态分析，这就是tree-shaking的基础。
+
+所谓静态分析就是不执行代码，从字面量上对代码进行分析，ES6之前的模块化，比如我们可以动态require一个模块，只有执行后才知道引用的什么模块，这个就不能通过静态分析去做优化。
+
+> 这是 ES6 modules 在设计时的一个重要考量，也是为什么没有直接采用 CommonJS，正是基于这个基础上，才使得 tree-shaking 成为可能，这也是为什么 rollup 和 webpack 2 都要用 ES6 module syntax 才能 tree-shaking。
+
+
+### ES6 模块与 CommonJS 模块的差异
+
+1. <TH>CommonJS 模块输出的是一个值的拷贝，ES6 模块输出的是值的引用。</TH>
+2. <TH>CommonJS 模块是运行时加载，ES6 模块是编译时输出接口。</TH>
+
+第二个差异是因为 CommonJS 加载的是一个对象（即`module.exports`属性），该对象只有在脚本运行完才会生成。而 ES6 模块不是对象，它的对外接口只是一种静态定义，在代码静态解析阶段就会生成。
+
+**CommonJS 模块的加载机制是，输入的是被输出的值的拷贝。也就是说，一旦输出一个值，模块内部的变化就影响不到这个值**。
+
+```js
+// lib.js
+export let counter = 3;
+export function incCounter() {
+  counter++;
+}
+// main.js
+import { counter, incCounter } from "./lib";
+console.log(counter); // 3
+incCounter(); // ES6 Module 输出的是值的引用，因此暴露出的方法还可以影响模块内部的值
+console.log(counter); // 4
+```
+
+## CommonJS
+
+Node 应用由模块组成，采用 CommonJS 模块规范。每个文件就是一个模块，有自己的作用域。在一个文件里面定义的变量、函数、类，都是私有的，对其他文件不可见。**在服务器端，模块的加载是运行时同步加载的；在浏览器端，模块需要提前编译打包处理。**
+
+**特点**
+
+- 所有代码都运行在模块作用域，不会污染全局作用域。
+- 模块可以多次加载，但是只会在第一次加载时运行一次，然后运行结果就被缓存了，以后再加载，就直接读取缓存结果。要想让模块再次运行，必须清除缓存。
+- 模块加载的顺序，按照其在代码中出现的顺序。
+
+### 语法
+
+- 暴露模块：`module.exports = value`或`exports.xxx = value`
+- 引入模块：`require(xxx)`,如果是第三方模块，xxx 为模块名；如果是自定义模块，xxx 为模块文件路径
+
+> **CommonJS 暴露的模块到底是什么?** CommonJS 规范规定，每个模块内部，module 变量代表当前模块。这个变量是一个对象，它的 exports 属性（即`module.exports`）是对外的接口。**加载某个模块，其实是加载该模块的`module.exports`属性**。
+
+```js
+// example.js
+var x = 5;
+var addX = function (value) {
+  return value + x;
+};
+module.exports.x = x;
+module.exports.addX = addX;
+```
+
+上面代码通过`module.exports`输出变量 x 和函数 addX。
+
+```js
+var example = require("./example.js"); //如果参数字符串以“./”开头，则表示加载的是一个位于相对路径
+console.log(example.x); // 5
+console.log(example.addX(1)); // 6
+```
+
+require 命令用于加载模块文件。**require 命令的基本功能是，读入并执行一个 JavaScript 文件，然后返回该模块的 exports 对象。如果没有发现指定模块，会报错**。
+
+## CMD
+
+CMD 规范专门用于浏览器端，模块的加载是异步的，模块使用时才会加载执行。CMD 规范整合了 CommonJS 和 AMD 规范的特点。在 Sea.js 中，所有 JavaScript 模块都遵循 CMD 模块定义规范。
+
+### 语法
+
+```javascript
+// 定义没有依赖的模块
+define(function (require, exports, module) {
+  exports.xxx = value;
+  module.exports = value;
+});
+
+// 定义有依赖的模块
+define(function (require, exports, module) {
+  // 引入依赖模块(同步)
+  var module2 = require("./module2");
+  // 引入依赖模块(异步)
+  require.async("./module3", function (m3) {});
+  // 暴露模块
+  exports.xxx = value;
+});
+```
+
+**引入使用模块：**
+
+```javascript
+define(function (require) {
+  var m1 = require("./module1");
+  var m4 = require("./module4");
+  m1.show();
+  m4.show();
+});
+```
+
+## AMD
+
+异步模块定义(Asynchronous Module Definition, AMD)。CommonJS 规范加载模块是同步的，也就是说，只有加载完成，才能执行后面的操作。AMD 规范则是非同步加载模块，允许指定回调函数。由于 Node.js 主要用于服务器编程，模块文件一般都已经存在于本地硬盘，所以加载起来比较快，不用考虑非同步加载的方式，所以 CommonJS 规范比较适用。但是，**如果是浏览器环境，要从服务器端加载模块，这时就必须采用非同步模式，因此浏览器端一般采用 AMD 规范**。此外 AMD 规范比 CommonJS 规范在浏览器端实现要来着早。
+
+### 语法
+
+**定义暴露模块**:
+
+```javascript
+//定义没有依赖的模块
+define(function () {
+  return 模块;
+});
+
+//定义有依赖的模块
+define(["module1", "module2"], function (m1, m2) {
+  return 模块;
+});
+```
+
+**引入使用模块**:
+
+```javascript
+require(["module1", "module2"], function (m1, m2) {
+  使用m1 / m2;
+});
+```
+
+## 参考
+
+<ReferenceList
+  data={[
+    {
+      title: "掘金 - 前端模块化详解(完整版)",
+      link: "https://juejin.cn/post/6844903744518389768#heading-40",
+      src: modules,
+    },
+  ]}
+/>
