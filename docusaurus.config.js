@@ -81,6 +81,7 @@ const config = {
   ],
 
   themeConfig: {
+    image: "static/img/favicon/favicon.png",
     giscus: {
       repo: "AleksChen/blog",
       repoId: "R_kgDOGjCC6A",
@@ -88,6 +89,12 @@ const config = {
       categoryId: "DIC_kwDOGjCC6M4CR-S5",
       theme: "light_high_contrast",
       darkTheme: "dark_tritanopia",
+    },
+    announcementBar: {
+      id: "support_us",
+      content:
+        '如果这个网站能帮助到你，欢迎给一个 ⭐️ star 支持作者  <a target="_blank" rel="noopener noreferrer" href="https://github.com/AleksChen/AleksChen.github.io">GitHub</a>',
+      isCloseable: false,
     },
     metadata: [
       {
