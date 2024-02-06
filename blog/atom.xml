@@ -12,7 +12,7 @@
         <id>为什么面试要手写 instanceof</id>
         <link href="https://alekschen.github.io/blog/为什么面试要手写 instanceof"/>
         <updated>2024-02-06T00:00:00.000Z</updated>
-        <summary type="html"><![CDATA[在 JavaScript 面试中，instanceof 是一个常见的问题。面试官通常会要求面试者手写 instanceof 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。]]></summary>
+        <summary type="html"><![CDATA[在前端面试中，instanceof 是一个常见的问题。面试官通常会要求面试者手写 instanceof 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。]]></summary>
         <author>
             <name>Winwoo</name>
         </author>
