@@ -76,6 +76,10 @@ const config = {
           ignorePatterns: ["/tags/**"],
           filename: "sitemap.xml",
         },
+        googleAnalytics: {
+          trackingID: "G-G1EC4WNBZJ",
+          anonymizeIP: true,
+        },
       }),
     ],
   ],
@@ -99,8 +103,7 @@ const config = {
     metadata: [
       {
         name: "keywords",
-        content:
-          " Winwoo, blog, React, Vue, Redux, Vuew, JavaScript, CSS, HTML",
+        content: "Winwoo, blog, React, Vue, Redux, Vuew, JavaScript, CSS, HTML",
       },
     ],
     colorMode: {
