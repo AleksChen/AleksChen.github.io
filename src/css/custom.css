@@ -161,7 +161,7 @@ img-annotation {
   border: solid white 1.5px;
 }
 
-[data-theme="dark"] div[class^="announcementBar_"] {
+[data-theme="light"] div[class^="announcementBar_"] {
   background: repeating-linear-gradient(
     -35deg,
     var(--ifm-color-primary-lighter),
@@ -171,10 +171,10 @@ img-annotation {
   );
   font-size: 20px;
   font-weight: 700;
-  color: #2a3644;
+  color: #27233b;
 }
 
-[data-theme="light"] div[class^="announcementBar_"] {
+[data-theme="dark"] div[class^="announcementBar_"] {
   --site-announcement-bar-stripe-color1: #e8d7ff;
   --site-announcement-bar-stripe-color2: #ffe9d1;
   background: repeating-linear-gradient(

@@ -1,32 +1,24 @@
 // Frontend
 const FRONTEND = "Frontend";
-// const HTML = "HTML";
 const CSS = "CSS";
 const JAVASCRIPT = "JavaScript";
 const TYPESCRIPT = "TypeScript";
 const REACT = "React";
 const RN = "React Native";
 const VUE = "Vue";
+const VITE = "Vite";
 const TAILWIND = "Tailwind";
 const WEBPACK = "Webpack";
-// const SASS = "Sass";
-// const NPM = "npm";
-// const YARN = "Yarn";
-// const VITE = "Vite";
-// const GRAPHQL = "GraphQL";
 
 // Backend
 const BACKEND = "Backend";
 const NODE_JS = "Node.js";
 const MONGODB = "MongoDB";
 
-// const ALGORITHM = "算法";
-// const OPERATING_SYSTEM = "操作系统";
-// const COMPUTER_NETWORK = "计算机网络";
+const ALGORITHM = "算法";
+const INTERVIEW = "面试";
 
 // 其他
-const OTHERS = "Others";
-const GIT = "Git";
 const GITHUB = "GitHub";
 
 // Contact me
@@ -36,7 +28,6 @@ const GMAIL_ADDRESS = "wenwuchen1948@gmail.com";
 
 interface FrontendMenuData {
   readonly frontend: string;
-  // readonly html: string;
   readonly css: string;
   readonly javascript: string;
   readonly typescript: string;
@@ -45,11 +36,7 @@ interface FrontendMenuData {
   readonly vue: string;
   readonly tailwindcss: string;
   readonly webpack: string;
-  // readonly sass: string;
-  // readonly npm: string;
-  // readonly yarn: string;
-  // readonly vite: string;
-  // readonly graphql: string;
+  readonly vite: string;
 }
 
 interface BackendMenuData {
@@ -59,9 +46,8 @@ interface BackendMenuData {
 }
 
 interface OthersMenuData {
-  readonly others: string;
-  readonly git: string;
-  readonly github: string;
+  readonly algorithm: string;
+  readonly interview: string;
 }
 
 interface ContactMeData {
@@ -73,7 +59,6 @@ interface ContactMeData {
 
 const frontendMenuData: FrontendMenuData = {
   frontend: FRONTEND,
-  // html: HTML,
   css: CSS,
   javascript: JAVASCRIPT,
   typescript: TYPESCRIPT,
@@ -82,11 +67,7 @@ const frontendMenuData: FrontendMenuData = {
   vue: VUE,
   tailwindcss: TAILWIND,
   webpack: WEBPACK,
-  // sass: SASS,
-  // npm: NPM,
-  // yarn: YARN,
-  // vite: VITE,
-  // graphql: GRAPHQL,
+  vite: VITE,
 };
 
 const backendMenuData: BackendMenuData = {
@@ -96,9 +77,8 @@ const backendMenuData: BackendMenuData = {
 };
 
 const othersMenuData: OthersMenuData = {
-  others: OTHERS,
-  git: GIT,
-  github: GITHUB,
+  algorithm: ALGORITHM,
+  interview: INTERVIEW,
 };
 
 const contactMeData: ContactMeData = {

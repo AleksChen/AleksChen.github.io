@@ -43,8 +43,8 @@
 }
 
 .image {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
   padding: 0.5rem;
   max-width: 100%;
 }
@@ -52,7 +52,6 @@
 .title {
   font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 5px;
   line-height: 1.5rem;
   white-space: nowrap;
   vertical-align: bottom;
@@ -71,11 +70,11 @@
     opacity: 1;
     transition: ease-in 0.4s;
     transform-style: preserve-3d;
-    transform: rotateZ(1turn);
-    -webkit-transform: rotateZ(1turn);
-    -moz-transform: rotateZ(1turn);
-    -o-transform: rotateZ(1turn);
-    -ms-transform: rotateZ(1turn);
+    transform: scale(1.4) rotateZ(1turn);
+    -webkit-transform: scale(1.4) rotateZ(1turn);
+    -moz-transform: scale(1.4) rotateZ(1turn);
+    -o-transform: scale(1.4) rotateZ(1turn);
+    -ms-transform: scale(1.4) rotateZ(1turn);
     cursor: pointer;
   }
 }
