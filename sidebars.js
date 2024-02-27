@@ -71,11 +71,11 @@ const sidebars = {
     ]),
   ],
 
-  vue: [category("vue/index", "Vue")],
-  vite: [category("vite/index", "Vite")],
+  vue: [category("vue/index", "Vue", [])],
+  vite: [category("vite/index", "Vite", [])],
 
-  webpack: [category("webpack/index", "Webpack")],
-  rn: [category("rn/index", "React Native")],
+  webpack: [category("webpack/index", "Webpack", [])],
+  rn: [category("rn/index", "React Native", [])],
 
   nodejs: [
     category("nodejs/index", "Node.js", [
