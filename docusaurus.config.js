@@ -67,6 +67,7 @@ const config = {
           blogSidebarTitle: "All posts",
           blogSidebarCount: "ALL",
         },
+
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
         },
@@ -138,18 +139,19 @@ const config = {
     prism: {
       theme: lightCodeTheme,
       darkTheme: darkCodeTheme,
-      additionalLanguages: [
-        "go",
-        "http",
-        "java",
-        "powershell",
-        "swift",
-        "vim",
-        "docker",
-      ],
+      defaultLanguage: "javascript",
+      additionalLanguages: ["java", "rust"],
     },
+
     liveCodeBlock: {
       playgroundPosition: "bottom",
+    },
+
+    algolia: {
+      appId: "R3ZDXQLL7G",
+      apiKey: "abd4563476fc7bc447423c3892941218",
+      indexName: "alekschenio",
+      contextualSearch: true,
     },
   },
   clientModules: [require.resolve("./src/clientModules/routeModules.ts")],
