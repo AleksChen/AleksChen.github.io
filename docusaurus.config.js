@@ -77,7 +77,7 @@ const config = {
           ignorePatterns: ["/tags/**"],
           filename: "sitemap.xml",
         },
-        googleAnalytics: {
+        gtag: {
           trackingID: "G-G1EC4WNBZJ",
           anonymizeIP: true,
         },
@@ -146,7 +146,6 @@ const config = {
     liveCodeBlock: {
       playgroundPosition: "bottom",
     },
-
     algolia: {
       appId: "R3ZDXQLL7G",
       apiKey: "abd4563476fc7bc447423c3892941218",

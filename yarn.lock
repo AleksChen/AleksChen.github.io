@@ -2869,16 +2869,6 @@
     "@docusaurus/utils-validation" "2.1.0"
     tslib "^2.4.0"
 
-"@docusaurus/plugin-google-analytics@^3.1.1":
-  version "3.1.1"
-  resolved "https://registry.npmmirror.com/@docusaurus/plugin-google-analytics/-/plugin-google-analytics-3.1.1.tgz#bfc58205b4fcaf3222e04f9c3542f3bef9804887"
-  integrity sha512-+q2UpWTqVi8GdlLoSlD5bS/YpxW+QMoBwrPrUH/NpvpuOi0Of7MTotsQf9JWd3hymZxl2uu1o3PIrbpxfeDFDQ==
-  dependencies:
-    "@docusaurus/core" "3.1.1"
-    "@docusaurus/types" "3.1.1"
-    "@docusaurus/utils-validation" "3.1.1"
-    tslib "^2.6.0"
-
 "@docusaurus/plugin-google-gtag@2.1.0":
   version "2.1.0"
   resolved "https://registry.npmmirror.com/@docusaurus/plugin-google-gtag/-/plugin-google-gtag-2.1.0.tgz#e4f351dcd98b933538d55bb742650a2a36ca9a32"
@@ -2888,6 +2878,17 @@
     "@docusaurus/types" "2.1.0"
     "@docusaurus/utils-validation" "2.1.0"
     tslib "^2.4.0"
+
+"@docusaurus/plugin-google-gtag@^3.1.1":
+  version "3.1.1"
+  resolved "https://registry.npmmirror.com/@docusaurus/plugin-google-gtag/-/plugin-google-gtag-3.1.1.tgz#7e8b5aa6847a12461c104a65a335f4a45dae2f28"
+  integrity sha512-0mMPiBBlQ5LFHTtjxuvt/6yzh8v7OxLi3CbeEsxXZpUzcKO/GC7UA1VOWUoBeQzQL508J12HTAlR3IBU9OofSw==
+  dependencies:
+    "@docusaurus/core" "3.1.1"
+    "@docusaurus/types" "3.1.1"
+    "@docusaurus/utils-validation" "3.1.1"
+    "@types/gtag.js" "^0.0.12"
+    tslib "^2.6.0"
 
 "@docusaurus/plugin-sitemap@2.1.0", "@docusaurus/plugin-sitemap@latest":
   version "2.1.0"
@@ -3869,6 +3870,11 @@
     "@types/express-serve-static-core" "^4.17.18"
     "@types/qs" "*"
     "@types/serve-static" "*"
+
+"@types/gtag.js@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.npmmirror.com/@types/gtag.js/-/gtag.js-0.0.12.tgz#095122edca896689bdfcdd73b057e23064d23572"
+  integrity sha512-YQV9bUsemkzG81Ea295/nF/5GijnD2Af7QhEofh7xu+kvCN6RdodgNwwGWXB5GMI3NoyvQo0odNctoH/qLMIpg==
 
 "@types/hast@^2.0.0":
   version "2.3.4"

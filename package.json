@@ -16,7 +16,7 @@
   "dependencies": {
     "@docsearch/js": "3",
     "@docusaurus/core": "latest",
-    "@docusaurus/plugin-google-analytics": "^3.1.1",
+    "@docusaurus/plugin-google-gtag": "^3.1.1",
     "@docusaurus/plugin-sitemap": "latest",
     "@docusaurus/preset-classic": "latest",
     "@docusaurus/remark-plugin-npm2yarn": "latest",
