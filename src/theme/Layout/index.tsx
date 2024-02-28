@@ -11,25 +11,19 @@ import ErrorPageContent from "@theme/ErrorPageContent";
 import type { Props } from "@theme/Layout";
 import styles from "./styles.module.css";
 import BrowserOnly from "@docusaurus/BrowserOnly";
+import { isMobile } from "@site/src/utils/index";
 export default function Layout(props: Props): JSX.Element {
   const { children, noFooter, wrapperClassName, title, description } = props;
   return (
     <BrowserOnly>
       {() => {
-        // const isHomePage: boolean = window.location.pathname === "/";
-        const isHomePage = false;
         return (
           <LayoutProvider>
             <PageMetadata title={title} description={description} />
-
             <SkipToContent />
 
-            {!isHomePage && (
-              <>
-                <AnnouncementBar />
-                <Navbar />
-              </>
-            )}
+            {!isMobile() && <AnnouncementBar />}
+            <Navbar />
 
             <div
               className={clsx(
