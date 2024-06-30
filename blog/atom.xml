@@ -8,9 +8,9 @@
     <subtitle>Winwoo's Blog Blog</subtitle>
     <icon>https://alekschen.github.io/img/favicon/favicon.png</icon>
     <entry>
-        <title type="html"><![CDATA[为什么面试要手写 instanceof]]></title>
-        <id>为什么面试要手写 instanceof</id>
-        <link href="https://alekschen.github.io/blog/为什么面试要手写 instanceof"/>
+        <title type="html"><![CDATA[手写 instanceof]]></title>
+        <id>手写 instanceof</id>
+        <link href="https://alekschen.github.io/blog/手写 instanceof"/>
         <updated>2024-02-06T00:00:00.000Z</updated>
         <summary type="html"><![CDATA[在前端面试中，instanceof 是一个常见的问题。面试官通常会要求面试者手写 instanceof 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。]]></summary>
         <author>
