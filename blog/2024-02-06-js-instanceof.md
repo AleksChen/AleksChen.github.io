@@ -1,6 +1,6 @@
 ---
-slug: 为什么面试要手写 instanceof
-title: 为什么面试要手写 instanceof
+slug: 手写 instanceof
+title: 手写 instanceof
 tags: [JavaScript]
 author: Winwoo
 ---

@@ -46,8 +46,8 @@ const frontendGridList: Array<GridItemType> = [
   gridItem(frontendData.typescript, "/docs/typescript", typescript),
   gridItem(frontendData.react, "/docs/react", react),
   gridItem(frontendData.rn, "/docs/rn", react),
-  gridItem(frontendData.vue, "/docs/vue", vue),
-  gridItem(frontendData.webpack, "/docs/webpack", webpack),
+  // gridItem(frontendData.vue, "/docs/vue", vue),
+  // gridItem(frontendData.webpack, "/docs/webpack", webpack),
   gridItem(frontendData.vite, "/docs/vite", vite),
 ];
 
