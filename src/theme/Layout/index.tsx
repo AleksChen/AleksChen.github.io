@@ -10,8 +10,9 @@ import LayoutProvider from "@theme/Layout/Provider";
 import ErrorPageContent from "@theme/ErrorPageContent";
 import type { Props } from "@theme/Layout";
 import styles from "./styles.module.css";
-import BrowserOnly from "@docusaurus/BrowserOnly";
 import { isMobile } from "@site/src/utils/index";
+import BrowserOnly from "@docusaurus/BrowserOnly";
+
 export default function Layout(props: Props): JSX.Element {
   const { children, noFooter, wrapperClassName, title, description } = props;
   return (

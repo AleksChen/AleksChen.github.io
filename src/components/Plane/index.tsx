@@ -228,7 +228,7 @@ export default function Plane() {
               <div class="plane__wings wings">
                 <div class="wings__top">
                   <div class="cuboid cuboid--wings-top">
-                    <div class="cuboid__side"></div>
+                    <div class="cuboid__side good__study">好好学习</div>
                     <div class="cuboid__side"></div>
                     <div class="cuboid__side"></div>
                     <div class="cuboid__side"></div>

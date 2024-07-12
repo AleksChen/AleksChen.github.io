@@ -118,7 +118,7 @@ const config = {
         { to: "blog", label: "Blog" },
         { type: "doc", label: "知识库", docId: "entry" },
         {
-          href: "https://github.com/AleksChen/AleksChen.github.io",
+          href: "https://github.com/AleksChen",
           position: "right",
           className: "header-github-link",
           title: "Winwoo's GitHub Page",

@@ -51,6 +51,11 @@
   left: 0;
 }
 
+.good__study {
+  color: var(--accent-two);
+  writing-mode: vertical-lr;
+}
+
 :root {
   --dark: 0;
   --base-size: 20;
