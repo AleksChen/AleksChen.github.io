@@ -7,7 +7,7 @@
         <lastBuildDate>Tue, 06 Feb 2024 00:00:00 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>https://github.com/jpmonette/feed</generator>
-        <language>zh-CN</language>
+        <language>en</language>
         <item>
             <title><![CDATA[手写 instanceof]]></title>
             <link>https://alekschen.github.io/blog/手写 instanceof</link>
