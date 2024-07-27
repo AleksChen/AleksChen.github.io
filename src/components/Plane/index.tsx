@@ -54,7 +54,7 @@ export default function Plane() {
             <div class="cloud__body">
               <div>
                 <div class="cuboid cuboid--cloud">
-                  <div class="cuboid__side">Winwoo</div>
+                  <div class="cuboid__side"></div>
                   <div class="cuboid__side"></div>
                   <div class="cuboid__side"></div>
                   <div class="cuboid__side"></div>
@@ -90,7 +90,7 @@ export default function Plane() {
             <div class="cloud__body">
               <div>
                 <div class="cuboid cuboid--cloud">
-                  <div class="cuboid__side">Winwoo</div>
+                  <div class="cuboid__side"></div>
                   <div class="cuboid__side"></div>
                   <div class="cuboid__side"></div>
                   <div class="cuboid__side"></div>
@@ -126,7 +126,7 @@ export default function Plane() {
             <div class="cloud__body">
               <div>
                 <div class="cuboid cuboid--cloud">
-                  <div class="cuboid__side">Winwoo</div>
+                  <div class="cuboid__side"></div>
                   <div class="cuboid__side"></div>
                   <div class="cuboid__side"></div>
                   <div class="cuboid__side"></div>

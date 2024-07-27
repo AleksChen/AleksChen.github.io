@@ -17,19 +17,6 @@ const config = {
   organizationName: "Winwoo's Blog",
   projectName: "AleksChen.github.io",
 
-  i18n: {
-    defaultLocale: "zh-CN",
-    locales: [
-      "zh-CN",
-      //"en"
-    ],
-    localeConfigs: {
-      "zh-CN": {
-        label: "简体中文",
-      },
-    },
-  },
-
   themes: ["@docusaurus/theme-live-codeblock"],
 
   presets: [
@@ -116,7 +103,7 @@ const config = {
       hideOnScroll: true,
       items: [
         { to: "blog", label: "Blog" },
-        { type: "doc", label: "知识库", docId: "entry" },
+        // { type: "doc", label: "知识库", docId: "entry" },
         {
           href: "https://github.com/AleksChen",
           position: "right",
@@ -145,12 +132,6 @@ const config = {
 
     liveCodeBlock: {
       playgroundPosition: "bottom",
-    },
-    algolia: {
-      appId: "R3ZDXQLL7G",
-      apiKey: "abd4563476fc7bc447423c3892941218",
-      indexName: "alekschenio",
-      contextualSearch: true,
     },
   },
   clientModules: [require.resolve("./src/clientModules/routeModules.ts")],
