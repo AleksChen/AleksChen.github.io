@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkwinwoo_blog=self.webpackChunkwinwoo_blog||[]).push([[2535],{5641:e=>{e.exports=JSON.parse('{"title":"Recent posts","items":[{"title":"\u624b\u5199 instanceof","permalink":"/blog/\u624b\u5199 instanceof"}]}')}}]);
