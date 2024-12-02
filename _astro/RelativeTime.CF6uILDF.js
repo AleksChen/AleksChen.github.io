@@ -1,1 +1,0 @@
-import{f as c}from"./hoisted.D9RlE-Mq.js";const s=t=>{document.querySelectorAll(`[${t}]`).forEach(e=>{const o=e.getAttribute(t);if(o===null)return;const n=Number(o);e.textContent=`${c(n)}`})};export{s as m};
