@@ -1,9 +1,9 @@
 export const config = {
   github: {
-    login: "alekschen",
-    repo: "alekschen.github.io",
-    logInUrl: "https://alekschen.github.io/",
-    logInAuthUrl: "https://alekschen.github.io/",
+    login: "Alekschen",
+    repo: "Alekschen.github.io",
+    logInUrl: "https://Alekschen.github.io/",
+    logInAuthUrl: "https://Alekschen.github.io/",
   },
   head: {
     title: "Blog",
