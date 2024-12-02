@@ -41,16 +41,16 @@ export const mount = (selector: string) => {
     };
 
     const slot = (
-      <div class="outlines flex flex-col text-sm gap-1 py-2 max-h-[60vh] overflow-y-auto <md:hidden break-words"></div>
+      <div class="outlines flex flex-col text-sm gap-1 py-2 pl-1 max-h-[60vh] overflow-y-auto <md:hidden break-words"></div>
     );
     const child = (
       <div class="fixed top-[84px] right-[4px] bg-modal p-2 rounded shadow-lg md:shadow-none md:sticky md:top-[88px] <md:[&:focus-within_.outlines]:flex flex flex-col <md:w-auto w-[240px]">
         <div class="flex <md:justify-end" tabIndex={-1}>
           <button onClick={toToggle} title="toggle outline" class="<md:hidden">
-            <div class="i-ri:menu-fold-4-fill"></div>
+            <div class="i-ri:menu-fold-4-fill text-2xl"></div>
           </button>
           <button title="toggle outline" class="md:hidden">
-            <div class="i-ri:menu-fold-4-fill"></div>
+            <div class="i-ri:menu-fold-4-fill text-2xl"></div>
           </button>
         </div>
         {slot}
@@ -76,7 +76,8 @@ export const mount = (selector: string) => {
             href={`#${h.id}`}
             data-anchor-id={h.id}
             data-anchor-tag={h.tagName}
-            class="opacity-50 hover:opacity-80 min-w-[180px]">
+            class="opacity-50 hover:opacity-80 min-w-[180px] text-lg"
+          >
             {h.textContent}
           </a>
         ))}

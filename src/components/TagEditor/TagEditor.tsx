@@ -14,10 +14,17 @@ export const createTagEditor = async (root: HTMLElement, initial: string[]) => {
     const tagEditor = React.createRef();
     const tagsListWrapper = React.createRef();
     const createTag = (tag: string) => (
-      <div key={tag} class={cn("rounded px-3 py-1 cursor-pointer relative group", style["tag"])}>
+      <div
+        key={tag}
+        class={cn(
+          "rounded px-3 py-1 cursor-pointer relative group",
+          style["tag"]
+        )}
+      >
         <button
           class="opacity-0 transition-delay-[0.25s] group-hover:opacity-100 absolute bg-red top-0 right-0 w-3 h-3 rounded-full flex items-center justify-center"
-          onClick={() => toRemove(tag)}>
+          onClick={() => toRemove(tag)}
+        >
           <div class="i-ri:close-line text-white"></div>
         </button>
         #{tag}

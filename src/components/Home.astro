@@ -16,8 +16,8 @@ const { posts, page, more } = Astro.props;
 
   mount("data-acc-time");
 </script>
-<Layout title="Welcome to Urodele">
-  <div class="w-full h-40 bg-black text-white font-bold text-3xl flex items-center justify-center">AleksChen's Blog</div>
+<Layout title="Blog">
+  <div class="w-full h-40 font-bold text-5xl flex items-center justify-center text-white bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple yellow-500">AleksChen's Blog</div>
   <main>
     <div class="content">
       {
@@ -25,11 +25,11 @@ const { posts, page, more } = Astro.props;
           <>
             <div class="pt-8 pb-2">
               <a href={`/post/${item.id}`} class="pl-4 pb-4 flex justify-between items-center group">
-                <div class="flex flex-col">
-                  <h1 class="page-title w-[fit-content] text-lg transition-all font-semibold group-hover:underline">
+                <div class="flex flex-col mr-2">
+                  <h1 class="page-title w-[fit-content] text-2xl transition-all font-semibold group-hover:underline">
                     {item.title}
                   </h1>
-                  <p class="text-text text-opacity-60 text-sm">{item.intro}</p>
+                  <p class="mt-4 text-text text-opacity-60 text-sm">{item.intro}</p>
                 </div>
                 {item.cover && <img class="w-16 h-16 rounded object-cover" src={item.cover.src} alt={item.cover.alt} />}
               </a>

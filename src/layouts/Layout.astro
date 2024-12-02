@@ -28,12 +28,13 @@ const { title, description, footer = true } = Astro.props;
     />
     <meta name="description" content={description ?? "A self-owned full-static blog system"} />
     <link rel="icon" href="/favicon.ico" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
     <title>{["Blog", title].reverse().join(" | ")}</title>
   </head>
   <body class="text-text bg-bg">
     <header class="flex justify-between items-center p-2 gap-2 h-10">
       <a href="/" class="text-button text-lg" aria-label="homepage">
-        <div class="i-ri:menu-4-fill"></div>
+        <div class="i-ri:home-4-line transition-transform hover:scale-120 active:scale-95"></div>
       </a>
       <div class="flex gap-2 items-center header-operations">
         <slot name="operations" />
@@ -49,7 +50,7 @@ const { title, description, footer = true } = Astro.props;
     display: flex;
     width: 100%;
     padding: 0 16px;
-    gap: 12px;
+    gap: 120px;
     justify-content: center;
   }
   .content {

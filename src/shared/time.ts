@@ -26,8 +26,8 @@ export function formatSecond(timestamp: number) {
   }
 
   if (today.year() === date.year()) {
-    return date.format("YYYY.MM.DD");
+    return date.format("YYYY/MM/DD");
   }
 
-  return date.format("YYYY.MM.DD");
+  return date.format("YYYY/MM/DD");
 }

@@ -4,6 +4,10 @@ import type { JSONContent } from "@tiptap/core";
 import { getSSRHTML } from "@/editor/extensions";
 import type { PageDetail, ShortPageData } from "@/shared/type";
 
+const DEFAULT_COVER_MAP = {
+  JavaScript: { src: "/post-assets/cover-js.png" },
+  Default: { src: "/post-assets/cover-default.png" },
+};
 const detailCache = new Map<string, PageDetail>();
 const getPageDetail = async (path: string) => {
   if (detailCache.has(path)) {
@@ -12,7 +16,18 @@ const getPageDetail = async (path: string) => {
   const text = await readFile(path, { encoding: "utf-8" });
   const content = JSON.parse(text) as JSONContent;
   const meta = parseMeta(content);
-  const cover = content.content?.find((v) => v.type === "image")?.attrs as any;
+  const firstImage =
+    (content.content?.find((v) => v.type === "image")?.attrs as any) ||
+    DEFAULT_COVER_MAP.Default;
+  const tags = content.__ud_tags as string[];
+  const hasCoverTags = tags.filter((v) =>
+    Object.keys(DEFAULT_COVER_MAP).includes(v)
+  );
+  const cover =
+    hasCoverTags.length > 0
+      ? DEFAULT_COVER_MAP[hasCoverTags[0] as keyof typeof DEFAULT_COVER_MAP]
+      : firstImage;
+
   const detail = {
     content: text,
     ...meta,
