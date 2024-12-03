@@ -6,6 +6,7 @@ import sitemap from "@astrojs/sitemap";
 
 // https://astro.build/config
 export default defineConfig({
+  trailingSlash: "never",
   output: import.meta.env.DEV ? "server" : "static",
   site: "https://alekschen.github.io",
   integrations: [
