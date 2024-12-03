@@ -32,7 +32,7 @@ const { title, description, footer = true } = Astro.props;
     <title>{["Blog", title].reverse().join(" | ")}</title>
   </head>
   <body class="text-text bg-bg">
-    <header class="flex justify-between items-center p-2 gap-2 h-10">
+    <header class="flex justify-between items-center p-2 gap-2 h-10 shadow-sm">
       <a href="/" class="text-button text-lg" aria-label="homepage">
         <div class="i-ri:home-4-line transition-transform hover:scale-120 active:scale-95"></div>
       </a>
@@ -49,13 +49,12 @@ const { title, description, footer = true } = Astro.props;
   main {
     display: flex;
     width: 100%;
-    padding: 0 16px;
-    gap: 120px;
+    padding: 20px 10px 0;
+    gap: 10px;
     justify-content: center;
   }
   .content {
-    /* width: 100%; */
-    max-width: 888px;
+    max-width: 750px;
     /* padding: 0 24px; */
     overflow-x: hidden;
     flex: 1 1 0;
