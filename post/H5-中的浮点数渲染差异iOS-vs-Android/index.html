@@ -1,0 +1,77 @@
+<!DOCTYPE html> <html lang="en"> <head><meta charset="UTF-8"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Blog"><meta name="msapplication-TileColor" content="#000000"><meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"><meta name="description" content="移动端 H5 开发中，浮点数的渲染处理是一个常见但容易被忽视的问题。iOS 和 Android 平台由于底层渲染引擎的差异，对浮点数的处理存在明显不同。了解这些差异对于开发高质量的跨平台 H5 应用至关重要。"><link rel="icon" href="/favicon.ico"><link rel="sitemap" href="/sitemap-index.xml"><title>H5 中的浮点数渲染差异：iOS vs Android | Blog</title><link rel="stylesheet" href="/_astro/_page_.BVyySTgU.css">
+<style>.outlines a[data-anchor-tag=H1]{margin-left:0}.outlines a[data-anchor-tag=H2]{margin-left:12px}.outlines a[data-anchor-tag=H3]{margin-left:24px}.outlines a[data-anchor-tag=H4]{margin-left:36px}.outlines a[data-anchor-tag=H5]{margin-left:48px}.outlines a[data-anchor-tag=H6]{margin-left:60px}
+._tabset_selm3_1 ._tab-panel_selm3_1{display:none}._tabset_selm3_1 ._tab-panels_selm3_4{display:flex}._tabset_selm3_1 input[data-tab-name=direct]{display:none}._tabset_selm3_1 input[data-tab-name=direct]:checked~._tab-panels_selm3_4 ._tab-panel_selm3_1[data-tab-name=direct]{display:block}._tabset_selm3_1 input[data-tab-name=direct]:checked~._tab-labels_selm3_13 label[data-tab-name=direct]{border-bottom:2px solid red}._tabset_selm3_1 input[data-tab-name=app]{display:none}._tabset_selm3_1 input[data-tab-name=app]:checked~._tab-panels_selm3_4 ._tab-panel_selm3_1[data-tab-name=app]{display:block}._tabset_selm3_1 input[data-tab-name=app]:checked~._tab-labels_selm3_13 label[data-tab-name=app]{border-bottom:2px solid red}
+</style>
+<link rel="stylesheet" href="/_astro/_page_.B-P1Oylg.css">
+<link rel="stylesheet" href="/_astro/_id_.C16MaNET.css"><script type="module" src="/_astro/hoisted.BMQupta8.js"></script></head> <body class="text-text bg-bg"> <header class="flex justify-between items-center p-2 gap-2 h-10 shadow-sm"> <a href="/" class="text-button text-lg" aria-label="homepage"> <div class="i-ri:home-4-line transition-transform hover:scale-120 active:scale-95"></div> </a> <div class="flex gap-2 items-center header-operations">   <div id="auth"></div> </div> </header>  <main> <div class="content"> <div class="w-full flex gap-2 pb-2"> <a href="/tag/Android" class="rounded hover:bg-gray-200 dark:hover:bg-modal px-3 py-1 cursor-pointer">
+#Android </a><a href="/tag/iOS" class="rounded hover:bg-gray-200 dark:hover:bg-modal px-3 py-1 cursor-pointer">
+#iOS </a> </div> <div class="ud-root read-only flex-1"><h1 level="1" id="H5-中的浮点数渲染差异iOS-vs-Android">H5 中的浮点数渲染差异：iOS vs Android</h1><h2 level="2" id="一概述"><strong>一、概述</strong></h2><p>移动端 H5 开发中，浮点数的渲染处理是一个常见但容易被忽视的问题。iOS 和 Android 平台由于底层渲染引擎的差异，对浮点数的处理存在明显不同。了解这些差异对于开发高质量的跨平台 H5 应用至关重要。</p><p></p><h2 level="2" id="二渲染差异对比"><strong>二、渲染差异对比</strong></h2><h3 level="3" id="1-文字渲染"><strong>1. 文字渲染</strong></h3><h4 level="4" id="iOS-WebKit">iOS (WebKit)</h4><ul><li><p>行高强制对齐整数像素，如 14.3px 会被四舍五入为 14px</p></li><li><p>字号会被四舍五入到最近的整数</p></li><li><p>原因：CoreText 渲染引擎为保证文字清晰度，强制像素对齐</p></li></ul><div class="llt-code readonly"><div class="language">text</div><div class="wrapper"><pre><code class="language-auto">14.3px -&gt; 14px
+14.7px -&gt; 15px
+14.5px -&gt; 15px</code></pre></div></div><p></p><h4 level="4" id="Android-Chromium">Android (Chromium)</h4><ul><li><p>完整支持浮点数渲染</p></li><li><p>可以实现精确的小数行高和字号</p></li><li><p>使用 Skia 渲染引擎，支持亚像素渲染</p></li></ul><p></p><h3 level="3" id="2-UI-元素"><strong>2. UI 元素</strong></h3><p><strong>共同支持浮点数的属性</strong></p><ul><li><p>transform: 支持精确的小数值动画</p></li><li><p>opacity: 支持 0-1 之间的任意浮点数</p></li><li><p>position: 支持精确定位</p></li></ul><p></p><p><strong>平台特定行为</strong></p><p>iOS:</p><ul><li><p>border: 强制对齐到整数像素</p></li><li><p>box-shadow: 支持浮点数但可能存在性能问题</p></li></ul><p>Android:</p><ul><li><p>几乎所有属性都支持浮点数</p></li><li><p>渲染精度取决于设备的硬件能力</p></li></ul><p></p><h2 level="2" id="三产生差异的原因"><strong>三、产生差异的原因</strong></h2><h3 level="3" id="1-技术层面"><strong>1. 技术层面</strong></h3><ul><li><p>iOS CoreText 追求文字渲染的清晰度和一致性</p></li><li><p>Android Skia 更注重渲染的灵活性和精确性</p></li><li><p>硬件加速实现方式的不同导致精度差异</p></li></ul><p></p><h3 level="3" id="2-历史原因"><strong>2. 历史原因</strong></h3><ul><li><p>Apple 一直强调用户体验的一致性</p></li><li><p>Android 的开放性导致更灵活的渲染策略</p></li></ul><p></p><h2 level="2" id="四开发建议"><strong>四、开发建议</strong></h2><h3 level="3" id="1-通用处理方案"><strong>1. 通用处理方案</strong></h3><div class="llt-code readonly"><div class="language">javascript</div><div class="wrapper"><pre><code class="language-javascript"><span class="hljs-comment" class="hljs-comment">// 检测平台</span>
+<span class="hljs-keyword" class="hljs-keyword">const</span> isIOS = <span class="hljs-regexp" class="hljs-regexp">/iPhone|iPad|iPod/</span>.<span class="hljs-title,function_" class="hljs-title,function_">test</span>(navigator.<span class="hljs-property" class="hljs-property">userAgent</span>);
+
+<span class="hljs-comment" class="hljs-comment">// 行高处理</span>
+<span class="hljs-keyword" class="hljs-keyword">const</span> <span class="hljs-title,function_" class="hljs-title,function_">getLineHeight</span> = (<span class="hljs-params" class="hljs-params">value</span>) =&gt; {
+  <span class="hljs-keyword" class="hljs-keyword">return</span> isIOS ? <span class="hljs-title,class_" class="hljs-title,class_">Math</span>.<span class="hljs-title,function_" class="hljs-title,function_">round</span>(value) : value;
+};
+
+<span class="hljs-comment" class="hljs-comment">// 使用示例</span>
+element.<span class="hljs-property" class="hljs-property">style</span>.<span class="hljs-property" class="hljs-property">lineHeight</span> = <span class="hljs-string" class="hljs-string">`<span class="hljs-subst" class="hljs-subst">${getLineHeight(<span class="hljs-number" class="hljs-number">14.3</span>)}</span>px`</span>;</code></pre></div></div><p></p><h3 level="3" id="2-特殊场景处理"><strong>2. 特殊场景处理</strong></h3><p><strong>动画效果</strong></p><div class="llt-code readonly"><div class="language">javascript</div><div class="wrapper"><pre><code class="language-javascript"><span class="hljs-comment" class="hljs-comment">// 文字动画处理</span>
+<span class="hljs-keyword" class="hljs-keyword">const</span> <span class="hljs-title,function_" class="hljs-title,function_">animateText</span> = (<span class="hljs-params" class="hljs-params">element</span>) =&gt; {
+  <span class="hljs-keyword" class="hljs-keyword">if</span> (isIOS) {
+    <span class="hljs-comment" class="hljs-comment">// iOS 使用整数步进</span>
+    element.<span class="hljs-property" class="hljs-property">style</span>.<span class="hljs-property" class="hljs-property">transform</span> = <span class="hljs-string" class="hljs-string">`translateY(<span class="hljs-subst" class="hljs-subst">${<span class="hljs-built_in" class="hljs-built_in">Math</span>.round(value)}</span>px)`</span>;
+  } <span class="hljs-keyword" class="hljs-keyword">else</span> {
+    <span class="hljs-comment" class="hljs-comment">// Android 可以使用浮点数</span>
+    element.<span class="hljs-property" class="hljs-property">style</span>.<span class="hljs-property" class="hljs-property">transform</span> = <span class="hljs-string" class="hljs-string">`translateY(<span class="hljs-subst" class="hljs-subst">${value}</span>px)`</span>;
+  }
+};</code></pre></div></div><p></p><p><strong>文字排版</strong></p><div class="llt-code readonly"><div class="language">javascript</div><div class="wrapper"><pre><code class="language-javascript"><span class="hljs-comment" class="hljs-comment">/* 跨平台一致性处理 */</span>
+.<span class="hljs-property" class="hljs-property">text</span> {
+  <span class="hljs-comment" class="hljs-comment">/* 使用整数值避免差异 */</span>
+  line-<span class="hljs-attr" class="hljs-attr">height</span>: 20px;
+  font-<span class="hljs-attr" class="hljs-attr">size</span>: 16px;
+  
+  <span class="hljs-comment" class="hljs-comment">/* 需要精确控制时使用 transform */</span>
+  <span class="hljs-attr" class="hljs-attr">transform</span>: <span class="hljs-title,function_" class="hljs-title,function_">translateY</span>(<span class="hljs-number" class="hljs-number">0.</span>5px);
+}</code></pre></div></div><p></p><h2 level="2" id="结论">结论</h2><p>理解和妥善处理浮点数渲染差异，是开发高质量 H5 应用的重要环节。在实际开发中，应该根据具体场景选择合适的处理策略，在保证体验一致性的同时，也要充分利用各平台的特性。</p><p></p><h2 level="2" id="参考资料">参考资料</h2><ul><li><p><a target="_blank" rel="noreferer" href="https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/Introduction/Introduction.html">Developing Web Content for Safari</a></p></li><li><p><a target="_blank" rel="noreferer" href="https://www.chromium.org/developers/design-documents/graphics-and-skia/">Graphics and Skia</a></p></li><li><p><a target="_blank" rel="noreferer" href="https://www.w3.org/TR/css-values-3/">CSS Values and Units Module Level 3</a></p></li></ul><p></p><script type="module">const injectHtml = (root, html) => {
+  const iframe = document.createElement("iframe");
+  const htmlContent = `<html><head></head><body>${html}</body></html>`;
+  iframe.style.width = "100%";
+  iframe.style.height = "100%";
+  iframe.onload = () => {
+    const doc = iframe.contentDocument || iframe.contentWindow?.document;
+    if (!doc) {
+      return;
+    }
+    doc.open();
+    doc.write(htmlContent);
+    doc.close();
+  };
+  root.replaceChildren(iframe);
+}
+  document.querySelectorAll('.playground')?.forEach(el=>{
+    const html = el.getAttribute('data-html');
+    if (html) {
+      injectHtml(el,html);
+    }
+    const indicator = document.createElement("div");
+    indicator.className = "indicator";
+    const showCode = document.createElement("div");
+    showCode.className = "show-code";
+    showCode.innerText = "code";
+    showCode.onclick = () => {
+      el.parentElement.classList.remove("preview-only");
+    };
+    const showPreview = document.createElement("div");
+    showPreview.className = "show-preview";
+    showPreview.innerText = "preview";
+    showPreview.onclick = () => {
+      el.parentElement.classList.add("preview-only");
+    };
+    indicator.appendChild(showCode);
+    indicator.appendChild(showPreview);
+    el.parentElement.appendChild(indicator);
+    if (window.screen.width < 768) {
+      showPreview.click();
+    }
+  });</script></div> <div data-page-id="H5-中的浮点数渲染差异iOS-vs-Android" class="navigator flex justify-between items-center mt-4 py-4"> <a href="/post/1708-implement-instanceof" class="flex items-center gap-1 text-blue cursor-pointer flex-[45%]"> <div class="i-ri:arrow-left-double-line w-5 h-5 flex-shrink-0"></div> <div class="text-start">手写 instanceof</div> </a> <div></div> </div> </div> <div class="outline-wrapper"></div> </main>  <footer class="mt-8 flex justify-center"> <small class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"> <a href="https://github.com/AleksChen" target="_blank">© AleksChen</a> </small> </footer> </body></html>
