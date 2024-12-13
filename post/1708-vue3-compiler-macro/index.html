@@ -1,0 +1,129 @@
+<!DOCTYPE html> <html lang="en"> <head><meta charset="UTF-8"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Blog"><meta name="msapplication-TileColor" content="#000000"><meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"><meta name="description" content="Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 <script setup> 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。"><link rel="icon" href="/favicon.ico"><link rel="sitemap" href="/sitemap-index.xml"><title>Vue3 编译宏使用与原理 | Blog</title><link rel="stylesheet" href="/_astro/_page_.BVyySTgU.css">
+<style>._tabset_selm3_1 ._tab-panel_selm3_1{display:none}._tabset_selm3_1 ._tab-panels_selm3_4{display:flex}._tabset_selm3_1 input[data-tab-name=direct]{display:none}._tabset_selm3_1 input[data-tab-name=direct]:checked~._tab-panels_selm3_4 ._tab-panel_selm3_1[data-tab-name=direct]{display:block}._tabset_selm3_1 input[data-tab-name=direct]:checked~._tab-labels_selm3_13 label[data-tab-name=direct]{border-bottom:2px solid red}._tabset_selm3_1 input[data-tab-name=app]{display:none}._tabset_selm3_1 input[data-tab-name=app]:checked~._tab-panels_selm3_4 ._tab-panel_selm3_1[data-tab-name=app]{display:block}._tabset_selm3_1 input[data-tab-name=app]:checked~._tab-labels_selm3_13 label[data-tab-name=app]{border-bottom:2px solid red}
+.outlines a[data-anchor-tag=H1]{margin-left:0}.outlines a[data-anchor-tag=H2]{margin-left:12px}.outlines a[data-anchor-tag=H3]{margin-left:24px}.outlines a[data-anchor-tag=H4]{margin-left:36px}.outlines a[data-anchor-tag=H5]{margin-left:48px}.outlines a[data-anchor-tag=H6]{margin-left:60px}
+</style>
+<link rel="stylesheet" href="/_astro/_page_.B-P1Oylg.css">
+<link rel="stylesheet" href="/_astro/_id_.C16MaNET.css"><script type="module" src="/_astro/hoisted.BMQupta8.js"></script></head> <body class="text-text bg-bg"> <header class="flex justify-between items-center p-2 gap-2 h-10 shadow-sm"> <a href="/" class="text-button text-lg" aria-label="homepage"> <div class="i-ri:home-4-line transition-transform hover:scale-120 active:scale-95"></div> </a> <div class="flex gap-2 items-center header-operations">   <div id="auth"></div> </div> </header>  <main> <div class="content"> <div class="w-full flex gap-2 pb-2"> <a href="/tag/Vue" class="rounded hover:bg-gray-200 dark:hover:bg-modal px-3 py-1 cursor-pointer">
+#Vue </a> </div> <div class="ud-root read-only flex-1"><h1 level="1" id="Vue3-编译宏使用与原理"><strong>Vue3 编译宏使用与原理</strong></h1><p>Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 <code>&lt;script setup&gt;</code> 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。</p><p></p><h2 level="2" id="一什么是编译宏">一、什么是编译宏</h2><p>Vue3 编译宏是在代码<strong>编译阶段处理的特殊指令或函数</strong>。Vue3 的编译宏主要是为 <code>&lt;script setup&gt;</code> 语法设计的。编译宏不需要导入就可以直接使用，且会随着 <code>&lt;script setup&gt;</code> 的处理过程一同被编译掉。</p><p></p><h2 level="2" id="二编译宏有什么用">二、编译宏有什么用</h2><p>编译宏提供了一种更简洁的方式来编写和维护已有的配置。在 Vue3 中，编译宏主要有以下几个作用：</p><ol><li><p><strong>类型推断和检查</strong>：宏可以提供类型安全，帮助开发者在编写代码时避免类型错误。</p></li><li><p><strong>运行时消除</strong>：在 Vue3 的 <code>&lt;script setup&gt;</code> 中，引入的宏在编译阶段处理后，最终生成的代码中可能不会包含这些宏。这意味着宏可以提供额外的功能，而不会增加运行时的开销。</p></li><li><p><strong>代码重用和维护</strong>：通过定义宏，可以在不同的组件中重用相同的逻辑。这有助于维护代码的一致性，并减少重复代码的编写。</p></li><li><p><strong>简化配置</strong>：某些宏可以用于简化 Vue 组件的配置，使得配置更加简洁明了。</p></li><li><p><strong>优化开发体验</strong>：宏可以减少样板文件，提供更简洁的语法，从而提高开发效率和体验。</p></li><li><p><strong>高级功能</strong>：一些宏可能提供高级功能，如自动注册组件、自动导入依赖等。</p></li></ol><p></p><h2 level="2" id="三常见的编译宏">三、常见的编译宏</h2><p>Vue 3 引入了几个编译宏（Compile-time Macros）来提高性能和开发体验。这些宏在编译时会被转换为高效的代码。下面是主要的编译宏：</p><ol><li><p><code>defineProps</code></p><ul><li><p>用于声明组件的 props</p></li><li><p>例如：<code>const props = defineProps([&apos;title&apos;, &apos;likes&apos;])</code></p></li></ul></li><li><p><code>defineEmits</code></p><ul><li><p>用于声明组件可能触发的事件</p></li><li><p>例如：<code>const emit = defineEmits([&apos;change&apos;, &apos;delete&apos;])</code></p></li></ul></li><li><p><code>defineExpose</code></p><ul><li><p>用于显式地指定哪些属性和方法可以被父组件访问</p></li><li><p>例如：<code>defineExpose({ method1, property1 })</code></p></li></ul></li><li><p><code>withDefaults</code></p><ul><li><p>用于为 <code>defineProps</code> 定义的 props 提供默认值</p></li><li><p>例如：<code>const props = withDefaults(defineProps&lt;Props&gt;(), { message: &apos;hello&apos; })</code></p></li></ul></li><li><p><code>defineOptions</code></p><ul><li><p>用于定义组件选项，如 <code>name</code>、<code>inheritAttrs</code> 等</p></li><li><p>例如：<code>defineOptions({ name: &apos;MyComponent&apos;, inheritAttrs: false })</code></p></li></ul></li><li><p><code>defineSlots</code></p><ul><li><p>用于在使用 TypeScript 时为插槽定义类型</p></li><li><p>例如：<code>const slots = defineSlots&lt;{ default: (props: { item: string }) =&gt; any }&gt;()</code></p></li></ul></li><li><p><code>defineModel</code></p><ul><li><p>用于在 3.4+ 版本中简化 <code>v-model</code> 的使用</p></li><li><p>例如：<code>const model = defineModel&lt;string&gt;({ default: &apos;&apos; })</code></p></li></ul></li><li><p><code>defineAsyncComponent</code></p><ul><li><p>虽然不是编译宏，但它是一个用于定义异步组件的运行时辅助函数</p></li><li><p>例如：<code>const AsyncComp = defineAsyncComponent(() =&gt; import(&apos;./components/AsyncComponent.vue&apos;))</code></p></li></ul></li></ol><p>这些编译宏主要用在 <code>&lt;script setup&gt;</code> 中，它们提供了更简洁的语法和更好的类型推断。使用这些宏可以减少样板代码，提高代码的可读性和维护性。</p><h2 level="2" id="四编译宏的实现原理">四、编译宏的实现原理</h2><p>编译宏的本质就是在编译阶段执行的一个转化函数。它的工作原理如下：</p><ul><li><p>识别：编译器识别特定的宏调用（如 <code>defineProps()</code>）。</p></li><li><p>分析：分析宏调用的参数和上下文。</p></li><li><p>转换：将宏调用转换为适当的运行时代码或组件选项。</p></li><li><p>类型生成：（在 TypeScript 环境中）生成相应的类型声明。</p></li><li><p>代码生成：生成最终的 JavaScript 代码，通常会移除宏调用本身。</p></li></ul><img src="/post-assets/m4ml4fgx-vue3-compile-macro.png" alt="vue3-compile-macro.png"><h3 level="3" id="1-以-defineProps-为例子实现一个编译宏功能">1. 以 defineProps 为例子实现一个编译宏功能</h3><p>下面是一个 babel 插件的简单实现。它能将 Vue3 编译宏 <code>defineProps</code> 转换成 Vue 的 props 对象。从这个例子可以更好地理解编译宏语法糖的本质。</p><div class="llt-code readonly"><div class="language">javascript</div><div class="wrapper"><pre><code class="language-javascript"><span class="hljs-keyword" class="hljs-keyword">const</span> { declare } = <span class="hljs-built_in" class="hljs-built_in">require</span>(<span class="hljs-string" class="hljs-string">&apos;@babel/helper-plugin-utils&apos;</span>);
+<span class="hljs-keyword" class="hljs-keyword">const</span> { <span class="hljs-attr" class="hljs-attr">types</span>: t } = <span class="hljs-built_in" class="hljs-built_in">require</span>(<span class="hljs-string" class="hljs-string">&apos;@babel/core&apos;</span>);
+
+<span class="hljs-variable,language_" class="hljs-variable,language_">module</span>.<span class="hljs-property" class="hljs-property">exports</span> = <span class="hljs-title,function_" class="hljs-title,function_">declare</span>(<span class="hljs-function" class="hljs-function"><span class="hljs-params" class="hljs-params">api</span> =&gt;</span> {
+  api.<span class="hljs-title,function_" class="hljs-title,function_">assertVersion</span>(<span class="hljs-number" class="hljs-number">7</span>); <span class="hljs-comment" class="hljs-comment">// 确保 Babel 版本兼容性</span>
+
+  <span class="hljs-keyword" class="hljs-keyword">return</span> {
+    <span class="hljs-attr" class="hljs-attr">name</span>: <span class="hljs-string" class="hljs-string">&quot;babel-plugin-transform-define-props&quot;</span>,
+    <span class="hljs-attr" class="hljs-attr">visitor</span>: {
+      <span class="hljs-title,class_" class="hljs-title,class_">CallExpression</span>(path) {
+        <span class="hljs-comment" class="hljs-comment">// 检查是否是 defineProps 函数调用</span>
+        <span class="hljs-keyword" class="hljs-keyword">if</span> (path.<span class="hljs-property" class="hljs-property">node</span>.<span class="hljs-property" class="hljs-property">callee</span>.<span class="hljs-property" class="hljs-property">name</span> === <span class="hljs-string" class="hljs-string">&apos;defineProps&apos;</span>) {
+          <span class="hljs-keyword" class="hljs-keyword">const</span> arg = path.<span class="hljs-property" class="hljs-property">node</span>.<span class="hljs-property" class="hljs-property">arguments</span>[<span class="hljs-number" class="hljs-number">0</span>];
+          
+          <span class="hljs-keyword" class="hljs-keyword">if</span> (t.<span class="hljs-title,function_" class="hljs-title,function_">isObjectExpression</span>(arg)) {
+            <span class="hljs-comment" class="hljs-comment">// 处理对象语法: defineProps({ prop: String })</span>
+            <span class="hljs-keyword" class="hljs-keyword">const</span> properties = arg.<span class="hljs-property" class="hljs-property">properties</span>.<span class="hljs-title,function_" class="hljs-title,function_">map</span>(<span class="hljs-function" class="hljs-function"><span class="hljs-params" class="hljs-params">prop</span> =&gt;</span> {
+              <span class="hljs-comment" class="hljs-comment">// 将每个属性转换为 { prop: { type: PropType } } 的形式</span>
+              <span class="hljs-keyword" class="hljs-keyword">return</span> t.<span class="hljs-title,function_" class="hljs-title,function_">objectProperty</span>(
+                prop.<span class="hljs-property" class="hljs-property">key</span>,
+                t.<span class="hljs-title,function_" class="hljs-title,function_">objectExpression</span>([
+                  t.<span class="hljs-title,function_" class="hljs-title,function_">objectProperty</span>(t.<span class="hljs-title,function_" class="hljs-title,function_">identifier</span>(<span class="hljs-string" class="hljs-string">&apos;type&apos;</span>), prop.<span class="hljs-property" class="hljs-property">value</span>)
+                ])
+              );
+            });
+            
+            <span class="hljs-keyword" class="hljs-keyword">const</span> propsObject = t.<span class="hljs-title,function_" class="hljs-title,function_">objectExpression</span>(properties);
+            
+            <span class="hljs-comment" class="hljs-comment">// 将 defineProps 调用替换为 __props__ 赋值</span>
+            path.<span class="hljs-title,function_" class="hljs-title,function_">replaceWith</span>(
+              t.<span class="hljs-title,function_" class="hljs-title,function_">variableDeclaration</span>(<span class="hljs-string" class="hljs-string">&apos;const&apos;</span>, [
+                t.<span class="hljs-title,function_" class="hljs-title,function_">variableDeclarator</span>(
+                  t.<span class="hljs-title,function_" class="hljs-title,function_">identifier</span>(<span class="hljs-string" class="hljs-string">&apos;__props__&apos;</span>),
+                  propsObject
+                )
+              ])
+            );
+          } <span class="hljs-keyword" class="hljs-keyword">else</span> <span class="hljs-keyword" class="hljs-keyword">if</span> (t.<span class="hljs-title,function_" class="hljs-title,function_">isArrayExpression</span>(arg)) {
+            <span class="hljs-comment" class="hljs-comment">// 处理数组语法: defineProps([&apos;prop1&apos;, &apos;prop2&apos;])</span>
+            <span class="hljs-keyword" class="hljs-keyword">const</span> properties = arg.<span class="hljs-property" class="hljs-property">elements</span>.<span class="hljs-title,function_" class="hljs-title,function_">map</span>(<span class="hljs-function" class="hljs-function"><span class="hljs-params" class="hljs-params">element</span> =&gt;</span> {
+              <span class="hljs-comment" class="hljs-comment">// 将每个元素转换为 { prop: null } 的形式</span>
+              <span class="hljs-keyword" class="hljs-keyword">return</span> t.<span class="hljs-title,function_" class="hljs-title,function_">objectProperty</span>(element, t.<span class="hljs-title,function_" class="hljs-title,function_">identifier</span>(<span class="hljs-string" class="hljs-string">&apos;null&apos;</span>));
+            });
+            
+            <span class="hljs-keyword" class="hljs-keyword">const</span> propsObject = t.<span class="hljs-title,function_" class="hljs-title,function_">objectExpression</span>(properties);
+            
+            <span class="hljs-comment" class="hljs-comment">// 将 defineProps 调用替换为 __props__ 赋值</span>
+            path.<span class="hljs-title,function_" class="hljs-title,function_">replaceWith</span>(
+              t.<span class="hljs-title,function_" class="hljs-title,function_">variableDeclaration</span>(<span class="hljs-string" class="hljs-string">&apos;const&apos;</span>, [
+                t.<span class="hljs-title,function_" class="hljs-title,function_">variableDeclarator</span>(
+                  t.<span class="hljs-title,function_" class="hljs-title,function_">identifier</span>(<span class="hljs-string" class="hljs-string">&apos;__props__&apos;</span>),
+                  propsObject
+                )
+              ])
+            );
+          }
+        }
+      }
+    }
+  };
+});</code></pre></div></div><h3 level="3" id="2-转换效果">2. 转换效果</h3><div class="llt-code readonly"><div class="language">javascript</div><div class="wrapper"><pre><code class="language-javascript"><span class="hljs-comment" class="hljs-comment">// 转换前：对象语法</span>
+<span class="hljs-keyword" class="hljs-keyword">const</span> props1 = <span class="hljs-title,function_" class="hljs-title,function_">defineProps</span>({
+  <span class="hljs-attr" class="hljs-attr">name</span>: <span class="hljs-title,class_" class="hljs-title,class_">String</span>,
+  <span class="hljs-attr" class="hljs-attr">age</span>: <span class="hljs-title,class_" class="hljs-title,class_">Number</span>,
+  <span class="hljs-attr" class="hljs-attr">isActive</span>: <span class="hljs-title,class_" class="hljs-title,class_">Boolean</span>
+});
+
+<span class="hljs-comment" class="hljs-comment">// 转换后：对象语法转换结果</span>
+<span class="hljs-keyword" class="hljs-keyword">const</span> __props__ = {
+  <span class="hljs-attr" class="hljs-attr">name</span>: { <span class="hljs-attr" class="hljs-attr">type</span>: <span class="hljs-title,class_" class="hljs-title,class_">String</span> },
+  <span class="hljs-attr" class="hljs-attr">age</span>: { <span class="hljs-attr" class="hljs-attr">type</span>: <span class="hljs-title,class_" class="hljs-title,class_">Number</span> },
+  <span class="hljs-attr" class="hljs-attr">isActive</span>: { <span class="hljs-attr" class="hljs-attr">type</span>: <span class="hljs-title,class_" class="hljs-title,class_">Boolean</span> }
+};
+
+<span class="hljs-comment" class="hljs-comment">// 转换前：数组语法</span>
+<span class="hljs-keyword" class="hljs-keyword">const</span> props2 = <span class="hljs-title,function_" class="hljs-title,function_">defineProps</span>([<span class="hljs-string" class="hljs-string">&apos;title&apos;</span>, <span class="hljs-string" class="hljs-string">&apos;content&apos;</span>]);
+
+<span class="hljs-comment" class="hljs-comment">// 转换后：数组语法转换结果</span>
+<span class="hljs-keyword" class="hljs-keyword">const</span> __props__ = {
+  <span class="hljs-attr" class="hljs-attr">title</span>: <span class="hljs-literal" class="hljs-literal">null</span>,
+  <span class="hljs-attr" class="hljs-attr">content</span>: <span class="hljs-literal" class="hljs-literal">null</span>
+};</code></pre></div></div><p>在编译时识别特定的代码模式，并将其转换为等效但可能更复杂或更优化的代码。在 Vue 的实际实现中，这个过程会更加复杂，包括处理类型推断、默认值、验证等多个方面。</p><p></p><h2 level="2" id="总结">总结</h2><p>本文介绍了 Vue3 编译宏。编译宏是 Vue3 的一个强大特性，它们提供了更简洁的语法和更好的类型推断，使得组件编写更加高效和愉快。</p><p></p><h2 level="2" id="参考资料">参考资料</h2><ul><li><p><a target="_blank" rel="noreferer" href="https://cn.vuejs.org/api/sfc-script-setup.html#defineprops-defineemits">Vue3 官方文档</a></p></li></ul><script type="module">const injectHtml = (root, html) => {
+  const iframe = document.createElement("iframe");
+  const htmlContent = `<html><head></head><body>${html}</body></html>`;
+  iframe.style.width = "100%";
+  iframe.style.height = "100%";
+  iframe.onload = () => {
+    const doc = iframe.contentDocument || iframe.contentWindow?.document;
+    if (!doc) {
+      return;
+    }
+    doc.open();
+    doc.write(htmlContent);
+    doc.close();
+  };
+  root.replaceChildren(iframe);
+}
+  document.querySelectorAll('.playground')?.forEach(el=>{
+    const html = el.getAttribute('data-html');
+    if (html) {
+      injectHtml(el,html);
+    }
+    const indicator = document.createElement("div");
+    indicator.className = "indicator";
+    const showCode = document.createElement("div");
+    showCode.className = "show-code";
+    showCode.innerText = "code";
+    showCode.onclick = () => {
+      el.parentElement.classList.remove("preview-only");
+    };
+    const showPreview = document.createElement("div");
+    showPreview.className = "show-preview";
+    showPreview.innerText = "preview";
+    showPreview.onclick = () => {
+      el.parentElement.classList.add("preview-only");
+    };
+    indicator.appendChild(showCode);
+    indicator.appendChild(showPreview);
+    el.parentElement.appendChild(indicator);
+    if (window.screen.width < 768) {
+      showPreview.click();
+    }
+  });</script></div> <div data-page-id="1708-vue3-compiler-macro" class="navigator flex justify-between items-center mt-4 py-4"> <a href="/post/1708-implement-instanceof" class="flex items-center gap-1 text-blue cursor-pointer flex-[45%]"> <div class="i-ri:arrow-left-double-line w-5 h-5 flex-shrink-0"></div> <div class="text-start">手写 instanceof</div> </a> <a href="/post/2412-float-attribute-in-ios-android" class="flex items-center justify-end gap-1 text-blue cursor-pointer flex-[45%]"> <div class="text-end">H5 中的浮点数渲染差异：iOS vs Android</div> <div class="i-ri:arrow-right-double-line w-5 h-5 flex-shrink-0"></div> </a> </div> </div> <div class="outline-wrapper"></div> </main>  <footer class="mt-8 flex justify-center"> <small class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"> <a href="https://github.com/AleksChen" target="_blank">© AleksChen</a> </small> </footer> </body></html>
