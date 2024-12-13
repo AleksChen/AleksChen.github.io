@@ -5,8 +5,14 @@ import { getSSRHTML } from "@/editor/extensions";
 import type { PageDetail, ShortPageData } from "@/shared/type";
 
 const DEFAULT_COVER_MAP = {
-  JavaScript: { src: "/post-assets/cover-js.png" },
-  Default: { src: "/post-assets/cover-default.png" },
+  javascript: { src: "/post-assets/cover/cover-js.png" },
+  css: { src: "/post-assets/cover/cover-css.png" },
+  html: { src: "/post-assets/cover/cover-html.png" },
+  react: { src: "/post-assets/cover/cover-react.png" },
+  vue: { src: "/post-assets/cover/cover-vue.png" },
+  ios: { src: "/post-assets/cover/cover-ios.png" },
+  google: { src: "/post-assets/cover/cover-google.png" },
+  default: { src: "/post-assets/cover/cover-default.png" },
 };
 const detailCache = new Map<string, PageDetail>();
 const getPageDetail = async (path: string) => {
@@ -17,16 +23,16 @@ const getPageDetail = async (path: string) => {
   const content = JSON.parse(text) as JSONContent;
   const meta = parseMeta(content);
   const firstImage =
-    (content.content?.find((v) => v.type === "image")?.attrs as any) ||
-    DEFAULT_COVER_MAP.Default;
-  const tags = content.__ud_tags as string[];
+    (content.content?.find((v) => v.type === "image")?.attrs as unknown) ||
+    DEFAULT_COVER_MAP.default;
+  const tags = (content.__ud_tags as string[]).map((tag) => tag.toLowerCase());
   const hasCoverTags = tags.filter((v) =>
     Object.keys(DEFAULT_COVER_MAP).includes(v)
   );
   const cover =
     hasCoverTags.length > 0
       ? DEFAULT_COVER_MAP[hasCoverTags[0] as keyof typeof DEFAULT_COVER_MAP]
-      : firstImage;
+      : (firstImage as { src: string; alt: string });
 
   const detail = {
     content: text,
