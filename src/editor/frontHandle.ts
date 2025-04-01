@@ -1,9 +1,7 @@
 import { Extension } from "@tiptap/core";
 import { NodeSelection, Plugin, PluginKey, TextSelection } from "@tiptap/pm/state";
 import { Fragment, Slice, Node } from "@tiptap/pm/model";
-
-// @ts-expect-error: import private method
-import { __serializeForClipboard, EditorView } from "@tiptap/pm/view";
+import { EditorView } from "@tiptap/pm/view";
 import { createFrontMenu } from "./frontMenu.tsx";
 
 export interface GlobalFrontHandleOptions {
@@ -69,6 +67,22 @@ function calcNodePos(pos: number, view: EditorView) {
   return pos;
 }
 
+function serializeForClipboard(_view: EditorView, slice: Slice) {
+  const dom = document.createElement('div');
+  const text: string[] = [];
+  
+  slice.content.descendants((node, _pos) => {
+    if (node.isText && node.text) {
+      text.push(node.text);
+    }
+  });
+
+  return {
+    dom,
+    text: text.join(''),
+  };
+}
+
 export function DragHandlePlugin(options: GlobalFrontHandleOptions & { pluginKey: string }) {
   let listType = "";
   function handleDragStart(event: DragEvent, view: EditorView) {
@@ -126,7 +140,7 @@ export function DragHandlePlugin(options: GlobalFrontHandleOptions & { pluginKey
     }
 
     const slice = view.state.selection.content();
-    const { dom, text } = __serializeForClipboard(view, slice);
+    const { dom, text } = serializeForClipboard(view, slice);
 
     event.dataTransfer.clearData();
     event.dataTransfer.setData("text/html", dom.innerHTML);
