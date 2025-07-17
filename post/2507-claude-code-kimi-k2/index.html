@@ -1,0 +1,50 @@
+<!DOCTYPE html> <html lang="en"> <head><meta charset="UTF-8"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Blog"><meta name="msapplication-TileColor" content="#000000"><meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"><meta name="description" content="Claude Code 是 Anthropic 推出的 AI 编程助手，具备强大的代码生成与理解能力。然而，受限于国内网络环境，Claude Sonnet 4、Claude Opus 4 等模型的使用门槛较高。为此，本文介绍如何将 Claude Code 切换为月之暗面最新发布的 Kimi K2 大模型，实现无缝对接与高效开发。"><link rel="icon" href="/favicon.ico"><link rel="sitemap" href="/sitemap-index.xml"><title>Claude Code 中接入 Kimi K2 大模型 | Blog</title><link rel="stylesheet" href="/_astro/_page_.CnyHwc2v.css">
+<style>.outlines a[data-anchor-tag=H1]{margin-left:0}.outlines a[data-anchor-tag=H2]{margin-left:12px}.outlines a[data-anchor-tag=H3]{margin-left:24px}.outlines a[data-anchor-tag=H4]{margin-left:36px}.outlines a[data-anchor-tag=H5]{margin-left:48px}.outlines a[data-anchor-tag=H6]{margin-left:60px}
+._tabset_selm3_1 ._tab-panel_selm3_1{display:none}._tabset_selm3_1 ._tab-panels_selm3_4{display:flex}._tabset_selm3_1 input[data-tab-name=direct]{display:none}._tabset_selm3_1 input[data-tab-name=direct]:checked~._tab-panels_selm3_4 ._tab-panel_selm3_1[data-tab-name=direct]{display:block}._tabset_selm3_1 input[data-tab-name=direct]:checked~._tab-labels_selm3_13 label[data-tab-name=direct]{border-bottom:2px solid red}._tabset_selm3_1 input[data-tab-name=app]{display:none}._tabset_selm3_1 input[data-tab-name=app]:checked~._tab-panels_selm3_4 ._tab-panel_selm3_1[data-tab-name=app]{display:block}._tabset_selm3_1 input[data-tab-name=app]:checked~._tab-labels_selm3_13 label[data-tab-name=app]{border-bottom:2px solid red}
+</style>
+<link rel="stylesheet" href="/_astro/_page_.B-P1Oylg.css">
+<link rel="stylesheet" href="/_astro/_id_.C16MaNET.css"><script type="module" src="/_astro/hoisted.BLJ_kEaE.js"></script></head> <body class="text-text bg-bg"> <header class="flex justify-between items-center p-4 gap-2 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple yellow-500 text-white"> <a href="/" class="text-white text-lg" aria-label="homepage"> <div class="i-ri:home-4-line transition-transform hover:scale-120 active:scale-95"></div> </a> <div class="flex gap-2 items-center header-operations">  </div> </header>  <main> <div class="content"> <div class="w-full flex gap-2 pb-2"> <a href="/tag/AI" class="rounded hover:bg-gray-200 dark:hover:bg-modal px-3 py-1 cursor-pointer">
+#AI </a> </div> <div class="ud-root read-only flex-1"><h1 level="1" id="Claude-Code-中接入-Kimi-K2-大模型">Claude Code 中接入 Kimi K2 大模型</h1><h2 level="2" id="前言">前言</h2><p>Claude Code 是 Anthropic 推出的 AI 编程助手，具备强大的代码生成与理解能力。然而，受限于国内网络环境，Claude Sonnet 4、Claude Opus 4 等模型的使用门槛较高。为此，本文介绍如何将 Claude Code 切换为月之暗面最新发布的 Kimi K2 大模型，实现无缝对接与高效开发。</p><img src="/post-assets/md774iew-image-20250717161529431.png" alt="image-20250717161529431.png"><hr><p></p><h2 level="2" id="环境准备">环境准备</h2><p></p><p>1. <strong>安装最新版 Node.js</strong></p><p>请前往 <a target="_blank" rel="noreferer" href="https://nodejs.org/">Node.js 官网</a>下载并安装。</p><p></p><p>2. <strong>安装 Claude Code</strong></p><p>终端执行：<code>npm install -g @anthropic-ai/claude-code</code></p><p></p><p>3. <strong>注册 Kimi API 平台账号并获取 API Key</strong></p><ul><li><p>打开 <a target="_blank" rel="noreferer" href="https://kimi.moonshot.cn/">Kimi API 平台</a>，注册账号。</p></li><li><p>登录后，新建 API Key。</p></li></ul><img src="/post-assets/md774iey-image-20250717155709394.png" alt="image-20250717155709394.png"><p><br></p><p>4. <strong>充值升级账号（强烈建议）</strong></p><p>免费版 Kimi API 限制较多，建议充值 50 元升级至 Tier1，解锁更高额度和更稳定的调用权限。</p><img src="/post-assets/md774iez-image-20250717155753583.png" alt="image-20250717155753583.png"><h2 level="2" id="API-Key-配置">API Key 配置</h2><p></p><p>修改 Claude Code 的默认配置，使用自定义的模型能力。</p><h3 level="3" id="Windows"><br>Windows</h3><p>在命令提示符中执行：</p><div class="llt-code readonly"><div class="language">bash</div><div class="wrapper"><pre><code class="language-bash">setx ANTHROPIC_AUTH_TOKEN <span class="hljs-string" class="hljs-string">&quot;你的 API 密钥&quot;</span>
+setx ANTHROPIC_BASE_URL <span class="hljs-string" class="hljs-string">&quot;https://api.moonshot.cn/anthropic&quot;</span></code></pre></div></div><p></p><h3 level="3" id="macOS--Linux">macOS / Linux</h3><p>根据所用终端类型，编辑对应配置文件：</p><ul><li><p>Bash 用户：<code>~/.bashrc</code></p></li><li><p>Zsh 用户：<code>~/.zshrc</code></p></li></ul><p></p><p>添加如下内容：</p><div class="llt-code readonly"><div class="language">bash</div><div class="wrapper"><pre><code class="language-bash"><span class="hljs-built_in" class="hljs-built_in">export</span> ANTHROPIC_AUTH_TOKEN=你的API密钥
+<span class="hljs-built_in" class="hljs-built_in">export</span> ANTHROPIC_BASE_URL=https://api.moonshot.cn/anthropic</code></pre></div></div><p>保存后，执行 <code>source ~/.zshrc</code> 或重启终端使配置生效。</p><p></p><hr><p></p><h2 level="2" id="启动与模型切换验证">启动与模型切换验证</h2><p></p><p>1. 进入项目目录，运行：<code>claude</code></p><p>2. 启动后，界面下方 Overrides 区域应显示 API Key 和 API Base 信息。</p><img src="/post-assets/md774iez-image-20250717155925831.png" alt="image-20250717155925831.png"><p>3. 随便输入点啥（友情提示：每次输入都要花钱），只要 tokens 在跳动，恭喜你，模型已上线。</p><img src="/post-assets/md774iez-image-20250717160008829.png" alt="image-20250717160008829.png"><img src="/post-assets/md774iez-image-20250717161127189.png" alt="image-20250717161127189.png"><blockquote><p><em>界面写着 claude，其实背后已经是 kimi-k2-0711-preview 在默默搬砖。</em></p></blockquote><hr><p></p><h2 level="2" id="常见问题与排查">常见问题与排查</h2><p></p><p><strong>1.API Key 配置无效</strong>：</p><ul><li><p>检查密钥是否有误，或是否已生效（重启终端/重新加载配置文件）。</p></li><li><p>免费额度用尽或账号未充值也会导致调用失败。</p></li></ul><p><strong>2.无法切换模型：</strong></p><ul><li><p>确认 ANTHROPIC_BASE_URL 是否正确填写为 `https://api.moonshot.cn/anthropic`。</p></li></ul><p><strong>3.调用费用过高：</strong></p><ul><li><p>每次输入均计费，建议合理规划调用频率。</p></li></ul><p></p><hr><p></p><h2 level="2" id="Kimi-K2-大模型的真香时刻">Kimi K2 大模型的&quot;真香&quot;时刻</h2><p></p><p>1. <strong>代码能力爆表</strong>：</p><ul><li><p>各种榜单吊打 GPT-4.1、DeepSeek-V3，自动化、企业开发都不在话下。</p></li></ul><p>2. <strong>超大上下文，记忆力惊人</strong>：</p><ul><li><p>128k tokens，几十万字随便塞，长文档、老项目都能 hold 住。</p></li></ul><p>3. <strong>价格感人，合规省心</strong>：</p><ul><li><p>输入 1 美元/百万 tokens，输出 3 美元/百万 tokens，省下的钱可以多喝几杯咖啡。</p></li></ul><p>4. <strong>生态丰富，接口友好</strong>：</p><ul><li><p>兼容 Anthropic 协议，CLI、GUI、VSCode 插件全都能用。</p></li></ul><p></p><h3 level="3" id="注意事项">注意事项</h3><ul><li><p>API Key 属于敏感信息，请妥善保管，避免泄露。</p></li><li><p>免费额度有限，建议及时充值以保证服务稳定。</p></li><li><p>若需切换回 Claude 原生模型，只需恢复默认 ANTHROPIC_BASE_URL。</p></li><li><p>费用按 tokens 计费，注意控制调用频率。</p></li></ul><p></p><hr><p></p><h2 level="2" id="总结">总结</h2><p></p><p>通过上述配置，即可在 Claude Code 中无缝接入 Kimi K2 大模型，享受高效、低成本的智能编程体验。Kimi K2 在代码生成、上下文处理、工程兼容性等方面均表现优异，是国内开发者的理想选择。</p><script type="module">const injectHtml = (root, html) => {
+  const iframe = document.createElement("iframe");
+  const htmlContent = `<html><head></head><body>${html}</body></html>`;
+  iframe.style.width = "100%";
+  iframe.style.height = "100%";
+  iframe.onload = () => {
+    const doc = iframe.contentDocument || iframe.contentWindow?.document;
+    if (!doc) {
+      return;
+    }
+    doc.open();
+    doc.write(htmlContent);
+    doc.close();
+  };
+  root.replaceChildren(iframe);
+}
+  document.querySelectorAll('.playground')?.forEach(el=>{
+    const html = el.getAttribute('data-html');
+    if (html) {
+      injectHtml(el,html);
+    }
+    const indicator = document.createElement("div");
+    indicator.className = "indicator";
+    const showCode = document.createElement("div");
+    showCode.className = "show-code";
+    showCode.innerText = "code";
+    showCode.onclick = () => {
+      el.parentElement.classList.remove("preview-only");
+    };
+    const showPreview = document.createElement("div");
+    showPreview.className = "show-preview";
+    showPreview.innerText = "preview";
+    showPreview.onclick = () => {
+      el.parentElement.classList.add("preview-only");
+    };
+    indicator.appendChild(showCode);
+    indicator.appendChild(showPreview);
+    el.parentElement.appendChild(indicator);
+    if (window.screen.width < 768) {
+      showPreview.click();
+    }
+  });</script></div> <div data-page-id="2507-claude-code-kimi-k2" class="navigator flex justify-between items-center mt-4 py-4"> <a href="/post/2504-sse" class="flex items-center gap-1 text-blue cursor-pointer flex-[45%]"> <div class="i-ri:arrow-left-double-line w-5 h-5 flex-shrink-0"></div> <div class="text-start">SSE 服务端推送</div> </a> <div></div> </div> </div> <div class="outline-wrapper"></div> </main>  <footer class="mt-8 flex justify-center"> <small class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"> <a href="https://github.com/AleksChen" target="_blank">© AleksChen</a> </small> </footer> </body></html>
