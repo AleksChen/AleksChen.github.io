@@ -6,7 +6,7 @@ export const config = {
     logInAuthUrl: "https://Alekschen.github.io/",
   },
   head: {
-    title: "Blog",
+    title: "Aleks",
   },
   footer: {
     copyright: "© AleksChen",

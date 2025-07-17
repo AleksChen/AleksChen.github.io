@@ -1,1 +1,641 @@
-{"__ud_title":"手写 instanceof","__ud_tags":["JavaScript"],"__ud_update_time":1733132781280,"__ud_create_time":1503459142000,"__ud_draft":false,"type":"doc","content":[{"type":"heading","attrs":{"level":1,"id":"手写-instanceof"},"content":[{"type":"text","text":"手写 instanceof"}]},{"type":"paragraph","content":[{"type":"text","text":"在前端面试中，"},{"type":"text","marks":[{"type":"code"}],"text":"instanceof"},{"type":"text","text":" 是一个常见的问题。面试官通常会要求面试者手写 "},{"type":"text","marks":[{"type":"code"}],"text":"instanceof"},{"type":"text","text":" 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。"}]},{"type":"heading","attrs":{"level":2,"id":"类型判断"},"content":[{"type":"text","text":"类型判断"}]},{"type":"paragraph","content":[{"type":"text","text":"在 JavaScript 中数据分为基本类型和引用类型。"}]},{"type":"paragraph","content":[{"type":"text","text":"基本类型"}]},{"type":"bulletList","content":[{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"Number"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"String"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"Boolean"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"undefined"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"null"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"Symbol"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"BigInt"}]}]}]},{"type":"paragraph","content":[{"type":"text","text":"引用类型"}]},{"type":"bulletList","content":[{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"Object"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"Array"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"Function"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"Date"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"RegExp"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"Map"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"Set"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"code"}],"text":"Promise"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","text":"..."}]}]}]},{"type":"paragraph","content":[{"type":"text","text":"在实际工作中，我们常常需要判断一个变量的类型。对于基本类型("},{"type":"text","marks":[{"type":"code"}],"text":"null"},{"type":"text","text":" 除外) 和 "},{"type":"text","marks":[{"type":"code"}],"text":"Function"},{"type":"text","text":" 我们可以使用 "},{"type":"text","marks":[{"type":"code"}],"text":"typeof"},{"type":"text","text":" 进行判断。对于引用类型我们则需要使用 "},{"type":"text","marks":[{"type":"code"}],"text":"instanceof"},{"type":"text","text":" 进行判断。"}]},{"type":"codeBlock","attrs":{"language":"javascript"},"content":[{"type":"text","text":"// 基本数据类型\nlet numberExample = 123;\nlet stringExample = \"hello\";\nlet booleanExample = true;\nlet nullExample = null;\nlet undefinedExample = undefined;\nlet symbolExample = Symbol(\"example\");\nlet bigIntExample = BigInt(10);\n\n// 引用类型\nlet objectExample = {};\nlet arrayExample = [];\nlet functionExample = function () {};\nlet dateExample = new Date();\nlet regExpExample = /abc/;\nlet mapExample = new Map();\nlet setExample = new Set();\nlet promiseExample = new Promise(() => {});\n\n// typeof 适用范围\nconsole.log(typeof numberExample); // number\nconsole.log(typeof stringExample); // string\nconsole.log(typeof booleanExample); // boolean\nconsole.log(typeof undefinedExample); // undefined\nconsole.log(typeof symbolExample); // symbol\nconsole.log(typeof bigIntExample); // bigint\nconsole.log(typeof functionExample); // function\n\n// typeof 对 null 和于其他引用类型无法判断\nconsole.log(typeof nullExample); // object。这是一个历史遗留问题，实际上 null 是基本数据类型\nconsole.log(typeof objectExample); // object\nconsole.log(typeof arrayExample); // object\nconsole.log(typeof dateExample); // object\nconsole.log(typeof regExpExample); // object\nconsole.log(typeof mapExample); // object\nconsole.log(typeof setExample); // object\nconsole.log(typeof promiseExample); // object\n\n// instanceof 判断对象具体是哪种类型的对象\nconsole.log(objectExample instanceof Object); // true\nconsole.log(arrayExample instanceof Array); // true\nconsole.log(functionExample instanceof Function); // true\nconsole.log(dateExample instanceof Date); // true\nconsole.log(regExpExample instanceof RegExp); // true\nconsole.log(mapExample instanceof Map); // true\nconsole.log(setExample instanceof Set); // true\nconsole.log(promiseExample instanceof Promise); // true"}]},{"type":"paragraph"},{"type":"heading","attrs":{"level":2,"id":"instanceof-是什么"},"content":[{"type":"text","text":"instanceof 是什么"}]},{"type":"paragraph","content":[{"type":"text","text":"MDN 定义："},{"type":"text","marks":[{"type":"code"}],"text":"instanceof"},{"type":"text","text":" 是 JavaScript 的一个二元操作符，用于测试构造函数的 "},{"type":"text","marks":[{"type":"code"}],"text":"prototype"},{"type":"text","text":" 属性是否出现在对象的原型链中的任何位置。换句话说，"},{"type":"text","marks":[{"type":"code"}],"text":"instanceof"},{"type":"text","text":" 可以用于判断一个对象是否由某个构造函数创建的。"}]},{"type":"codeBlock","attrs":{"language":"javascript"},"content":[{"type":"text","text":"function Car(make, model, year) {\n  this.make = make;\n  this.model = model;\n  this.year = year;\n}\n\nconst auto = new Car(\"Honda\", \"Accord\", 1998);\nconsole.log(auto instanceof Car); // true"}]},{"type":"paragraph"},{"type":"paragraph","content":[{"type":"text","text":"在这个例子中，auto 是 Car 的一个实例，所以 "},{"type":"text","marks":[{"type":"code"}],"text":"auto instanceof Car"},{"type":"text","text":" 返回 "},{"type":"text","marks":[{"type":"code"}],"text":"true"},{"type":"text","text":"。"}]},{"type":"blockquote","content":[{"type":"paragraph","content":[{"type":"text","text":"注意：左侧可以是任意类型，而右侧必须是一个函数的实例。参数错误时会报错。"}]}]},{"type":"image","attrs":{"src":"/post-assets/m46rsblg-参数要求.png","alt":"参数要求.png","title":null}},{"type":"heading","attrs":{"level":2,"id":"instanceof-原理"},"content":[{"type":"text","text":"instanceof 原理"}]},{"type":"paragraph","content":[{"type":"text","text":"每个对象都有一个 "},{"type":"text","marks":[{"type":"code"}],"text":"__proto__"},{"type":"text","text":" 属性。在对象创建的时候会将 "},{"type":"text","marks":[{"type":"code"}],"text":"__proto__"},{"type":"text","text":" 属性指向它的构造函数的 "},{"type":"text","marks":[{"type":"code"}],"text":"prototype"},{"type":"text","text":" 属性上。并且构造函数的 "},{"type":"text","marks":[{"type":"code"}],"text":"prototype"},{"type":"text","text":" 属性本身也是一个对象。它也有自己的 "},{"type":"text","marks":[{"type":"code"}],"text":"__proto__"},{"type":"text","text":" 属性。通过 "},{"type":"text","marks":[{"type":"code"}],"text":"__proto__"},{"type":"text","text":" -> "},{"type":"text","marks":[{"type":"code"}],"text":"prototype"},{"type":"text","text":" 这样串联形成一个链条，这个链条就是原型链。原型链的终点是 "},{"type":"text","marks":[{"type":"code"}],"text":"Object"},{"type":"text","text":"，`Object.prototype.__proto__` 的值为 "},{"type":"text","marks":[{"type":"code"}],"text":"null"},{"type":"text","text":"。"}]},{"type":"paragraph","content":[{"type":"text","text":"每个对象的构造函数都可以在原型链上找到，因此 "},{"type":"text","marks":[{"type":"code"}],"text":"instanceof"},{"type":"text","text":" 通过原型链可以判断对象是否由某个构造函数创建。"}]},{"type":"image","attrs":{"src":"/post-assets/m46rsblj-原型链.png","alt":"原型链.png","title":null}},{"type":"paragraph"},{"type":"heading","attrs":{"level":2,"id":"实现一个-instanceof"},"content":[{"type":"text","text":"实现一个 instanceof"}]},{"type":"heading","attrs":{"level":3,"id":"手写-instanceof"},"content":[{"type":"text","text":"手写 instanceof"}]},{"type":"paragraph","content":[{"type":"text","text":"手写 "},{"type":"text","marks":[{"type":"code"}],"text":"instanceof"},{"type":"text","text":" 的实现可以帮助我们更深入地理解 JavaScript 的原型链。下面是一个简易的 "},{"type":"text","marks":[{"type":"code"}],"text":"instanceof"},{"type":"text","text":" 实现："}]},{"type":"orderedList","attrs":{"start":1},"content":[{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","text":"参数校验"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","text":"比较 "},{"type":"text","marks":[{"type":"code"}],"text":"obj.__proto === constructor.prototype"}]},{"type":"bulletList","content":[{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","text":"找到就立即返回 "},{"type":"text","marks":[{"type":"code"}],"text":"true"}]}]},{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","text":"遍历到原型链终点 "},{"type":"text","marks":[{"type":"code"}],"text":"constructor.prototype === null"},{"type":"text","text":" 时，返回 "},{"type":"text","marks":[{"type":"code"}],"text":"false"}]}]}]}]}]},{"type":"codeBlock","attrs":{"language":"javascript"},"content":[{"type":"text","text":"function myInstanceof(obj, constructor) {\n  const BASIC_TYPE = [\n    \"[object Undefined]\",\n    \"[object Null]\",\n    \"[object Number]\",\n    \"[object String]\",\n    \"[object Boolean]\",\n    \"[object Symbol]\",\n    \"[object BigInt]\",\n  ];\n\n  const objType = Object.prototype.toString.call(obj);\n  const constructorType = Object.prototype.toString.call(constructor);\n\n  if (BASIC_TYPE.includes(constructorType)) {\n    throw TypeError(\"Right-hand side of 'instanceof' is not an object\");\n  }\n  if (typeof constructor !== \"function\") {\n    throw TypeError(\"Right-hand side of 'instanceof' is not callable\");\n  }\n  if (BASIC_TYPE.includes(objType)) {\n    return false;\n  }\n\n  let objProto = Reflect.getPrototypeOf(obj);\n  while (objProto !== null) {\n    if (Object.is(objProto, constructor.prototype)) {\n      return true;\n    }\n    objProto = Reflect.getPrototypeOf(obj);\n  }\n  return false;\n}"}]},{"type":"blockquote","content":[{"type":"paragraph","content":[{"type":"text","text":"当传入的参数是对象时，如果操作成功  "},{"type":"text","marks":[{"type":"code"}],"text":"Reflect.getPrototypeOf(target)"},{"type":"text","text":"  返回对象的原型，如果操作失败（比如，目标不是对象）则返回  "},{"type":"text","marks":[{"type":"code"}],"text":"false"},{"type":"text","text":"。"}]}]},{"type":"paragraph"},{"type":"heading","attrs":{"level":3,"id":"测试结果"},"content":[{"type":"text","text":"测试结果"}]},{"type":"image","attrs":{"src":"/post-assets/m46rsbli-测试结果.png","alt":"测试结果.png","title":null}},{"type":"paragraph"},{"type":"heading","attrs":{"level":2,"id":"总结"},"content":[{"type":"text","text":"总结"}]},{"type":"paragraph","content":[{"type":"text","text":"本文介绍了 JavaScript 类型判断的方法。对 "},{"type":"text","marks":[{"type":"code"}],"text":"instanceof"},{"type":"text","text":" 的概念、用法和实现进行了介绍。"}]},{"type":"paragraph"},{"type":"heading","attrs":{"level":2,"id":"资料"},"content":[{"type":"text","text":"资料"}]},{"type":"bulletList","content":[{"type":"listItem","content":[{"type":"paragraph","content":[{"type":"text","marks":[{"type":"link","attrs":{"href":"https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/instanceof","target":"_blank","rel":"noreferer","class":null}}],"text":"instanceof - JavaScript | MDN"}]}]}]}]}
+{
+  "__ud_title": "手写 instanceof",
+  "__ud_tags": ["JavaScript"],
+  "__ud_update_time": 1733132781280,
+  "__ud_create_time": 1503459142000,
+  "__ud_draft": false,
+  "type": "doc",
+  "content": [
+    {
+      "type": "heading",
+      "attrs": { "level": 1, "id": "手写-instanceof" },
+      "content": [{ "type": "text", "text": "手写 instanceof" }]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        { "type": "text", "text": "在前端面试中，" },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "instanceof" },
+        {
+          "type": "text",
+          "text": " 是一个常见的问题。面试官通常会要求面试者手写 "
+        },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "instanceof" },
+        {
+          "type": "text",
+          "text": " 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 2, "id": "类型判断" },
+      "content": [{ "type": "text", "text": "类型判断" }]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "在 JavaScript 中数据分为基本类型和引用类型。"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [{ "type": "text", "text": "基本类型" }]
+    },
+    {
+      "type": "bulletList",
+      "content": [
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "Number"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "String"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "Boolean"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "undefined"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "null"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "Symbol"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "BigInt"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [{ "type": "text", "text": "引用类型" }]
+    },
+    {
+      "type": "bulletList",
+      "content": [
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "Object"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "Array"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "Function"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "Date"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "RegExp"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "marks": [{ "type": "code" }], "text": "Map" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "marks": [{ "type": "code" }], "text": "Set" }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "Promise"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [{ "type": "text", "text": "..." }]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "在实际工作中，我们常常需要判断一个变量的类型。对于基本类型("
+        },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "null" },
+        { "type": "text", "text": " 除外) 和 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "Function" },
+        { "type": "text", "text": " 我们可以使用 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "typeof" },
+        { "type": "text", "text": " 进行判断。对于引用类型我们则需要使用 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "instanceof" },
+        { "type": "text", "text": " 进行判断。" }
+      ]
+    },
+    {
+      "type": "codeBlock",
+      "attrs": { "language": "javascript" },
+      "content": [
+        {
+          "type": "text",
+          "text": "// 基本数据类型\nlet numberExample = 123;\nlet stringExample = \"hello\";\nlet booleanExample = true;\nlet nullExample = null;\nlet undefinedExample = undefined;\nlet symbolExample = Symbol(\"example\");\nlet bigIntExample = BigInt(10);\n\n// 引用类型\nlet objectExample = {};\nlet arrayExample = [];\nlet functionExample = function () {};\nlet dateExample = new Date();\nlet regExpExample = /abc/;\nlet mapExample = new Map();\nlet setExample = new Set();\nlet promiseExample = new Promise(() => {});\n\n// typeof 适用范围\nconsole.log(typeof numberExample); // number\nconsole.log(typeof stringExample); // string\nconsole.log(typeof booleanExample); // boolean\nconsole.log(typeof undefinedExample); // undefined\nconsole.log(typeof symbolExample); // symbol\nconsole.log(typeof bigIntExample); // bigint\nconsole.log(typeof functionExample); // function\n\n// typeof 对 null 和于其他引用类型无法判断\nconsole.log(typeof nullExample); // object。这是一个历史遗留问题，实际上 null 是基本数据类型\nconsole.log(typeof objectExample); // object\nconsole.log(typeof arrayExample); // object\nconsole.log(typeof dateExample); // object\nconsole.log(typeof regExpExample); // object\nconsole.log(typeof mapExample); // object\nconsole.log(typeof setExample); // object\nconsole.log(typeof promiseExample); // object\n\n// instanceof 判断对象具体是哪种类型的对象\nconsole.log(objectExample instanceof Object); // true\nconsole.log(arrayExample instanceof Array); // true\nconsole.log(functionExample instanceof Function); // true\nconsole.log(dateExample instanceof Date); // true\nconsole.log(regExpExample instanceof RegExp); // true\nconsole.log(mapExample instanceof Map); // true\nconsole.log(setExample instanceof Set); // true\nconsole.log(promiseExample instanceof Promise); // true"
+        }
+      ]
+    },
+    { "type": "paragraph" },
+    {
+      "type": "heading",
+      "attrs": { "level": 2, "id": "instanceof-是什么" },
+      "content": [{ "type": "text", "text": "instanceof 是什么" }]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        { "type": "text", "text": "MDN 定义：" },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "instanceof" },
+        {
+          "type": "text",
+          "text": " 是 JavaScript 的一个二元操作符，用于测试构造函数的 "
+        },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "prototype" },
+        {
+          "type": "text",
+          "text": " 属性是否出现在对象的原型链中的任何位置。换句话说，"
+        },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "instanceof" },
+        {
+          "type": "text",
+          "text": " 可以用于判断一个对象是否由某个构造函数创建的。"
+        }
+      ]
+    },
+    {
+      "type": "codeBlock",
+      "attrs": { "language": "javascript" },
+      "content": [
+        {
+          "type": "text",
+          "text": "function Car(make, model, year) {\n  this.make = make;\n  this.model = model;\n  this.year = year;\n}\n\nconst auto = new Car(\"Honda\", \"Accord\", 1998);\nconsole.log(auto instanceof Car); // true"
+        }
+      ]
+    },
+    { "type": "paragraph" },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "在这个例子中，auto 是 Car 的一个实例，所以 "
+        },
+        {
+          "type": "text",
+          "marks": [{ "type": "code" }],
+          "text": "auto instanceof Car"
+        },
+        { "type": "text", "text": " 返回 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "true" },
+        { "type": "text", "text": "。" }
+      ]
+    },
+    {
+      "type": "blockquote",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            {
+              "type": "text",
+              "text": "注意：左侧可以是任意类型，而右侧必须是一个函数的实例。参数错误时会报错。"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "attrs": {
+        "src": "/post-assets/m46rsblg-参数要求.png",
+        "alt": "参数要求.png",
+        "title": null
+      }
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 2, "id": "instanceof-原理" },
+      "content": [{ "type": "text", "text": "instanceof 原理" }]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        { "type": "text", "text": "每个对象都有一个 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "__proto__" },
+        { "type": "text", "text": " 属性。在对象创建的时候会将 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "__proto__" },
+        { "type": "text", "text": " 属性指向它的构造函数的 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "prototype" },
+        { "type": "text", "text": " 属性上。并且构造函数的 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "prototype" },
+        { "type": "text", "text": " 属性本身也是一个对象。它也有自己的 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "__proto__" },
+        { "type": "text", "text": " 属性。通过 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "__proto__" },
+        { "type": "text", "text": " -> " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "prototype" },
+        {
+          "type": "text",
+          "text": " 这样串联形成一个链条，这个链条就是原型链。原型链的终点是 "
+        },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "Object" },
+        { "type": "text", "text": "，`Object.prototype.__proto__` 的值为 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "null" },
+        { "type": "text", "text": "。" }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        {
+          "type": "text",
+          "text": "每个对象的构造函数都可以在原型链上找到，因此 "
+        },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "instanceof" },
+        {
+          "type": "text",
+          "text": " 通过原型链可以判断对象是否由某个构造函数创建。"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "attrs": {
+        "src": "/post-assets/m46rsblj-原型链.png",
+        "alt": "原型链.png",
+        "title": null
+      }
+    },
+    { "type": "paragraph" },
+    {
+      "type": "heading",
+      "attrs": { "level": 2, "id": "实现一个-instanceof" },
+      "content": [{ "type": "text", "text": "实现一个 instanceof" }]
+    },
+    {
+      "type": "heading",
+      "attrs": { "level": 3, "id": "手写-instanceof" },
+      "content": [{ "type": "text", "text": "手写 instanceof" }]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        { "type": "text", "text": "手写 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "instanceof" },
+        {
+          "type": "text",
+          "text": " 的实现可以帮助我们更深入地理解 JavaScript 的原型链。下面是一个简易的 "
+        },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "instanceof" },
+        { "type": "text", "text": " 实现：" }
+      ]
+    },
+    {
+      "type": "orderedList",
+      "attrs": { "start": 1 },
+      "content": [
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [{ "type": "text", "text": "参数校验" }]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                { "type": "text", "text": "比较 " },
+                {
+                  "type": "text",
+                  "marks": [{ "type": "code" }],
+                  "text": "obj.__proto === constructor.prototype"
+                }
+              ]
+            },
+            {
+              "type": "bulletList",
+              "content": [
+                {
+                  "type": "listItem",
+                  "content": [
+                    {
+                      "type": "paragraph",
+                      "content": [
+                        { "type": "text", "text": "找到就立即返回 " },
+                        {
+                          "type": "text",
+                          "marks": [{ "type": "code" }],
+                          "text": "true"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "content": [
+                    {
+                      "type": "paragraph",
+                      "content": [
+                        { "type": "text", "text": "遍历到原型链终点 " },
+                        {
+                          "type": "text",
+                          "marks": [{ "type": "code" }],
+                          "text": "constructor.prototype === null"
+                        },
+                        { "type": "text", "text": " 时，返回 " },
+                        {
+                          "type": "text",
+                          "marks": [{ "type": "code" }],
+                          "text": "false"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "codeBlock",
+      "attrs": { "language": "javascript" },
+      "content": [
+        {
+          "type": "text",
+          "text": "function myInstanceof(obj, constructor) {\n  const BASIC_TYPE = [\n    \"[object Undefined]\",\n    \"[object Null]\",\n    \"[object Number]\",\n    \"[object String]\",\n    \"[object Boolean]\",\n    \"[object Symbol]\",\n    \"[object BigInt]\",\n  ];\n\n  const objType = Object.prototype.toString.call(obj);\n  const constructorType = Object.prototype.toString.call(constructor);\n\n  if (BASIC_TYPE.includes(constructorType)) {\n    throw TypeError(\"Right-hand side of 'instanceof' is not an object\");\n  }\n  if (typeof constructor !== \"function\") {\n    throw TypeError(\"Right-hand side of 'instanceof' is not callable\");\n  }\n  if (BASIC_TYPE.includes(objType)) {\n    return false;\n  }\n\n  let objProto = Reflect.getPrototypeOf(obj);\n  while (objProto !== null) {\n    if (Object.is(objProto, constructor.prototype)) {\n      return true;\n    }\n    objProto = Reflect.getPrototypeOf(obj);\n  }\n  return false;\n}"
+        }
+      ]
+    },
+    {
+      "type": "blockquote",
+      "content": [
+        {
+          "type": "paragraph",
+          "content": [
+            { "type": "text", "text": "当传入的参数是对象时，如果操作成功  " },
+            {
+              "type": "text",
+              "marks": [{ "type": "code" }],
+              "text": "Reflect.getPrototypeOf(target)"
+            },
+            {
+              "type": "text",
+              "text": "  返回对象的原型，如果操作失败（比如，目标不是对象）则返回  "
+            },
+            { "type": "text", "marks": [{ "type": "code" }], "text": "false" },
+            { "type": "text", "text": "。" }
+          ]
+        }
+      ]
+    },
+    { "type": "paragraph" },
+    {
+      "type": "heading",
+      "attrs": { "level": 3, "id": "测试结果" },
+      "content": [{ "type": "text", "text": "测试结果" }]
+    },
+    {
+      "type": "image",
+      "attrs": {
+        "src": "/post-assets/m46rsbli-测试结果.png",
+        "alt": "测试结果.png",
+        "title": null
+      }
+    },
+    { "type": "paragraph" },
+    {
+      "type": "heading",
+      "attrs": { "level": 2, "id": "总结" },
+      "content": [{ "type": "text", "text": "总结" }]
+    },
+    {
+      "type": "paragraph",
+      "content": [
+        { "type": "text", "text": "本文介绍了 JavaScript 类型判断的方法。对 " },
+        { "type": "text", "marks": [{ "type": "code" }], "text": "instanceof" },
+        { "type": "text", "text": " 的概念、用法和实现进行了介绍。" }
+      ]
+    },
+    { "type": "paragraph" },
+    {
+      "type": "heading",
+      "attrs": { "level": 2, "id": "资料" },
+      "content": [{ "type": "text", "text": "资料" }]
+    },
+    {
+      "type": "bulletList",
+      "content": [
+        {
+          "type": "listItem",
+          "content": [
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "marks": [
+                    {
+                      "type": "link",
+                      "attrs": {
+                        "href": "https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/instanceof",
+                        "target": "_blank",
+                        "rel": "noreferer",
+                        "class": null
+                      }
+                    }
+                  ],
+                  "text": "instanceof - JavaScript | MDN"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
