@@ -12,11 +12,16 @@ const { posts, page, more } = Astro.props;
 ---
 
 <script>
-  import { mount } from "../components/RelativeTime";
+  import { mount as mountRelativeTime } from "../components/RelativeTime";
+  import { mount as mountSearch } from "../components/Search";
 
-  mount("data-acc-time");
+  mountRelativeTime("data-acc-time");
+  mountSearch("#search-container");
 </script>
 <Layout title="Aleks">
+  <div slot="operations" id="editor-operarions" class="flex gap-2 items-center">
+    <div id="search-container"></div>
+  </div>
   <div
     class="w-full h-40 font-bold text-2xl flex items-center justify-center text-white bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple yellow-500 md:text-5xl"
   >
@@ -27,7 +32,7 @@ const { posts, page, more } = Astro.props;
       {
         posts.map((item) => (
           <>
-            <div class=" px-4 pt-4 pb-2">
+            <div class="post-item px-4 pt-4 pb-2">
               <a
                 href={`/post/${item.id}`}
                 class="pb-4 flex justify-between items-center group"
