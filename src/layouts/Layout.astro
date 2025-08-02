@@ -52,10 +52,10 @@ const { title, description, footer = true } = Astro.props;
         </div>
       </a>
       <div class="flex gap-2 items-center header-operations">
+        <slot name="operations" />
         {
           import.meta.env.DEV && (
             <>
-              <slot name="operations" />
               {<Auth />}
             </>
           )
