@@ -75,14 +75,14 @@ export const mount = (
 
   const searchContainer = (
     <div class={`w-full max-w-500px mx-auto ${className}`}>
-      <div class="search-container relative flex items-center justify-center bg-gray-50 dark:bg-gray-800 border-2 border-transparent rounded-xl transition-all duration-300 shadow-sm hover:shadow-md focus-within:(border-primary bg-white dark:bg-gray-900 shadow-lg -translate-y-0.5) w-8 h-8 cursor-pointer">
+      <div class="search-container relative flex items-center justify-center bg-gray-50 dark:bg-gray-800 border-2 border-transparent rounded-xl transition-all duration-300 shadow-sm hover:shadow-md focus-within:(border-primary bg-white dark:bg-gray-900 shadow-lg -translate-y-0.5) w-6 h-6 cursor-pointer">
         <div
           class="flex items-center justify-center text-gray-400 transition-colors duration-200 focus-within:text-primary flex-shrink-0 absolute"
           onClick={handleToggleSearch}
         >
           <svg
-            width="20"
-            height="20"
+            width="12"
+            height="12"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -97,16 +97,16 @@ export const mount = (
         <input
           type="text"
           placeholder={placeholder}
-          class="flex-1 border-none outline-none bg-transparent text-base font-medium text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 opacity-0 w-0 transition-all duration-300"
+          class="flex-1 border-none outline-none bg-transparent text-sm font-medium text-gray-900 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-500 opacity-0 w-0 transition-all duration-300"
           onInput={handleSearch}
         />
         <button
-          class="flex items-center justify-center bg-gray-200 dark:bg-gray-700 border-none rounded-full w-6 h-6 cursor-pointer transition-all duration-200 text-gray-500 hover:(bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 scale-110) active:scale-95 ml-2 flex-shrink-0 opacity-0 pointer-events-none"
+          class="flex items-center justify-center bg-gray-200 dark:bg-gray-700 border-none rounded-full w-4 h-4 cursor-pointer transition-all duration-200 text-gray-500 hover:(bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-300 scale-110) active:scale-95 ml-2 flex-shrink-0 opacity-0 pointer-events-none"
           onClick={handleClear}
         >
           <svg
-            width="14"
-            height="14"
+            width="12"
+            height="12"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -130,19 +130,19 @@ export const mount = (
       margin: 0 auto !important;
     }
     .search-container:not(.expanded) {
-      width: 32px !important;
+      width: 24px !important;
       justify-content: center !important;
     }
     .search-container.expanded {
       width: 100% !important;
-      padding-left: 8px !important;
-      padding-right: 8px !important;
+      padding-left: 4px !important;
+      padding-right: 4px !important;
       justify-content: flex-start !important;
     }
     .search-container.expanded input {
       opacity: 1 !important;
       width: 100% !important;
-      margin-left: 8px;
+      margin-left: 4px;
     }
     .search-container.expanded button {
       opacity: 1 !important;
