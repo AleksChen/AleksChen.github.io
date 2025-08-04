@@ -2,6 +2,7 @@
 import "@/index.scss";
 import Auth from "@/components/Auth/index.astro";
 import Footer from "@/components/Footer.astro";
+import config from "urodele.config";
 
 interface Props {
   title?: string;
@@ -51,21 +52,32 @@ const { title, description, footer = true } = Astro.props;
         >
         </div>
       </a>
-      <div class="flex gap-2 items-center header-operations">
-        <slot name="operations" />
-        {
-          import.meta.env.DEV && (
-            <>
-              {<Auth />}
-            </>
-          )
-        }
+      <div class="flex gap-2 items-center">
+        <div class="flex gap-2 items-center header-operations">
+          <slot name="operations" />
+          <div class="flex gap-2 items-center">
+            <a href={config.head.links.github} target="_blank">
+              <div
+                class="i-ri:github-fill w-6 h-6 hover:scale-120 transition-transform"
+              >
+              </div>
+            </a>
+            <a href={config.head.links.juejin} target="_blank">
+              <div
+                class="i-ri:blogger-line w-6 h-6 hover:scale-120 transition-transform"
+              >
+              </div>
+            </a>
+          </div>
+        </div>
+        {import.meta.env.DEV && <>{<Auth />}</>}
       </div>
     </header>
-    <slot />
-    {footer && <Footer />}
   </body>
+  <slot />
+  {footer && <Footer />}
 </html>
+
 <style is:global>
   main {
     display: flex;

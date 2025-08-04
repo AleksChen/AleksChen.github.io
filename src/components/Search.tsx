@@ -77,7 +77,7 @@ export const mount = (
     <div class={`w-full max-w-500px mx-auto ${className}`}>
       <div class="search-container relative flex items-center justify-center bg-gray-50 dark:bg-gray-800 border-2 border-transparent rounded-xl transition-all duration-300 shadow-sm hover:shadow-md focus-within:(border-primary bg-white dark:bg-gray-900 shadow-lg -translate-y-0.5) w-6 h-6 cursor-pointer">
         <div
-          class="flex items-center justify-center text-gray-400 transition-colors duration-200 focus-within:text-primary flex-shrink-0 absolute"
+          class="flex items-center justify-center text-gray-400 transition-colors duration-200 focus-within:text-primary flex-shrink-0 absolute hover:scale-120 transition-transform"
           onClick={handleToggleSearch}
         >
           <svg

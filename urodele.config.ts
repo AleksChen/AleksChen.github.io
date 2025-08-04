@@ -7,6 +7,11 @@ export const config = {
   },
   head: {
     title: "Aleks",
+    description: "Alekschen's blog",
+    links: {
+      github: "https://github.com/AleksChen",
+      juejin: "https://juejin.cn/user/254742428393742",
+    },
   },
   footer: {
     copyright: "© AleksChen",
