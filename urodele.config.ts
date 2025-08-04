@@ -14,7 +14,7 @@ export const config = {
     },
   },
   footer: {
-    copyright: "© AleksChen",
+    copyright: "AleksChen",
     copyrightUrl: "https://github.com/AleksChen",
   },
   giscus: false as object | false,
