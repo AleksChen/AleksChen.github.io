@@ -17,15 +17,36 @@ const { posts, page, more } = Astro.props;
 
   mountRelativeTime("data-acc-time");
   mountSearch("#search-container");
+
+  // 滚动时文字逐渐消失效果
+  const handleScroll = () => {
+    const titleElement = document.querySelector(".blog-title") as HTMLElement;
+    if (!titleElement) return;
+
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const maxScroll = 50;
+
+    const opacity = Math.max(0, 1 - scrollTop / maxScroll);
+    titleElement.style.opacity = opacity.toString();
+  };
+
+  // 添加滚动监听
+  window.addEventListener("scroll", handleScroll);
+  // 初始化时执行一次
+  handleScroll();
 </script>
 <Layout title="Aleks">
   <div slot="operations" id="editor-operarions" class="flex gap-2 items-center">
     <div id="search-container"></div>
   </div>
   <div
-    class="w-full h-40 font-bold text-2xl flex items-center justify-center text-white bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple yellow-500 md:text-5xl"
+    class="w-full h-40 items-center flex justify-center bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple yellow-500 md:pb-15"
   >
-    AleksChen's Blog
+    <div
+      class="blog-title font-bold text-2xl text-white md:text-5xl transition-opacity duration-300"
+    >
+      AleksChen's Blog
+    </div>
   </div>
   <main>
     <div class="content">
