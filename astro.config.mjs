@@ -12,7 +12,10 @@ export default defineConfig({
   integrations: [
     UnoCSS({ injectReset: true }),
     sitemap({
-      filter: (page) => page.startsWith("https://alekschen.github.io/post/"),
+      filter: (page) => {
+        // 排除编辑页面和登录页面
+        return !page.includes('/edit') && !page.includes('/login');
+      },
     }),
   ],
   server: {
