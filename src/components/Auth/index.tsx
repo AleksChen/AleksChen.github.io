@@ -5,7 +5,7 @@ import { getUserInfo, login, logout } from "./auth.js";
 import { getGlobalData } from "@/utils/data.js";
 import { formatSecond } from "@/shared/time.js";
 import styles from "./style.module.scss";
-import config from "urodele.config";
+import config from "site.config.js";
 import type { UserInfo } from "@/shared/storage.js";
 
 const Login = () => {

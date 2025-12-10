@@ -1,6 +1,6 @@
 import { getLocalUser, setLocalUser, USER_KEY } from "@/shared/storage";
 import { Octokit } from "octokit";
-import config from "urodele.config";
+import config from "site.config";
 
 export const getUserInfo = () => {
   const userInfo = getLocalUser();

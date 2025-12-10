@@ -1,0 +1,93 @@
+---
+title: "Cursor 接入 Figma MCP"
+date: 2025-04-01T07:33:49.472Z
+updatedAt: 2025-04-03T07:32:36.809Z
+tags:
+  - "AI"
+draft: false
+---
+
+# **Cursor 接入 Figma MCP**
+
+## MCP
+
+MCP (Model Control Protocol) 是 Cursor 提供的一个协议，允许外部服务为 Cursor AI 提供额外的上下文信息。通过 Figma MCP，我们可以让 Cursor 直接读取 Figma 设计稿的信息，从而实现更精准的代码还原。
+
+![1.png](/post-assets/m8yazve0-1.png)
+
+## 环境配置
+
+### 启动 Figma MCP 服务器
+
+在 Figma 控制台获取到 figma-api-key（至少需要可读权限）。复制下来生成的 `api-key` 然后在终端执行命令。
+
+```shell
+pnpx figma-developer-mcp --figma-api-key=<your-figma-api-key>
+```
+
+运行后，显示在本地 3333 端口启动 Figma MCP Server
+
+![2.jpg](/post-assets/m8yazve7-2.jpg)
+
+### Cursor MCP 配置
+
+在 Cursor 设置中添加 MCP 配置（Cursor Version: 0.47.8）
+
+![3.jpg](/post-assets/m8yazve4-3.jpg)
+
+在 `mcp.json` 中设置 Figma MCP Server 地址
+
+```json
+{ 
+	"mcpServers": { 
+		"Figma": { 
+			"url": "http://localhost:3333/sse" 
+		} 
+	} 
+}
+```
+
+看到绿灯亮起就是说明配置成功
+
+![4.png](/post-assets/m8yazve6-4.png)
+
+## Figma MCP 使用
+
+Figma MCP 只是增强了 Cursor 的能力，使其具备了和 Figma 设计稿交互的能力。我们只需要在使用 Cursor 的过程中，将设计稿的信息附上。Cursor 就能够自动去获取目标元素的设计信息，更好地还原。
+
+![5.jpg](/post-assets/m8yazve6-5.jpg)
+
+在 Prompt 中附上 Figma Section URL 并指定需要写入的文件（开启 Agent 模式）
+
+![6.jpg](/post-assets/m8yazve6-6.jpg)
+
+![7.jpg](/post-assets/m8yazve7-7.jpg)
+
+### 还原效果
+
+从结果来看，还原效果比截图上传要好。
+
+![8.png](/post-assets/m8yazve7-8.png)
+
+## 注意事项
+
+1. Figma 文件需要具有适当的访问权限
+
+2. MCP 服务器需要保持运行状态，否则 Cursor 将无法获取设计信息
+
+3. 复制的 Figma Section URL 必须是具体元素的链接，而不是整个页面的链接
+
+4. 目前 MCP 主要支持基础的样式信息，复杂的交互效果可能需要手动调整
+
+## 总结
+
+Figma MCP 为 Cursor AI 提供了直接获取设计稿信息的能力，相比传统的截图上传方式，它能够：
+
+1. 更准确地获取颜色、尺寸、字体等样式信息
+
+2. 减少手动测量和调整的工作量
+
+3. 提高代码还原的效率和准确度
+
+这种工作流程特别适合前端开发团队，能够显著提升设计稿还原的效率。不过在使用过程中需要注意配置正确的权限和保持 MCP 服务器的稳定运行。
+

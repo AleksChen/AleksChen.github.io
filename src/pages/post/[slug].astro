@@ -1,0 +1,142 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getPostList, getPostBySlug } from "@/lib/tina";
+import { marked } from "marked";
+import config from "site.config";
+
+export async function getStaticPaths() {
+  const posts = await getPostList(false);
+  return posts.map((p) => ({
+    params: { slug: p.slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const post = await getPostBySlug(slug!);
+
+if (!post) {
+  return Astro.redirect("/404");
+}
+
+const allPosts = await getPostList();
+const curIndex = allPosts.findIndex((p) => p.id === post.id);
+const prev = allPosts[curIndex + 1];
+const next = allPosts[curIndex - 1];
+
+// Markdown -> HTML
+const html = await marked.parse(post.body);
+---
+
+<script>
+  import { mount } from "@/components/Pager";
+  import { mount as mountOutline } from "@/components/Outline";
+
+  mount(".navigator", "data-page-id");
+  mountOutline(".outline-wrapper");
+</script>
+
+<Layout title={post.title} description={post.intro}>
+  <main>
+    <div class="content">
+      <div class="w-full flex gap-2 pb-2">
+        {
+          post.tags.map((tag) => (
+            <a
+              href={`/tag/${encodeURIComponent(tag)}`}
+              class="rounded hover:bg-gray-200 dark:hover:bg-modal px-3 py-1 cursor-pointer"
+            >
+              #{tag}
+            </a>
+          ))
+        }
+      </div>
+      <article class="prose prose-lg dark:prose-invert max-w-none" set:html={html} />
+
+      <div
+        data-page-id={post.id}
+        class="navigator flex justify-between items-center mt-4 py-4"
+      >
+        {
+          prev ? (
+            <a
+              href={`/post/${prev.slug}`}
+              class="flex items-center gap-1 text-blue cursor-pointer flex-[45%]"
+            >
+              <div class="i-ri:arrow-left-double-line w-5 h-5 flex-shrink-0" />
+              <div class="text-start">{prev.title}</div>
+            </a>
+          ) : (
+            <div />
+          )
+        }
+        {
+          next ? (
+            <a
+              href={`/post/${next.slug}`}
+              class="flex items-center justify-end gap-1 text-blue cursor-pointer flex-[45%]"
+            >
+              <div class="text-end">{next.title}</div>
+              <div class="i-ri:arrow-right-double-line w-5 h-5 flex-shrink-0" />
+            </a>
+          ) : (
+            <div />
+          )
+        }
+      </div>
+    </div>
+    <div class="outline-wrapper"></div>
+  </main>
+  {
+    config.giscus && (
+      <div class="giscus-container flex justify-center">
+        <div class="w-full max-w-[870px] mx-8">
+          <script {...config.giscus} />
+        </div>
+      </div>
+    )
+  }
+</Layout>
+
+<style>
+  /* Markdown 样式 */
+  .prose h1 {
+    @apply text-3xl font-bold mt-8 mb-4;
+  }
+  .prose h2 {
+    @apply text-2xl font-bold mt-6 mb-3;
+  }
+  .prose h3 {
+    @apply text-xl font-bold mt-4 mb-2;
+  }
+  .prose p {
+    @apply my-4 leading-relaxed;
+  }
+  .prose pre {
+    @apply bg-gray-100 dark:bg-gray-800 rounded-lg p-4 overflow-x-auto my-4;
+  }
+  .prose code {
+    @apply bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm;
+  }
+  .prose pre code {
+    @apply bg-transparent p-0;
+  }
+  .prose ul {
+    @apply list-disc list-inside my-4;
+  }
+  .prose ol {
+    @apply list-decimal list-inside my-4;
+  }
+  .prose blockquote {
+    @apply border-l-4 border-gray-300 pl-4 italic my-4;
+  }
+  .prose img {
+    @apply max-w-full rounded-lg my-4;
+  }
+  .prose a {
+    @apply text-blue-600 hover:underline;
+  }
+  .prose hr {
+    @apply my-8 border-gray-300;
+  }
+</style>
+

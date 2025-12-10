@@ -1,10 +1,11 @@
 {
+  "extends": "astro/tsconfigs/strict",
   "compilerOptions": {
     "jsx": "react",
-     "paths": {
-        "@/*":["./src/*"],
-        "urodele.config":["./urodele.config.ts"],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "site.config": ["./site.config.ts"]
     }
-  },
-  "extends": "astro/tsconfigs/strict",
+  }
 }

@@ -1,0 +1,126 @@
+---
+title: "setTimeout 最小延迟机制"
+date: 2025-01-09T07:33:49.472Z
+updatedAt: 2025-01-09T08:12:09.482Z
+tags:
+  - "JavaScript"
+draft: false
+---
+
+# setTimeout 最小延迟机制
+
+## 引言
+
+在 JavaScript 中，`setTimeout` 是最常用的定时器 API 之一。然而，很多开发者可能并不了解，当我们设置一个理论上的"0毫秒"延迟时，实际上并不会为 0ms。在某些场景下实际执行时间甚至永远不会小于 4ms。这个看似奇怪的限制背后有着深层的技术原因和历史渊源。
+
+## 最小延迟值的演变
+
+### 历史变迁
+
+- 1995年：JavaScript 首次在 Netscape Navigator 中引入
+- 2003年：IE 实现了 15.625ms 的最小延迟
+- 2009年：Firefox 采用了 10ms 的限制
+- 2010年：HTML5 规范将嵌套层级大于等于 5 的场景的最小延迟标准化为 4ms，层级小于 5 的情况下最小延迟标准化为 0ms
+
+## 规范依据
+
+### HTML 规范
+
+根据 HTML Living Standard 规范：
+
+1. 如果设置的 `timeout` 小于 0，则设置为 0
+2. 如果嵌套的层级超过了 5 层，并且 timeout 小于 4ms，则设置 timeout 为 4ms。
+
+![image.png](/post-assets/m5p0iae8-image.png)
+
+### Chrome 源码分析
+
+在 Chromium 的源代码中，我们可以看到相关实现：
+
+```cpp
+static const int kMaxTimerNestingLevel = 5;
+static const double kMinimumInterval = 0.004; // 4ms
+```
+
+## 技术原理解析
+
+### 1. 事件循环与定时器
+
+JavaScript 的事件循环机制是理解 setTimeout 行为的关键。定时器不是一个真正的"睡眠"，而是将回调函数放入一个待执行队列。等到满足定时条件后，再执行回调函数。
+
+### 2. 最小延迟测算
+
+下面是一个测算 `setTimeout` 实际延迟时间的示例
+
+```javascript
+// 示例：嵌套定时器的行为
+function nestedTimer(depth = 0) {
+    const start = performance.now();
+    setTimeout(() => {
+        const delay = performance.now() - start;
+        console.log(`Depth ${depth}, Actual delay: ${delay}ms`);
+        if (depth < 10) nestedTimer(depth + 1);
+    }, 0);
+}
+```
+
+![image.png](/post-assets/m5p0iae7-image.png)
+
+**结果分析**
+
+当嵌套层数少于 5 层时，；理论延迟时间是 0ms；当嵌套层数大于等于 5 层时，理论延迟时间是 4ms（此处和 HTML 规范不一样）。但实际的执行延时受制于事件循环机制，`setTimeout` 回调需要等待：
+
+1. 当前同步代码执行完；
+2. 微任务队列情况
+3. 定时器到期
+4. 等待下一个宏任务执行时机
+5. 代码执行开销
+
+因此，实际的时延会比设置值向上浮动。但 timeout 值的下限是受到嵌套层级约束的。
+
+## 性能影响与优化
+
+### 1. CPU 和电池影响
+
+过于频繁的定时器调用会导致：
+
+- CPU 使用率上升
+- 设备发热增加
+- 电池寿命减少
+
+### 2. 替代方案
+
+对于需要高精度计时的场景，推荐使用：
+
+1. requestAnimationFrame
+
+```javascript
+requestAnimationFrame(() => { 
+	// 用于动画的精确控制 
+});
+```
+
+1. Web Workers
+
+```javascript
+// worker.js 
+setInterval(() => { 
+	postMessage('tick'); 
+}, 0);
+```
+
+1. Performance.now()
+
+```javascript
+const start = Performance.now(); // 用于精确计时
+```
+
+## 结论
+
+setTimeout 的 4ms 最小延迟是一个经过深思熟虑的设计决策，它平衡了开发便利性、性能开销和浏览器兼容性。理解这个机制有助于我们写出更好的异步代码。
+
+## 参考资料
+
+- [HTML Standard](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout)
+- [为什么 setTimeout 有最小时延 4ms ?](https://mp.weixin.qq.com/s/4P7ohpRmBChXQpLC-MHgHQ)
+

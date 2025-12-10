@@ -1,8 +1,12 @@
 ---
 import { sortByPin } from "@/shared/tag";
-import Home from "../components/Home.astro";
-import { getPageList } from "./api/post/list";
-const posts = sortByPin(await getPageList());
+import Home from "../components/Home-tina.astro";
+import { getPostList } from "@/lib/tina";
+
+const rawPosts = await getPostList();
+// 适配原有的 sortByPin 函数
+const posts = sortByPin(rawPosts as any);
 ---
 
 <Home posts={posts.slice(0, 10)} page={0} more={posts.length > 10} />
+
