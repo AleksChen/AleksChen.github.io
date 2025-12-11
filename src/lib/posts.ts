@@ -1,7 +1,3 @@
-// TinaCMS 数据获取工具
-// 这个文件在 TinaCMS 初始化后会被自动生成的 client 替代
-// 这里提供一个兼容层，方便迁移
-
 import { readdir, readFile } from "fs/promises";
 import path from "path";
 import matter from "gray-matter";
@@ -118,7 +114,7 @@ export async function getPostList(filterDraft = true): Promise<ShortPostData[]> 
 export async function getPostBySlug(slug: string): Promise<PostData | null> {
   const files = await readdir(POSTS_DIR);
   const file = files.find(
-    (f) => f === `${slug}.mdx` || f === `${slug}.md`
+    (f) => f === `${slug}.mdx` || f === `${slug}.md` || f === `${slug}.mdoc`
   );
 
   if (!file) return null;

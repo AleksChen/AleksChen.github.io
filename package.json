@@ -7,11 +7,16 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "edit": "npm run dev & sleep 1 && open http://localhost:4321/keystatic",
+    "clean-images": "tsx scripts/clean-images.ts"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
+    "@astrojs/react": "^4.4.2",
     "@astrojs/sitemap": "^3.6.0",
+    "@keystatic/astro": "^5.0.6",
+    "@keystatic/core": "^0.5.48",
     "astro": "^5.16.4",
     "dayjs": "^1.11.13",
     "github-slugger": "^2.0.0",
@@ -19,7 +24,10 @@
     "jsx-dom": "^8.1.6",
     "marked": "^17.0.1",
     "octokit": "^5.0.5",
-    "typescript": "^5.6.3"
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "typescript": "^5.6.3",
+    "unocss": "^0.65.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.15.0",
@@ -29,6 +37,7 @@
     "@iconify-json/ri": "^1.2.3",
     "@iconify-json/svg-spinners": "^1.2.1",
     "@types/node": "^22.9.0",
+    "@unocss/reset": "^0.65.0",
     "eslint": "^9.15.0",
     "globals": "^15.12.0",
     "sass": "^1.81.0",

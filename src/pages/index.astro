@@ -1,12 +1,11 @@
 ---
 import { sortByPin } from "@/shared/tag";
-import Home from "../components/Home-tina.astro";
-import { getPostList } from "@/lib/tina";
+import Home from "../components/Home.astro";
+import { getPostList } from "@/lib/posts";
 
 const rawPosts = await getPostList();
 // 适配原有的 sortByPin 函数
 const posts = sortByPin(rawPosts as any);
 ---
 
-<Home posts={posts.slice(0, 10)} page={0} more={posts.length > 10} />
-
+<Home posts={posts.slice(0, 20)} page={0} more={posts.length > 10} />

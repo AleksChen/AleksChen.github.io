@@ -2,13 +2,20 @@
 import { defineConfig } from "astro/config";
 import { fileURLToPath } from "url";
 import sitemap from "@astrojs/sitemap";
+import keystatic from "@keystatic/astro";
+import react from "@astrojs/react";
+import UnoCSS from "@unocss/astro";
 
 // https://astro.build/config
 export default defineConfig({
   trailingSlash: "never",
-  output: import.meta.env.DEV ? "server" : "static",
   site: "https://alekschen.github.io",
   integrations: [
+    react(),
+    ...(import.meta.env.DEV ? [keystatic()] : []),
+    UnoCSS({
+      injectReset: true,
+    }),
     sitemap({
       filter: (page) => {
         // 排除编辑页面和登录页面

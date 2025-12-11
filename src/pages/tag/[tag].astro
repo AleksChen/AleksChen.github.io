@@ -1,0 +1,115 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { getPostList, type ShortPostData } from "@/lib/posts";
+
+export async function getStaticPaths() {
+  const allPosts = await getPostList();
+  const tagsMap = new Map<string, ShortPostData[]>();
+  allPosts.forEach((post) => {
+    post.tags.forEach((tag) => {
+      if (!tagsMap.has(tag)) {
+        tagsMap.set(tag, []);
+      }
+      tagsMap.get(tag)?.push(post);
+    });
+  });
+
+  return Array.from(tagsMap.entries()).map(([tag, posts]) => ({
+    params: { tag },
+    props: { tag, posts },
+  }));
+}
+
+interface Props {
+  tag: string;
+  posts: ShortPostData[];
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<script>
+  import { mount as mountRelativeTime } from "../../components/RelativeTime";
+  import { mount as mountSearch } from "../../components/Search";
+
+  mountRelativeTime("data-acc-time");
+  mountSearch("#search-container");
+</script>
+
+<Layout title={`Tag: ${tag}`}>
+  <div slot="operations" id="editor-operarions" class="flex gap-2 items-center">
+    <div id="search-container"></div>
+  </div>
+
+  <div class="flex flex-col gap-8">
+    <section class="text-center py-8 md:py-12 animate-slide-in">
+      <h1
+        class="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 mb-4"
+      >
+        #{tag}
+      </h1>
+      <p class="text-text-muted text-lg max-w-2xl mx-auto">
+        共 {posts?.length || 0} 篇文章
+      </p>
+    </section>
+
+    <div class="flex flex-col gap-6">
+      {
+        posts?.map((item, index) => (
+          <article
+            class="group relative bg-card hover:bg-bg-secondary border border-border rounded-xl p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            style={`animation-delay: ${index * 100}ms`}
+          >
+            <div class="flex flex-col md:flex-row gap-4 md:items-start justify-between">
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-3 text-xs text-text-muted mb-2">
+                  <span class="flex items-center gap-1">
+                    <div class="i-ri:calendar-line" />
+                    {new Date(item.createTime).toLocaleDateString()}
+                  </span>
+                </div>
+
+                <h2 class="text-xl md:text-2xl font-bold text-text mb-3 line-clamp-2">
+                  <a
+                    href={`/post/${item.slug}`}
+                    class="group-hover:text-primary transition-colors"
+                  >
+                    {item.title}
+                  </a>
+                </h2>
+
+                <p class="text-text-muted text-sm md:text-base line-clamp-3 mb-4 leading-relaxed">
+                  {item.intro || "暂无简介"}
+                </p>
+
+                <div class="flex flex-wrap gap-2 mt-auto">
+                  {item.tags.map((t) => (
+                    <a
+                      href={`/tag/${encodeURIComponent(t)}`}
+                      class={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red/10 hover:bg-red/20 transition-colors ${t === tag ? "text-primary font-bold" : "text-primary/70"}`}
+                    >
+                      #{t}
+                    </a>
+                  ))}
+                </div>
+              </div>
+
+              {item.cover && (
+                <div class="flex-shrink-0 w-full md:w-32 h-32 md:h-24 rounded-lg overflow-hidden border border-border/50">
+                  <a href={`/post/${item.slug}`} class="block w-full h-full">
+                    <img
+                      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      src={item.cover.src}
+                      alt={item.cover.alt || item.title}
+                      loading="lazy"
+                    />
+                  </a>
+                </div>
+              )}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</Layout>

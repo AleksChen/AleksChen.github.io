@@ -1,69 +1,110 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { getPostList, getPostBySlug } from "@/lib/tina";
+import { getPostList, getPostBySlug } from "@/lib/posts";
 import { marked } from "marked";
 import config from "site.config";
+import GithubSlugger from "github-slugger";
 
 export async function getStaticPaths() {
   const posts = await getPostList(false);
-  return posts.map((p) => ({
+  return posts.map((p, index) => ({
     params: { slug: p.slug },
+    props: {
+      // 按照列表顺序（通常是时间倒序）：index+1 是上一篇（旧），index-1 是下一篇（新）
+      // 注意：这里的命名 prev/next 是基于“阅读流”还是“时间轴”？
+      // 原代码：prev = index + 1, next = index - 1
+      // 这意味着 "Prev" 指向旧文章，"Next" 指向新文章。
+      prev: posts[index + 1] || null,
+      next: posts[index - 1] || null,
+    },
   }));
 }
 
 const { slug } = Astro.params;
+const { prev, next } = Astro.props;
 const post = await getPostBySlug(slug!);
 
 if (!post) {
   return Astro.redirect("/404");
 }
 
-const allPosts = await getPostList();
-const curIndex = allPosts.findIndex((p) => p.id === post.id);
-const prev = allPosts[curIndex + 1];
-const next = allPosts[curIndex - 1];
+// 1. 生成 TOC 和 处理 Markdown
+const slugger = new GithubSlugger();
+const toc: { text: string; id: string; depth: number }[] = [];
 
-// Markdown -> HTML
+const renderer = {
+  heading(text: string, level: number) {
+    const id = slugger.slug(text);
+    if (level <= 3) {
+      toc.push({ text, id, depth: level });
+    }
+    return `<h${level} id="${id}">${text}</h${level}>`;
+  },
+} as any;
+
+marked.use({ renderer });
 const html = await marked.parse(post.body);
 ---
 
-<script>
-  import { mount } from "@/components/Pager";
-  import { mount as mountOutline } from "@/components/Outline";
+<Layout title={post.title} description={post.intro} className="max-w-[1200px]">
+  <div class="grid grid-cols-1 layout-grid-cols gap-8 items-start">
+    <article class="w-full min-w-0">
+      {/* 文章头部信息 */}
+      <header class="mb-8 pb-8 border-b border-border">
+        <div class="flex flex-wrap gap-2 mb-4">
+          {
+            post.tags.map((tag) => (
+              <a
+                href={`/tag/${encodeURIComponent(tag)}`}
+                class="px-2 py-1 text-xs font-medium rounded-md bg-red/10 text-primary hover:bg-red/20 transition-colors"
+              >
+                #{tag}
+              </a>
+            ))
+          }
+        </div>
 
-  mount(".navigator", "data-page-id");
-  mountOutline(".outline-wrapper");
-</script>
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight text-text">
+          {post.title}
+        </h1>
 
-<Layout title={post.title} description={post.intro}>
-  <main>
-    <div class="content">
-      <div class="w-full flex gap-2 pb-2">
-        {
-          post.tags.map((tag) => (
-            <a
-              href={`/tag/${encodeURIComponent(tag)}`}
-              class="rounded hover:bg-gray-200 dark:hover:bg-modal px-3 py-1 cursor-pointer"
-            >
-              #{tag}
-            </a>
-          ))
-        }
-      </div>
-      <article class="prose prose-lg dark:prose-invert max-w-none" set:html={html} />
+        <div class="flex items-center gap-4 text-sm text-text-muted">
+          <time datetime={post.date} class="flex items-center gap-1">
+            <div class="i-ri:calendar-line"></div>
+            {new Date(post.date).toLocaleDateString()}
+          </time>
+          {
+            post.updatedAt && (
+              <span class="flex items-center gap-1" title="最后更新时间">
+                <div class="i-ri:time-line" />
+                {new Date(post.updatedAt).toLocaleDateString()}
+              </span>
+            )
+          }
+        </div>
+      </header>
 
+      {/* Markdown 内容 */}
       <div
-        data-page-id={post.id}
-        class="navigator flex justify-between items-center mt-4 py-4"
+        class="prose prose-lg dark:prose-invert max-w-none prose-img:rounded-xl prose-img:shadow-md prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24"
+        set:html={html}
+      />
+
+      {/* 底部导航 (无需 JS Mount) */}
+      <nav
+        class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 pt-8 border-t border-border"
       >
         {
           prev ? (
             <a
               href={`/post/${prev.slug}`}
-              class="flex items-center gap-1 text-blue cursor-pointer flex-[45%]"
+              class="group flex flex-col gap-1 p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-bg-secondary transition-all"
             >
-              <div class="i-ri:arrow-left-double-line w-5 h-5 flex-shrink-0" />
-              <div class="text-start">{prev.title}</div>
+              <span class="text-xs text-text-muted flex items-center gap-1 group-hover:text-primary">
+                <div class="i-ri:arrow-left-double-line" />
+                上一篇
+              </span>
+              <span class="font-medium truncate text-text">{prev.title}</span>
             </a>
           ) : (
             <div />
@@ -73,70 +114,106 @@ const html = await marked.parse(post.body);
           next ? (
             <a
               href={`/post/${next.slug}`}
-              class="flex items-center justify-end gap-1 text-blue cursor-pointer flex-[45%]"
+              class="group flex flex-col gap-1 p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-bg-secondary transition-all text-right"
             >
-              <div class="text-end">{next.title}</div>
-              <div class="i-ri:arrow-right-double-line w-5 h-5 flex-shrink-0" />
+              <span class="text-xs text-text-muted flex items-center gap-1 justify-end group-hover:text-primary">
+                下一篇
+                <div class="i-ri:arrow-right-double-line" />
+              </span>
+              <span class="font-medium truncate text-text">{next.title}</span>
             </a>
           ) : (
             <div />
           )
         }
-      </div>
-    </div>
-    <div class="outline-wrapper"></div>
-  </main>
-  {
-    config.giscus && (
-      <div class="giscus-container flex justify-center">
-        <div class="w-full max-w-[870px] mx-8">
-          <script {...config.giscus} />
-        </div>
-      </div>
-    )
-  }
+      </nav>
+
+      {/* 评论区 */}
+      {
+        config.giscus && (
+          <div class="giscus-container mt-12 pt-8 border-t border-border">
+            <script {...config.giscus} />
+          </div>
+        )
+      }
+    </article>
+
+    {/* 侧边栏大纲 (SSG 生成) */}
+    <aside class="hidden lg:block sticky top-24">
+      {
+        toc.length > 0 && (
+          <div class="p-4 rounded-xl bg-bg-secondary/50 border border-border/50 backdrop-blur-sm max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
+            <div class="text-sm font-bold text-text-muted mb-4 uppercase tracking-wider">
+              目录
+            </div>
+            <nav class="flex flex-col gap-1 text-sm">
+              {toc.map((heading) => (
+                <a
+                  href={`#${heading.id}`}
+                  class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate"
+                  data-id={heading.id}
+                  style={`padding-left: ${(heading.depth - 1) * 0.75}rem`}
+                >
+                  {heading.text}
+                </a>
+              ))}
+            </nav>
+          </div>
+        )
+      }
+    </aside>
+  </div>
 </Layout>
 
+<script>
+  // TOC 滚动高亮逻辑
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.id;
+          document.querySelectorAll(".toc-link").forEach((link) => {
+            link.classList.toggle(
+              "text-primary",
+              link.getAttribute("data-id") === id
+            );
+            link.classList.toggle(
+              "bg-primary/10",
+              link.getAttribute("data-id") === id
+            );
+            link.classList.toggle(
+              "font-medium",
+              link.getAttribute("data-id") === id
+            );
+          });
+        }
+      });
+    },
+    {
+      rootMargin: "-100px 0px -60% 0px", // 调整视口检测范围
+    }
+  );
+
+  document.querySelectorAll("h1[id], h2[id], h3[id]").forEach((h) => {
+    observer.observe(h);
+  });
+</script>
+
 <style>
-  /* Markdown 样式 */
-  .prose h1 {
-    @apply text-3xl font-bold mt-8 mb-4;
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 4px;
   }
-  .prose h2 {
-    @apply text-2xl font-bold mt-6 mb-3;
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
   }
-  .prose h3 {
-    @apply text-xl font-bold mt-4 mb-2;
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.5);
+    border-radius: 2px;
   }
-  .prose p {
-    @apply my-4 leading-relaxed;
-  }
-  .prose pre {
-    @apply bg-gray-100 dark:bg-gray-800 rounded-lg p-4 overflow-x-auto my-4;
-  }
-  .prose code {
-    @apply bg-gray-100 dark:bg-gray-800 px-1 py-0.5 rounded text-sm;
-  }
-  .prose pre code {
-    @apply bg-transparent p-0;
-  }
-  .prose ul {
-    @apply list-disc list-inside my-4;
-  }
-  .prose ol {
-    @apply list-decimal list-inside my-4;
-  }
-  .prose blockquote {
-    @apply border-l-4 border-gray-300 pl-4 italic my-4;
-  }
-  .prose img {
-    @apply max-w-full rounded-lg my-4;
-  }
-  .prose a {
-    @apply text-blue-600 hover:underline;
-  }
-  .prose hr {
-    @apply my-8 border-gray-300;
+
+  @media (min-width: 1024px) {
+    .layout-grid-cols {
+      grid-template-columns: minmax(0, 1fr) 240px;
+    }
   }
 </style>
-
