@@ -1,0 +1,60 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getPostList, getAllTags } from "@/lib/posts";
+
+const allPosts = await getPostList();
+const allTags = await getAllTags();
+
+// 统计每个标签的文章数量
+const tagCountMap = new Map<string, number>();
+allPosts.forEach((post) => {
+  post.tags.forEach((tag) => {
+    tagCountMap.set(tag, (tagCountMap.get(tag) || 0) + 1);
+  });
+});
+
+// 按文章数量排序
+const sortedTags = allTags.sort((a, b) => {
+  const countA = tagCountMap.get(a) || 0;
+  const countB = tagCountMap.get(b) || 0;
+  return countB - countA;
+});
+---
+
+<Layout title="标签" description="所有标签">
+  <div class="flex flex-col gap-8">
+    <section class="text-center py-8 md:py-12 animate-slide-in">
+      <h1
+        class="text-4xl md:text-5xl font-bold text-text mb-4 drop-shadow-[2px_2px_0_var(--color-shadow)]"
+      >
+        标签
+      </h1>
+      <p class="text-text-muted text-lg max-w-2xl mx-auto">
+        共 {allTags.length} 个标签
+      </p>
+    </section>
+
+    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+      {
+        sortedTags.map((tag, index) => {
+          const count = tagCountMap.get(tag) || 0;
+          return (
+            <a
+              href={`/tag/${encodeURIComponent(tag)}`}
+              class="group relative card transition-all duration-300 hover:scale-105"
+              style={`animation-delay: ${index * 50}ms`}
+            >
+              <div class="flex flex-col items-center gap-2 p-6 min-w-[120px]">
+                <div class="text-3xl font-bold text-primary">#{tag}</div>
+                <div class="text-sm text-text-muted">
+                  {count} {count === 1 ? "篇" : "篇文章"}
+                </div>
+              </div>
+            </a>
+          );
+        })
+      }
+    </div>
+  </div>
+</Layout>
+

@@ -20,8 +20,11 @@ export default defineConfig({
     sitemap({
       filter: (page) => {
         return (
-          !page.includes('/tag/') &&
-          !page.includes('/404')
+          !page.includes("/tag/") &&
+          !page.includes("/404") &&
+          !page.includes("/archives") &&
+          !page.includes("/about") &&
+          !page.includes("/tags")
         );
       },
     }),

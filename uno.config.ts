@@ -151,7 +151,7 @@ export default defineConfig({
     "btn-primary": "btn bg-primary text-white hover:opacity-90",
     "btn-ghost": "btn hover:bg-gray-100 dark:hover:bg-gray-800",
     // 卡片
-    card: "bg-card rounded-lg border-2 border-text p-4 shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_var(--color-text)] transition-all",
+    card: "bg-card rounded-lg border-2 border-text p-4 shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_var(--color-shadow)] transition-all",
     // 链接
     link: "text-primary hover:underline cursor-pointer focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 focus-visible:rounded",
     // 代码相关

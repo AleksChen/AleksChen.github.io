@@ -19,15 +19,13 @@ const { posts, page, more } = Astro.props;
   }}
 >
   <div class="flex flex-col gap-8">
-    <section class="text-center py-8 md:py-12 animate-slide-in">
+    <section id="hero-section" class="text-center py-8 md:py-12">
       <h1
-        class="text-4xl md:text-5xl font-bold text-text mb-4 drop-shadow-[4px_2px_0_var(--color-shadow)]"
+        class="text-4xl md:text-7xl font-bold text-text mb-6 drop-shadow-[4px_2px_0_var(--color-shadow)]"
       >
         AleksChen's Blog
       </h1>
-      <p class="text-text-muted text-lg max-w-2xl mx-auto">
-        记录技术点滴
-      </p>
+      <p class="text-text-muted text-lg max-w-2xl mx-auto">活在当下 记录时间</p>
     </section>
 
     <div class="flex flex-col gap-6">
@@ -47,7 +45,7 @@ const { posts, page, more } = Astro.props;
                     </span>
                   </div>
 
-                  <h2 class="text-xl md:text-2xl font-bold text-text mb-3 group-hover:underline decoration-2 underline-offset-4 transition-colors line-clamp-2">
+                  <h2 class="text-xl md:text-2xl font-bold text-text mb-3 group-hover:underline decoration-2 underline-offset-4 transition-colors line-clamp-2 hover:text-[var(--color-primary)]">
                     {item.title}
                   </h2>
 
@@ -84,10 +82,7 @@ const { posts, page, more } = Astro.props;
     {
       more && (
         <div class="w-full flex justify-center mt-8">
-          <a
-            href={`/${page + 1}`}
-            class="btn btn-primary px-8 py-3"
-          >
+          <a href={`/${page + 1}`} class="btn btn-primary px-8 py-3">
             加载更多
           </a>
         </div>
@@ -95,3 +90,19 @@ const { posts, page, more } = Astro.props;
     }
   </div>
 </Layout>
+
+<script>
+  const heroSection = document.getElementById("hero-section");
+  if (heroSection) {
+    const fadeOutHeight = 249; // 滚动多少像素后完全消失
+
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      const opacity = Math.max(0, 1 - scrollY / fadeOutHeight);
+      heroSection.style.opacity = opacity.toString();
+    };
+
+    handleScroll(); // 初始化
+    window.addEventListener("scroll", handleScroll, { passive: true });
+  }
+</script>

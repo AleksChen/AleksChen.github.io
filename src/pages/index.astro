@@ -4,7 +4,6 @@ import Home from "../components/Home.astro";
 import { getPostList } from "@/lib/posts";
 
 const rawPosts = await getPostList();
-// 适配原有的 sortByPin 函数
 const posts = sortByPin(rawPosts as any);
 ---
 

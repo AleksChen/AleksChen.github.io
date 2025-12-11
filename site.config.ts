@@ -10,6 +10,7 @@ export const config = {
     links: {
       github: "https://github.com/AleksChen",
       juejin: "https://juejin.cn/user/254742428393742",
+      email: "wenwuchen1948@gmail.com",
     },
   },
   footer: {

@@ -1,0 +1,62 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import config from "site.config";
+---
+
+<Layout title="关于" description="关于我">
+  <div class="flex flex-col gap-8">
+    <section class="text-center py-8 md:py-12 animate-slide-in">
+      <h1
+        class="text-4xl md:text-5xl font-bold text-text mb-4 drop-shadow-[2px_2px_0_var(--color-shadow)]"
+      >
+        关于
+      </h1>
+    </section>
+
+    <article class="prose prose-lg max-w-none">
+      <div class="card p-8">
+        <div class="flex flex-col gap-6">
+          <div>
+            <h2 class="text-2xl font-bold text-text mb-4">关于我</h2>
+            <p class="text-text-muted leading-relaxed">
+              {config.head.links.email}
+            </p>
+          </div>
+
+          <div>
+            <h2 class="text-2xl font-bold text-text mb-4">联系方式</h2>
+            <div class="flex flex-col gap-3">
+              <a
+                href={config.head.links.github}
+                target="_blank"
+                class="flex items-center gap-2 text-text hover:text-primary transition-colors"
+              >
+                <div class="i-ri:github-fill w-5 h-5"></div>
+                <span>GitHub</span>
+              </a>
+              {
+                config.head.links.juejin && (
+                  <a
+                    href={config.head.links.juejin}
+                    target="_blank"
+                    class="flex items-center gap-2 text-text hover:text-primary transition-colors"
+                  >
+                    <div class="i-ri:blogger-line w-5 h-5" />
+                    <span>掘金</span>
+                  </a>
+                )
+              }
+            </div>
+          </div>
+
+          <div>
+            <h2 class="text-2xl font-bold text-text mb-4">关于博客</h2>
+            <p class="text-text-muted leading-relaxed">
+              这个博客使用 Astro 构建
+            </p>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</Layout>
