@@ -44,7 +44,7 @@ const { tag, posts } = Astro.props;
   <div class="flex flex-col gap-8">
     <section class="text-center py-8 md:py-12 animate-slide-in">
       <h1
-        class="text-4xl md:text-5xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-purple-600 mb-4"
+        class="text-4xl md:text-5xl font-bold text-text mb-4 drop-shadow-[2px_2px_0_var(--color-text)]"
       >
         #{tag}
       </h1>
@@ -57,7 +57,7 @@ const { tag, posts } = Astro.props;
       {
         posts?.map((item, index) => (
           <article
-            class="group relative bg-card hover:bg-bg-secondary border border-border rounded-xl p-5 transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
+            class="group relative card transition-all duration-300"
             style={`animation-delay: ${index * 100}ms`}
           >
             <div class="flex flex-col md:flex-row gap-4 md:items-start justify-between">
@@ -72,7 +72,7 @@ const { tag, posts } = Astro.props;
                 <h2 class="text-xl md:text-2xl font-bold text-text mb-3 line-clamp-2">
                   <a
                     href={`/post/${item.slug}`}
-                    class="group-hover:text-primary transition-colors"
+                    class="group-hover:underline decoration-2 underline-offset-4 transition-colors"
                   >
                     {item.title}
                   </a>
@@ -86,7 +86,7 @@ const { tag, posts } = Astro.props;
                   {item.tags.map((t) => (
                     <a
                       href={`/tag/${encodeURIComponent(t)}`}
-                      class={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red/10 hover:bg-red/20 transition-colors ${t === tag ? "text-primary font-bold" : "text-primary/70"}`}
+                      class={`inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-bold border border-text text-text bg-transparent shadow-[2px_2px_0_0_var(--color-text)] hover:translate-y-[1px] hover:translate-x-[1px] hover:shadow-none transition-all ${t === tag ? "bg-text text-bg" : ""}`}
                     >
                       #{t}
                     </a>
@@ -95,7 +95,7 @@ const { tag, posts } = Astro.props;
               </div>
 
               {item.cover && (
-                <div class="flex-shrink-0 w-full md:w-32 h-32 md:h-24 rounded-lg overflow-hidden border border-border/50">
+                <div class="flex-shrink-0 w-full md:w-32 h-32 md:h-24 rounded-sm overflow-hidden border-2 border-text shadow-[4px_4px_0_0_var(--color-text)]">
                   <a href={`/post/${item.slug}`} class="block w-full h-full">
                     <img
                       class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"

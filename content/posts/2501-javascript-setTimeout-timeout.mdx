@@ -8,8 +8,6 @@ draft: false
 slug: 2501-javascript-setTimeout-timeout
 ---
 
-# setTimeout 最小延迟机制
-
 ## 引言
 
 在 JavaScript 中，`setTimeout` 是最常用的定时器 API 之一。然而，很多开发者可能并不了解，当我们设置一个理论上的"0毫秒"延迟时，实际上并不会为 0ms。在某些场景下实际执行时间甚至永远不会小于 4ms。这个看似奇怪的限制背后有着深层的技术原因和历史渊源。

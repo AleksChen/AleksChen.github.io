@@ -30,11 +30,11 @@
   --color-code-bg: #f4f4f5;
   --color-code-text: #18181b;
   
-  /* Shadows */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  /* Shadows - Retro Hard Shadows */
+  --shadow-sm: 2px 2px 0 0 rgba(0, 0, 0, 1);
+  --shadow-md: 4px 4px 0 0 rgba(0, 0, 0, 1);
+  --shadow-lg: 6px 6px 0 0 rgba(0, 0, 0, 1);
+  --shadow-xl: 8px 8px 0 0 rgba(0, 0, 0, 1);
   
   /* Transitions */
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
@@ -74,10 +74,10 @@
     --color-code-bg: #27272a;
     --color-code-text: #fafafa;
     
-    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
-    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
-    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
-    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.4), 0 8px 10px -6px rgb(0 0 0 / 0.3);
+    --shadow-sm: 2px 2px 0 0 rgba(255, 255, 255, 1);
+    --shadow-md: 4px 4px 0 0 rgba(255, 255, 255, 1);
+    --shadow-lg: 6px 6px 0 0 rgba(255, 255, 255, 1);
+    --shadow-xl: 8px 8px 0 0 rgba(255, 255, 255, 1);
   }
 }
 
@@ -249,11 +249,19 @@ button {
   font-weight: 500;
   border-radius: 8px;
   transition: all var(--transition-fast);
+  border: 2px solid var(--color-text);
+  box-shadow: 2px 2px 0 0 var(--color-text);
+}
+
+.btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: none;
 }
 
 .btn-primary {
   background-color: var(--color-primary);
   color: white;
+  border-color: var(--color-text);
 }
 
 .btn-primary:hover {
@@ -275,15 +283,16 @@ button {
 
 .card {
   background-color: var(--color-card);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
+  border: 2px solid var(--color-text);
+  border-radius: 8px;
   padding: 1.5rem;
+  box-shadow: 4px 4px 0 0 var(--color-text);
   transition: all var(--transition-base);
 }
 
 .card:hover {
-  box-shadow: var(--shadow-md);
-  border-color: var(--color-border-light);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 0 var(--color-text);
 }
 
 /* ========================================

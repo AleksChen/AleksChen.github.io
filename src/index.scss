@@ -2,30 +2,33 @@ html {
     scroll-behavior: smooth;
 }
 
-header {
-    position: sticky;
-    top: 0;
-    z-index: 20;
-    // @apply bg-bg;
+/* RetroUI Scrollbar Style */
+::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+    background-color: var(--color-bg);
+    border-left: 2px solid var(--color-text);
+    border-top: 2px solid var(--color-text);
+}
+
+::-webkit-scrollbar-track {
     background-color: var(--color-bg);
 }
 
-::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-    background-color: transparent;
-    opacity: 0;
-}
-
-::-webkit-scrollbar:hover {
-    width: 4px;
-    height: 4px;
-    opacity: 1;
-}
-
 ::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.28);
-    border-radius: 5px;
+    background-color: var(--color-text);
+    border: 4px solid var(--color-bg);
+    min-height: 40px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-text-muted);
+}
+
+::-webkit-scrollbar-corner {
+    background-color: var(--color-bg);
+    border-left: 2px solid var(--color-text);
+    border-top: 2px solid var(--color-text);
 }
 
 @media (prefers-color-scheme: dark) {

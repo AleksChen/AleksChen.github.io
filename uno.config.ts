@@ -49,9 +49,10 @@ export default defineConfig({
           padding: "1rem",
           "border-radius": "8px",
           "overflow-x": "auto",
-          "border-width": "1px",
+          "border-width": "2px",
           "border-style": "solid",
-          "border-color": "var(--color-border)",
+          "border-color": "var(--color-text)",
+          "box-shadow": "4px 4px 0 0 var(--color-text)",
         },
         blockquote: {
           "border-left": "4px solid var(--color-primary)",
@@ -61,6 +62,8 @@ export default defineConfig({
         },
         img: {
           "border-radius": "8px",
+          "border": "2px solid var(--color-text)",
+          "box-shadow": "4px 4px 0 0 var(--color-text)",
         },
       },
     }),
@@ -81,11 +84,11 @@ export default defineConfig({
   },
   shortcuts: {
     // 按钮
-    btn: "px-4 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer",
+    btn: "px-4 py-2 rounded-lg font-medium transition-all duration-200 cursor-pointer border-2 border-text shadow-[2px_2px_0_0_var(--color-text)] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
     "btn-primary": "btn bg-primary text-white hover:opacity-90",
     "btn-ghost": "btn hover:bg-gray-100 dark:hover:bg-gray-800",
     // 卡片
-    card: "bg-card rounded-xl border border-border p-4",
+    card: "bg-card rounded-lg border-2 border-text p-4 shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_var(--color-text)] transition-all",
     // 链接
     link: "text-primary hover:underline cursor-pointer",
     // 通用

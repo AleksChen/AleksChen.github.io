@@ -33,12 +33,14 @@ const slugger = new GithubSlugger();
 const toc: { text: string; id: string; depth: number }[] = [];
 
 const renderer = {
-  heading(text: string, level: number) {
+  heading(this: any, { text, depth, tokens }: { text: string; depth: number; tokens: any[] }) {
+    const level = depth;
+    const content = this.parser.parseInline(tokens);
     const id = slugger.slug(text);
     if (level <= 3) {
-      toc.push({ text, id, depth: level });
+      toc.push({ text: content, id, depth: level });
     }
-    return `<h${level} id="${id}">${text}</h${level}>`;
+    return `<h${level} id="${id}">${content}</h${level}>`;
   },
 } as any;
 
@@ -56,7 +58,7 @@ const html = await marked.parse(post.body);
             post.tags.map((tag) => (
               <a
                 href={`/tag/${encodeURIComponent(tag)}`}
-                class="px-2 py-1 text-xs font-medium rounded-md bg-red/10 text-primary hover:bg-red/20 transition-colors"
+                class="px-2 py-1 text-xs font-bold rounded-sm border border-text text-text bg-transparent shadow-[2px_2px_0_0_var(--color-text)] hover:translate-y-[1px] hover:translate-x-[1px] hover:shadow-none transition-all"
               >
                 #{tag}
               </a>
@@ -86,7 +88,7 @@ const html = await marked.parse(post.body);
 
       {/* Markdown 内容 */}
       <div
-        class="prose prose-lg dark:prose-invert max-w-none prose-img:rounded-xl prose-img:shadow-md prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24"
+        class="prose prose-lg dark:prose-invert max-w-none prose-img:rounded-sm prose-img:border-2 prose-img:border-text prose-img:shadow-[4px_4px_0_0_var(--color-text)] prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24"
         set:html={html}
       />
 
@@ -98,7 +100,7 @@ const html = await marked.parse(post.body);
           prev ? (
             <a
               href={`/post/${prev.slug}`}
-              class="group flex flex-col gap-1 p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-bg-secondary transition-all"
+              class="group flex flex-col gap-1 p-4 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
             >
               <span class="text-xs text-text-muted flex items-center gap-1 group-hover:text-primary">
                 <div class="i-ri:arrow-left-double-line" />
@@ -114,7 +116,7 @@ const html = await marked.parse(post.body);
           next ? (
             <a
               href={`/post/${next.slug}`}
-              class="group flex flex-col gap-1 p-4 rounded-lg border border-border hover:border-primary/50 hover:bg-bg-secondary transition-all text-right"
+              class="group flex flex-col gap-1 p-4 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all text-right"
             >
               <span class="text-xs text-text-muted flex items-center gap-1 justify-end group-hover:text-primary">
                 下一篇
@@ -142,7 +144,7 @@ const html = await marked.parse(post.body);
     <aside class="hidden lg:block sticky top-24">
       {
         toc.length > 0 && (
-          <div class="p-4 rounded-xl bg-bg-secondary/50 border border-border/50 backdrop-blur-sm max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
+          <div class="p-4 rounded-lg border-2 border-text bg-card shadow-[4px_4px_0_0_var(--color-text)] max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
             <div class="text-sm font-bold text-text-muted mb-4 uppercase tracking-wider">
               目录
             </div>
@@ -200,17 +202,6 @@ const html = await marked.parse(post.body);
 </script>
 
 <style>
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 4px;
-  }
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(156, 163, 175, 0.5);
-    border-radius: 2px;
-  }
-
   @media (min-width: 1024px) {
     .layout-grid-cols {
       grid-template-columns: minmax(0, 1fr) 240px;

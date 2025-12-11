@@ -75,7 +75,7 @@ export const mount = (
 
   const searchContainer = (
     <div class={`w-full max-w-500px mx-auto ${className}`}>
-      <div class="search-container relative flex items-center justify-center bg-gray-50 dark:bg-gray-800 border-2 border-transparent rounded-xl transition-all duration-300 shadow-sm hover:shadow-md focus-within:(border-primary bg-white dark:bg-gray-900 shadow-lg -translate-y-0.5) w-6 h-6 cursor-pointer">
+      <div class="search-container relative flex items-center justify-center bg-white dark:bg-gray-900 border-2 border-black dark:border-white rounded-lg transition-all duration-300 shadow-[2px_2px_0_0_#000] dark:shadow-[2px_2px_0_0_#fff] hover:shadow-[4px_4px_0_0_#000] dark:hover:shadow-[4px_4px_0_0_#fff] focus-within:(shadow-[4px_4px_0_0_#000] dark:shadow-[4px_4px_0_0_#fff]) w-6 h-6 cursor-pointer">
         <div
           class="flex items-center justify-center text-gray-400 transition-colors duration-200 focus-within:text-primary flex-shrink-0 absolute hover:scale-120 transition-transform"
           onClick={handleToggleSearch}
