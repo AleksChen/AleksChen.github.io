@@ -49,9 +49,28 @@ const renderer = {
 
 marked.use({ renderer });
 const html = await marked.parse(post.body);
+
+const siteUrl = Astro.site || "https://alekschen.github.io";
+const postUrl = `${siteUrl}/post/${post.slug}`;
+const coverImage = post.cover
+  ? (post.cover.startsWith("http") ? post.cover : new URL(post.cover, siteUrl).toString())
+  : undefined;
 ---
 
-<Layout title={post.title} description={post.intro} className="max-w-[1200px]">
+<Layout
+  title={post.title}
+  description={post.intro}
+  className="max-w-[1200px]"
+  seo={{
+    type: "article",
+    image: coverImage,
+    publishedTime: new Date(post.date).toISOString(),
+    modifiedTime: post.updatedAt ? new Date(post.updatedAt).toISOString() : undefined,
+    author: config.head.title,
+    tags: post.tags,
+    url: postUrl,
+  }}
+>
   <div class="grid grid-cols-1 layout-grid-cols gap-8 items-start">
     <article class="w-full min-w-0">
       {/* 文章头部信息 */}

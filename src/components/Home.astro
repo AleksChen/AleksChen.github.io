@@ -11,7 +11,13 @@ interface Props {
 const { posts, page, more } = Astro.props;
 ---
 
-<Layout title="Home">
+<Layout
+  title="Home"
+  description="AleksChen's blog - 记录技术点滴"
+  seo={{
+    type: "website",
+  }}
+>
   <div class="flex flex-col gap-8">
     <section class="text-center py-8 md:py-12 animate-slide-in">
       <h1

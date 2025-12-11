@@ -2,6 +2,7 @@
 import "@/styles/theme.css";
 import "@/index.scss";
 import Footer from "@/components/Footer.astro";
+import SEO from "@/components/SEO.astro";
 import config from "site.config";
 
 interface Props {
@@ -9,6 +10,15 @@ interface Props {
   description?: string;
   footer?: boolean;
   className?: string;
+  seo?: {
+    image?: string;
+    type?: "website" | "article";
+    publishedTime?: string;
+    modifiedTime?: string;
+    author?: string;
+    tags?: string[];
+    url?: string;
+  };
 }
 
 const {
@@ -16,6 +26,7 @@ const {
   description,
   footer = true,
   className = "max-w-[800px]",
+  seo = {},
 } = Astro.props;
 ---
 
@@ -40,13 +51,19 @@ const {
       name="viewport"
       content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
     />
-    <meta
-      name="description"
-      content={description ?? "A self-owned full-static blog system"}
-    />
     <link rel="icon" href="/favicon.ico" />
     <link rel="sitemap" href="/sitemap-index.xml" />
-    <title>{["Blog", title].reverse().join(" | ")}</title>
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="RSS Feed"
+      href="/rss.xml"
+    />
+    <title>
+      {[config.head.title, title].filter(Boolean).reverse().join(" | ")}
+    </title>
+
+    <SEO title={title} description={description} {...seo} />
 
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-G1EC4WNBZJ"
     ></script>
@@ -58,6 +75,23 @@ const {
       gtag("js", new Date());
 
       gtag("config", "G-G1EC4WNBZJ");
+    </script>
+
+    <!-- Privacy-friendly analytics by Plausible -->
+    <script async src="https://plausible.io/js/pa-bqrNOvlYoay2S1opDAt9D.js"
+    ></script>
+    <script>
+      ((window.plausible =
+        window.plausible ||
+        function () {
+          (plausible.q = plausible.q || []).push(arguments);
+        }),
+        (plausible.init =
+          plausible.init ||
+          function (i) {
+            plausible.o = i || {};
+          }));
+      plausible.init();
     </script>
 
     <script is:inline>
@@ -87,9 +121,7 @@ const {
   <body
     class="bg-bg text-text min-h-screen flex flex-col font-sans transition-colors duration-300"
   >
-    <header
-      class="sticky top-0 z-50 w-full bg-bg border-b-2 border-text"
-    >
+    <header class="sticky top-0 z-50 w-full bg-bg border-b-2 border-text">
       <div
         class="max-w-[800px] mx-auto px-4 h-16 flex items-center justify-between"
       >

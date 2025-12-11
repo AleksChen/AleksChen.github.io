@@ -1,0 +1,114 @@
+---
+import config from "site.config";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
+  publishedTime?: string;
+  modifiedTime?: string;
+  author?: string;
+  tags?: string[];
+  url?: string;
+}
+
+const {
+  title = config.head.title,
+  description = config.head.description,
+  image = `${Astro.site}/favicon.ico`,
+  type = "website",
+  publishedTime,
+  modifiedTime,
+  author = config.head.title,
+  tags = [],
+  url,
+} = Astro.props;
+
+const siteUrl = Astro.site || config.siteUrl;
+const canonicalUrl = url || new URL(Astro.url.pathname, siteUrl).toString();
+const ogImage = image.startsWith("http") ? image : new URL(image, siteUrl).toString();
+---
+
+<!-- 基础 SEO -->
+<meta name="description" content={description} />
+<meta name="author" content={author} />
+{tags.length > 0 && (
+  <meta name="keywords" content={tags.join(", ")} />
+)}
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:site_name" content={config.head.title} />
+{type === "article" && publishedTime && (
+  <meta property="article:published_time" content={publishedTime} />
+)}
+{type === "article" && modifiedTime && (
+  <meta property="article:modified_time" content={modifiedTime} />
+)}
+{type === "article" && tags.length > 0 && tags.map((tag) => (
+  <meta property="article:tag" content={tag} />
+))}
+{type === "article" && author && (
+  <meta property="article:author" content={author} />
+)}
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- JSON-LD 结构化数据 -->
+{type === "article" && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: title,
+    description: description,
+    image: ogImage,
+    datePublished: publishedTime,
+    dateModified: modifiedTime || publishedTime,
+    author: {
+      "@type": "Person",
+      name: author,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: config.head.title,
+      logo: {
+        "@type": "ImageObject",
+        url: new URL("/favicon.ico", siteUrl).toString(),
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": canonicalUrl,
+    },
+    keywords: tags.join(", "),
+  })} />
+)}
+
+{type === "website" && (
+  <script type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: config.head.title,
+    description: config.head.description,
+    url: siteUrl,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${siteUrl}/search?q={search_term_string}`,
+      },
+      "query-input": "required name=search_term_string",
+    },
+  })} />
+)}
+

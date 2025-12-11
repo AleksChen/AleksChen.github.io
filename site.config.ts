@@ -1,4 +1,5 @@
 export const config = {
+  siteUrl: "https://blog.002085.xyz",
   github: {
     login: "Alekschen",
     repo: "Alekschen.github.io",

@@ -5,11 +5,12 @@ import sitemap from "@astrojs/sitemap";
 import keystatic from "@keystatic/astro";
 import react from "@astrojs/react";
 import UnoCSS from "@unocss/astro";
+import config from "./site.config.ts";
 
 // https://astro.build/config
 export default defineConfig({
   trailingSlash: "never",
-  site: "https://alekschen.github.io",
+  site: import.meta.env.PUBLIC_SITE_URL || config.siteUrl,
   integrations: [
     react(),
     ...(import.meta.env.DEV ? [keystatic()] : []),
@@ -18,8 +19,10 @@ export default defineConfig({
     }),
     sitemap({
       filter: (page) => {
-        // 排除编辑页面和登录页面
-        return !page.includes('/edit') && !page.includes('/login');
+        return (
+          !page.includes('/tag/') &&
+          !page.includes('/404')
+        );
       },
     }),
   ],
