@@ -1,62 +1,104 @@
-<!DOCTYPE html> <html lang="en"> <head><meta charset="UTF-8"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Blog"><meta name="msapplication-TileColor" content="#000000"><meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"><meta name="description" content="在 JavaScript 中，setTimeout 是最常用的定时器 API 之一。然而，很多开发者可能并不了解，当我们设置一个理论上的&#34;0毫秒&#34;延迟时，实际上并不会为 0ms。在某些场景下实际执行时间甚至永远不会小于 4ms。这个看似奇怪的限制背后有着深层的技术原因和历史渊源。"><link rel="icon" href="/favicon.ico"><link rel="sitemap" href="/sitemap-index.xml"><title>setTimeout 最小延迟机制 | Blog</title><script async src="https://www.googletagmanager.com/gtag/js?id=G-G1EC4WNBZJ"></script><link rel="stylesheet" href="/_astro/_page_.Dc6LFF81.css">
-<style>._tabset_selm3_1 ._tab-panel_selm3_1{display:none}._tabset_selm3_1 ._tab-panels_selm3_4{display:flex}._tabset_selm3_1 input[data-tab-name=direct]{display:none}._tabset_selm3_1 input[data-tab-name=direct]:checked~._tab-panels_selm3_4 ._tab-panel_selm3_1[data-tab-name=direct]{display:block}._tabset_selm3_1 input[data-tab-name=direct]:checked~._tab-labels_selm3_13 label[data-tab-name=direct]{border-bottom:2px solid red}._tabset_selm3_1 input[data-tab-name=app]{display:none}._tabset_selm3_1 input[data-tab-name=app]:checked~._tab-panels_selm3_4 ._tab-panel_selm3_1[data-tab-name=app]{display:block}._tabset_selm3_1 input[data-tab-name=app]:checked~._tab-labels_selm3_13 label[data-tab-name=app]{border-bottom:2px solid red}
-.outlines a[data-anchor-tag=H1]{margin-left:0}.outlines a[data-anchor-tag=H2]{margin-left:12px}.outlines a[data-anchor-tag=H3]{margin-left:24px}.outlines a[data-anchor-tag=H4]{margin-left:36px}.outlines a[data-anchor-tag=H5]{margin-left:48px}.outlines a[data-anchor-tag=H6]{margin-left:60px}
-</style>
-<link rel="stylesheet" href="/_astro/_page_.De3fPRkP.css">
-<link rel="stylesheet" href="/_astro/_id_.C16MaNET.css"><script type="module" src="/_astro/hoisted.DPBrZnbJ.js"></script></head> <body class="text-text bg-bg"> <header class="flex justify-between items-center p-4 gap-2 bg-gradient-to-r from-red-500 via-yellow-500 via-green-500 via-blue-500 to-purple yellow-500 text-white"> <a href="/" class="text-white text-lg" aria-label="homepage"> <div class="i-ri:home-4-line transition-transform hover:scale-120 active:scale-95"></div> </a> <div class="flex gap-2 items-center"> <div class="flex gap-2 items-center header-operations">  <div class="flex gap-2 items-center"> <a href="https://github.com/AleksChen" target="_blank"> <div class="i-ri:github-fill w-6 h-6 hover:scale-120 transition-transform"></div> </a> <a href="https://juejin.cn/user/254742428393742" target="_blank"> <div class="i-ri:blogger-line w-6 h-6 hover:scale-120 transition-transform"></div> </a> </div> </div>  </div> </header>  <main> <div class="content"> <div class="w-full flex gap-2 pb-2"> <a href="/tag/JavaScript" class="rounded hover:bg-gray-200 dark:hover:bg-modal px-3 py-1 cursor-pointer">
-#JavaScript </a> </div> <div class="ud-root read-only flex-1"><h1 level="1" id="setTimeout-最小延迟机制">setTimeout 最小延迟机制</h1><h2 level="2" id="引言">引言</h2><p>在 JavaScript 中，<code>setTimeout</code> 是最常用的定时器 API 之一。然而，很多开发者可能并不了解，当我们设置一个理论上的&quot;0毫秒&quot;延迟时，实际上并不会为 0ms。在某些场景下实际执行时间甚至永远不会小于 4ms。这个看似奇怪的限制背后有着深层的技术原因和历史渊源。</p><p></p><h2 level="2" id="最小延迟值的演变">最小延迟值的演变</h2><h3 level="3" id="历史变迁">历史变迁</h3><ul><li><p>1995年：JavaScript 首次在 Netscape Navigator 中引入</p></li><li><p>2003年：IE 实现了 15.625ms 的最小延迟</p></li><li><p>2009年：Firefox 采用了 10ms 的限制</p></li><li><p>2010年：HTML5 规范将嵌套层级大于等于 5 的场景的最小延迟标准化为 4ms，层级小于 5 的情况下最小延迟标准化为 0ms</p></li></ul><p></p><h2 level="2" id="规范依据">规范依据</h2><h3 level="3" id="HTML-规范">HTML 规范</h3><p>根据 HTML Living Standard 规范：</p><ol><li><p>如果设置的 <code>timeout</code> 小于 0，则设置为 0</p></li><li><p>如果嵌套的层级超过了 5 层，并且 timeout 小于 4ms，则设置 timeout 为 4ms。</p></li></ol><img src="/post-assets/m5p0iae8-image.png" alt="image.png"><h3 level="3" id="Chrome-源码分析">Chrome 源码分析</h3><p>在 Chromium 的源代码中，我们可以看到相关实现：</p><div class="llt-code readonly"><div class="language">cpp</div><div class="wrapper"><pre><code class="language-cpp"><span class="hljs-type" class="hljs-type">static</span> <span class="hljs-type" class="hljs-type">const</span> <span class="hljs-type" class="hljs-type">int</span> kMaxTimerNestingLevel = <span class="hljs-number" class="hljs-number">5</span>;
-<span class="hljs-type" class="hljs-type">static</span> <span class="hljs-type" class="hljs-type">const</span> <span class="hljs-type" class="hljs-type">double</span> kMinimumInterval = <span class="hljs-number" class="hljs-number">0.004</span>; <span class="hljs-comment" class="hljs-comment">// 4ms</span></code></pre></div></div><p></p><h2 level="2" id="技术原理解析">技术原理解析</h2><h3 level="3" id="1-事件循环与定时器">1. 事件循环与定时器</h3><p>JavaScript 的事件循环机制是理解 setTimeout 行为的关键。定时器不是一个真正的&quot;睡眠&quot;，而是将回调函数放入一个待执行队列。等到满足定时条件后，再执行回调函数。</p><h3 level="3" id="2-最小延迟测算">2. 最小延迟测算</h3><p>下面是一个测算 <code>setTimeout</code> 实际延迟时间的示例</p><div class="llt-code readonly"><div class="language">javascript</div><div class="wrapper"><pre><code class="language-javascript"><span class="hljs-comment" class="hljs-comment">// 示例：嵌套定时器的行为</span>
-<span class="hljs-keyword" class="hljs-keyword">function</span> <span class="hljs-title,function_" class="hljs-title,function_">nestedTimer</span>(<span class="hljs-params" class="hljs-params">depth = <span class="hljs-number" class="hljs-number">0</span></span>) {
-    <span class="hljs-keyword" class="hljs-keyword">const</span> start = performance.<span class="hljs-title,function_" class="hljs-title,function_">now</span>();
-    <span class="hljs-built_in" class="hljs-built_in">setTimeout</span>(<span class="hljs-function" class="hljs-function">() =&gt;</span> {
-        <span class="hljs-keyword" class="hljs-keyword">const</span> delay = performance.<span class="hljs-title,function_" class="hljs-title,function_">now</span>() - start;
-        <span class="hljs-variable,language_" class="hljs-variable,language_">console</span>.<span class="hljs-title,function_" class="hljs-title,function_">log</span>(<span class="hljs-string" class="hljs-string">`Depth <span class="hljs-subst" class="hljs-subst">${depth}</span>, Actual delay: <span class="hljs-subst" class="hljs-subst">${delay}</span>ms`</span>);
-        <span class="hljs-keyword" class="hljs-keyword">if</span> (depth &lt; <span class="hljs-number" class="hljs-number">10</span>) <span class="hljs-title,function_" class="hljs-title,function_">nestedTimer</span>(depth + <span class="hljs-number" class="hljs-number">1</span>);
-    }, <span class="hljs-number" class="hljs-number">0</span>);
-}</code></pre></div></div><img src="/post-assets/m5p0iae7-image.png" alt="image.png"><p><strong>结果分析</strong></p><p>当嵌套层数少于 5 层时，；理论延迟时间是 0ms；当嵌套层数大于等于 5 层时，理论延迟时间是 4ms（此处和 HTML 规范不一样）。但实际的执行延时受制于事件循环机制，<code>setTimeout</code> 回调需要等待：</p><ol><li><p>当前同步代码执行完；</p></li><li><p>微任务队列情况</p></li><li><p>定时器到期</p></li><li><p>等待下一个宏任务执行时机</p></li><li><p>代码执行开销</p></li></ol><p>因此，实际的时延会比设置值向上浮动。但 timeout 值的下限是受到嵌套层级约束的。</p><p></p><h2 level="2" id="性能影响与优化">性能影响与优化</h2><h3 level="3" id="1-CPU-和电池影响">1. CPU 和电池影响</h3><p>过于频繁的定时器调用会导致：</p><ul><li><p>CPU 使用率上升</p></li><li><p>设备发热增加</p></li><li><p>电池寿命减少</p></li></ul><h3 level="3" id="2-替代方案">2. 替代方案</h3><p>对于需要高精度计时的场景，推荐使用：</p><ol><li><p>requestAnimationFrame</p></li></ol><div class="llt-code readonly"><div class="language">javascript</div><div class="wrapper"><pre><code class="language-javascript"><span class="hljs-title,function_" class="hljs-title,function_">requestAnimationFrame</span>(<span class="hljs-function" class="hljs-function">() =&gt;</span> { 
-	<span class="hljs-comment" class="hljs-comment">// 用于动画的精确控制 </span>
-});</code></pre></div></div><ol start="2"><li><p>Web Workers</p></li></ol><div class="llt-code readonly"><div class="language">javascript</div><div class="wrapper"><pre><code class="language-javascript"><span class="hljs-comment" class="hljs-comment">// worker.js </span>
-<span class="hljs-built_in" class="hljs-built_in">setInterval</span>(<span class="hljs-function" class="hljs-function">() =&gt;</span> { 
-	<span class="hljs-title,function_" class="hljs-title,function_">postMessage</span>(<span class="hljs-string" class="hljs-string">&apos;tick&apos;</span>); 
-}, <span class="hljs-number" class="hljs-number">0</span>);</code></pre></div></div><ol start="3"><li><p>Performance.now()</p></li></ol><div class="llt-code readonly"><div class="language">javascript</div><div class="wrapper"><pre><code class="language-javascript"><span class="hljs-keyword" class="hljs-keyword">const</span> start = <span class="hljs-title,class_" class="hljs-title,class_">Performance</span>.<span class="hljs-title,function_" class="hljs-title,function_">now</span>(); <span class="hljs-comment" class="hljs-comment">// 用于精确计时</span></code></pre></div></div><p></p><h2 level="2" id="结论">结论</h2><p>setTimeout 的 4ms 最小延迟是一个经过深思熟虑的设计决策，它平衡了开发便利性、性能开销和浏览器兼容性。理解这个机制有助于我们写出更好的异步代码。</p><p></p><h2 level="2" id="参考资料">参考资料</h2><ul><li><p><a target="_blank" rel="noreferer" href="https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout">HTML Standard</a></p></li><li><p><a target="_blank" rel="noreferer" href="https://mp.weixin.qq.com/s/4P7ohpRmBChXQpLC-MHgHQ">为什么 setTimeout 有最小时延 4ms ?</a></p></li></ul><script type="module">const injectHtml = (root, html) => {
-  const iframe = document.createElement("iframe");
-  const htmlContent = `<html><head></head><body>${html}</body></html>`;
-  iframe.style.width = "100%";
-  iframe.style.height = "100%";
-  iframe.onload = () => {
-    const doc = iframe.contentDocument || iframe.contentWindow?.document;
-    if (!doc) {
-      return;
-    }
-    doc.open();
-    doc.write(htmlContent);
-    doc.close();
-  };
-  root.replaceChildren(iframe);
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Blog"><meta name="msapplication-TileColor" content="#000000"><meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"><meta name="description" content="在 JavaScript 中，`setTimeout` 是最常用的定时器 API 之一。然而，很多开发者可能并不了解，当我们设置一个理论上的&#34;0毫秒&#34;延迟时，实际上并不会为 0ms。在某些场景下实际执行时间甚至永远不会小于 4ms。这个看似奇怪的限制背后有着深层的技术原因和历史渊源。"><link rel="icon" href="/favicon.ico"><link rel="sitemap" href="/sitemap-index.xml"><title>setTimeout 最小延迟机制 | Blog</title><script async src="https://www.googletagmanager.com/gtag/js?id=G-G1EC4WNBZJ"></script><script type="module">const l=()=>{const e=document.documentElement;e.classList.toggle("dark");const t=e.classList.contains("dark");localStorage.setItem("theme",t?"dark":"light")};document.getElementById("theme-toggle")?.addEventListener("click",l);</script><script>
+      // 暗色模式初始化
+      const theme = (() => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          return "dark";
+        }
+        return "light";
+      })();
+
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+
+      window.localStorage.setItem("theme", theme);
+    </script><link rel="stylesheet" href="/_astro/index.PA9v-7tc.css">
+<style>@media(min-width:1024px){.layout-grid-cols[data-astro-cid-ztig7rse]{grid-template-columns:minmax(0,1fr) 240px}}
+</style></head> <body class="bg-bg text-text min-h-screen flex flex-col font-sans transition-colors duration-300"> <header class="sticky top-0 z-50 w-full bg-bg border-b-2 border-text"> <div class="max-w-[800px] mx-auto px-4 h-16 flex items-center justify-between"> <a href="/" class="text-xl font-bold flex items-center gap-2 hover:text-primary transition-colors" aria-label="homepage"> <div class="i-ri:home-4-line text-2xl"></div> <span class="hidden sm:inline-block">Aleks' Blog</span> </a> <div class="flex items-center gap-4">  <div class="flex items-center gap-3 border-l border-border pl-4"> <a href="https://github.com/AleksChen" target="_blank" class="hover:text-primary transition-transform hover:scale-110" title="GitHub"> <div class="i-ri:github-fill w-6 h-6"></div> </a> <a href="https://juejin.cn/user/254742428393742" target="_blank" class="hover:text-primary transition-transform hover:scale-110" title="Juejin"> <div class="i-ri:blogger-line w-6 h-6"></div> </a> <button id="theme-toggle" class="hover:text-primary transition-transform hover:scale-110 focus:outline-none" title="Toggle Theme"> <div class="i-ri:sun-line w-6 h-6 dark:hidden"></div> <div class="i-ri:moon-line w-6 h-6 hidden dark:block"></div> </button> </div> </div> </div> </header> <main class="flex-1 w-full mx-auto px-4 py-8 animate-fade-in max-w-[1200px]">  <div class="grid grid-cols-1 layout-grid-cols gap-8 items-start" data-astro-cid-ztig7rse> <article class="w-full min-w-0" data-astro-cid-ztig7rse>  <header class="mb-8 pb-8 border-b border-border" data-astro-cid-ztig7rse> <div class="flex flex-wrap gap-2 mb-4" data-astro-cid-ztig7rse> <a href="/tag/JavaScript" class="px-2 py-1 text-xs font-bold rounded-sm border border-text text-text bg-transparent shadow-[2px_2px_0_0_var(--color-text)] hover:translate-y-[1px] hover:translate-x-[1px] hover:shadow-none transition-all" data-astro-cid-ztig7rse>
+#JavaScript </a> </div> <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight text-text" data-astro-cid-ztig7rse> setTimeout 最小延迟机制 </h1> <div class="flex items-center gap-4 text-sm text-text-muted" data-astro-cid-ztig7rse> <time datetime="Thu Jan 09 2025 07:33:49 GMT+0000 (Coordinated Universal Time)" class="flex items-center gap-1" data-astro-cid-ztig7rse> <div class="i-ri:calendar-line" data-astro-cid-ztig7rse></div> 1/9/2025 </time> <span class="flex items-center gap-1" title="最后更新时间" data-astro-cid-ztig7rse> <div class="i-ri:time-line" data-astro-cid-ztig7rse></div> 1/9/2025 </span> </div> </header>  <div class="prose prose-lg dark:prose-invert max-w-none prose-img:rounded-sm prose-img:border-2 prose-img:border-text prose-img:shadow-[4px_4px_0_0_var(--color-text)] prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24" data-astro-cid-ztig7rse><h2 id="引言">引言</h2><p>在 JavaScript 中，<code>setTimeout</code> 是最常用的定时器 API 之一。然而，很多开发者可能并不了解，当我们设置一个理论上的&quot;0毫秒&quot;延迟时，实际上并不会为 0ms。在某些场景下实际执行时间甚至永远不会小于 4ms。这个看似奇怪的限制背后有着深层的技术原因和历史渊源。</p>
+<h2 id="最小延迟值的演变">最小延迟值的演变</h2><h3 id="历史变迁">历史变迁</h3><ul>
+<li>1995年：JavaScript 首次在 Netscape Navigator 中引入</li>
+<li>2003年：IE 实现了 15.625ms 的最小延迟</li>
+<li>2009年：Firefox 采用了 10ms 的限制</li>
+<li>2010年：HTML5 规范将嵌套层级大于等于 5 的场景的最小延迟标准化为 4ms，层级小于 5 的情况下最小延迟标准化为 0ms</li>
+</ul>
+<h2 id="规范依据">规范依据</h2><h3 id="html-规范">HTML 规范</h3><p>根据 HTML Living Standard 规范：</p>
+<ol>
+<li>如果设置的 <code>timeout</code> 小于 0，则设置为 0</li>
+<li>如果嵌套的层级超过了 5 层，并且 timeout 小于 4ms，则设置 timeout 为 4ms。</li>
+</ol>
+<p><img src="/post-assets/m5p0iae8-image.png" alt="image.png"></p>
+<h3 id="chrome-源码分析">Chrome 源码分析</h3><p>在 Chromium 的源代码中，我们可以看到相关实现：</p>
+<pre><code class="language-cpp">static const int kMaxTimerNestingLevel = 5;
+static const double kMinimumInterval = 0.004; // 4ms
+</code></pre>
+<h2 id="技术原理解析">技术原理解析</h2><h3 id="1-事件循环与定时器">1. 事件循环与定时器</h3><p>JavaScript 的事件循环机制是理解 setTimeout 行为的关键。定时器不是一个真正的&quot;睡眠&quot;，而是将回调函数放入一个待执行队列。等到满足定时条件后，再执行回调函数。</p>
+<h3 id="2-最小延迟测算">2. 最小延迟测算</h3><p>下面是一个测算 <code>setTimeout</code> 实际延迟时间的示例</p>
+<pre><code class="language-javascript">// 示例：嵌套定时器的行为
+function nestedTimer(depth = 0) {
+    const start = performance.now();
+    setTimeout(() =&gt; {
+        const delay = performance.now() - start;
+        console.log(`Depth ${depth}, Actual delay: ${delay}ms`);
+        if (depth &lt; 10) nestedTimer(depth + 1);
+    }, 0);
 }
-  document.querySelectorAll('.playground')?.forEach(el=>{
-    const html = el.getAttribute('data-html');
-    if (html) {
-      injectHtml(el,html);
-    }
-    const indicator = document.createElement("div");
-    indicator.className = "indicator";
-    const showCode = document.createElement("div");
-    showCode.className = "show-code";
-    showCode.innerText = "code";
-    showCode.onclick = () => {
-      el.parentElement.classList.remove("preview-only");
-    };
-    const showPreview = document.createElement("div");
-    showPreview.className = "show-preview";
-    showPreview.innerText = "preview";
-    showPreview.onclick = () => {
-      el.parentElement.classList.add("preview-only");
-    };
-    indicator.appendChild(showCode);
-    indicator.appendChild(showPreview);
-    el.parentElement.appendChild(indicator);
-    if (window.screen.width < 768) {
-      showPreview.click();
-    }
-  });</script></div> <div data-page-id="2501-javascript-setTimeout-timeout" class="navigator flex justify-between items-center mt-4 py-4"> <a href="/post/2412-float-attribute-in-ios-android" class="flex items-center gap-1 text-blue cursor-pointer flex-[45%]"> <div class="i-ri:arrow-left-double-line w-5 h-5 flex-shrink-0"></div> <div class="text-start">H5 中的浮点数渲染差异：iOS vs Android</div> </a> <a href="/post/2504-cursor-figma-mcp" class="flex items-center justify-end gap-1 text-blue cursor-pointer flex-[45%]"> <div class="text-end">Cursor 接入 Figma MCP</div> <div class="i-ri:arrow-right-double-line w-5 h-5 flex-shrink-0"></div> </a> </div> </div> <div class="outline-wrapper"></div> </main>  <footer class="mt-8 flex justify-center"> <small class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"> <a href="https://github.com/AleksChen" target="_blank">© 2025 AleksChen</a> </small> </footer> </body></html>
+</code></pre>
+<p><img src="/post-assets/m5p0iae7-image.png" alt="image.png"></p>
+<p><strong>结果分析</strong></p>
+<p>当嵌套层数少于 5 层时，；理论延迟时间是 0ms；当嵌套层数大于等于 5 层时，理论延迟时间是 4ms（此处和 HTML 规范不一样）。但实际的执行延时受制于事件循环机制，<code>setTimeout</code> 回调需要等待：</p>
+<ol>
+<li>当前同步代码执行完；</li>
+<li>微任务队列情况</li>
+<li>定时器到期</li>
+<li>等待下一个宏任务执行时机</li>
+<li>代码执行开销</li>
+</ol>
+<p>因此，实际的时延会比设置值向上浮动。但 timeout 值的下限是受到嵌套层级约束的。</p>
+<h2 id="性能影响与优化">性能影响与优化</h2><h3 id="1-cpu-和电池影响">1. CPU 和电池影响</h3><p>过于频繁的定时器调用会导致：</p>
+<ul>
+<li>CPU 使用率上升</li>
+<li>设备发热增加</li>
+<li>电池寿命减少</li>
+</ul>
+<h3 id="2-替代方案">2. 替代方案</h3><p>对于需要高精度计时的场景，推荐使用：</p>
+<ol>
+<li>requestAnimationFrame</li>
+</ol>
+<pre><code class="language-javascript">requestAnimationFrame(() =&gt; { 
+	// 用于动画的精确控制 
+});
+</code></pre>
+<ol>
+<li>Web Workers</li>
+</ol>
+<pre><code class="language-javascript">// worker.js 
+setInterval(() =&gt; { 
+	postMessage(&#39;tick&#39;); 
+}, 0);
+</code></pre>
+<ol>
+<li>Performance.now()</li>
+</ol>
+<pre><code class="language-javascript">const start = Performance.now(); // 用于精确计时
+</code></pre>
+<h2 id="结论">结论</h2><p>setTimeout 的 4ms 最小延迟是一个经过深思熟虑的设计决策，它平衡了开发便利性、性能开销和浏览器兼容性。理解这个机制有助于我们写出更好的异步代码。</p>
+<h2 id="参考资料">参考资料</h2><ul>
+<li><a href="https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout">HTML Standard</a></li>
+<li><a href="https://mp.weixin.qq.com/s/4P7ohpRmBChXQpLC-MHgHQ">为什么 setTimeout 有最小时延 4ms ?</a></li>
+</ul>
+</div>  <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 pt-8 border-t border-border" data-astro-cid-ztig7rse> <a href="/post/2412-float-attribute-in-ios-android" class="group flex flex-col gap-1 p-4 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all" data-astro-cid-ztig7rse> <span class="text-xs text-text-muted flex items-center gap-1 group-hover:text-primary" data-astro-cid-ztig7rse> <div class="i-ri:arrow-left-double-line" data-astro-cid-ztig7rse></div>
+上一篇
+</span> <span class="font-medium truncate text-text" data-astro-cid-ztig7rse>H5 中的浮点数渲染差异：iOS vs Android</span> </a> <a href="/post/2504-cursor-figma-mcp" class="group flex flex-col gap-1 p-4 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all text-right" data-astro-cid-ztig7rse> <span class="text-xs text-text-muted flex items-center gap-1 justify-end group-hover:text-primary" data-astro-cid-ztig7rse>
+下一篇
+<div class="i-ri:arrow-right-double-line" data-astro-cid-ztig7rse></div> </span> <span class="font-medium truncate text-text" data-astro-cid-ztig7rse>Cursor 接入 Figma MCP</span> </a> </nav>  <div class="giscus-container mt-12 pt-8 border-t border-border" data-astro-cid-ztig7rse> <script src="https://giscus.app/client.js" data-repo="AleksChen/AleksChen.github.io" data-repo-id data-category="General" data-category-id data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="bottom" data-theme="preferred_color_scheme" data-lang="zh-CN" crossorigin="anonymous" async class="astro-ztig7rse astro-ztig7rse astro-ztig7rse astro-ztig7rse"></script> </div> </article>  <aside class="hidden lg:block sticky top-24" data-astro-cid-ztig7rse> <div class="p-4 rounded-lg border-2 border-text bg-card shadow-[4px_4px_0_0_var(--color-text)] max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar" data-astro-cid-ztig7rse> <div class="text-sm font-bold text-text-muted mb-4 uppercase tracking-wider" data-astro-cid-ztig7rse>
+目录
+</div> <nav class="flex flex-col gap-1 text-sm" data-astro-cid-ztig7rse> <a href="#引言" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="引言" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 引言 </a><a href="#最小延迟值的演变" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="最小延迟值的演变" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 最小延迟值的演变 </a><a href="#历史变迁" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="历史变迁" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 历史变迁 </a><a href="#规范依据" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="规范依据" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 规范依据 </a><a href="#html-规范" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="html-规范" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> HTML 规范 </a><a href="#chrome-源码分析" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="chrome-源码分析" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> Chrome 源码分析 </a><a href="#技术原理解析" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="技术原理解析" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 技术原理解析 </a><a href="#1-事件循环与定时器" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="1-事件循环与定时器" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 1. 事件循环与定时器 </a><a href="#2-最小延迟测算" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="2-最小延迟测算" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 2. 最小延迟测算 </a><a href="#性能影响与优化" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="性能影响与优化" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 性能影响与优化 </a><a href="#1-cpu-和电池影响" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="1-cpu-和电池影响" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 1. CPU 和电池影响 </a><a href="#2-替代方案" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="2-替代方案" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 2. 替代方案 </a><a href="#结论" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="结论" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 结论 </a><a href="#参考资料" class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate" data-id="参考资料" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 参考资料 </a> </nav> </div> </aside> </div>  </main> <footer class="mt-8 flex justify-center"> <small class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"> <a href="https://github.com/AleksChen" target="_blank">© 2025 AleksChen</a> </small> </footer> <script type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","G-G1EC4WNBZJ");</script> </body> </html> <script type="module">const i=new IntersectionObserver(e=>{e.forEach(o=>{if(o.isIntersecting){const r=o.target.id;document.querySelectorAll(".toc-link").forEach(t=>{t.classList.toggle("text-primary",t.getAttribute("data-id")===r),t.classList.toggle("bg-primary/10",t.getAttribute("data-id")===r),t.classList.toggle("font-medium",t.getAttribute("data-id")===r)})}})},{rootMargin:"-100px 0px -60% 0px"});document.querySelectorAll("h1[id], h2[id], h3[id]").forEach(e=>{i.observe(e)});</script> 
