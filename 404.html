@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Blog"><meta name="msapplication-TileColor" content="#000000"><meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"><meta name="description" content="页面未找到"><link rel="icon" href="/favicon.ico"><link rel="sitemap" href="/sitemap-index.xml"><title>404 - Page Not Found | Blog</title><script async src="https://www.googletagmanager.com/gtag/js?id=G-G1EC4WNBZJ"></script><script type="module">const l=()=>{const e=document.documentElement;e.classList.toggle("dark");const t=e.classList.contains("dark");localStorage.setItem("theme",t?"dark":"light")};document.getElementById("theme-toggle")?.addEventListener("click",l);</script><script>
+      // 暗色模式初始化
+      const theme = (() => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          return "dark";
+        }
+        return "light";
+      })();
+
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+
+      window.localStorage.setItem("theme", theme);
+    </script><link rel="stylesheet" href="/_astro/index.DgNsngEr.css">
+<link rel="stylesheet" href="/_astro/index.Da94_N-G.css"></head> <body class="bg-bg text-text min-h-screen flex flex-col font-sans transition-colors duration-300"> <header class="sticky top-0 z-50 w-full bg-bg border-b-2 border-text"> <div class="max-w-[800px] mx-auto px-4 h-16 flex items-center justify-between"> <a href="/" class="text-xl font-bold flex items-center gap-2 hover:text-primary transition-colors" aria-label="homepage"> <div class="i-ri:home-4-line text-2xl"></div> <span class="hidden sm:inline-block">Aleks' Blog</span> </a> <div class="flex items-center gap-4">  <div class="flex items-center gap-3 border-l border-border pl-4"> <a href="https://github.com/AleksChen" target="_blank" class="hover:text-primary transition-transform hover:scale-110" title="GitHub"> <div class="i-ri:github-fill w-6 h-6"></div> </a> <a href="https://juejin.cn/user/254742428393742" target="_blank" class="hover:text-primary transition-transform hover:scale-110" title="Juejin"> <div class="i-ri:blogger-line w-6 h-6"></div> </a> <button id="theme-toggle" class="hover:text-primary transition-transform hover:scale-110 focus:outline-none" title="Toggle Theme"> <div class="i-ri:sun-line w-6 h-6 dark:hidden"></div> <div class="i-ri:moon-line w-6 h-6 hidden dark:block"></div> </button> </div> </div> </div> </header> <main class="flex-1 w-full mx-auto px-4 py-8 animate-fade-in max-w-[800px]">  <div class="flex flex-col items-center justify-center min-h-[60vh] text-center"> <h1 class="text-6xl font-bold mb-4 text-primary">404</h1> <h2 class="text-2xl font-semibold mb-4">页面未找到</h2> <p class="text-text/70 mb-8 max-w-md">
+抱歉，您访问的页面不存在或已被移动。
+</p> <a href="/" class="px-6 py-3 bg-primary text-bg rounded-lg font-medium hover:text-white hover:opacity-90 transition-opacity">
+返回首页
+</a> </div>  </main> <footer class="mt-8 flex justify-center"> <small class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"> <a href="https://github.com/AleksChen" target="_blank">© 2025 AleksChen</a> </small> </footer> <script type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","G-G1EC4WNBZJ");</script> </body> </html>
