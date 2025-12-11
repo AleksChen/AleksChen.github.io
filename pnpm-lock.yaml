@@ -23,6 +23,9 @@ importers:
       '@keystatic/core':
         specifier: ^0.5.48
         version: 0.5.48(react-dom@19.2.1(react@19.2.1))(react@19.2.1)
+      '@unocss/astro':
+        specifier: ^0.65.0
+        version: 0.65.4(rollup@4.53.3)(vite@6.4.1(@types/node@22.9.0)(jiti@2.6.1)(sass-embedded@1.80.7)(sass@1.81.0)(tsx@4.21.0)(yaml@2.7.1))(vue@3.5.25(typescript@5.6.3))
       astro:
         specifier: ^5.16.4
         version: 5.16.4(@types/node@22.9.0)(idb-keyval@6.2.2)(jiti@2.6.1)(rollup@4.53.3)(sass-embedded@1.80.7)(sass@1.81.0)(tsx@4.21.0)(typescript@5.6.3)(yaml@2.7.1)

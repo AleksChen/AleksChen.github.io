@@ -2,6 +2,9 @@
   "name": "aleks-blog",
   "type": "module",
   "version": "0.0.1",
+  "engines": {
+    "node": ">=20.19.6 <21.0.0"
+  },
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
@@ -17,6 +20,7 @@
     "@astrojs/sitemap": "^3.6.0",
     "@keystatic/astro": "^5.0.6",
     "@keystatic/core": "^0.5.48",
+    "@unocss/astro": "^0.65.0",
     "astro": "^5.16.4",
     "dayjs": "^1.11.13",
     "github-slugger": "^2.0.0",
