@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title><![CDATA[Aleks]]></title>
+    <description><![CDATA[Alekschen's blog]]></description>
+    <link>https://blog.002085.xyz</link>
+    <atom:link href="https://blog.002085.xyz/rss.xml" rel="self" type="application/rss+xml" />
+    <language>zh-CN</language>
+    <lastBuildDate>Thu, 11 Dec 2025 07:52:05 GMT</lastBuildDate>
+    <generator>Astro</generator>
+
+    <item>
+      <title><![CDATA[Claude Code 中接入 Kimi K2 大模型]]></title>
+      <link>https://blog.002085.xyz/post/2507-claude-code-kimi-k2</link>
+      <guid isPermaLink="true">https://blog.002085.xyz/post/2507-claude-code-kimi-k2</guid>
+      <description><![CDATA[Claude Code 是 Anthropic 推出的 AI 编程助手，具备强大的代码生成与理解能力。然而，受限于国内网络环境，Claude Sonnet 4、Claude Opus 4 等模型的使用门槛较高。为此，本文介绍如何将 Claude Code 切换为月之暗面最新发布的 Kimi K2 大模型，实现无缝对接与高效开发。]]></description>
+      <pubDate>Thu, 17 Jul 2025 09:39:21 GMT</pubDate>
+      <updated>Thu, 17 Jul 2025 09:44:32 GMT</updated>
+      <category><![CDATA[AI]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[SSE 服务端推送]]></title>
+      <link>https://blog.002085.xyz/post/2504-sse</link>
+      <guid isPermaLink="true">https://blog.002085.xyz/post/2504-sse</guid>
+      <description><![CDATA[Server-Sent Events (SSE) 是一种服务器推送技术，允许服务器向客户端实时推送数据。在以下场景特别有用：]]></description>
+      <pubDate>Thu, 03 Apr 2025 07:35:49 GMT</pubDate>
+      <updated>Mon, 01 Dec 2025 09:28:48 GMT</updated>
+      <category><![CDATA[Network]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[Cursor 接入 Figma MCP]]></title>
+      <link>https://blog.002085.xyz/post/2504-cursor-figma-mcp</link>
+      <guid isPermaLink="true">https://blog.002085.xyz/post/2504-cursor-figma-mcp</guid>
+      <description><![CDATA[MCP (Model Control Protocol) 是 Cursor 提供的一个协议，允许外部服务为 Cursor AI 提供额外的上下文信息。通过 Figma MCP，我们可以让 Cursor 直接读取 Figma 设计稿的信息，从而实现更精准的代码还原。]]></description>
+      <pubDate>Tue, 01 Apr 2025 07:33:49 GMT</pubDate>
+      <updated>Thu, 03 Apr 2025 07:32:36 GMT</updated>
+      <category><![CDATA[AI]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[setTimeout 最小延迟机制]]></title>
+      <link>https://blog.002085.xyz/post/2501-javascript-setTimeout-timeout</link>
+      <guid isPermaLink="true">https://blog.002085.xyz/post/2501-javascript-setTimeout-timeout</guid>
+      <description><![CDATA[在 JavaScript 中，`setTimeout` 是最常用的定时器 API 之一。然而，很多开发者可能并不了解，当我们设置一个理论上的"0毫秒"延迟时，实际上并不会为 0ms。在某些场景下实际执行时间甚至永远不会小于 4ms。这个看似奇怪的限制背后有着深层的技术原因和历史渊源。]]></description>
+      <pubDate>Thu, 09 Jan 2025 07:33:49 GMT</pubDate>
+      <updated>Thu, 09 Jan 2025 08:12:09 GMT</updated>
+      <category><![CDATA[JavaScript]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[H5 中的浮点数渲染差异：iOS vs Android]]></title>
+      <link>https://blog.002085.xyz/post/2412-float-attribute-in-ios-android</link>
+      <guid isPermaLink="true">https://blog.002085.xyz/post/2412-float-attribute-in-ios-android</guid>
+      <description><![CDATA[移动端 H5 开发中，浮点数的渲染处理是一个常见但容易被忽视的问题。iOS 和 Android 平台由于底层渲染引擎的差异，对浮点数的处理存在明显不同。了解这些差异对于开发高质量的跨平台 H5 应用至关重要。]]></description>
+      <pubDate>Fri, 13 Dec 2024 09:26:35 GMT</pubDate>
+      <updated>Fri, 13 Dec 2024 09:26:35 GMT</updated>
+      <category><![CDATA[Android]]></category>
+      <category><![CDATA[iOS]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[Vue3 编译宏使用与原理]]></title>
+      <link>https://blog.002085.xyz/post/1708-vue3-compiler-macro</link>
+      <guid isPermaLink="true">https://blog.002085.xyz/post/1708-vue3-compiler-macro</guid>
+      <description><![CDATA[Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 `<script setup>` 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。]]></description>
+      <pubDate>Fri, 23 Oct 2020 13:19:02 GMT</pubDate>
+      <updated>Fri, 13 Dec 2024 10:07:53 GMT</updated>
+      <category><![CDATA[Vue]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[手写 instanceof]]></title>
+      <link>https://blog.002085.xyz/post/1708-implement-instanceof</link>
+      <guid isPermaLink="true">https://blog.002085.xyz/post/1708-implement-instanceof</guid>
+      <description><![CDATA[在前端面试中，`instanceof` 是一个常见的问题。面试官通常会要求面试者手写 `instanceof` 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。]]></description>
+      <pubDate>Wed, 23 Aug 2017 03:32:22 GMT</pubDate>
+      <updated>Mon, 02 Dec 2024 09:46:21 GMT</updated>
+      <category><![CDATA[JavaScript]]></category>
+    </item>
+  </channel>
+</rss>
