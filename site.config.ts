@@ -18,16 +18,17 @@ export const config = {
   giscus: {
     src: "https://giscus.app/client.js",
     "data-repo": "AleksChen/AleksChen.github.io",
-    "data-repo-id": "", // 需要填写你的 repo id
-    "data-category": "General",
-    "data-category-id": "", // 需要填写你的 category id
+    "data-repo-id": "R_kgDOGjCC6A",
+    "data-category": "Announcements",
+    "data-category-id": "DIC_kwDOGjCC6M4CR-S5",
     "data-mapping": "pathname",
     "data-strict": "0",
     "data-reactions-enabled": "1",
     "data-emit-metadata": "0",
-    "data-input-position": "bottom",
-    "data-theme": "preferred_color_scheme",
+    "data-input-position": "top",
+    "data-theme": "fro",
     "data-lang": "zh-CN",
+    "data-loading": "lazy",
     crossorigin: "anonymous",
     async: true,
   },

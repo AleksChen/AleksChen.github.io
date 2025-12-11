@@ -11,28 +11,16 @@ interface Props {
 const { posts, page, more } = Astro.props;
 ---
 
-<script>
-  import { mount as mountRelativeTime } from "../components/RelativeTime";
-  import { mount as mountSearch } from "../components/Search";
-
-  mountRelativeTime("data-acc-time");
-  mountSearch("#search-container");
-</script>
-
 <Layout title="Home">
-  <div slot="operations" id="editor-operarions" class="flex gap-2 items-center">
-    <div id="search-container"></div>
-  </div>
-
   <div class="flex flex-col gap-8">
     <section class="text-center py-8 md:py-12 animate-slide-in">
       <h1
-        class="text-4xl md:text-5xl font-bold text-text mb-4 drop-shadow-[2px_2px_0_var(--color-text)]"
+        class="text-4xl md:text-5xl font-bold text-text mb-4 drop-shadow-[4px_2px_0_var(--color-shadow)]"
       >
         AleksChen's Blog
       </h1>
       <p class="text-text-muted text-lg max-w-2xl mx-auto">
-        记录技术点滴，分享开发心得
+        记录技术点滴
       </p>
     </section>
 

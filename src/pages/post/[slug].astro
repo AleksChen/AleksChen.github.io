@@ -33,7 +33,10 @@ const slugger = new GithubSlugger();
 const toc: { text: string; id: string; depth: number }[] = [];
 
 const renderer = {
-  heading(this: any, { text, depth, tokens }: { text: string; depth: number; tokens: any[] }) {
+  heading(
+    this: any,
+    { text, depth, tokens }: { text: string; depth: number; tokens: any[] }
+  ) {
     const level = depth;
     const content = this.parser.parseInline(tokens);
     const id = slugger.slug(text);
@@ -149,16 +152,19 @@ const html = await marked.parse(post.body);
               目录
             </div>
             <nav class="flex flex-col gap-1 text-sm">
-              {toc.map((heading) => (
-                <a
-                  href={`#${heading.id}`}
-                  class="toc-link block py-1 px-2 text-text-muted hover:text-primary hover:bg-primary/5 rounded transition-colors truncate"
-                  data-id={heading.id}
-                  style={`padding-left: ${(heading.depth - 1) * 0.75}rem`}
-                >
-                  {heading.text}
-                </a>
-              ))}
+              {toc.map((heading) => {
+                if (!heading.id) return;
+                return (
+                  <a
+                    href={`#${heading.id}`}
+                    class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate"
+                    data-id={heading.id}
+                    style={`padding-left: ${(heading.depth - 1) * 0.75}rem`}
+                  >
+                    {heading.text}
+                  </a>
+                );
+              })}
             </nav>
           </div>
         )
@@ -176,7 +182,7 @@ const html = await marked.parse(post.body);
           const id = entry.target.id;
           document.querySelectorAll(".toc-link").forEach((link) => {
             link.classList.toggle(
-              "text-primary",
+              "text-white",
               link.getAttribute("data-id") === id
             );
             link.classList.toggle(
