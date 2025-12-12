@@ -25,7 +25,7 @@ const {
   title,
   description,
   footer = true,
-  className = "max-w-[800px]",
+  className = "max-w-[1200px]",
   seo = {},
 } = Astro.props;
 ---
@@ -121,6 +121,7 @@ const {
   <body
     class="bg-bg text-text min-h-screen flex flex-col font-sans transition-colors duration-300"
   >
+    <slot name="background" />
     <header class="sticky top-0 z-50 w-full bg-bg border-b-2 border-text">
       <div
         class="max-w-[800px] mx-auto px-4 h-16 flex items-center justify-between"

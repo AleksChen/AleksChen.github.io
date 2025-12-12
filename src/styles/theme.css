@@ -305,7 +305,7 @@ button {
   background-color: var(--color-card);
   border: 2px solid var(--color-text);
   border-radius: 8px;
-  padding: 1.5rem;
+  padding: 1rem;
   box-shadow: 4px 4px 0 0 var(--color-text);
   transition: all var(--transition-base);
 }
