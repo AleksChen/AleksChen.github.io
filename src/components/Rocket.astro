@@ -409,7 +409,16 @@
 
       rocket.mesh.position.y += (targetY - rocket.mesh.position.y) * 0.1;
 
-      const baseX = isMobile ? 0 : -window.innerWidth * 0.18;
+      let baseX = 0;
+      if (isMobile) {
+        baseX = 0;
+      } else {
+        const dist = camera.position.z;
+        const vFOV = (camera.fov * Math.PI) / 180;
+        const visibleHeight = 2 * Math.tan(vFOV / 2) * dist;
+        const visibleWidth = visibleHeight * camera.aspect;
+        baseX = -visibleWidth / 2 + 180 * (visibleWidth / window.innerWidth);
+      }
       rocket.mesh.position.x = baseX;
       rocket.mesh.position.z = 0;
 
