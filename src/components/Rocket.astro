@@ -1,0 +1,537 @@
+---
+
+---
+
+<div
+  id="rocket-canvas-container"
+  class="fixed inset-0 -z-10 pointer-events-none"
+>
+</div>
+
+<script>
+  // 封装所有 Three.js 逻辑到异步函数中，实现动态加载
+  // (Encapsulate all Three.js logic in async function for dynamic loading)
+  async function loadThreeAndRun() {
+    // 动态从 CDN 导入依赖，大大减少主包体积
+    // (Dynamic import from CDN to reduce main bundle size)
+    const THREE = await import("https://esm.sh/three@0.169.0");
+    const { gsap } = await import("https://esm.sh/gsap@3.12.5");
+
+    // 颜色配置 (Color Configuration)
+    const Colors = {
+      white: 0xffffff,
+      black: 0x000000,
+      red1: 0xff4d4d,
+      red2: 0xff3333,
+      red3: 0xff1a1a,
+      grey: 0xf0f0f0,
+      darkGrey: 0x333333,
+      windowBlue: 0x66b3ff,
+      windowDarkBlue: 0x0066cc,
+      thrusterOrange: 0xffcc00,
+    };
+
+    class Rocket {
+      mesh: any;
+      roof: any;
+      body: any;
+      window: any;
+      base: any;
+
+      constructor() {
+        this.mesh = new THREE.Object3D();
+
+        // 自定义形状 (Custom Shapes)
+        const geoFinShape = new THREE.Shape();
+        const x = 0,
+          y = 0;
+
+        geoFinShape.moveTo(x, y);
+        geoFinShape.lineTo(x, y + 50);
+        geoFinShape.lineTo(x + 35, y + 10);
+        geoFinShape.lineTo(x + 35, y - 10);
+        geoFinShape.lineTo(x, y);
+
+        const finExtrudeSettings = {
+          depth: 8,
+          bevelEnabled: true,
+          bevelSegments: 2,
+          steps: 2,
+          bevelSize: 1,
+          bevelThickness: 1,
+        };
+
+        // 几何体 (Geometry)
+        const geoCone = new THREE.ConeGeometry(50, 70, 8);
+        const geoUpper = new THREE.CylinderGeometry(50, 75, 80, 8);
+        const geoMiddle = new THREE.CylinderGeometry(75, 85, 80, 8);
+        const geoColumn = new THREE.CylinderGeometry(85, 85, 200, 8);
+
+        // 窗框形状 (Window Frame Shape)
+        const windowFrameShape = new THREE.Shape();
+        windowFrameShape.absarc(0, 0, 55, 0, Math.PI * 2, false);
+        const windowFrameHole = new THREE.Path();
+        windowFrameHole.absarc(0, 0, 40, 0, Math.PI * 2, true);
+        windowFrameShape.holes.push(windowFrameHole);
+        const geoWindowFrame = new THREE.ExtrudeGeometry(windowFrameShape, {
+          depth: 40,
+          bevelEnabled: false,
+          curveSegments: 8,
+        });
+        geoWindowFrame.center();
+
+        const geoWindow = new THREE.CylinderGeometry(50, 50, 40, 8);
+
+        const geoWindowShape = new THREE.Shape();
+        geoWindowShape.moveTo(x - 18, y + 45);
+        geoWindowShape.lineTo(x + 18, y + 45);
+        geoWindowShape.lineTo(x + 18, y - 45);
+        geoWindowShape.lineTo(x - 18, y - 45);
+        geoWindowShape.lineTo(x - 18, y + 45);
+        const geoWindowReflection = new THREE.ShapeGeometry(geoWindowShape);
+
+        const geoFin = new THREE.ExtrudeGeometry(
+          geoFinShape,
+          finExtrudeSettings
+        );
+        const geoThruster = new THREE.CylinderGeometry(55, 55, 40, 8);
+        const geoConnector = new THREE.CylinderGeometry(55, 35, 10, 8);
+
+        // 材质 (Materials)
+        const materialSettings = {
+          flatShading: true,
+        };
+
+        const matRoof1 = new THREE.MeshLambertMaterial({
+          color: Colors.red1,
+          ...materialSettings,
+        });
+        const matRoof2 = new THREE.MeshLambertMaterial({
+          color: Colors.red2,
+          ...materialSettings,
+        });
+        const matRoof3 = new THREE.MeshLambertMaterial({
+          color: Colors.red3,
+          ...materialSettings,
+        });
+        const matBody = new THREE.MeshLambertMaterial({
+          color: Colors.grey,
+          ...materialSettings,
+        });
+        const matWindowFrame = new THREE.MeshLambertMaterial({
+          color: Colors.darkGrey,
+          side: THREE.DoubleSide,
+          ...materialSettings,
+        });
+        const matWindow = new THREE.MeshLambertMaterial({
+          color: Colors.windowDarkBlue,
+        });
+        const matWindowReflection = new THREE.MeshLambertMaterial({
+          color: Colors.windowBlue,
+        });
+        const matThruster = new THREE.MeshLambertMaterial({
+          color: Colors.thrusterOrange,
+          ...materialSettings,
+        });
+
+        // 构建网格 (Building Meshes)
+        const m = new THREE.Mesh(geoCone, matRoof1);
+        m.position.y = 70;
+        m.castShadow = true;
+        m.receiveShadow = true;
+
+        const m2 = new THREE.Mesh(geoUpper, matRoof2);
+        m2.castShadow = true;
+        m2.receiveShadow = true;
+
+        const m3 = new THREE.Mesh(geoMiddle, matRoof3);
+        m3.position.y = -70;
+        m3.castShadow = true;
+        m3.receiveShadow = true;
+
+        this.roof = new THREE.Object3D();
+        this.roof.add(m, m2, m3);
+
+        const mColumn = new THREE.Mesh(geoColumn, matBody);
+        mColumn.position.y = -210;
+        mColumn.position.x = 0;
+        mColumn.position.z = 0;
+        mColumn.castShadow = true;
+        mColumn.receiveShadow = true;
+
+        const zPlacement = 85;
+        const yPlacement = -310;
+        const yRotation = 1.6;
+        const scale = 1.8;
+
+        const mFinLeft = new THREE.Mesh(geoFin, matRoof3);
+        mFinLeft.position.y = yPlacement;
+        mFinLeft.position.z = -zPlacement;
+        mFinLeft.rotation.y = yRotation - 0.08;
+        mFinLeft.scale.set(scale, scale, scale);
+        mFinLeft.castShadow = true;
+        mFinLeft.receiveShadow = true;
+
+        const mFinRight = new THREE.Mesh(geoFin, matRoof3);
+        mFinRight.position.y = yPlacement;
+        mFinRight.position.z = zPlacement;
+        mFinRight.rotation.y = -yRotation;
+        mFinRight.scale.set(scale, scale, scale);
+        mFinRight.castShadow = true;
+        mFinRight.receiveShadow = true;
+
+        const mfins = new THREE.Object3D();
+        mfins.rotation.y += 0.05;
+        mfins.add(mFinLeft, mFinRight);
+        this.body = new THREE.Object3D();
+        this.body.add(mColumn, mfins);
+
+        // 窗框构建
+        const m5 = new THREE.Mesh(geoWindowFrame, matWindowFrame);
+        m5.position.y = -200;
+        m5.position.x = -77;
+        m5.rotation.z = 1.59;
+        m5.rotation.y = Math.PI / 2;
+
+        const m6 = new THREE.Mesh(geoWindow, matWindow);
+        m6.position.y = -200;
+        m6.position.x = -67;
+        m6.rotation.z = 1.59;
+        m6.castShadow = true;
+        m6.receiveShadow = true;
+
+        const mWindowReflection = new THREE.Mesh(
+          geoWindowReflection,
+          matWindowReflection
+        );
+        mWindowReflection.position.x = -90;
+        mWindowReflection.position.y = -200;
+        mWindowReflection.rotation.y = -1.5;
+        mWindowReflection.rotation.x = 0.82;
+        mWindowReflection.receiveShadow = true;
+
+        this.window = new THREE.Object3D();
+        this.window.add(m5, m6, mWindowReflection);
+
+        const mThruster = new THREE.Mesh(geoThruster, matWindowFrame);
+        mThruster.position.y = -305;
+        mThruster.receiveShadow = true;
+        mThruster.castShadow = true;
+
+        const mConnector = new THREE.Mesh(geoConnector, matThruster);
+        mConnector.position.y = -330;
+        mConnector.receiveShadow = true;
+        mConnector.castShadow = true;
+
+        const mBurner = new THREE.Mesh(geoThruster, matWindowFrame);
+        mBurner.position.y = -340;
+        mBurner.scale.set(0.7, 0.55, 0.7);
+        mBurner.receiveShadow = true;
+        mBurner.castShadow = true;
+
+        this.base = new THREE.Object3D();
+        this.base.add(mThruster, mConnector, mBurner);
+
+        this.mesh.add(this.roof);
+        this.mesh.add(this.body);
+        this.mesh.add(this.window);
+        this.mesh.add(this.base);
+      }
+    }
+
+    let smokeGeometry: any;
+    let smokeMaterial: any;
+
+    class Particle {
+      mesh: any;
+
+      constructor() {
+        if (!smokeGeometry) {
+          smokeGeometry = new THREE.SphereGeometry(20, 6, 6);
+        }
+        if (!smokeMaterial) {
+          smokeMaterial = new THREE.MeshLambertMaterial({
+            color: 0xffffff,
+            flatShading: true,
+            transparent: true,
+          });
+        }
+
+        const mat = smokeMaterial.clone();
+        this.mesh = new THREE.Mesh(smokeGeometry, mat);
+        this.mesh.visible = false;
+        scene.add(this.mesh);
+      }
+    }
+
+    let scene: any, camera: any, renderer: any;
+    let rocket: Rocket;
+    let particleArray: Particle[] = [];
+    let isMobile = false;
+
+    function init() {
+      const container = document.getElementById("rocket-canvas-container");
+      if (!container) return;
+
+      checkDevice();
+      createScene(container);
+      createLights();
+      createRocket();
+      loop();
+
+      window.addEventListener("resize", () => {
+        handleResize();
+        checkDevice();
+      });
+    }
+
+    function checkDevice() {
+      isMobile = window.innerWidth < 768;
+    }
+
+    function createScene(container: HTMLElement) {
+      const HEIGHT = window.innerHeight;
+      const WIDTH = window.innerWidth;
+
+      scene = new THREE.Scene();
+
+      const aspectRatio = WIDTH / HEIGHT;
+      const fieldOfView = 60;
+      const nearPlane = 1;
+      const farPlane = 950;
+
+      camera = new THREE.PerspectiveCamera(
+        fieldOfView,
+        aspectRatio,
+        nearPlane,
+        farPlane
+      );
+
+      camera.position.x = 0;
+      camera.position.z = 400;
+      camera.position.y = 50;
+
+      renderer = new THREE.WebGLRenderer({
+        alpha: true,
+        antialias: true,
+        powerPreference: "high-performance",
+      });
+
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 3));
+      renderer.setSize(WIDTH, HEIGHT);
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+      container.appendChild(renderer.domElement);
+    }
+
+    function createLights() {
+      const hemisphereLight = new THREE.HemisphereLight(
+        0xaaaaaa,
+        0x444444,
+        1.5
+      );
+      const ambientLight = new THREE.AmbientLight(0xffffff, 1.1);
+      const shadowLight = new THREE.DirectionalLight(0xffffff, 1.5);
+
+      shadowLight.position.set(150, 150, 0);
+      shadowLight.castShadow = true;
+      shadowLight.shadow.bias = -0.001;
+      shadowLight.shadow.camera.left = -800;
+      shadowLight.shadow.camera.right = 800;
+      shadowLight.shadow.camera.top = 800;
+      shadowLight.shadow.camera.bottom = -800;
+      shadowLight.shadow.camera.near = 1;
+      shadowLight.shadow.camera.far = 1200;
+      shadowLight.shadow.mapSize.width = 1024;
+      shadowLight.shadow.mapSize.height = 1024;
+
+      const burnerLight = new THREE.DirectionalLight(
+        Colors.thrusterOrange,
+        1.0
+      );
+      burnerLight.position.set(0, -5, 0);
+      burnerLight.castShadow = true;
+      burnerLight.shadow.camera.left = -100;
+      burnerLight.shadow.camera.right = 100;
+      burnerLight.shadow.camera.top = 100;
+      burnerLight.shadow.camera.bottom = -100;
+      burnerLight.shadow.camera.near = 1;
+      burnerLight.shadow.camera.far = 1000;
+      burnerLight.shadow.mapSize.width = 1024;
+      burnerLight.shadow.mapSize.height = 1024;
+
+      const sideLight = new THREE.DirectionalLight(0xffffff, 0.5);
+      sideLight.position.set(-200, 100, 100);
+
+      scene.add(hemisphereLight);
+      scene.add(shadowLight);
+      scene.add(burnerLight);
+      scene.add(ambientLight);
+      scene.add(sideLight);
+    }
+
+    function createRocket() {
+      rocket = new Rocket();
+      rocket.mesh.scale.set(0.2, 0.2, 0.2);
+      rocket.mesh.position.y = -40;
+      rocket.mesh.rotation.y = Math.PI / 2;
+      scene.add(rocket.mesh);
+    }
+
+    function handleResize() {
+      const HEIGHT = window.innerHeight;
+      const WIDTH = window.innerWidth;
+      renderer.setSize(WIDTH, HEIGHT);
+      camera.aspect = WIDTH / HEIGHT;
+      camera.updateProjectionMatrix();
+    }
+
+    function loop() {
+      renderer.render(scene, camera);
+
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const scrollHeight =
+        document.documentElement.scrollHeight - window.innerHeight;
+      const scrollPercent = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+      const clampedScroll = Math.max(0, Math.min(1, scrollPercent));
+
+      const startY = -200;
+      const endY = 250;
+
+      let targetY = startY + (endY - startY) * clampedScroll;
+
+      if (clampedScroll > 0.95) {
+        const flyProgress = (clampedScroll - 0.95) / 0.05;
+        const flyOffset = flyProgress * flyProgress * 2500;
+        targetY += flyOffset;
+      }
+
+      rocket.mesh.position.y += (targetY - rocket.mesh.position.y) * 0.1;
+
+      const baseX = isMobile ? 0 : -window.innerWidth * 0.18;
+      rocket.mesh.position.x = baseX;
+      rocket.mesh.position.z = 0;
+
+      rocket.mesh.rotation.y += 0.01;
+      rocket.mesh.rotation.x = 0;
+      rocket.mesh.rotation.z = 0;
+
+      if (clampedScroll > 0.001 && clampedScroll <= 0.98) {
+        if (Math.random() > 0.95) {
+          createSmoke(rocket, clampedScroll);
+        }
+      }
+
+      requestAnimationFrame(loop);
+    }
+
+    function getParticle() {
+      if (particleArray.length > 0) {
+        return particleArray.pop();
+      }
+      return new Particle();
+    }
+
+    function recycleParticle(p: Particle) {
+      p.mesh.visible = false;
+      particleArray.push(p);
+    }
+
+    function createSmoke(rocket: Rocket, progress: number) {
+      let p = getParticle();
+      if (p) dropParticle(p, rocket, progress);
+    }
+
+    function dropParticle(p: Particle, rocket: Rocket, progress: number) {
+      p.mesh.visible = true;
+      p.mesh.position.x = rocket.mesh.position.x;
+      p.mesh.position.y = rocket.mesh.position.y - 80;
+      p.mesh.position.z = 0;
+
+      const s = Math.random() * 0.2 + 0.35;
+
+      let r = 1,
+        g = 1,
+        b = 1;
+      let scaleMultiplier = 1;
+
+      if (progress < 0.4) {
+        scaleMultiplier = 4;
+        r = 1;
+        g = Math.random() * 0.9;
+        b = 0;
+      } else if (progress < 0.6) {
+        const t = (progress - 0.4) / 0.2;
+        scaleMultiplier = 4 - t * 1.0;
+        r = 1.0;
+        g = 0.9 + t * 0.1;
+        b = t;
+      } else {
+        scaleMultiplier = 1.0;
+        const redTint = Math.random() * 0.1;
+        r = 1;
+        g = 1 - redTint;
+        b = 1 - redTint;
+      }
+
+      p.mesh.scale.set(
+        0.4 * s * scaleMultiplier,
+        0.4 * s * scaleMultiplier,
+        0.4 * s * scaleMultiplier
+      );
+      p.mesh.rotation.set(
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2,
+        Math.random() * Math.PI * 2
+      );
+
+      // @ts-ignore
+      p.mesh.material.color.setRGB(r, g, b);
+
+      const cloudTargetPosX = rocket.mesh.position.x;
+      const cloudTargetPosY = rocket.mesh.position.y - 500;
+      const cloudTargetSpeed = 0.8 + Math.random() * 0.6;
+      const cloudSlowMoFactor = 0.65;
+
+      gsap.to(p.mesh.position, {
+        duration: 1.3 * cloudTargetSpeed * cloudSlowMoFactor,
+        x: cloudTargetPosX,
+        y: cloudTargetPosY,
+        ease: "none",
+        onComplete: () => recycleParticle(p),
+      });
+
+      gsap.to(p.mesh.scale, {
+        duration: cloudTargetSpeed * cloudSlowMoFactor,
+        x: s * 1.8 * scaleMultiplier,
+        y: s * 1.8 * scaleMultiplier,
+        z: s * 1.8 * scaleMultiplier,
+        ease: "linear",
+      });
+    }
+
+    // 执行初始化
+    init();
+  }
+
+  // 优化：延迟初始化，避免阻塞首屏渲染和交互
+  function deferredInit() {
+    const run = () => {
+      if ("requestIdleCallback" in window) {
+        // @ts-ignore
+        requestIdleCallback(() => loadThreeAndRun(), { timeout: 3000 });
+      } else {
+        setTimeout(loadThreeAndRun, 200);
+      }
+    };
+
+    if (document.readyState === "complete") {
+      run();
+    } else {
+      window.addEventListener("load", run);
+    }
+  }
+
+  deferredInit();
+</script>

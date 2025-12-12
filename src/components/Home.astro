@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import type { ShortPostData } from "@/lib/posts";
+import Rocket from "@/components/Rocket.astro";
 
 interface Props {
   posts: ShortPostData[];
@@ -18,7 +19,10 @@ const { posts, page, more } = Astro.props;
     type: "website",
   }}
 >
-  <div class="flex flex-col gap-8">
+  <!-- Three.js 火箭背景 -->
+  <Rocket />
+
+  <div class="flex flex-col gap-8 relative z-10">
     <section id="hero-section" class="text-center py-8 md:py-12">
       <h1
         class="text-4xl md:text-7xl font-bold text-text mb-6 drop-shadow-[4px_2px_0_var(--color-shadow)]"
@@ -92,6 +96,7 @@ const { posts, page, more } = Astro.props;
 </Layout>
 
 <script>
+  // Hero section 淡出效果
   const heroSection = document.getElementById("hero-section");
   if (heroSection) {
     const fadeOutHeight = 249; // 滚动多少像素后完全消失
