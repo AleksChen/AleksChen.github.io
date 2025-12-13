@@ -42,7 +42,7 @@ const toc = headings
 
 const siteUrl = Astro.site || "https://alekschen.github.io";
 const postUrl = `${siteUrl}/post/${post.slug}`;
-
+const showSidebar = post?.showSidebar ?? true;
 const coverData = post.data.cover
   ? { src: post.data.cover }
   : getCoverFromTags(post.data.tags);
@@ -70,7 +70,12 @@ const intro = post.data.intro || extractIntro(post.body);
     url: postUrl,
   }}
 >
-  <div class="grid grid-cols-1 layout-grid-cols gap-8 items-start">
+  <div
+    class:list={[
+      "grid grid-cols-1 gap-8 items-start",
+      { "layout-grid-cols": showSidebar },
+    ]}
+  >
     <article class="w-full min-w-0">
       {/* 文章头部信息 */}
       <header class="mb-8 pb-8 border-b border-border">
@@ -87,14 +92,15 @@ const intro = post.data.intro || extractIntro(post.body);
           }
         </div>
 
-        <h1
-          class="text-3xl md:text-4xl font-bold mb-4 leading-tight text-text"
-        >
+        <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight text-text">
           {post.data.title}
         </h1>
 
         <div class="flex items-center gap-4 text-sm text-text-muted">
-          <time datetime={post.data.date.toISOString()} class="flex items-center gap-1">
+          <time
+            datetime={post.data.date.toISOString()}
+            class="flex items-center gap-1"
+          >
             <div class="i-ri:calendar-line"></div>
             {post.data.date.toLocaleDateString()}
           </time>
@@ -113,7 +119,9 @@ const intro = post.data.intro || extractIntro(post.body);
       <div
         class="prose prose-lg dark:prose-invert max-w-none break-words prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24"
       >
-        <Content components={{ img: MDXImage, pre: MDXCode, table: MDXTable }} />
+        <Content
+          components={{ img: MDXImage, pre: MDXCode, table: MDXTable }}
+        />
       </div>
 
       {/* 底部导航 (无需 JS Mount) */}
@@ -164,33 +172,34 @@ const intro = post.data.intro || extractIntro(post.body);
       }
     </article>
 
-    {/* 侧边栏大纲 (SSG 生成) */}
-    <aside class="hidden lg:block sticky top-24">
-      {
-        toc.length > 0 && (
-          <div class="p-4 rounded-lg border-2 border-text bg-card shadow-[4px_4px_0_0_var(--color-text)] max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
-            <div class="text-sm font-bold text-text-muted mb-4 uppercase tracking-wider">
-              目录
+    {
+      showSidebar && (
+        <aside class="hidden lg:block sticky top-24">
+          {toc.length > 0 && (
+            <div class="p-4 rounded-lg border-2 border-text bg-card shadow-[4px_4px_0_0_var(--color-text)] max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
+              <div class="text-sm font-bold text-text-muted mb-4 uppercase tracking-wider">
+                目录
+              </div>
+              <nav class="flex flex-col gap-1 text-sm">
+                {toc.map((heading) => {
+                  if (!heading.id) return;
+                  return (
+                    <a
+                      href={`#${heading.id}`}
+                      class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate"
+                      data-id={heading.id}
+                      style={`padding-left: ${(heading.depth - 1) * 0.75}rem`}
+                    >
+                      {heading.text}
+                    </a>
+                  );
+                })}
+              </nav>
             </div>
-            <nav class="flex flex-col gap-1 text-sm">
-              {toc.map((heading) => {
-                if (!heading.id) return;
-                return (
-                  <a
-                    href={`#${heading.id}`}
-                    class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate"
-                    data-id={heading.id}
-                    style={`padding-left: ${(heading.depth - 1) * 0.75}rem`}
-                  >
-                    {heading.text}
-                  </a>
-                );
-              })}
-            </nav>
-          </div>
-        )
-      }
-    </aside>
+          )}
+        </aside>
+      )
+    }
   </div>
 </Layout>
 

@@ -2,8 +2,43 @@
 import config from "../../site.config";
 ---
 
-<footer class="mt-8 flex justify-center">
-  <small class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80">
-    <a href={config.footer.copyrightUrl} target="_blank">{`© ${new Date().getFullYear()} ${config.footer.copyright}`}</a>
+<footer class="mt-8 flex flex-col items-center gap-4 py-8">
+  <div class="flex items-center gap-4">
+    <a
+      href={config.head.links.github}
+      target="_blank"
+      class="hover:text-primary transition-transform hover:scale-110 flex items-center gap-1 text-sm font-medium"
+      title="GitHub"
+    >
+      <div class="i-ri:github-fill w-5 h-5"></div>
+      <span class="opacity-80 hover:opacity-100">GitHub</span>
+    </a>
+    <div class="w-px h-4 bg-text opacity-20"></div>
+    <a
+      href={config.head.links.juejin}
+      target="_blank"
+      class="hover:text-primary transition-transform hover:scale-110 flex items-center gap-1 text-sm font-medium"
+      title="Juejin"
+    >
+      <div class="i-ri:blogger-line w-5 h-5"></div>
+      <span class="opacity-80 hover:opacity-100">Blog</span>
+    </a>
+    <div class="w-px h-4 bg-text opacity-20"></div>
+    <a
+      href="/rss.xml"
+      target="_blank"
+      class="hover:text-primary transition-transform hover:scale-110 flex items-center gap-1 text-sm font-medium"
+      title="RSS"
+    >
+      <div class="i-ri:rss-line w-5 h-5"></div>
+      <span class="opacity-80 hover:opacity-100">RSS</span>
+    </a>
+  </div>
+  <small
+    class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"
+  >
+    <a href={config.footer.copyrightUrl} target="_blank"
+      >{`© ${new Date().getFullYear()} ${config.footer.copyright}`}</a
+    >
   </small>
 </footer>

@@ -122,7 +122,10 @@ const {
     class="bg-bg text-text min-h-screen flex flex-col font-sans transition-colors duration-300"
   >
     <slot name="background" />
-    <header class="sticky top-0 z-50 w-full bg-bg border-b-2 border-text">
+    <header
+      id="main-header"
+      class="sticky top-0 z-50 w-full bg-bg border-b-2 border-text transition-transform duration-300"
+    >
       <div
         class="max-w-[800px] mx-auto px-4 h-16 flex items-center justify-between"
       >
@@ -157,7 +160,7 @@ const {
           </nav>
           <slot name="operations" />
 
-          <div class="flex items-center gap-3 pl-4">
+          <div class="flex items-center gap-3 pl-4 border-l border-text">
             <a
               href={config.head.links.github}
               target="_blank"
@@ -166,15 +169,7 @@ const {
             >
               <div class="i-ri:github-fill w-6 h-6"></div>
             </a>
-            <!-- <a
-              href={config.head.links.juejin}
-              target="_blank"
-              class="hover:text-primary transition-transform hover:scale-110"
-              title="Juejin"
-            >
-              <div class="i-ri:blogger-line w-6 h-6"></div>
-            </a> -->
-
+            
             <button
               id="theme-toggle"
               class="hover:text-primary transition-transform hover:scale-110 focus:outline-none"
@@ -207,6 +202,28 @@ const {
       document
         .getElementById("theme-toggle")
         ?.addEventListener("click", handleToggleClick);
+    </script>
+
+    <script>
+      let lastScrollY = window.scrollY;
+      const header = document.getElementById("main-header");
+
+      window.addEventListener("scroll", () => {
+        const currentScrollY = window.scrollY;
+
+        if (!header) return;
+
+        // 向上滚动或在顶部时显示
+        if (currentScrollY < lastScrollY || currentScrollY <= 100) {
+          header.classList.remove("-translate-y-full");
+        } 
+        // 向下滚动且超过阈值时隐藏
+        else if (currentScrollY > 100 && currentScrollY > lastScrollY) {
+          header.classList.add("-translate-y-full");
+        }
+
+        lastScrollY = currentScrollY;
+      });
     </script>
   </body>
 </html>
