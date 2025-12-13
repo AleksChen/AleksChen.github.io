@@ -34,7 +34,7 @@ const sortedTags = allTags.sort((a, b) => {
       </p>
     </section>
 
-    <div class="flex flex-wrap gap-4 justify-center md:justify-start">
+    <div class="flex flex-wrap gap-4 justify-center">
       {
         sortedTags.map((tag, index) => {
           const count = tagCountMap.get(tag) || 0;

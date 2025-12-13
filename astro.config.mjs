@@ -33,6 +33,16 @@ export default defineConfig({
     host: true,
   },
   vite: {
+    build: {
+      rollupOptions: {
+        output: {
+          // 解决默认 _astro/ 目录下文件名混乱的问题
+          assetFileNames: "assets/[name].[hash][extname]",
+          chunkFileNames: "assets/chunks/[name].[hash].js",
+          entryFileNames: "assets/[name].[hash].js",
+        },
+      },
+    },
     resolve: {
       alias: {
         "@": fileURLToPath(new URL("./src", import.meta.url)),
