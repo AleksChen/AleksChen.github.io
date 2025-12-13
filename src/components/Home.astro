@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import type { ShortPostData } from "@/lib/posts";
 import Rocket from "@/components/Rocket.astro";
+import Mountain from "@/components/Mountain.astro";
 
 import { PostCard } from "./PostCard";
 
@@ -23,6 +24,8 @@ const { posts, page, more } = Astro.props;
 >
   <!-- Three.js 火箭背景 -->
   <Rocket slot="background" />
+  <!-- 山峰视差背景 -->
+  <Mountain slot="background" />
 
   <div class="flex flex-col gap-8 relative z-10 items-center">
     <section id="hero-section" class="text-center py-8 md:py-12">
@@ -34,11 +37,10 @@ const { posts, page, more } = Astro.props;
       <p class="text-text-muted text-lg max-w-2xl mx-auto">活在当下 记录时间</p>
     </section>
 
-    <div class="flex flex-col gap-6 max-w-[600px]">
+    <div class="flex flex-col gap-6 max-w-[800px]">
       {
         posts.map((item, index) => (
           <PostCard
-            client:visible
             key={item.slug}
             item={item}
             index={index}

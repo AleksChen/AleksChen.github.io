@@ -1,0 +1,49 @@
+<div
+  id="mountain-layer"
+  class="fixed bottom-0 left-0 w-full pointer-events-none -z-5 translate-y-full will-change-transform opacity-90 transition-transform duration-75 ease-linear"
+>
+  <svg
+    viewBox="0 0 1440 320"
+    class="w-full h-auto min-h-[30vh] md:min-h-[50vh]"
+  >
+    <!-- Rear mountain (lighter/further) -->
+    <path
+      fill="currentColor"
+      class="text-gray-200/50 dark:text-gray-800/50"
+      d="M0,256L48,229.3C96,203,192,149,288,154.7C384,160,480,224,576,213.3C672,203,768,117,864,101.3C960,85,1056,139,1152,149.3C1248,160,1344,128,1392,112L1440,96L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+    ></path>
+    <!-- Front mountain (darker/closer) -->
+    <path
+      fill="currentColor"
+      class="text-gray-300 dark:text-gray-700"
+      d="M0,224L48,213.3C96,203,192,181,288,181.3C384,181,480,203,576,224C672,245,768,267,864,250.7C960,235,1056,181,1152,165.3C1248,149,1344,171,1392,181.3L1440,192L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"
+    ></path>
+  </svg>
+</div>
+
+<script>
+  const mountain = document.getElementById("mountain-layer");
+
+  const updatePosition = () => {
+    if (!mountain) return;
+    const scrollY = window.scrollY;
+    // Rising effect:
+    // As we scroll down, the mountain rises up from the bottom.
+    // Speed factor: 0.2px rise per 1px scroll
+    const speed = 0.2;
+    const risePixels = scrollY * speed;
+
+    // Limit max rise (optional, e.g. 50% of viewport)
+    const maxRise = window.innerHeight * 0.5;
+    const actualRise = Math.min(risePixels, maxRise);
+
+    // Apply transform
+    // Initial state is translate-y-full (100% down).
+    // We subtract pixels from that.
+    mountain.style.transform = `translateY(calc(100% - ${actualRise}px))`;
+  };
+
+  window.addEventListener("scroll", updatePosition, { passive: true });
+  // Initial call to set position
+  updatePosition();
+</script>

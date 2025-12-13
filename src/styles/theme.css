@@ -2,13 +2,9 @@
    Aleks Blog - Modern Theme System
    ======================================== */
 
-/* Google Fonts - JetBrains Mono for code */
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Noto+Sans+SC:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap");
-
 :root {
   /* Primary Colors - Warm Ocean */
   --color-primary: #3b82f6;
-  --color-primary-hover: #ffffff;
   --color-primary-light: #dbeafe;
 
   /* Accent */
@@ -58,7 +54,6 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --color-primary: #60a5fa;
-    --color-primary-hover: #93c5fd;
     --color-primary-light: #1e3a5f;
 
     --color-accent: #fbbf24;
@@ -87,7 +82,6 @@
 /* Manual dark mode class support */
 .dark {
   --color-primary: #60a5fa;
-  --color-primary-hover: #93c5fd;
   --color-primary-light: #1e3a5f;
 
   --color-accent: #fbbf24;
@@ -219,103 +213,6 @@ p {
 }
 
 /* ========================================
-   Code Blocks
-   ======================================== */
-
-code {
-  font-family: var(--font-mono);
-  font-size: 0.875em;
-  padding: 0.2em 0.4em;
-  border-radius: 4px;
-  background-color: var(--color-code-bg);
-  color: var(--color-code-text);
-}
-
-pre {
-  font-family: var(--font-mono);
-  font-size: 0.875rem;
-  line-height: 1.7;
-  padding: 1.25rem;
-  border-radius: 12px;
-  background-color: var(--color-code-bg);
-  overflow-x: auto;
-  margin: 1.5rem 0;
-}
-
-pre code {
-  padding: 0;
-  background: transparent;
-  font-size: inherit;
-}
-
-/* ========================================
-   Buttons
-   ======================================== */
-
-button {
-  font-family: inherit;
-  cursor: pointer;
-  border: none;
-  background: none;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1.25rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  border-radius: 8px;
-  transition: all var(--transition-fast);
-  border: 2px solid var(--color-text);
-  box-shadow: 2px 2px 0 0 var(--color-text);
-}
-
-.btn:active {
-  transform: translate(2px, 2px);
-  box-shadow: none;
-}
-
-.btn-primary {
-  background-color: var(--color-primary);
-  color: white;
-  border-color: var(--color-text);
-}
-
-.btn-primary:hover {
-  background-color: var(--color-primary-hover);
-}
-
-.btn-ghost {
-  background: transparent;
-  color: var(--color-text);
-}
-
-.btn-ghost:hover {
-  background-color: var(--color-bg-secondary);
-}
-
-/* ========================================
-   Cards
-   ======================================== */
-
-.card {
-  background-color: var(--color-card);
-  border: 2px solid var(--color-text);
-  border-radius: 8px;
-  padding: 1rem;
-  box-shadow: 4px 4px 0 0 var(--color-text);
-  transition: all var(--transition-base);
-}
-
-.card:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: 6px 6px 0 0 var(--color-text);
-}
-
-/* ========================================
    Animations
    ======================================== */
 
@@ -364,29 +261,6 @@ button {
 }
 .stagger-5 {
   animation-delay: 0.25s;
-}
-
-/* ========================================
-   Utilities
-   ======================================== */
-
-.container {
-  width: 100%;
-  max-width: var(--content-max-width);
-  margin: 0 auto;
-  padding: 0 var(--content-padding);
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
 }
 
 /* ========================================
