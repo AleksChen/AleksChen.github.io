@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Blog"><meta name="msapplication-TileColor" content="#000000"><meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"><link rel="icon" href="/favicon.ico"><link rel="sitemap" href="/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml"><title>
       手写 instanceof | Aleks
-    </title><!-- 基础 SEO --><meta name="description" content="在前端面试中，`instanceof` 是一个常见的问题。面试官通常会要求面试者手写 `instanceof` 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。"><meta name="author" content="Aleks"><meta name="keywords" content="JavaScript"><link rel="canonical" href="https://blog.002085.xyz//post/1708-implement-instanceof"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:title" content="手写 instanceof"><meta property="og:description" content="在前端面试中，`instanceof` 是一个常见的问题。面试官通常会要求面试者手写 `instanceof` 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。"><meta property="og:image" content="https://blog.002085.xyz//favicon.ico"><meta property="og:url" content="https://blog.002085.xyz//post/1708-implement-instanceof"><meta property="og:site_name" content="Aleks"><meta property="article:published_time" content="2017-08-23T03:32:22.000Z"><meta property="article:modified_time" content="2024-12-02T09:46:21.280Z"><meta property="article:tag" content="JavaScript"><meta property="article:author" content="Aleks"><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="手写 instanceof"><meta name="twitter:description" content="在前端面试中，`instanceof` 是一个常见的问题。面试官通常会要求面试者手写 `instanceof` 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。"><meta name="twitter:image" content="https://blog.002085.xyz//favicon.ico"><!-- JSON-LD 结构化数据 --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"手写 instanceof","description":"在前端面试中，`instanceof` 是一个常见的问题。面试官通常会要求面试者手写 `instanceof` 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。","image":"https://blog.002085.xyz//favicon.ico","datePublished":"2017-08-23T03:32:22.000Z","dateModified":"2024-12-02T09:46:21.280Z","author":{"@type":"Person","name":"Aleks"},"publisher":{"@type":"Organization","name":"Aleks","logo":{"@type":"ImageObject","url":"https://blog.002085.xyz/favicon.ico"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.002085.xyz//post/1708-implement-instanceof"},"keywords":"JavaScript"}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-G1EC4WNBZJ"></script><script type="module">const l=()=>{const e=document.documentElement;e.classList.toggle("dark");const t=e.classList.contains("dark");localStorage.setItem("theme",t?"dark":"light")};document.getElementById("theme-toggle")?.addEventListener("click",l);</script><!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-bqrNOvlYoay2S1opDAt9D.js"></script><script type="module">window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init();</script><script>
+    </title><!-- 基础 SEO --><meta name="description" content="在前端面试中，`instanceof` 是一个常见的问题。面试官通常会要求面试者手写 `instanceof` 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。"><meta name="author" content="Aleks"><meta name="keywords" content="JavaScript"><link rel="canonical" href="https://blog.002085.xyz//post/1708-implement-instanceof"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:title" content="手写 instanceof"><meta property="og:description" content="在前端面试中，`instanceof` 是一个常见的问题。面试官通常会要求面试者手写 `instanceof` 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。"><meta property="og:image" content="https://blog.002085.xyz/post-assets/cover/cover-js.png"><meta property="og:url" content="https://blog.002085.xyz//post/1708-implement-instanceof"><meta property="og:site_name" content="Aleks"><meta property="article:published_time" content="2017-08-23T03:32:22.000Z"><meta property="article:modified_time" content="2024-12-02T09:46:21.280Z"><meta property="article:tag" content="JavaScript"><meta property="article:author" content="Aleks"><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="手写 instanceof"><meta name="twitter:description" content="在前端面试中，`instanceof` 是一个常见的问题。面试官通常会要求面试者手写 `instanceof` 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。"><meta name="twitter:image" content="https://blog.002085.xyz/post-assets/cover/cover-js.png"><!-- JSON-LD 结构化数据 --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"手写 instanceof","description":"在前端面试中，`instanceof` 是一个常见的问题。面试官通常会要求面试者手写 `instanceof` 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。","image":"https://blog.002085.xyz/post-assets/cover/cover-js.png","datePublished":"2017-08-23T03:32:22.000Z","dateModified":"2024-12-02T09:46:21.280Z","author":{"@type":"Person","name":"Aleks"},"publisher":{"@type":"Organization","name":"Aleks","logo":{"@type":"ImageObject","url":"https://blog.002085.xyz/favicon.ico"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.002085.xyz//post/1708-implement-instanceof"},"keywords":"JavaScript"}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-G1EC4WNBZJ"></script><script type="module">const l=()=>{const e=document.documentElement;e.classList.toggle("dark");const t=e.classList.contains("dark");localStorage.setItem("theme",t?"dark":"light")};document.getElementById("theme-toggle")?.addEventListener("click",l);</script><!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-bqrNOvlYoay2S1opDAt9D.js"></script><script type="module">window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init();</script><script>
       // 暗色模式初始化
       const theme = (() => {
         if (
@@ -22,7 +22,7 @@
       }
 
       window.localStorage.setItem("theme", theme);
-    </script><link rel="stylesheet" href="/assets/about.D9EICWco.css">
+    </script><link rel="stylesheet" href="/assets/about.DuXvmsiQ.css">
 <link rel="stylesheet" href="/assets/index.yCyos9fH.css">
 <style>@media(min-width:1024px){.layout-grid-cols[data-astro-cid-ztig7rse]{grid-template-columns:minmax(0,1fr) 240px}}
 </style></head> <body class="bg-bg text-text min-h-screen flex flex-col font-sans transition-colors duration-300">  <header class="sticky top-0 z-50 w-full bg-bg border-b-2 border-text"> <div class="max-w-[800px] mx-auto px-4 h-16 flex items-center justify-between"> <a href="/" class="text-xl font-bold flex items-center gap-2 hover:text-primary transition-colors" aria-label="homepage"> <div class="i-ri:home-4-line w-6 h-6"></div> </a> <div class="flex items-center gap-4"> <nav class="hidden md:flex items-center gap-6"> <a href="/archives" class="text-sm font-medium hover:text-primary transition-colors">
@@ -39,8 +39,9 @@
             >
               <div class="i-ri:blogger-line w-6 h-6"></div>
             </a> --> <button id="theme-toggle" class="hover:text-primary transition-transform hover:scale-110 focus:outline-none" title="Toggle Theme"> <div class="i-ri:sun-line w-6 h-6 dark:hidden"></div> <div class="i-ri:moon-line w-6 h-6 hidden dark:block"></div> </button> </div> </div> </div> </header> <main class="flex-1 w-full mx-auto px-4 py-8 animate-fade-in max-w-[1200px]">  <div class="grid grid-cols-1 layout-grid-cols gap-8 items-start" data-astro-cid-ztig7rse> <article class="w-full min-w-0" data-astro-cid-ztig7rse>  <header class="mb-8 pb-8 border-b border-border" data-astro-cid-ztig7rse> <div class="flex flex-wrap gap-2 mb-4" data-astro-cid-ztig7rse> <a href="/tag/JavaScript" class="px-2 py-1 text-xs font-bold rounded-sm border border-text text-text bg-transparent shadow-[2px_2px_0_0_var(--color-text)] hover:translate-y-[1px] hover:translate-x-[1px] hover:shadow-none transition-all" data-astro-cid-ztig7rse>
-#JavaScript </a> </div> <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight text-text" data-astro-cid-ztig7rse> 手写 instanceof </h1> <div class="flex items-center gap-4 text-sm text-text-muted" data-astro-cid-ztig7rse> <time datetime="Wed Aug 23 2017 03:32:22 GMT+0000 (Coordinated Universal Time)" class="flex items-center gap-1" data-astro-cid-ztig7rse> <div class="i-ri:calendar-line" data-astro-cid-ztig7rse></div> 8/23/2017 </time> <span class="flex items-center gap-1" title="最后更新时间" data-astro-cid-ztig7rse> <div class="i-ri:time-line" data-astro-cid-ztig7rse></div> 12/2/2024 </span> </div> </header>  <div class="prose prose-lg dark:prose-invert max-w-none prose-img:rounded-sm prose-img:border-2 prose-img:border-text prose-img:shadow-[4px_4px_0_0_var(--color-text)] prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24" data-astro-cid-ztig7rse><p>在前端面试中，<code>instanceof</code> 是一个常见的问题。面试官通常会要求面试者手写 <code>instanceof</code> 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。</p>
-<h2 id="类型判断">类型判断</h2><p>在 JavaScript 中数据分为基本类型和引用类型。</p>
+#JavaScript </a> </div> <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight text-text" data-astro-cid-ztig7rse> 手写 instanceof </h1> <div class="flex items-center gap-4 text-sm text-text-muted" data-astro-cid-ztig7rse> <time datetime="2017-08-23T03:32:22.000Z" class="flex items-center gap-1" data-astro-cid-ztig7rse> <div class="i-ri:calendar-line" data-astro-cid-ztig7rse></div> 8/23/2017 </time> <span class="flex items-center gap-1" title="最后更新时间" data-astro-cid-ztig7rse> <div class="i-ri:time-line" data-astro-cid-ztig7rse></div> 12/2/2024 </span> </div> </header>  <div class="prose prose-lg dark:prose-invert max-w-none break-words prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24" data-astro-cid-ztig7rse> <p>在前端面试中，<code>instanceof</code> 是一个常见的问题。面试官通常会要求面试者手写 <code>instanceof</code> 的实现，以测试他们对 JavaScript 类型系统和原型链的理解。</p>
+<h2 id="类型判断">类型判断</h2>
+<p>在 JavaScript 中数据分为基本类型和引用类型。</p>
 <p>基本类型</p>
 <ul>
 <li><code>Number</code></li>
@@ -61,76 +62,78 @@
 <li><code>Map</code></li>
 <li><code>Set</code></li>
 <li><code>Promise</code></li>
-<li>...</li>
+<li>…</li>
 </ul>
 <p>在实际工作中，我们常常需要判断一个变量的类型。对于基本类型(<code>null</code> 除外) 和 <code>Function</code> 我们可以使用 <code>typeof</code> 进行判断。对于引用类型我们则需要使用 <code>instanceof</code> 进行判断。</p>
-<pre><code class="language-javascript">// 基本数据类型
-let numberExample = 123;
-let stringExample = &quot;hello&quot;;
-let booleanExample = true;
-let nullExample = null;
-let undefinedExample = undefined;
-let symbolExample = Symbol(&quot;example&quot;);
-let bigIntExample = BigInt(10);
-
-// 引用类型
-let objectExample = {};
-let arrayExample = [];
-let functionExample = function () {};
-let dateExample = new Date();
-let regExpExample = /abc/;
-let mapExample = new Map();
-let setExample = new Set();
-let promiseExample = new Promise(() =&gt; {});
-
-// typeof 适用范围
-console.log(typeof numberExample); // number
-console.log(typeof stringExample); // string
-console.log(typeof booleanExample); // boolean
-console.log(typeof undefinedExample); // undefined
-console.log(typeof symbolExample); // symbol
-console.log(typeof bigIntExample); // bigint
-console.log(typeof functionExample); // function
-
-// typeof 对 null 和于其他引用类型无法判断
-console.log(typeof nullExample); // object。这是一个历史遗留问题，实际上 null 是基本数据类型
-console.log(typeof objectExample); // object
-console.log(typeof arrayExample); // object
-console.log(typeof dateExample); // object
-console.log(typeof regExpExample); // object
-console.log(typeof mapExample); // object
-console.log(typeof setExample); // object
-console.log(typeof promiseExample); // object
-
-// instanceof 判断对象具体是哪种类型的对象
-console.log(objectExample instanceof Object); // true
-console.log(arrayExample instanceof Array); // true
-console.log(functionExample instanceof Function); // true
-console.log(dateExample instanceof Date); // true
-console.log(regExpExample instanceof RegExp); // true
-console.log(mapExample instanceof Map); // true
-console.log(setExample instanceof Set); // true
-console.log(promiseExample instanceof Promise); // true
-</code></pre>
-<h2 id="instanceof-是什么">instanceof 是什么</h2><p>MDN 定义：<code>instanceof</code> 是 JavaScript 的一个二元操作符，用于测试构造函数的 <code>prototype</code> 属性是否出现在对象的原型链中的任何位置。换句话说，<code>instanceof</code> 可以用于判断一个对象是否由某个构造函数创建的。</p>
-<pre><code class="language-javascript">function Car(make, model, year) {
-  this.make = make;
-  this.model = model;
-  this.year = year;
-}
-
-const auto = new Car(&quot;Honda&quot;, &quot;Accord&quot;, 1998);
-console.log(auto instanceof Car); // true
-</code></pre>
+<div class="code-block relative group my-6 rounded-lg overflow-hidden border border-border bg-[var(--shiki-bg)] shadow-sm">  <div class="relative"> <pre class="astro-code github-dark !my-0 !p-4 overflow-x-auto custom-scrollbar text-sm leading-relaxed" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">// 基本数据类型</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> numberExample </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> 123</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> stringExample </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> &quot;hello&quot;</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> booleanExample </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> true</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> nullExample </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> null</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> undefinedExample </span><span style="color:#F97583">=</span><span style="color:#79B8FF"> undefined</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> symbolExample </span><span style="color:#F97583">=</span><span style="color:#B392F0"> Symbol</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;example&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> bigIntExample </span><span style="color:#F97583">=</span><span style="color:#B392F0"> BigInt</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">10</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 引用类型</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> objectExample </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> {};</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> arrayExample </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> [];</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#B392F0"> functionExample</span><span style="color:#F97583"> =</span><span style="color:#F97583"> function</span><span style="color:#E1E4E8"> () {};</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> dateExample </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Date</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> regExpExample </span><span style="color:#F97583">=</span><span style="color:#9ECBFF"> /</span><span style="color:#DBEDFF">abc</span><span style="color:#9ECBFF">/</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> mapExample </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Map</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> setExample </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Set</span><span style="color:#E1E4E8">();</span></span>
+<span class="line"><span style="color:#F97583">let</span><span style="color:#E1E4E8"> promiseExample </span><span style="color:#F97583">=</span><span style="color:#F97583"> new</span><span style="color:#79B8FF"> Promise</span><span style="color:#E1E4E8">(() </span><span style="color:#F97583">=&gt;</span><span style="color:#E1E4E8"> {});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// typeof 适用范围</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> numberExample); </span><span style="color:#6A737D">// number</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> stringExample); </span><span style="color:#6A737D">// string</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> booleanExample); </span><span style="color:#6A737D">// boolean</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> undefinedExample); </span><span style="color:#6A737D">// undefined</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> symbolExample); </span><span style="color:#6A737D">// symbol</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> bigIntExample); </span><span style="color:#6A737D">// bigint</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> functionExample); </span><span style="color:#6A737D">// function</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// typeof 对 null 和于其他引用类型无法判断</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> nullExample); </span><span style="color:#6A737D">// object。这是一个历史遗留问题，实际上 null 是基本数据类型</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> objectExample); </span><span style="color:#6A737D">// object</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> arrayExample); </span><span style="color:#6A737D">// object</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> dateExample); </span><span style="color:#6A737D">// object</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> regExpExample); </span><span style="color:#6A737D">// object</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> mapExample); </span><span style="color:#6A737D">// object</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> setExample); </span><span style="color:#6A737D">// object</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> promiseExample); </span><span style="color:#6A737D">// object</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// instanceof 判断对象具体是哪种类型的对象</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(objectExample </span><span style="color:#F97583">instanceof</span><span style="color:#B392F0"> Object</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// true</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(arrayExample </span><span style="color:#F97583">instanceof</span><span style="color:#B392F0"> Array</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// true</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(functionExample </span><span style="color:#F97583">instanceof</span><span style="color:#B392F0"> Function</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// true</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(dateExample </span><span style="color:#F97583">instanceof</span><span style="color:#B392F0"> Date</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// true</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(regExpExample </span><span style="color:#F97583">instanceof</span><span style="color:#B392F0"> RegExp</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// true</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(mapExample </span><span style="color:#F97583">instanceof</span><span style="color:#B392F0"> Map</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// true</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(setExample </span><span style="color:#F97583">instanceof</span><span style="color:#B392F0"> Set</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// true</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(promiseExample </span><span style="color:#F97583">instanceof</span><span style="color:#B392F0"> Promise</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// true</span></span></code></pre> <button class="copy-btn absolute top-2 right-2 z-50 flex items-center gap-1.5 px-2 py-1 rounded bg-white/20 dark:bg-white/5 text-xs text-white hover:bg-primary/10 dark:hover:bg-white/15 transition-colors cursor-pointer opacity-0 group-hover:opacity-100" aria-label="Copy code"> <div class="i-ri:file-copy-line text-sm"></div> <span>Copy</span> </button> </div> </div> <script type="module">function c(){document.querySelectorAll(".copy-block-init").forEach(e=>e.remove()),document.querySelectorAll(".code-block").forEach(e=>{if(e.hasAttribute("data-copy-init"))return;e.setAttribute("data-copy-init","true");const i=e.querySelector(".copy-btn");i&&i.addEventListener("click",async()=>{const o=e.querySelector("code");if(!o)return;const n=o.innerText;try{await navigator.clipboard.writeText(n);const t=i.querySelector("div"),r=i.querySelector("span");t&&(t.className="i-ri:check-line text-blue-500 text-sm"),r&&(r.innerText="Copied!",r.className="text-blue-500"),setTimeout(()=>{t&&(t.className="i-ri:file-copy-line text-sm"),r&&(r.innerText="Copy",r.className="")},2e3)}catch(t){console.error("Failed to copy:",t)}})})}document.addEventListener("astro:page-load",c);c();</script>
+<h2 id="instanceof-是什么">instanceof 是什么</h2>
+<p>MDN 定义：<code>instanceof</code> 是 JavaScript 的一个二元操作符，用于测试构造函数的 <code>prototype</code> 属性是否出现在对象的原型链中的任何位置。换句话说，<code>instanceof</code> 可以用于判断一个对象是否由某个构造函数创建的。</p>
+<div class="code-block relative group my-6 rounded-lg overflow-hidden border border-border bg-[var(--shiki-bg)] shadow-sm">  <div class="relative"> <pre class="astro-code github-dark !my-0 !p-4 overflow-x-auto custom-scrollbar text-sm leading-relaxed" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> Car</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">make</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">model</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">year</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#79B8FF">  this</span><span style="color:#E1E4E8">.make </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> make;</span></span>
+<span class="line"><span style="color:#79B8FF">  this</span><span style="color:#E1E4E8">.model </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> model;</span></span>
+<span class="line"><span style="color:#79B8FF">  this</span><span style="color:#E1E4E8">.year </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> year;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> auto</span><span style="color:#F97583"> =</span><span style="color:#F97583"> new</span><span style="color:#B392F0"> Car</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;Honda&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&quot;Accord&quot;</span><span style="color:#E1E4E8">, </span><span style="color:#79B8FF">1998</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">console.</span><span style="color:#B392F0">log</span><span style="color:#E1E4E8">(auto </span><span style="color:#F97583">instanceof</span><span style="color:#B392F0"> Car</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// true</span></span></code></pre> <button class="copy-btn absolute top-2 right-2 z-50 flex items-center gap-1.5 px-2 py-1 rounded bg-white/20 dark:bg-white/5 text-xs text-white hover:bg-primary/10 dark:hover:bg-white/15 transition-colors cursor-pointer opacity-0 group-hover:opacity-100" aria-label="Copy code"> <div class="i-ri:file-copy-line text-sm"></div> <span>Copy</span> </button> </div> </div> 
 <p>在这个例子中，auto 是 Car 的一个实例，所以 <code>auto instanceof Car</code> 返回 <code>true</code>。</p>
 <blockquote>
 <p>注意：左侧可以是任意类型，而右侧必须是一个函数的实例。参数错误时会报错。</p>
 </blockquote>
-<p><img src="/post-assets/m46rsblg-%E5%8F%82%E6%95%B0%E8%A6%81%E6%B1%82.png" alt="参数要求.png"></p>
-<h2 id="instanceof-原理">instanceof 原理</h2><p>每个对象都有一个 <code>__proto__</code> 属性。在对象创建的时候会将 <code>__proto__</code> 属性指向它的构造函数的 <code>prototype</code> 属性上。并且构造函数的 <code>prototype</code> 属性本身也是一个对象。它也有自己的 <code>__proto__</code> 属性。通过 <code>__proto__</code> -&gt; <code>prototype</code> 这样串联形成一个链条，这个链条就是原型链。原型链的终点是 <code>Object</code>，<code>Object.prototype.__proto__</code> 的值为 <code>null</code>。</p>
+<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m46rsblg-%E5%8F%82%E6%95%B0%E8%A6%81%E6%B1%82.png" alt="参数要求.png" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> 参数要求.png </figcaption> </figure></p>
+<h2 id="instanceof-原理">instanceof 原理</h2>
+<p>每个对象都有一个 <code>__proto__</code> 属性。在对象创建的时候会将 <code>__proto__</code> 属性指向它的构造函数的 <code>prototype</code> 属性上。并且构造函数的 <code>prototype</code> 属性本身也是一个对象。它也有自己的 <code>__proto__</code> 属性。通过 <code>__proto__</code> -&gt; <code>prototype</code> 这样串联形成一个链条，这个链条就是原型链。原型链的终点是 <code>Object</code>，<code>Object.prototype.__proto__</code> 的值为 <code>null</code>。</p>
 <p>每个对象的构造函数都可以在原型链上找到，因此 <code>instanceof</code> 通过原型链可以判断对象是否由某个构造函数创建。</p>
-<p><img src="/post-assets/m46rsblj-%E5%8E%9F%E5%9E%8B%E9%93%BE.png" alt="原型链.png"></p>
-<h2 id="实现一个-instanceof">实现一个 instanceof</h2><h3 id="手写-instanceof">手写 instanceof</h3><p>手写 <code>instanceof</code> 的实现可以帮助我们更深入地理解 JavaScript 的原型链。下面是一个简易的 <code>instanceof</code> 实现：</p>
+<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m46rsblj-%E5%8E%9F%E5%9E%8B%E9%93%BE.png" alt="原型链.png" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> 原型链.png </figcaption> </figure></p>
+<h2 id="实现一个-instanceof">实现一个 instanceof</h2>
+<h3 id="手写-instanceof">手写 instanceof</h3>
+<p>手写 <code>instanceof</code> 的实现可以帮助我们更深入地理解 JavaScript 的原型链。下面是一个简易的 <code>instanceof</code> 实现：</p>
 <ol>
 <li>参数校验</li>
 <li>比较 <code>obj.__proto === constructor.prototype</code></li>
@@ -139,50 +142,61 @@ console.log(auto instanceof Car); // true
 <li>找到就立即返回 <code>true</code></li>
 <li>遍历到原型链终点 <code>constructor.prototype === null</code> 时，返回 <code>false</code></li>
 </ul>
-<pre><code class="language-javascript">function myInstanceof(obj, constructor) {
-  const BASIC_TYPE = [
-    &quot;[object Undefined]&quot;,
-    &quot;[object Null]&quot;,
-    &quot;[object Number]&quot;,
-    &quot;[object String]&quot;,
-    &quot;[object Boolean]&quot;,
-    &quot;[object Symbol]&quot;,
-    &quot;[object BigInt]&quot;,
-  ];
-
-  const objType = Object.prototype.toString.call(obj);
-  const constructorType = Object.prototype.toString.call(constructor);
-
-  if (BASIC_TYPE.includes(constructorType)) {
-    throw TypeError(&quot;Right-hand side of &#39;instanceof&#39; is not an object&quot;);
-  }
-  if (typeof constructor !== &quot;function&quot;) {
-    throw TypeError(&quot;Right-hand side of &#39;instanceof&#39; is not callable&quot;);
-  }
-  if (BASIC_TYPE.includes(objType)) {
-    return false;
-  }
-
-  let objProto = Reflect.getPrototypeOf(obj);
-  while (objProto !== null) {
-    if (Object.is(objProto, constructor.prototype)) {
-      return true;
-    }
-    objProto = Reflect.getPrototypeOf(obj);
-  }
-  return false;
-}
-</code></pre>
+<div class="code-block relative group my-6 rounded-lg overflow-hidden border border-border bg-[var(--shiki-bg)] shadow-sm">  <div class="relative"> <pre class="astro-code github-dark !my-0 !p-4 overflow-x-auto custom-scrollbar text-sm leading-relaxed" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#F97583">function</span><span style="color:#B392F0"> myInstanceof</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">obj</span><span style="color:#E1E4E8">, </span><span style="color:#FFAB70">constructor</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#79B8FF"> BASIC_TYPE</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> [</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;[object Undefined]&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;[object Null]&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;[object Number]&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;[object String]&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;[object Boolean]&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;[object Symbol]&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#9ECBFF">    &quot;[object BigInt]&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  ];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#79B8FF"> objType</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> Object</span><span style="color:#E1E4E8">.</span><span style="color:#79B8FF">prototype</span><span style="color:#E1E4E8">.toString.</span><span style="color:#B392F0">call</span><span style="color:#E1E4E8">(obj);</span></span>
+<span class="line"><span style="color:#F97583">  const</span><span style="color:#79B8FF"> constructorType</span><span style="color:#F97583"> =</span><span style="color:#79B8FF"> Object</span><span style="color:#E1E4E8">.</span><span style="color:#79B8FF">prototype</span><span style="color:#E1E4E8">.toString.</span><span style="color:#B392F0">call</span><span style="color:#E1E4E8">(constructor);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">  if</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">BASIC_TYPE</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">includes</span><span style="color:#E1E4E8">(constructorType)) {</span></span>
+<span class="line"><span style="color:#F97583">    throw</span><span style="color:#B392F0"> TypeError</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;Right-hand side of &#39;instanceof&#39; is not an object&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#F97583">  if</span><span style="color:#E1E4E8"> (</span><span style="color:#F97583">typeof</span><span style="color:#E1E4E8"> constructor </span><span style="color:#F97583">!==</span><span style="color:#9ECBFF"> &quot;function&quot;</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    throw</span><span style="color:#B392F0"> TypeError</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&quot;Right-hand side of &#39;instanceof&#39; is not callable&quot;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#F97583">  if</span><span style="color:#E1E4E8"> (</span><span style="color:#79B8FF">BASIC_TYPE</span><span style="color:#E1E4E8">.</span><span style="color:#B392F0">includes</span><span style="color:#E1E4E8">(objType)) {</span></span>
+<span class="line"><span style="color:#F97583">    return</span><span style="color:#79B8FF"> false</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">  let</span><span style="color:#E1E4E8"> objProto </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Reflect.</span><span style="color:#B392F0">getPrototypeOf</span><span style="color:#E1E4E8">(obj);</span></span>
+<span class="line"><span style="color:#F97583">  while</span><span style="color:#E1E4E8"> (objProto </span><span style="color:#F97583">!==</span><span style="color:#79B8FF"> null</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">    if</span><span style="color:#E1E4E8"> (Object.</span><span style="color:#B392F0">is</span><span style="color:#E1E4E8">(objProto, </span><span style="color:#79B8FF">constructor</span><span style="color:#E1E4E8">.</span><span style="color:#79B8FF">prototype</span><span style="color:#E1E4E8">)) {</span></span>
+<span class="line"><span style="color:#F97583">      return</span><span style="color:#79B8FF"> true</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">    objProto </span><span style="color:#F97583">=</span><span style="color:#E1E4E8"> Reflect.</span><span style="color:#B392F0">getPrototypeOf</span><span style="color:#E1E4E8">(obj);</span></span>
+<span class="line"><span style="color:#E1E4E8">  }</span></span>
+<span class="line"><span style="color:#F97583">  return</span><span style="color:#79B8FF"> false</span><span style="color:#E1E4E8">;</span></span>
+<span class="line"><span style="color:#E1E4E8">}</span></span></code></pre> <button class="copy-btn absolute top-2 right-2 z-50 flex items-center gap-1.5 px-2 py-1 rounded bg-white/20 dark:bg-white/5 text-xs text-white hover:bg-primary/10 dark:hover:bg-white/15 transition-colors cursor-pointer opacity-0 group-hover:opacity-100" aria-label="Copy code"> <div class="i-ri:file-copy-line text-sm"></div> <span>Copy</span> </button> </div> </div> 
 <blockquote>
 <p>当传入的参数是对象时，如果操作成功  <code>Reflect.getPrototypeOf(target)</code>  返回对象的原型，如果操作失败（比如，目标不是对象）则返回  <code>false</code>。</p>
 </blockquote>
-<h3 id="测试结果">测试结果</h3><p><img src="/post-assets/m46rsbli-%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C.png" alt="测试结果.png"></p>
-<h2 id="总结">总结</h2><p>本文介绍了 JavaScript 类型判断的方法。对 <code>instanceof</code> 的概念、用法和实现进行了介绍。</p>
-<h2 id="资料">资料</h2><ul>
+<h3 id="测试结果">测试结果</h3>
+<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m46rsbli-%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C.png" alt="测试结果.png" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> 测试结果.png </figcaption> </figure></p>
+<h2 id="总结">总结</h2>
+<p>本文介绍了 JavaScript 类型判断的方法。对 <code>instanceof</code> 的概念、用法和实现进行了介绍。</p>
+<h2 id="资料">资料</h2>
+<ul>
 <li><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/instanceof">instanceof - JavaScript | MDN</a></li>
-</ul>
-</div>  <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 pt-8 border-t border-border" data-astro-cid-ztig7rse> <div data-astro-cid-ztig7rse></div> <a href="/post/1708-vue3-compiler-macro" class="group flex flex-col gap-1 p-4 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all text-right" data-astro-cid-ztig7rse> <span class="text-xs text-text-muted flex items-center gap-1 justify-end group-hover:text-primary" data-astro-cid-ztig7rse>
+</ul> </div>  <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 pt-8 border-t border-border" data-astro-cid-ztig7rse> <div data-astro-cid-ztig7rse></div> <a href="/post/1708-vue3-compiler-macro" class="group flex flex-col gap-1 p-4 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all text-right" data-astro-cid-ztig7rse> <span class="text-xs text-text-muted flex items-center gap-1 justify-end group-hover:text-primary" data-astro-cid-ztig7rse>
 下一篇
 <div class="i-ri:arrow-right-double-line" data-astro-cid-ztig7rse></div> </span> <span class="font-medium truncate text-text" data-astro-cid-ztig7rse>Vue3 编译宏使用与原理</span> </a> </nav>  <div class="giscus-container mt-12 pt-8 border-t border-border" data-astro-cid-ztig7rse> <script src="https://giscus.app/client.js" data-repo="AleksChen/AleksChen.github.io" data-repo-id="R_kgDOGjCC6A" data-category="Announcements" data-category-id="DIC_kwDOGjCC6M4CR-S5" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="fro" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async class="astro-ztig7rse astro-ztig7rse astro-ztig7rse astro-ztig7rse astro-ztig7rse astro-ztig7rse astro-ztig7rse"></script> </div> </article>  <aside class="hidden lg:block sticky top-24" data-astro-cid-ztig7rse> <div class="p-4 rounded-lg border-2 border-text bg-card shadow-[4px_4px_0_0_var(--color-text)] max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar" data-astro-cid-ztig7rse> <div class="text-sm font-bold text-text-muted mb-4 uppercase tracking-wider" data-astro-cid-ztig7rse>
 目录
-</div> <nav class="flex flex-col gap-1 text-sm" data-astro-cid-ztig7rse> <a href="#类型判断" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="类型判断" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 类型判断 </a><a href="#instanceof-是什么" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="instanceof-是什么" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> instanceof 是什么 </a><a href="#instanceof-原理" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="instanceof-原理" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> instanceof 原理 </a><a href="#实现一个-instanceof" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="实现一个-instanceof" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 实现一个 instanceof </a><a href="#手写-instanceof" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="手写-instanceof" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 手写 instanceof </a><a href="#测试结果" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="测试结果" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 测试结果 </a><a href="#总结" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="总结" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 总结 </a><a href="#资料" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="资料" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 资料 </a> </nav> </div> </aside> </div>  </main> <footer class="mt-8 flex justify-center"> <small class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"> <a href="https://github.com/AleksChen" target="_blank">© 2025 AleksChen</a> </small> </footer> <script type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","G-G1EC4WNBZJ");</script> </body> </html> <script type="module">const i=new IntersectionObserver(e=>{e.forEach(o=>{if(o.isIntersecting){const r=o.target.id;document.querySelectorAll(".toc-link").forEach(t=>{t.classList.toggle("text-white",t.getAttribute("data-id")===r),t.classList.toggle("bg-primary/10",t.getAttribute("data-id")===r),t.classList.toggle("font-medium",t.getAttribute("data-id")===r)})}})},{rootMargin:"-100px 0px -60% 0px"});document.querySelectorAll("h1[id], h2[id], h3[id]").forEach(e=>{i.observe(e)});</script> 
+</div> <nav class="flex flex-col gap-1 text-sm" data-astro-cid-ztig7rse> <a href="#类型判断" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="类型判断" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 类型判断 </a><a href="#instanceof-是什么" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="instanceof-是什么" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> instanceof 是什么 </a><a href="#instanceof-原理" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="instanceof-原理" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> instanceof 原理 </a><a href="#实现一个-instanceof" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="实现一个-instanceof" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 实现一个 instanceof </a><a href="#手写-instanceof" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="手写-instanceof" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 手写 instanceof </a><a href="#测试结果" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="测试结果" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 测试结果 </a><a href="#总结" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="总结" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 总结 </a><a href="#资料" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="资料" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 资料 </a> </nav> </div> </aside> </div>  </main> <footer class="mt-8 flex justify-center"> <small class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"> <a href="https://github.com/AleksChen" target="_blank">© 2025 AleksChen</a> </small> </footer> <script type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","G-G1EC4WNBZJ");</script> </body> </html> <script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: "default",
+    themeVariables: window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? { darkMode: true }
+      : { darkMode: false },
+  });
+</script> <script type="module">const i=new IntersectionObserver(e=>{e.forEach(o=>{if(o.isIntersecting){const r=o.target.id;document.querySelectorAll(".toc-link").forEach(t=>{t.classList.toggle("text-white",t.getAttribute("data-id")===r),t.classList.toggle("bg-primary/10",t.getAttribute("data-id")===r),t.classList.toggle("font-medium",t.getAttribute("data-id")===r)})}})},{rootMargin:"-100px 0px -60% 0px"});document.querySelectorAll("h1[id], h2[id], h3[id]").forEach(e=>{i.observe(e)});</script> 

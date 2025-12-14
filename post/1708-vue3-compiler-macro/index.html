@@ -1,6 +1,6 @@
 <!DOCTYPE html><html lang="en"> <head><meta charset="UTF-8"><link rel="apple-touch-icon-precomposed" sizes="144x144" href="/favicon.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Blog"><meta name="msapplication-TileColor" content="#000000"><meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"><link rel="icon" href="/favicon.ico"><link rel="sitemap" href="/sitemap-index.xml"><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/rss.xml"><title>
       Vue3 编译宏使用与原理 | Aleks
-    </title><!-- 基础 SEO --><meta name="description" content="Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 `<script setup>` 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。"><meta name="author" content="Aleks"><meta name="keywords" content="Vue"><link rel="canonical" href="https://blog.002085.xyz//post/1708-vue3-compiler-macro"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:title" content="Vue3 编译宏使用与原理"><meta property="og:description" content="Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 `<script setup>` 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。"><meta property="og:image" content="https://blog.002085.xyz//favicon.ico"><meta property="og:url" content="https://blog.002085.xyz//post/1708-vue3-compiler-macro"><meta property="og:site_name" content="Aleks"><meta property="article:published_time" content="2020-10-23T13:19:02.000Z"><meta property="article:modified_time" content="2024-12-13T10:07:53.938Z"><meta property="article:tag" content="Vue"><meta property="article:author" content="Aleks"><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Vue3 编译宏使用与原理"><meta name="twitter:description" content="Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 `<script setup>` 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。"><meta name="twitter:image" content="https://blog.002085.xyz//favicon.ico"><!-- JSON-LD 结构化数据 --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Vue3 编译宏使用与原理","description":"Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 `<script setup>` 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。","image":"https://blog.002085.xyz//favicon.ico","datePublished":"2020-10-23T13:19:02.000Z","dateModified":"2024-12-13T10:07:53.938Z","author":{"@type":"Person","name":"Aleks"},"publisher":{"@type":"Organization","name":"Aleks","logo":{"@type":"ImageObject","url":"https://blog.002085.xyz/favicon.ico"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.002085.xyz//post/1708-vue3-compiler-macro"},"keywords":"Vue"}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-G1EC4WNBZJ"></script><script type="module">const l=()=>{const e=document.documentElement;e.classList.toggle("dark");const t=e.classList.contains("dark");localStorage.setItem("theme",t?"dark":"light")};document.getElementById("theme-toggle")?.addEventListener("click",l);</script><!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-bqrNOvlYoay2S1opDAt9D.js"></script><script type="module">window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init();</script><script>
+    </title><!-- 基础 SEO --><meta name="description" content="Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 `<script setup>` 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。"><meta name="author" content="Aleks"><meta name="keywords" content="Vue"><link rel="canonical" href="https://blog.002085.xyz//post/1708-vue3-compiler-macro"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:title" content="Vue3 编译宏使用与原理"><meta property="og:description" content="Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 `<script setup>` 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。"><meta property="og:image" content="https://blog.002085.xyz/post-assets/cover/cover-vue.png"><meta property="og:url" content="https://blog.002085.xyz//post/1708-vue3-compiler-macro"><meta property="og:site_name" content="Aleks"><meta property="article:published_time" content="2020-10-23T13:19:02.000Z"><meta property="article:modified_time" content="2024-12-13T10:07:53.938Z"><meta property="article:tag" content="Vue"><meta property="article:author" content="Aleks"><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Vue3 编译宏使用与原理"><meta name="twitter:description" content="Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 `<script setup>` 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。"><meta name="twitter:image" content="https://blog.002085.xyz/post-assets/cover/cover-vue.png"><!-- JSON-LD 结构化数据 --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Vue3 编译宏使用与原理","description":"Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 `<script setup>` 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。","image":"https://blog.002085.xyz/post-assets/cover/cover-vue.png","datePublished":"2020-10-23T13:19:02.000Z","dateModified":"2024-12-13T10:07:53.938Z","author":{"@type":"Person","name":"Aleks"},"publisher":{"@type":"Organization","name":"Aleks","logo":{"@type":"ImageObject","url":"https://blog.002085.xyz/favicon.ico"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://blog.002085.xyz//post/1708-vue3-compiler-macro"},"keywords":"Vue"}</script><script async src="https://www.googletagmanager.com/gtag/js?id=G-G1EC4WNBZJ"></script><script type="module">const l=()=>{const e=document.documentElement;e.classList.toggle("dark");const t=e.classList.contains("dark");localStorage.setItem("theme",t?"dark":"light")};document.getElementById("theme-toggle")?.addEventListener("click",l);</script><!-- Privacy-friendly analytics by Plausible --><script async src="https://plausible.io/js/pa-bqrNOvlYoay2S1opDAt9D.js"></script><script type="module">window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init();</script><script>
       // 暗色模式初始化
       const theme = (() => {
         if (
@@ -22,7 +22,7 @@
       }
 
       window.localStorage.setItem("theme", theme);
-    </script><link rel="stylesheet" href="/assets/about.D9EICWco.css">
+    </script><link rel="stylesheet" href="/assets/about.DuXvmsiQ.css">
 <link rel="stylesheet" href="/assets/index.yCyos9fH.css">
 <style>@media(min-width:1024px){.layout-grid-cols[data-astro-cid-ztig7rse]{grid-template-columns:minmax(0,1fr) 240px}}
 </style></head> <body class="bg-bg text-text min-h-screen flex flex-col font-sans transition-colors duration-300">  <header class="sticky top-0 z-50 w-full bg-bg border-b-2 border-text"> <div class="max-w-[800px] mx-auto px-4 h-16 flex items-center justify-between"> <a href="/" class="text-xl font-bold flex items-center gap-2 hover:text-primary transition-colors" aria-label="homepage"> <div class="i-ri:home-4-line w-6 h-6"></div> </a> <div class="flex items-center gap-4"> <nav class="hidden md:flex items-center gap-6"> <a href="/archives" class="text-sm font-medium hover:text-primary transition-colors">
@@ -39,9 +39,11 @@
             >
               <div class="i-ri:blogger-line w-6 h-6"></div>
             </a> --> <button id="theme-toggle" class="hover:text-primary transition-transform hover:scale-110 focus:outline-none" title="Toggle Theme"> <div class="i-ri:sun-line w-6 h-6 dark:hidden"></div> <div class="i-ri:moon-line w-6 h-6 hidden dark:block"></div> </button> </div> </div> </div> </header> <main class="flex-1 w-full mx-auto px-4 py-8 animate-fade-in max-w-[1200px]">  <div class="grid grid-cols-1 layout-grid-cols gap-8 items-start" data-astro-cid-ztig7rse> <article class="w-full min-w-0" data-astro-cid-ztig7rse>  <header class="mb-8 pb-8 border-b border-border" data-astro-cid-ztig7rse> <div class="flex flex-wrap gap-2 mb-4" data-astro-cid-ztig7rse> <a href="/tag/Vue" class="px-2 py-1 text-xs font-bold rounded-sm border border-text text-text bg-transparent shadow-[2px_2px_0_0_var(--color-text)] hover:translate-y-[1px] hover:translate-x-[1px] hover:shadow-none transition-all" data-astro-cid-ztig7rse>
-#Vue </a> </div> <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight text-text" data-astro-cid-ztig7rse> Vue3 编译宏使用与原理 </h1> <div class="flex items-center gap-4 text-sm text-text-muted" data-astro-cid-ztig7rse> <time datetime="Fri Oct 23 2020 13:19:02 GMT+0000 (Coordinated Universal Time)" class="flex items-center gap-1" data-astro-cid-ztig7rse> <div class="i-ri:calendar-line" data-astro-cid-ztig7rse></div> 10/23/2020 </time> <span class="flex items-center gap-1" title="最后更新时间" data-astro-cid-ztig7rse> <div class="i-ri:time-line" data-astro-cid-ztig7rse></div> 12/13/2024 </span> </div> </header>  <div class="prose prose-lg dark:prose-invert max-w-none prose-img:rounded-sm prose-img:border-2 prose-img:border-text prose-img:shadow-[4px_4px_0_0_var(--color-text)] prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24" data-astro-cid-ztig7rse><p>Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 <code>&lt;script setup&gt;</code> 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。</p>
-<h2 id="一什么是编译宏">一、什么是编译宏</h2><p>Vue3 编译宏是在代码<strong>编译阶段处理的特殊指令或函数</strong>。Vue3 的编译宏主要是为 <code>&lt;script setup&gt;</code> 语法设计的。编译宏不需要导入就可以直接使用，且会随着 <code>&lt;script setup&gt;</code> 的处理过程一同被编译掉。</p>
-<h2 id="二编译宏有什么用">二、编译宏有什么用</h2><p>编译宏提供了一种更简洁的方式来编写和维护已有的配置。在 Vue3 中，编译宏主要有以下几个作用：</p>
+#Vue </a> </div> <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight text-text" data-astro-cid-ztig7rse> Vue3 编译宏使用与原理 </h1> <div class="flex items-center gap-4 text-sm text-text-muted" data-astro-cid-ztig7rse> <time datetime="2020-10-23T13:19:02.000Z" class="flex items-center gap-1" data-astro-cid-ztig7rse> <div class="i-ri:calendar-line" data-astro-cid-ztig7rse></div> 10/23/2020 </time> <span class="flex items-center gap-1" title="最后更新时间" data-astro-cid-ztig7rse> <div class="i-ri:time-line" data-astro-cid-ztig7rse></div> 12/13/2024 </span> </div> </header>  <div class="prose prose-lg dark:prose-invert max-w-none break-words prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24" data-astro-cid-ztig7rse> <p>Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 <code>&lt;script setup&gt;</code> 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。</p>
+<h2 id="一什么是编译宏">一、什么是编译宏</h2>
+<p>Vue3 编译宏是在代码<strong>编译阶段处理的特殊指令或函数</strong>。Vue3 的编译宏主要是为 <code>&lt;script setup&gt;</code> 语法设计的。编译宏不需要导入就可以直接使用，且会随着 <code>&lt;script setup&gt;</code> 的处理过程一同被编译掉。</p>
+<h2 id="二编译宏有什么用">二、编译宏有什么用</h2>
+<p>编译宏提供了一种更简洁的方式来编写和维护已有的配置。在 Vue3 中，编译宏主要有以下几个作用：</p>
 <ol>
 <li><strong>类型推断和检查</strong>：宏可以提供类型安全，帮助开发者在编写代码时避免类型错误。</li>
 <li><strong>运行时消除</strong>：在 Vue3 的 <code>&lt;script setup&gt;</code> 中，引入的宏在编译阶段处理后，最终生成的代码中可能不会包含这些宏。这意味着宏可以提供额外的功能，而不会增加运行时的开销。</li>
@@ -50,7 +52,8 @@
 <li><strong>优化开发体验</strong>：宏可以减少样板文件，提供更简洁的语法，从而提高开发效率和体验。</li>
 <li><strong>高级功能</strong>：一些宏可能提供高级功能，如自动注册组件、自动导入依赖等。</li>
 </ol>
-<h2 id="三常见的编译宏">三、常见的编译宏</h2><p>Vue 3 引入了几个编译宏（Compile-time Macros）来提高性能和开发体验。这些宏在编译时会被转换为高效的代码。下面是主要的编译宏：</p>
+<h2 id="三常见的编译宏">三、常见的编译宏</h2>
+<p>Vue 3 引入了几个编译宏（Compile-time Macros）来提高性能和开发体验。这些宏在编译时会被转换为高效的代码。下面是主要的编译宏：</p>
 <ol>
 <li><code>defineProps</code></li>
 </ol>
@@ -108,7 +111,8 @@
 <li>例如：<code>const AsyncComp = defineAsyncComponent(() =&gt; import(&#39;./components/AsyncComponent.vue&#39;))</code></li>
 </ul>
 <p>这些编译宏主要用在 <code>&lt;script setup&gt;</code> 中，它们提供了更简洁的语法和更好的类型推断。使用这些宏可以减少样板代码，提高代码的可读性和维护性。</p>
-<h2 id="四编译宏的实现原理">四、编译宏的实现原理</h2><p>编译宏的本质就是在编译阶段执行的一个转化函数。它的工作原理如下：</p>
+<h2 id="四编译宏的实现原理">四、编译宏的实现原理</h2>
+<p>编译宏的本质就是在编译阶段执行的一个转化函数。它的工作原理如下：</p>
 <ul>
 <li>识别：编译器识别特定的宏调用（如 <code>defineProps()</code>）。</li>
 <li>分析：分析宏调用的参数和上下文。</li>
@@ -116,102 +120,113 @@
 <li>类型生成：（在 TypeScript 环境中）生成相应的类型声明。</li>
 <li>代码生成：生成最终的 JavaScript 代码，通常会移除宏调用本身。</li>
 </ul>
-<p><img src="/post-assets/m4ml4fgx-vue3-compile-macro.png" alt="vue3-compile-macro.png"></p>
-<h3 id="1-以-defineprops-为例子实现一个编译宏功能">1. 以 defineProps 为例子实现一个编译宏功能</h3><p>下面是一个 babel 插件的简单实现。它能将 Vue3 编译宏 <code>defineProps</code> 转换成 Vue 的 props 对象。从这个例子可以更好地理解编译宏语法糖的本质。</p>
-<pre><code class="language-javascript">const { declare } = require(&#39;@babel/helper-plugin-utils&#39;);
-const { types: t } = require(&#39;@babel/core&#39;);
-
-module.exports = declare(api =&gt; {
-  api.assertVersion(7); // 确保 Babel 版本兼容性
-
-  return {
-    name: &quot;babel-plugin-transform-define-props&quot;,
-    visitor: {
-      CallExpression(path) {
-        // 检查是否是 defineProps 函数调用
-        if (path.node.callee.name === &#39;defineProps&#39;) {
-          const arg = path.node.arguments[0];
-          
-          if (t.isObjectExpression(arg)) {
-            // 处理对象语法: defineProps({ prop: String })
-            const properties = arg.properties.map(prop =&gt; {
-              // 将每个属性转换为 { prop: { type: PropType } } 的形式
-              return t.objectProperty(
-                prop.key,
-                t.objectExpression([
-                  t.objectProperty(t.identifier(&#39;type&#39;), prop.value)
-                ])
-              );
-            });
-            
-            const propsObject = t.objectExpression(properties);
-            
-            // 将 defineProps 调用替换为 __props__ 赋值
-            path.replaceWith(
-              t.variableDeclaration(&#39;const&#39;, [
-                t.variableDeclarator(
-                  t.identifier(&#39;__props__&#39;),
-                  propsObject
-                )
-              ])
-            );
-          } else if (t.isArrayExpression(arg)) {
-            // 处理数组语法: defineProps([&#39;prop1&#39;, &#39;prop2&#39;])
-            const properties = arg.elements.map(element =&gt; {
-              // 将每个元素转换为 { prop: null } 的形式
-              return t.objectProperty(element, t.identifier(&#39;null&#39;));
-            });
-            
-            const propsObject = t.objectExpression(properties);
-            
-            // 将 defineProps 调用替换为 __props__ 赋值
-            path.replaceWith(
-              t.variableDeclaration(&#39;const&#39;, [
-                t.variableDeclarator(
-                  t.identifier(&#39;__props__&#39;),
-                  propsObject
-                )
-              ])
-            );
-          }
-        }
-      }
-    }
-  };
-});
-</code></pre>
-<h3 id="2-转换效果">2. 转换效果</h3><pre><code class="language-javascript">// 转换前：对象语法
-const props1 = defineProps({
-  name: String,
-  age: Number,
-  isActive: Boolean
-});
-
-// 转换后：对象语法转换结果
-const __props__ = {
-  name: { type: String },
-  age: { type: Number },
-  isActive: { type: Boolean }
-};
-
-// 转换前：数组语法
-const props2 = defineProps([&#39;title&#39;, &#39;content&#39;]);
-
-// 转换后：数组语法转换结果
-const __props__ = {
-  title: null,
-  content: null
-};
-</code></pre>
+<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m4ml4fgx-vue3-compile-macro.png" alt="vue3-compile-macro.png" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> vue3-compile-macro.png </figcaption> </figure></p>
+<h3 id="1-以-defineprops-为例子实现一个编译宏功能">1. 以 defineProps 为例子实现一个编译宏功能</h3>
+<p>下面是一个 babel 插件的简单实现。它能将 Vue3 编译宏 <code>defineProps</code> 转换成 Vue 的 props 对象。从这个例子可以更好地理解编译宏语法糖的本质。</p>
+<div class="code-block relative group my-6 rounded-lg overflow-hidden border border-border bg-[var(--shiki-bg)] shadow-sm">  <div class="relative"> <pre class="astro-code github-dark !my-0 !p-4 overflow-x-auto custom-scrollbar text-sm leading-relaxed" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#F97583">const</span><span style="color:#E1E4E8"> { </span><span style="color:#79B8FF">declare</span><span style="color:#E1E4E8"> } </span><span style="color:#F97583">=</span><span style="color:#B392F0"> require</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&#39;@babel/helper-plugin-utils&#39;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#E1E4E8"> { </span><span style="color:#FFAB70">types</span><span style="color:#E1E4E8">: </span><span style="color:#79B8FF">t</span><span style="color:#E1E4E8"> } </span><span style="color:#F97583">=</span><span style="color:#B392F0"> require</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&#39;@babel/core&#39;</span><span style="color:#E1E4E8">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79B8FF">module</span><span style="color:#E1E4E8">.</span><span style="color:#79B8FF">exports</span><span style="color:#F97583"> =</span><span style="color:#F97583"> declare</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">api</span><span style="color:#F97583"> =&gt;</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">  api.</span><span style="color:#B392F0">assertVersion</span><span style="color:#E1E4E8">(</span><span style="color:#79B8FF">7</span><span style="color:#E1E4E8">); </span><span style="color:#6A737D">// 确保 Babel 版本兼容性</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#F97583">  return</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">    name: </span><span style="color:#9ECBFF">&quot;babel-plugin-transform-define-props&quot;</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">    visitor: {</span></span>
+<span class="line"><span style="color:#B392F0">      CallExpression</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">path</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#6A737D">        // 检查是否是 defineProps 函数调用</span></span>
+<span class="line"><span style="color:#F97583">        if</span><span style="color:#E1E4E8"> (path.node.callee.name </span><span style="color:#F97583">===</span><span style="color:#9ECBFF"> &#39;defineProps&#39;</span><span style="color:#E1E4E8">) {</span></span>
+<span class="line"><span style="color:#F97583">          const</span><span style="color:#79B8FF"> arg</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> path.node.arguments[</span><span style="color:#79B8FF">0</span><span style="color:#E1E4E8">];</span></span>
+<span class="line"><span style="color:#E1E4E8">          </span></span>
+<span class="line"><span style="color:#F97583">          if</span><span style="color:#E1E4E8"> (t.</span><span style="color:#B392F0">isObjectExpression</span><span style="color:#E1E4E8">(arg)) {</span></span>
+<span class="line"><span style="color:#6A737D">            // 处理对象语法: defineProps({ prop: String })</span></span>
+<span class="line"><span style="color:#F97583">            const</span><span style="color:#79B8FF"> properties</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> arg.properties.</span><span style="color:#B392F0">map</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">prop</span><span style="color:#F97583"> =&gt;</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D">              // 将每个属性转换为 { prop: { type: PropType } } 的形式</span></span>
+<span class="line"><span style="color:#F97583">              return</span><span style="color:#E1E4E8"> t.</span><span style="color:#B392F0">objectProperty</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">                prop.key,</span></span>
+<span class="line"><span style="color:#E1E4E8">                t.</span><span style="color:#B392F0">objectExpression</span><span style="color:#E1E4E8">([</span></span>
+<span class="line"><span style="color:#E1E4E8">                  t.</span><span style="color:#B392F0">objectProperty</span><span style="color:#E1E4E8">(t.</span><span style="color:#B392F0">identifier</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&#39;type&#39;</span><span style="color:#E1E4E8">), prop.value)</span></span>
+<span class="line"><span style="color:#E1E4E8">                ])</span></span>
+<span class="line"><span style="color:#E1E4E8">              );</span></span>
+<span class="line"><span style="color:#E1E4E8">            });</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#F97583">            const</span><span style="color:#79B8FF"> propsObject</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> t.</span><span style="color:#B392F0">objectExpression</span><span style="color:#E1E4E8">(properties);</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#6A737D">            // 将 defineProps 调用替换为 __props__ 赋值</span></span>
+<span class="line"><span style="color:#E1E4E8">            path.</span><span style="color:#B392F0">replaceWith</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">              t.</span><span style="color:#B392F0">variableDeclaration</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&#39;const&#39;</span><span style="color:#E1E4E8">, [</span></span>
+<span class="line"><span style="color:#E1E4E8">                t.</span><span style="color:#B392F0">variableDeclarator</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">                  t.</span><span style="color:#B392F0">identifier</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&#39;__props__&#39;</span><span style="color:#E1E4E8">),</span></span>
+<span class="line"><span style="color:#E1E4E8">                  propsObject</span></span>
+<span class="line"><span style="color:#E1E4E8">                )</span></span>
+<span class="line"><span style="color:#E1E4E8">              ])</span></span>
+<span class="line"><span style="color:#E1E4E8">            );</span></span>
+<span class="line"><span style="color:#E1E4E8">          } </span><span style="color:#F97583">else</span><span style="color:#F97583"> if</span><span style="color:#E1E4E8"> (t.</span><span style="color:#B392F0">isArrayExpression</span><span style="color:#E1E4E8">(arg)) {</span></span>
+<span class="line"><span style="color:#6A737D">            // 处理数组语法: defineProps([&#39;prop1&#39;, &#39;prop2&#39;])</span></span>
+<span class="line"><span style="color:#F97583">            const</span><span style="color:#79B8FF"> properties</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> arg.elements.</span><span style="color:#B392F0">map</span><span style="color:#E1E4E8">(</span><span style="color:#FFAB70">element</span><span style="color:#F97583"> =&gt;</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#6A737D">              // 将每个元素转换为 { prop: null } 的形式</span></span>
+<span class="line"><span style="color:#F97583">              return</span><span style="color:#E1E4E8"> t.</span><span style="color:#B392F0">objectProperty</span><span style="color:#E1E4E8">(element, t.</span><span style="color:#B392F0">identifier</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&#39;null&#39;</span><span style="color:#E1E4E8">));</span></span>
+<span class="line"><span style="color:#E1E4E8">            });</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#F97583">            const</span><span style="color:#79B8FF"> propsObject</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> t.</span><span style="color:#B392F0">objectExpression</span><span style="color:#E1E4E8">(properties);</span></span>
+<span class="line"><span style="color:#E1E4E8">            </span></span>
+<span class="line"><span style="color:#6A737D">            // 将 defineProps 调用替换为 __props__ 赋值</span></span>
+<span class="line"><span style="color:#E1E4E8">            path.</span><span style="color:#B392F0">replaceWith</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">              t.</span><span style="color:#B392F0">variableDeclaration</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&#39;const&#39;</span><span style="color:#E1E4E8">, [</span></span>
+<span class="line"><span style="color:#E1E4E8">                t.</span><span style="color:#B392F0">variableDeclarator</span><span style="color:#E1E4E8">(</span></span>
+<span class="line"><span style="color:#E1E4E8">                  t.</span><span style="color:#B392F0">identifier</span><span style="color:#E1E4E8">(</span><span style="color:#9ECBFF">&#39;__props__&#39;</span><span style="color:#E1E4E8">),</span></span>
+<span class="line"><span style="color:#E1E4E8">                  propsObject</span></span>
+<span class="line"><span style="color:#E1E4E8">                )</span></span>
+<span class="line"><span style="color:#E1E4E8">              ])</span></span>
+<span class="line"><span style="color:#E1E4E8">            );</span></span>
+<span class="line"><span style="color:#E1E4E8">          }</span></span>
+<span class="line"><span style="color:#E1E4E8">        }</span></span>
+<span class="line"><span style="color:#E1E4E8">      }</span></span>
+<span class="line"><span style="color:#E1E4E8">    }</span></span>
+<span class="line"><span style="color:#E1E4E8">  };</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span></code></pre> <button class="copy-btn absolute top-2 right-2 z-50 flex items-center gap-1.5 px-2 py-1 rounded bg-white/20 dark:bg-white/5 text-xs text-white hover:bg-primary/10 dark:hover:bg-white/15 transition-colors cursor-pointer opacity-0 group-hover:opacity-100" aria-label="Copy code"> <div class="i-ri:file-copy-line text-sm"></div> <span>Copy</span> </button> </div> </div> <script type="module">function c(){document.querySelectorAll(".copy-block-init").forEach(e=>e.remove()),document.querySelectorAll(".code-block").forEach(e=>{if(e.hasAttribute("data-copy-init"))return;e.setAttribute("data-copy-init","true");const i=e.querySelector(".copy-btn");i&&i.addEventListener("click",async()=>{const o=e.querySelector("code");if(!o)return;const n=o.innerText;try{await navigator.clipboard.writeText(n);const t=i.querySelector("div"),r=i.querySelector("span");t&&(t.className="i-ri:check-line text-blue-500 text-sm"),r&&(r.innerText="Copied!",r.className="text-blue-500"),setTimeout(()=>{t&&(t.className="i-ri:file-copy-line text-sm"),r&&(r.innerText="Copy",r.className="")},2e3)}catch(t){console.error("Failed to copy:",t)}})})}document.addEventListener("astro:page-load",c);c();</script>
+<h3 id="2-转换效果">2. 转换效果</h3>
+<div class="code-block relative group my-6 rounded-lg overflow-hidden border border-border bg-[var(--shiki-bg)] shadow-sm">  <div class="relative"> <pre class="astro-code github-dark !my-0 !p-4 overflow-x-auto custom-scrollbar text-sm leading-relaxed" style="background-color:#24292e;color:#e1e4e8;overflow-x:auto" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D">// 转换前：对象语法</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> props1</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> defineProps</span><span style="color:#E1E4E8">({</span></span>
+<span class="line"><span style="color:#E1E4E8">  name: String,</span></span>
+<span class="line"><span style="color:#E1E4E8">  age: Number,</span></span>
+<span class="line"><span style="color:#E1E4E8">  isActive: Boolean</span></span>
+<span class="line"><span style="color:#E1E4E8">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 转换后：对象语法转换结果</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> __props__</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">  name: { type: String },</span></span>
+<span class="line"><span style="color:#E1E4E8">  age: { type: Number },</span></span>
+<span class="line"><span style="color:#E1E4E8">  isActive: { type: Boolean }</span></span>
+<span class="line"><span style="color:#E1E4E8">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 转换前：数组语法</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> props2</span><span style="color:#F97583"> =</span><span style="color:#B392F0"> defineProps</span><span style="color:#E1E4E8">([</span><span style="color:#9ECBFF">&#39;title&#39;</span><span style="color:#E1E4E8">, </span><span style="color:#9ECBFF">&#39;content&#39;</span><span style="color:#E1E4E8">]);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">// 转换后：数组语法转换结果</span></span>
+<span class="line"><span style="color:#F97583">const</span><span style="color:#79B8FF"> __props__</span><span style="color:#F97583"> =</span><span style="color:#E1E4E8"> {</span></span>
+<span class="line"><span style="color:#E1E4E8">  title: </span><span style="color:#79B8FF">null</span><span style="color:#E1E4E8">,</span></span>
+<span class="line"><span style="color:#E1E4E8">  content: </span><span style="color:#79B8FF">null</span></span>
+<span class="line"><span style="color:#E1E4E8">};</span></span></code></pre> <button class="copy-btn absolute top-2 right-2 z-50 flex items-center gap-1.5 px-2 py-1 rounded bg-white/20 dark:bg-white/5 text-xs text-white hover:bg-primary/10 dark:hover:bg-white/15 transition-colors cursor-pointer opacity-0 group-hover:opacity-100" aria-label="Copy code"> <div class="i-ri:file-copy-line text-sm"></div> <span>Copy</span> </button> </div> </div> 
 <p>在编译时识别特定的代码模式，并将其转换为等效但可能更复杂或更优化的代码。在 Vue 的实际实现中，这个过程会更加复杂，包括处理类型推断、默认值、验证等多个方面。</p>
-<h2 id="总结">总结</h2><p>本文介绍了 Vue3 编译宏。编译宏是 Vue3 的一个强大特性，它们提供了更简洁的语法和更好的类型推断，使得组件编写更加高效和愉快。</p>
-<h2 id="参考资料">参考资料</h2><ul>
+<h2 id="总结">总结</h2>
+<p>本文介绍了 Vue3 编译宏。编译宏是 Vue3 的一个强大特性，它们提供了更简洁的语法和更好的类型推断，使得组件编写更加高效和愉快。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
 <li><a href="https://cn.vuejs.org/api/sfc-script-setup.html#defineprops-defineemits">Vue3 官方文档</a></li>
-</ul>
-</div>  <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 pt-8 border-t border-border" data-astro-cid-ztig7rse> <a href="/post/1708-implement-instanceof" class="group flex flex-col gap-1 p-4 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all" data-astro-cid-ztig7rse> <span class="text-xs text-text-muted flex items-center gap-1 group-hover:text-primary" data-astro-cid-ztig7rse> <div class="i-ri:arrow-left-double-line" data-astro-cid-ztig7rse></div>
+</ul> </div>  <nav class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 pt-8 border-t border-border" data-astro-cid-ztig7rse> <a href="/post/1708-implement-instanceof" class="group flex flex-col gap-1 p-4 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all" data-astro-cid-ztig7rse> <span class="text-xs text-text-muted flex items-center gap-1 group-hover:text-primary" data-astro-cid-ztig7rse> <div class="i-ri:arrow-left-double-line" data-astro-cid-ztig7rse></div>
 上一篇
 </span> <span class="font-medium truncate text-text" data-astro-cid-ztig7rse>手写 instanceof</span> </a> <a href="/post/2412-float-attribute-in-ios-android" class="group flex flex-col gap-1 p-4 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all text-right" data-astro-cid-ztig7rse> <span class="text-xs text-text-muted flex items-center gap-1 justify-end group-hover:text-primary" data-astro-cid-ztig7rse>
 下一篇
 <div class="i-ri:arrow-right-double-line" data-astro-cid-ztig7rse></div> </span> <span class="font-medium truncate text-text" data-astro-cid-ztig7rse>H5 中的浮点数渲染差异：iOS vs Android</span> </a> </nav>  <div class="giscus-container mt-12 pt-8 border-t border-border" data-astro-cid-ztig7rse> <script src="https://giscus.app/client.js" data-repo="AleksChen/AleksChen.github.io" data-repo-id="R_kgDOGjCC6A" data-category="Announcements" data-category-id="DIC_kwDOGjCC6M4CR-S5" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-theme="fro" data-lang="zh-CN" data-loading="lazy" crossorigin="anonymous" async class="astro-ztig7rse astro-ztig7rse astro-ztig7rse astro-ztig7rse astro-ztig7rse astro-ztig7rse"></script> </div> </article>  <aside class="hidden lg:block sticky top-24" data-astro-cid-ztig7rse> <div class="p-4 rounded-lg border-2 border-text bg-card shadow-[4px_4px_0_0_var(--color-text)] max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar" data-astro-cid-ztig7rse> <div class="text-sm font-bold text-text-muted mb-4 uppercase tracking-wider" data-astro-cid-ztig7rse>
 目录
-</div> <nav class="flex flex-col gap-1 text-sm" data-astro-cid-ztig7rse> <a href="#一什么是编译宏" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="一什么是编译宏" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 一、什么是编译宏 </a><a href="#二编译宏有什么用" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="二编译宏有什么用" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 二、编译宏有什么用 </a><a href="#三常见的编译宏" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="三常见的编译宏" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 三、常见的编译宏 </a><a href="#四编译宏的实现原理" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="四编译宏的实现原理" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 四、编译宏的实现原理 </a><a href="#1-以-defineprops-为例子实现一个编译宏功能" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="1-以-defineprops-为例子实现一个编译宏功能" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 1. 以 defineProps 为例子实现一个编译宏功能 </a><a href="#2-转换效果" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="2-转换效果" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 2. 转换效果 </a><a href="#总结" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="总结" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 总结 </a><a href="#参考资料" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="参考资料" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 参考资料 </a> </nav> </div> </aside> </div>  </main> <footer class="mt-8 flex justify-center"> <small class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"> <a href="https://github.com/AleksChen" target="_blank">© 2025 AleksChen</a> </small> </footer> <script type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","G-G1EC4WNBZJ");</script> </body> </html> <script type="module">const i=new IntersectionObserver(e=>{e.forEach(o=>{if(o.isIntersecting){const r=o.target.id;document.querySelectorAll(".toc-link").forEach(t=>{t.classList.toggle("text-white",t.getAttribute("data-id")===r),t.classList.toggle("bg-primary/10",t.getAttribute("data-id")===r),t.classList.toggle("font-medium",t.getAttribute("data-id")===r)})}})},{rootMargin:"-100px 0px -60% 0px"});document.querySelectorAll("h1[id], h2[id], h3[id]").forEach(e=>{i.observe(e)});</script> 
+</div> <nav class="flex flex-col gap-1 text-sm" data-astro-cid-ztig7rse> <a href="#一什么是编译宏" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="一什么是编译宏" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 一、什么是编译宏 </a><a href="#二编译宏有什么用" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="二编译宏有什么用" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 二、编译宏有什么用 </a><a href="#三常见的编译宏" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="三常见的编译宏" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 三、常见的编译宏 </a><a href="#四编译宏的实现原理" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="四编译宏的实现原理" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 四、编译宏的实现原理 </a><a href="#1-以-defineprops-为例子实现一个编译宏功能" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="1-以-defineprops-为例子实现一个编译宏功能" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 1. 以 defineProps 为例子实现一个编译宏功能 </a><a href="#2-转换效果" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="2-转换效果" style="padding-left: 1.5rem" data-astro-cid-ztig7rse> 2. 转换效果 </a><a href="#总结" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="总结" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 总结 </a><a href="#参考资料" class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate" data-id="参考资料" style="padding-left: 0.75rem" data-astro-cid-ztig7rse> 参考资料 </a> </nav> </div> </aside> </div>  </main> <footer class="mt-8 flex justify-center"> <small class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"> <a href="https://github.com/AleksChen" target="_blank">© 2025 AleksChen</a> </small> </footer> <script type="module">window.dataLayer=window.dataLayer||[];function a(){dataLayer.push(arguments)}a("js",new Date);a("config","G-G1EC4WNBZJ");</script> </body> </html> <script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: "default",
+    themeVariables: window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? { darkMode: true }
+      : { darkMode: false },
+  });
+</script> <script type="module">const i=new IntersectionObserver(e=>{e.forEach(o=>{if(o.isIntersecting){const r=o.target.id;document.querySelectorAll(".toc-link").forEach(t=>{t.classList.toggle("text-white",t.getAttribute("data-id")===r),t.classList.toggle("bg-primary/10",t.getAttribute("data-id")===r),t.classList.toggle("font-medium",t.getAttribute("data-id")===r)})}})},{rootMargin:"-100px 0px -60% 0px"});document.querySelectorAll("h1[id], h2[id], h3[id]").forEach(e=>{i.observe(e)});</script> 
