@@ -69,16 +69,6 @@ export default defineConfig({
           "box-shadow": "4px 4px 0 0 var(--color-text)",
           position: "relative",
         },
-        "pre::before": {
-          content: '""',
-          position: "absolute",
-          top: "0.5rem",
-          right: "0.5rem",
-          width: "0.75rem",
-          height: "0.75rem",
-          "border-radius": "50%",
-          "background-color": "var(--color-text-muted)",
-        },
         blockquote: {
           "border-left": "4px solid var(--color-primary)",
           "padding-left": "1rem",

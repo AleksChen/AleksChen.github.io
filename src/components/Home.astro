@@ -22,10 +22,12 @@ const { posts, page, more } = Astro.props;
     type: "website",
   }}
 >
-  <!-- Three.js 火箭背景 -->
-  <Rocket slot="background" />
-  <!-- 山峰视差背景 -->
-  <Mountain slot="background" />
+  <div slot="background" class="hidden md:block">
+    <!-- Three.js 火箭背景 -->
+    <Rocket />
+    <!-- 山峰视差背景 -->
+    <Mountain />
+  </div>
 
   <div class="flex flex-col gap-8 relative z-10 items-center">
     <section id="hero-section" class="text-center py-8 md:py-12">
