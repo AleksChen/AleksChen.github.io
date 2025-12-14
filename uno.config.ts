@@ -45,6 +45,13 @@ export default defineConfig({
           "border-radius": "4px",
           "background-color": "var(--color-code-bg)",
           color: "var(--color-code-text)",
+          "word-break": "break-word",
+        },
+        "code::before": {
+          content: '""',
+        },
+        "code::after": {
+          content: '""',
         },
         "pre code": {
           padding: "0",
@@ -90,7 +97,6 @@ export default defineConfig({
         table: {
           width: "100%",
           "border-collapse": "collapse",
-          margin: "1.5rem 0",
         },
         "th, td": {
           padding: "0.75rem",

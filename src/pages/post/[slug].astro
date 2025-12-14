@@ -1,19 +1,21 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import { getPostList, getPostBySlug } from "@/lib/posts";
-import { marked } from "marked";
+import {
+  getPostList,
+  getPostBySlug,
+  extractIntro,
+  getCoverFromTags,
+} from "@/lib/posts";
 import config from "site.config";
-import GithubSlugger from "github-slugger";
+import MDXImage from "@/components/mdx/MDXImage.astro";
+import MDXCode from "@/components/mdx/MDXCode.astro";
+import MDXTable from "@/components/mdx/MDXTable.astro";
 
 export async function getStaticPaths() {
   const posts = await getPostList(false);
   return posts.map((p, index) => ({
     params: { slug: p.slug },
     props: {
-      // 按照列表顺序（通常是时间倒序）：index+1 是上一篇（旧），index-1 是下一篇（新）
-      // 注意：这里的命名 prev/next 是基于“阅读流”还是“时间轴”？
-      // 原代码：prev = index + 1, next = index - 1
-      // 这意味着 "Prev" 指向旧文章，"Next" 指向新文章。
       prev: posts[index + 1] || null,
       next: posts[index - 1] || null,
     },
@@ -28,46 +30,43 @@ if (!post) {
   return Astro.redirect("/404");
 }
 
-// 1. 生成 TOC 和 处理 Markdown
-const slugger = new GithubSlugger();
-const toc: { text: string; id: string; depth: number }[] = [];
+const { Content, headings } = await post.render();
 
-const renderer = {
-  heading(
-    this: any,
-    { text, depth, tokens }: { text: string; depth: number; tokens: any[] }
-  ) {
-    const level = depth;
-    const content = this.parser.parseInline(tokens);
-    const id = slugger.slug(text);
-    if (level <= 3) {
-      toc.push({ text: content, id, depth: level });
-    }
-    return `<h${level} id="${id}">${content}</h${level}>`;
-  },
-} as any;
-
-marked.use({ renderer });
-const html = await marked.parse(post.body);
+const toc = headings
+  .filter((h) => h.depth <= 3)
+  .map((h) => ({
+    text: h.text,
+    id: h.slug,
+    depth: h.depth,
+  }));
 
 const siteUrl = Astro.site || "https://alekschen.github.io";
 const postUrl = `${siteUrl}/post/${post.slug}`;
-const coverImage = post.cover
-  ? (post.cover.startsWith("http") ? post.cover : new URL(post.cover, siteUrl).toString())
-  : undefined;
+
+const coverData = post.data.cover
+  ? { src: post.data.cover }
+  : getCoverFromTags(post.data.tags);
+
+const coverImage = coverData.src.startsWith("http")
+  ? coverData.src
+  : new URL(coverData.src, siteUrl).toString();
+
+const intro = post.data.intro || extractIntro(post.body);
 ---
 
 <Layout
-  title={post.title}
-  description={post.intro}
+  title={post.data.title}
+  description={intro}
   className="max-w-[1200px]"
   seo={{
     type: "article",
     image: coverImage,
-    publishedTime: new Date(post.date).toISOString(),
-    modifiedTime: post.updatedAt ? new Date(post.updatedAt).toISOString() : undefined,
+    publishedTime: post.data.date.toISOString(),
+    modifiedTime: post.data.updatedAt
+      ? post.data.updatedAt.toISOString()
+      : undefined,
     author: config.head.title,
-    tags: post.tags,
+    tags: post.data.tags,
     url: postUrl,
   }}
 >
@@ -77,7 +76,7 @@ const coverImage = post.cover
       <header class="mb-8 pb-8 border-b border-border">
         <div class="flex flex-wrap gap-2 mb-4">
           {
-            post.tags.map((tag) => (
+            post.data.tags.map((tag) => (
               <a
                 href={`/tag/${encodeURIComponent(tag)}`}
                 class="px-2 py-1 text-xs font-bold rounded-sm border border-text text-text bg-transparent shadow-[2px_2px_0_0_var(--color-text)] hover:translate-y-[1px] hover:translate-x-[1px] hover:shadow-none transition-all"
@@ -88,20 +87,22 @@ const coverImage = post.cover
           }
         </div>
 
-        <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight text-text">
-          {post.title}
+        <h1
+          class="text-3xl md:text-4xl font-bold mb-4 leading-tight text-text"
+        >
+          {post.data.title}
         </h1>
 
         <div class="flex items-center gap-4 text-sm text-text-muted">
-          <time datetime={post.date} class="flex items-center gap-1">
+          <time datetime={post.data.date.toISOString()} class="flex items-center gap-1">
             <div class="i-ri:calendar-line"></div>
-            {new Date(post.date).toLocaleDateString()}
+            {post.data.date.toLocaleDateString()}
           </time>
           {
-            post.updatedAt && (
+            post.data.updatedAt && (
               <span class="flex items-center gap-1" title="最后更新时间">
                 <div class="i-ri:time-line" />
-                {new Date(post.updatedAt).toLocaleDateString()}
+                {post.data.updatedAt.toLocaleDateString()}
               </span>
             )
           }
@@ -110,9 +111,10 @@ const coverImage = post.cover
 
       {/* Markdown 内容 */}
       <div
-        class="prose prose-lg dark:prose-invert max-w-none prose-img:rounded-sm prose-img:border-2 prose-img:border-text prose-img:shadow-[4px_4px_0_0_var(--color-text)] prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24"
-        set:html={html}
-      />
+        class="prose prose-lg dark:prose-invert max-w-none break-words prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24"
+      >
+        <Content components={{ img: MDXImage, pre: MDXCode, table: MDXTable }} />
+      </div>
 
       {/* 底部导航 (无需 JS Mount) */}
       <nav
@@ -191,6 +193,18 @@ const coverImage = post.cover
     </aside>
   </div>
 </Layout>
+
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: "default",
+    themeVariables: window.matchMedia("(prefers-color-scheme: dark)").matches
+      ? { darkMode: true }
+      : { darkMode: false },
+  });
+</script>
 
 <script>
   // TOC 滚动高亮逻辑

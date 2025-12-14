@@ -7,6 +7,20 @@ import react from "@astrojs/react";
 import UnoCSS from "@unocss/astro";
 import config from "./site.config.ts";
 
+import mdx from "@astrojs/mdx";
+import { visit } from "unist-util-visit";
+
+function remarkMermaid() {
+  return (tree) => {
+    visit(tree, "code", (node) => {
+      if (node.lang === "mermaid") {
+        node.type = "html";
+        node.value = `<div class="mermaid">${node.value}</div>`;
+      }
+    });
+  };
+}
+
 // https://astro.build/config
 export default defineConfig({
   trailingSlash: "never",
@@ -27,6 +41,9 @@ export default defineConfig({
           !page.includes("/tags")
         );
       },
+    }),
+    mdx({
+      remarkPlugins: [remarkMermaid],
     }),
   ],
   server: {

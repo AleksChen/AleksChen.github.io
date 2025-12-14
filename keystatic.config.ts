@@ -8,7 +8,7 @@ export default config({
     posts: collection({
       label: "Posts",
       slugField: "slug",
-      path: "content/posts/*",
+      path: "src/content/posts/*",
       format: { contentField: "content" },
       schema: {
         slug: fields.text({
@@ -28,8 +28,8 @@ export default config({
           extension: "mdx",
           options: {
             image: {
-              directory: 'public/post-assets',
-              publicPath: '/post-assets/',
+              directory: "public/post-assets",
+              publicPath: "/post-assets/",
             },
           },
         }),

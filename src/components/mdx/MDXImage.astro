@@ -1,0 +1,36 @@
+---
+import { Image } from "astro:assets";
+
+const props = Astro.props;
+const { src, alt, title, class: className, ...rest } = props;
+
+const isLocal = typeof src === "object";
+---
+
+<figure class:list={["my-6 flex flex-col items-center", className]}>
+  {
+    isLocal ? (
+      <Image
+        src={src}
+        alt={alt || ""}
+        class="rounded-lg shadow-sm border border-border max-w-full h-auto"
+        {...rest}
+      />
+    ) : (
+      <img
+        src={src as string}
+        alt={alt || ""}
+        class="rounded-lg shadow-sm border border-border max-w-full h-auto"
+        loading="lazy"
+        {...rest}
+      />
+    )
+  }
+  {
+    (title || alt) && (
+      <figcaption class="text-center text-sm text-text-muted mt-2 italic">
+        {title || alt}
+      </figcaption>
+    )
+  }
+</figure>

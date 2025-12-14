@@ -1,35 +1,22 @@
-import { readdir, readFile } from "fs/promises";
-import path from "path";
-import matter from "gray-matter";
+import { getCollection, getEntry } from "astro:content";
+import type { CollectionEntry } from "astro:content";
 
-export interface PostData {
-  id: string;
-  slug: string;
-  title: string;
-  date: string;
-  updatedAt?: string;
-  tags: string[];
-  draft: boolean;
-  cover?: string;
-  body: string;
-  intro?: string;
-}
+export type Post = CollectionEntry<"posts">;
 
 export interface ShortPostData {
   id: string;
   slug: string;
   title: string;
-  date: string;
-  updatedAt?: string;
+  date: Date;
+  updatedAt?: Date;
   tags: string[];
   draft: boolean;
   cover?: { src: string; alt?: string };
   intro?: string;
+  // Compatibility fields
   createTime: number;
   updateTime: number;
 }
-
-const POSTS_DIR = "./content/posts";
 
 const DEFAULT_COVER_MAP: Record<string, { src: string }> = {
   javascript: { src: "/post-assets/cover/cover-js.png" },
@@ -42,7 +29,7 @@ const DEFAULT_COVER_MAP: Record<string, { src: string }> = {
   default: { src: "/post-assets/cover/cover-default.jpg" },
 };
 
-function getCoverFromTags(tags: string[]): { src: string; alt?: string } {
+export function getCoverFromTags(tags: string[]): { src: string; alt?: string } {
   const lowerTags = tags.map((t) => t.toLowerCase());
   for (const tag of lowerTags) {
     if (DEFAULT_COVER_MAP[tag]) {
@@ -52,14 +39,16 @@ function getCoverFromTags(tags: string[]): { src: string; alt?: string } {
   return DEFAULT_COVER_MAP.default;
 }
 
-function extractIntro(body: string): string {
-  // 移除 frontmatter 后提取第一段
+export function extractIntro(body: string): string {
   const lines = body.split("\n").filter((line) => {
     const trimmed = line.trim();
     return (
       trimmed &&
       !trimmed.startsWith("#") &&
       !trimmed.startsWith("!") &&
+      !trimmed.startsWith("import ") &&
+      !trimmed.startsWith("export ") &&
+      !trimmed.startsWith("<") &&
       !trimmed.startsWith("```") &&
       !trimmed.startsWith("-") &&
       !trimmed.startsWith(">")
@@ -69,85 +58,57 @@ function extractIntro(body: string): string {
 }
 
 export async function getPostList(filterDraft = true): Promise<ShortPostData[]> {
-  const files = await readdir(POSTS_DIR);
-  const mdxFiles = files.filter((f) => f.endsWith(".mdx") || f.endsWith(".md"));
+  const posts = await getCollection("posts", ({ data }) => {
+    return filterDraft ? !data.draft : true;
+  });
 
-  const posts = await Promise.all(
-    mdxFiles.map(async (file) => {
-      const filePath = path.join(POSTS_DIR, file);
-      const content = await readFile(filePath, "utf-8");
-      const { data, content: body } = matter(content);
-
-      const slug = file.replace(/\.(mdx|md)$/, "");
-      const createTime = new Date(data.date).getTime();
-      const updateTime = data.updatedAt
-        ? new Date(data.updatedAt).getTime()
-        : createTime;
-
-      return {
-        id: slug,
-        slug,
-        title: data.title || "Untitled",
-        date: data.date,
-        updatedAt: data.updatedAt,
-        tags: data.tags || [],
-        draft: data.draft || false,
-        cover: data.cover
-          ? { src: data.cover }
-          : getCoverFromTags(data.tags || []),
-        intro: extractIntro(body),
-        createTime,
-        updateTime,
-      };
-    })
+  const sorted = posts.sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
   );
 
-  const sorted = posts.sort((a, b) => b.createTime - a.createTime);
+  return sorted.map((p) => {
+    const intro = p.data.intro || extractIntro(p.body);
+    const cover = p.data.cover
+      ? { src: p.data.cover }
+      : getCoverFromTags(p.data.tags);
 
-  if (filterDraft) {
-    return sorted.filter((p) => !p.draft);
-  }
+    const createTime = p.data.date.getTime();
+    const updateTime = p.data.updatedAt
+      ? p.data.updatedAt.getTime()
+      : createTime;
 
-  return sorted;
+    return {
+      id: p.id,
+      slug: p.slug,
+      title: p.data.title,
+      date: p.data.date,
+      updatedAt: p.data.updatedAt,
+      tags: p.data.tags,
+      draft: p.data.draft,
+      cover,
+      intro,
+      createTime,
+      updateTime,
+    };
+  });
 }
 
-export async function getPostBySlug(slug: string): Promise<PostData | null> {
-  const files = await readdir(POSTS_DIR);
-  const file = files.find(
-    (f) => f === `${slug}.mdx` || f === `${slug}.md` || f === `${slug}.mdoc`
-  );
-
-  if (!file) return null;
-
-  const filePath = path.join(POSTS_DIR, file);
-  const content = await readFile(filePath, "utf-8");
-  const { data, content: body } = matter(content);
-
-  return {
-    id: slug,
-    slug,
-    title: data.title || "Untitled",
-    date: data.date,
-    updatedAt: data.updatedAt,
-    tags: data.tags || [],
-    draft: data.draft || false,
-    cover: data.cover,
-    body,
-    intro: extractIntro(body),
-  };
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  return getEntry("posts", slug) || null;
 }
 
 export async function getAllTags(): Promise<string[]> {
-  const posts = await getPostList(true);
+  const posts = await getCollection("posts", ({ data }) => {
+    return !data.draft;
+  });
   const tagSet = new Set<string>();
-  posts.forEach((p) => p.tags.forEach((t) => tagSet.add(t)));
+  posts.forEach((p) => p.data.tags.forEach((t) => tagSet.add(t)));
   return Array.from(tagSet);
 }
 
 export async function getPostsByTag(tag: string): Promise<ShortPostData[]> {
-  const posts = await getPostList(true);
-  return posts.filter((p) =>
+  const allPosts = await getPostList(true);
+  return allPosts.filter((p) =>
     p.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
   );
 }
-

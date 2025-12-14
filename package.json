@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@astrojs/check": "^0.9.6",
+    "@astrojs/mdx": "^4.3.13",
     "@astrojs/react": "^4.4.2",
     "@astrojs/sitemap": "^3.6.0",
     "@keystatic/astro": "^5.0.6",
@@ -49,6 +50,7 @@
     "sass": "^1.81.0",
     "sharp": "^0.34.5",
     "tsx": "^4.21.0",
-    "typescript-eslint": "^8.16.0"
+    "typescript-eslint": "^8.16.0",
+    "unist-util-visit": "^5.0.0"
   }
 }
