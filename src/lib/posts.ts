@@ -1,3 +1,4 @@
+import { DEFAULT_COVER_MAP } from "@/constant/devicons";
 import { getCollection, getEntry } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 
@@ -18,18 +19,10 @@ export interface ShortPostData {
   updateTime: number;
 }
 
-const DEFAULT_COVER_MAP: Record<string, { src: string }> = {
-  javascript: { src: "/post-assets/cover/cover-js.png" },
-  css: { src: "/post-assets/cover/cover-css.png" },
-  html: { src: "/post-assets/cover/cover-html.png" },
-  react: { src: "/post-assets/cover/cover-react.png" },
-  vue: { src: "/post-assets/cover/cover-vue.png" },
-  ios: { src: "/post-assets/cover/cover-ios.png" },
-  google: { src: "/post-assets/cover/cover-google.png" },
-  default: { src: "/post-assets/cover/cover-default.png" },
-};
-
-export function getCoverFromTags(tags: string[]): { src: string; alt?: string } {
+export function getCoverFromTags(tags: string[]): {
+  src: string;
+  alt?: string;
+} {
   const lowerTags = tags.map((t) => t.toLowerCase());
   for (const tag of lowerTags) {
     if (DEFAULT_COVER_MAP[tag]) {
@@ -57,7 +50,9 @@ export function extractIntro(body: string): string {
   return lines[0]?.slice(0, 200) || "";
 }
 
-export async function getPostList(filterDraft = true): Promise<ShortPostData[]> {
+export async function getPostList(
+  filterDraft = true
+): Promise<ShortPostData[]> {
   const posts = await getCollection("posts", ({ data }) => {
     return filterDraft ? !data.draft : true;
   });
