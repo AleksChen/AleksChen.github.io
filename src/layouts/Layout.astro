@@ -65,7 +65,7 @@ const {
 
     <SEO title={title} description={description} {...seo} />
 
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G1EC4WNBZJ"
+    <!-- <script async src="https://www.googletagmanager.com/gtag/js?id=G-G1EC4WNBZJ"
     ></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -75,7 +75,7 @@ const {
       gtag("js", new Date());
 
       gtag("config", "G-G1EC4WNBZJ");
-    </script>
+    </script> -->
 
     <!-- Privacy-friendly analytics by Plausible -->
     <script async src="https://plausible.io/js/pa-bqrNOvlYoay2S1opDAt9D.js"
@@ -169,7 +169,7 @@ const {
             >
               <div class="i-ri:github-fill w-6 h-6"></div>
             </a>
-            
+
             <button
               id="theme-toggle"
               class="hover:text-primary transition-transform hover:scale-110 focus:outline-none"
@@ -216,7 +216,7 @@ const {
         // 向上滚动或在顶部时显示
         if (currentScrollY < lastScrollY || currentScrollY <= 100) {
           header.classList.remove("-translate-y-full");
-        } 
+        }
         // 向下滚动且超过阈值时隐藏
         else if (currentScrollY > 100 && currentScrollY > lastScrollY) {
           header.classList.add("-translate-y-full");

@@ -26,7 +26,7 @@ const DEFAULT_COVER_MAP: Record<string, { src: string }> = {
   vue: { src: "/post-assets/cover/cover-vue.png" },
   ios: { src: "/post-assets/cover/cover-ios.png" },
   google: { src: "/post-assets/cover/cover-google.png" },
-  default: { src: "/post-assets/cover/cover-default.jpg" },
+  default: { src: "/post-assets/cover/cover-default.png" },
 };
 
 export function getCoverFromTags(tags: string[]): { src: string; alt?: string } {
