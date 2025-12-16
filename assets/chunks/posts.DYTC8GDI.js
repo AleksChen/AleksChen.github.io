@@ -7,6 +7,100 @@ import { A as AstroError, U as UnknownContentCollectionError, c as createCompone
 import 'piccolore';
 import * as devalue from 'devalue';
 
+const DEFAULT_COVER_MAP = {
+  javascript: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
+  },
+  css: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg"
+  },
+  html: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
+  },
+  react: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
+  },
+  vue: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-original.svg"
+  },
+  postcss: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postcss/postcss-original-wordmark.svg"
+  },
+  tailwindcss: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+  },
+  sass: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sass/sass-original.svg"
+  },
+  less: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/less/less-plain-wordmark.svg"
+  },
+  stylus: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/stylus/stylus-original.svg"
+  },
+  ios: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/apple/apple-original.svg"
+  },
+  android: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/android/android-original.svg"
+  },
+  vite: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg"
+  },
+  google: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg"
+  },
+  node: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg"
+  },
+  python: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
+  },
+  java: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
+  },
+  c: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
+  },
+  cpp: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg"
+  },
+  csharp: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg"
+  },
+  ruby: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ruby/ruby-original.svg"
+  },
+  swift: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg"
+  },
+  kotlin: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg"
+  },
+  go: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original.svg"
+  },
+  rust: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rust/rust-original.svg"
+  },
+  haskell: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/haskell/haskell-original.svg"
+  },
+  sql: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"
+  },
+  postgresql: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
+  },
+  mongodb: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg"
+  },
+  redis: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg"
+  },
+  default: { src: "/post-assets/cover/cover-default.png" }
+};
+
 const CONTENT_IMAGE_FLAG = "astroContentImageFlag";
 const IMAGE_IMPORT_PREFIX = "__ASTRO_IMAGE_";
 
@@ -96,7 +190,7 @@ class ImmutableDataStore {
    */
   static async fromModule() {
     try {
-      const data = await import('./_astro_data-layer-content.C0YCWOw9.js');
+      const data = await import('./_astro_data-layer-content.CBPwIHS8.js');
       if (data.default instanceof Map) {
         return ImmutableDataStore.fromMap(data.default);
       }
@@ -337,7 +431,7 @@ const CONTENT_LAYER_IMAGE_REGEX = /__ASTRO_IMAGE_="([^"]+)"/g;
 async function updateImageReferencesInBody(html, fileName) {
   const { default: imageAssetMap } = await import('./content-assets.DleWbedO.js');
   const imageObjects = /* @__PURE__ */ new Map();
-  const { getImage } = await import('./_astro_assets.C_TwWYRM.js').then(n => n._);
+  const { getImage } = await import('./_astro_assets.v-f9or7S.js').then(n => n._);
   for (const [_full, imagePath] of html.matchAll(CONTENT_LAYER_IMAGE_REGEX)) {
     try {
       const decodedImagePath = JSON.parse(imagePath.replaceAll("&#x22;", '"'));
@@ -399,7 +493,7 @@ async function renderEntry(entry) {
   }
   if (entry.deferredRender) {
     try {
-      const { default: contentModules } = await import('./content-modules.BzogIJ1K.js');
+      const { default: contentModules } = await import('./content-modules.CNTwQoWG.js');
       const renderEntryImport = contentModules.get(entry.filePath);
       return render({
         collection: "",
@@ -555,16 +649,6 @@ const getEntry = createGetEntry({
 	liveCollections,
 });
 
-const DEFAULT_COVER_MAP = {
-  javascript: { src: "/post-assets/cover/cover-js.png" },
-  css: { src: "/post-assets/cover/cover-css.png" },
-  html: { src: "/post-assets/cover/cover-html.png" },
-  react: { src: "/post-assets/cover/cover-react.png" },
-  vue: { src: "/post-assets/cover/cover-vue.png" },
-  ios: { src: "/post-assets/cover/cover-ios.png" },
-  google: { src: "/post-assets/cover/cover-google.png" },
-  default: { src: "/post-assets/cover/cover-default.jpg" }
-};
 function getCoverFromTags(tags) {
   const lowerTags = tags.map((t) => t.toLowerCase());
   for (const tag of lowerTags) {
