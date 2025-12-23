@@ -46,6 +46,14 @@ export default defineConfig({
       remarkPlugins: [remarkMermaid],
     }),
   ],
+  markdown: {
+    shikiConfig: {
+      themes: {
+        light: "github-light",
+        dark: "one-dark-pro",
+      },
+    },
+  },
   server: {
     host: true,
   },

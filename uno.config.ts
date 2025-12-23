@@ -152,7 +152,7 @@ export default defineConfig({
     link: "text-primary hover:underline cursor-pointer focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2 focus-visible:rounded",
     // 代码相关
     "code-inline": "font-mono text-sm px-1.5 py-0.5 rounded bg-code-bg text-code-text",
-    "code-block": "font-mono text-sm p-4 rounded-lg bg-code-bg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] overflow-x-auto",
+    "code-block": "font-mono text-sm rounded-lg bg-code-bg shadow-[4px_4px_0_0_var(--color-text)] overflow-x-auto",
     // 通用
     "buttoned": "px-2 py-1 rounded flex items-center justify-center gap-2 transition-all disabled:(opacity-50 cursor-not-allowed) not-disabled:active:brightness-90 not-disabled:hover:brightness-95 focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2",
     "text-button": "px-2 py-1 rounded flex items-center justify-center gap-2 transition-all hover:(bg-black/10 dark:bg-white/10) active:(bg-black/20 dark:bg-white/20) focus-visible:outline-2 focus-visible:outline-primary focus-visible:outline-offset-2",
