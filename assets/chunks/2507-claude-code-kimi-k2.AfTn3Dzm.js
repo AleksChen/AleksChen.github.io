@@ -1,4 +1,4 @@
-import { l as createVNode, H as Fragment, _ as __astro_tag_component__ } from './astro/server.BR4veou0.js';
+import { l as createVNode, H as Fragment, _ as __astro_tag_component__ } from './astro/server.BPJSHmb2.js';
 import 'clsx';
 
 const frontmatter = {
@@ -155,10 +155,12 @@ function _createMdxContent(props) {
     }), "\n", createVNode(_components.p, {
       children: "在命令提示符中执行："
     }), "\n", createVNode(_components.pre, {
-      class: "astro-code github-dark",
+      class: "astro-code astro-code-themes github-light one-dark-pro",
       style: {
-        backgroundColor: "#24292e",
-        color: "#e1e4e8",
+        backgroundColor: "#fff",
+        "--shiki-dark-bg": "#282c34",
+        color: "#24292e",
+        "--shiki-dark": "#abb2bf",
         overflowX: "auto"
       },
       tabindex: "0",
@@ -168,17 +170,20 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "setx"
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: " ANTHROPIC_AUTH_TOKEN"
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: " \"你的 API 密钥\""
           })]
@@ -186,17 +191,20 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "setx"
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: " ANTHROPIC_BASE_URL"
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: " \"https://api.moonshot.cn/anthropic\""
           })]
@@ -220,10 +228,12 @@ function _createMdxContent(props) {
     }), "\n", createVNode(_components.p, {
       children: "添加如下内容："
     }), "\n", createVNode(_components.pre, {
-      class: "astro-code github-dark",
+      class: "astro-code astro-code-themes github-light one-dark-pro",
       style: {
-        backgroundColor: "#24292e",
-        color: "#e1e4e8",
+        backgroundColor: "#fff",
+        "--shiki-dark-bg": "#282c34",
+        color: "#24292e",
+        "--shiki-dark": "#abb2bf",
         overflowX: "auto"
       },
       tabindex: "0",
@@ -233,22 +243,26 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "export"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
             },
             children: " ANTHROPIC_AUTH_TOKEN"
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#56B6C2"
             },
             children: "="
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "你的API密钥"
           })]
@@ -256,24 +270,76 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "export"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
             },
             children: " ANTHROPIC_BASE_URL"
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#56B6C2"
             },
             children: "="
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
             },
-            children: "https://api.moonshot.cn/anthropic"
+            children: "https"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "://"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
+            },
+            children: "api"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
+            },
+            children: "moonshot"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
+            },
+            children: "cn"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "/"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
+            },
+            children: "anthropic"
           })]
         })]
       })

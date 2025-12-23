@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./1708-implement-instanceof.D-WDPUxZ.js');
+						return import('./2507-claude-code-kimi-k2.AfTn3Dzm.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

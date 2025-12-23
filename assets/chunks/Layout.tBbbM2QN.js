@@ -1,8 +1,8 @@
-import { c as createComponent, m as maybeRenderHead, d as addAttribute, a as renderTemplate, b as createAstro, u as unescapeHTML, f as renderScript, r as renderComponent, e as renderSlot, g as renderHead } from './astro/server.BR4veou0.js';
+import { c as createComponent, m as maybeRenderHead, d as addAttribute, a as renderTemplate, b as createAstro, u as unescapeHTML, f as renderScript, r as renderComponent, e as renderSlot, g as renderHead } from './astro/server.BPJSHmb2.js';
 import 'piccolore';
 /* empty css                        */
 import 'clsx';
-import { c as config } from './site.config.BTYANfgA.js';
+import { c as config } from './site.config.CK5Zqa3Y.js';
 
 const $$Footer = createComponent(($$result, $$props, $$slots) => {
   return renderTemplate`${maybeRenderHead()}<footer class="mt-8 flex flex-col items-center gap-4 py-8"> <div class="flex items-center gap-4"> <a${addAttribute(config.head.links.github, "href")} target="_blank" class="hover:text-primary transition-transform hover:scale-110 flex items-center gap-1 text-sm font-medium" title="GitHub"> <div class="i-ri:github-fill w-5 h-5"></div> <span class="opacity-80 hover:opacity-100">GitHub</span> </a> <div class="w-px h-4 bg-text opacity-20"></div> <a${addAttribute(config.head.links.juejin, "href")} target="_blank" class="hover:text-primary transition-transform hover:scale-110 flex items-center gap-1 text-sm font-medium" title="Juejin"> <div class="i-ri:blogger-line w-5 h-5"></div> <span class="opacity-80 hover:opacity-100">Blog</span> </a> <div class="w-px h-4 bg-text opacity-20"></div> <a href="/rss.xml" target="_blank" class="hover:text-primary transition-transform hover:scale-110 flex items-center gap-1 text-sm font-medium" title="RSS"> <div class="i-ri:rss-line w-5 h-5"></div> <span class="opacity-80 hover:opacity-100">RSS</span> </a> </div> <small class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"> <a${addAttribute(config.footer.copyrightUrl, "href")} target="_blank">${`\xA9 ${(/* @__PURE__ */ new Date()).getFullYear()} ${config.footer.copyright}`}</a> </small> </footer>`;

@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./2501-javascript-setTimeout-timeout.D1lhdMbC.js');
+						return import('./2504-cursor-figma-mcp.6ytxQ-16.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

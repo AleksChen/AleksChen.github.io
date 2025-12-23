@@ -1,4 +1,4 @@
-import { l as createVNode, H as Fragment, _ as __astro_tag_component__ } from './astro/server.BR4veou0.js';
+import { l as createVNode, H as Fragment, _ as __astro_tag_component__ } from './astro/server.BPJSHmb2.js';
 import 'clsx';
 
 const frontmatter = {
@@ -152,10 +152,12 @@ function _createMdxContent(props) {
     }), "\n", createVNode(_components.p, {
       children: "基本使用示例："
     }), "\n", createVNode(_components.pre, {
-      class: "astro-code github-dark",
+      class: "astro-code astro-code-themes github-light one-dark-pro",
       style: {
-        backgroundColor: "#24292e",
-        color: "#e1e4e8",
+        backgroundColor: "#fff",
+        "--shiki-dark-bg": "#282c34",
+        color: "#24292e",
+        "--shiki-dark": "#abb2bf",
         overflowX: "auto"
       },
       tabindex: "0",
@@ -165,42 +167,50 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "const"
           }), createVNode(_components.span, {
             style: {
-              color: "#79B8FF"
+              color: "#005CC5",
+              "--shiki-dark": "#E5C07B"
             },
             children: " evtSource"
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#56B6C2"
             },
             children: " ="
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: " new"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: " EventSource"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'/events'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ");"
           })]
@@ -210,7 +220,10 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#6A737D"
+              color: "#6A737D",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#7F848E",
+              "--shiki-dark-font-style": "italic"
             },
             children: "// 监听消息"
           })
@@ -218,37 +231,52 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "evtSource."
+            children: "evtSource"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "onmessage"
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#56B6C2"
             },
             children: " ="
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: " function"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#FFAB70"
+              color: "#E36209",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#E06C75",
+              "--shiki-dark-font-style": "italic"
             },
             children: "event"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ") {"
           })]
@@ -256,129 +284,107 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "    const"
           }), createVNode(_components.span, {
             style: {
-              color: "#79B8FF"
+              color: "#005CC5",
+              "--shiki-dark": "#E5C07B"
             },
             children: " data"
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#56B6C2"
             },
             children: " ="
           }), createVNode(_components.span, {
             style: {
-              color: "#79B8FF"
+              color: "#005CC5",
+              "--shiki-dark": "#E5C07B"
             },
             children: " JSON"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "."
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "parse"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
-            },
-            children: "(event.data);"
-          })]
-        }), "\n", createVNode(_components.span, {
-          class: "line",
-          children: [createVNode(_components.span, {
-            style: {
-              color: "#E1E4E8"
-            },
-            children: "    console."
-          }), createVNode(_components.span, {
-            style: {
-              color: "#B392F0"
-            },
-            children: "log"
-          }), createVNode(_components.span, {
-            style: {
-              color: "#E1E4E8"
-            },
-            children: "(data);"
-          })]
-        }), "\n", createVNode(_components.span, {
-          class: "line",
-          children: createVNode(_components.span, {
-            style: {
-              color: "#E1E4E8"
-            },
-            children: "};"
-          })
-        }), "\n", createVNode(_components.span, {
-          class: "line"
-        }), "\n", createVNode(_components.span, {
-          class: "line",
-          children: createVNode(_components.span, {
-            style: {
-              color: "#6A737D"
-            },
-            children: "// 监听连接打开"
-          })
-        }), "\n", createVNode(_components.span, {
-          class: "line",
-          children: [createVNode(_components.span, {
-            style: {
-              color: "#E1E4E8"
-            },
-            children: "evtSource."
-          }), createVNode(_components.span, {
-            style: {
-              color: "#B392F0"
-            },
-            children: "onopen"
-          }), createVNode(_components.span, {
-            style: {
-              color: "#F97583"
-            },
-            children: " ="
-          }), createVNode(_components.span, {
-            style: {
-              color: "#F97583"
-            },
-            children: " function"
-          }), createVNode(_components.span, {
-            style: {
-              color: "#E1E4E8"
-            },
-            children: "() {"
-          })]
-        }), "\n", createVNode(_components.span, {
-          class: "line",
-          children: [createVNode(_components.span, {
-            style: {
-              color: "#E1E4E8"
-            },
-            children: "    console."
-          }), createVNode(_components.span, {
-            style: {
-              color: "#B392F0"
-            },
-            children: "log"
-          }), createVNode(_components.span, {
-            style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "'连接已建立'"
+            children: "event"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
+            },
+            children: "data"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: ");"
+          })]
+        }), "\n", createVNode(_components.span, {
+          class: "line",
+          children: [createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
+            },
+            children: "    console"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
+            },
+            children: "log"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "("
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
+            },
+            children: "data"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ");"
           })]
@@ -386,7 +392,8 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "};"
           })
@@ -396,7 +403,110 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#6A737D"
+              color: "#6A737D",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#7F848E",
+              "--shiki-dark-font-style": "italic"
+            },
+            children: "// 监听连接打开"
+          })
+        }), "\n", createVNode(_components.span, {
+          class: "line",
+          children: [createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
+            },
+            children: "evtSource"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
+            },
+            children: "onopen"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#D73A49",
+              "--shiki-dark": "#56B6C2"
+            },
+            children: " ="
+          }), createVNode(_components.span, {
+            style: {
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
+            },
+            children: " function"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "() {"
+          })]
+        }), "\n", createVNode(_components.span, {
+          class: "line",
+          children: [createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
+            },
+            children: "    console"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
+            },
+            children: "log"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "("
+          }), createVNode(_components.span, {
+            style: {
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
+            },
+            children: "'连接已建立'"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: ");"
+          })]
+        }), "\n", createVNode(_components.span, {
+          class: "line",
+          children: createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "};"
+          })
+        }), "\n", createVNode(_components.span, {
+          class: "line"
+        }), "\n", createVNode(_components.span, {
+          class: "line",
+          children: createVNode(_components.span, {
+            style: {
+              color: "#6A737D",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#7F848E",
+              "--shiki-dark-font-style": "italic"
             },
             children: "// 监听错误"
           })
@@ -404,37 +514,52 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "evtSource."
+            children: "evtSource"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "onerror"
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#56B6C2"
             },
             children: " ="
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: " function"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#FFAB70"
+              color: "#E36209",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#E06C75",
+              "--shiki-dark-font-style": "italic"
             },
             children: "err"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ") {"
           })]
@@ -442,35 +567,59 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "    console."
+            children: "    console"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "error"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'发生错误:'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
-            children: ", err);"
+            children: ", "
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
+            },
+            children: "err"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: ");"
           })]
         }), "\n", createVNode(_components.span, {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "};"
           })
@@ -480,7 +629,10 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#6A737D"
+              color: "#6A737D",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#7F848E",
+              "--shiki-dark-font-style": "italic"
             },
             children: "// 监听自定义事件"
           })
@@ -488,47 +640,64 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "evtSource."
+            children: "evtSource"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "addEventListener"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'custom-event'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ", "
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "function"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#FFAB70"
+              color: "#E36209",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#E06C75",
+              "--shiki-dark-font-style": "italic"
             },
             children: "e"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ") {"
           })]
@@ -536,35 +705,71 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "    console."
+            children: "    console"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "log"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'自定义事件:'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
-            children: ", e.data);"
+            children: ", "
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
+            },
+            children: "e"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
+            },
+            children: "data"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: ");"
           })]
         }), "\n", createVNode(_components.span, {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "});"
           })
@@ -574,7 +779,10 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#6A737D"
+              color: "#6A737D",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#7F848E",
+              "--shiki-dark-font-style": "italic"
             },
             children: "// 关闭连接"
           })
@@ -582,7 +790,10 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#6A737D"
+              color: "#6A737D",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#7F848E",
+              "--shiki-dark-font-style": "italic"
             },
             children: "// evtSource.close();"
           })
@@ -612,10 +823,12 @@ function _createMdxContent(props) {
       id: "data-字段",
       children: "data 字段"
     }), "\n", createVNode(_components.pre, {
-      class: "astro-code github-dark",
+      class: "astro-code astro-code-themes github-light one-dark-pro",
       style: {
-        backgroundColor: "#24292e",
-        color: "#e1e4e8",
+        backgroundColor: "#fff",
+        "--shiki-dark-bg": "#282c34",
+        color: "#24292e",
+        "--shiki-dark": "#abb2bf",
         overflowX: "auto"
       },
       tabindex: "0",
@@ -631,10 +844,12 @@ function _createMdxContent(props) {
     }), "\n", createVNode(_components.p, {
       children: "多行数据："
     }), "\n", createVNode(_components.pre, {
-      class: "astro-code github-dark",
+      class: "astro-code astro-code-themes github-light one-dark-pro",
       style: {
-        backgroundColor: "#24292e",
-        color: "#e1e4e8",
+        backgroundColor: "#fff",
+        "--shiki-dark-bg": "#282c34",
+        color: "#24292e",
+        "--shiki-dark": "#abb2bf",
         overflowX: "auto"
       },
       tabindex: "0",
@@ -660,10 +875,12 @@ function _createMdxContent(props) {
         children: "Last-Event-ID"
       }), " 头："]
     }), "\n", createVNode(_components.pre, {
-      class: "astro-code github-dark",
+      class: "astro-code astro-code-themes github-light one-dark-pro",
       style: {
-        backgroundColor: "#24292e",
-        color: "#e1e4e8",
+        backgroundColor: "#fff",
+        "--shiki-dark-bg": "#282c34",
+        color: "#24292e",
+        "--shiki-dark": "#abb2bf",
         overflowX: "auto"
       },
       tabindex: "0",
@@ -687,10 +904,12 @@ function _createMdxContent(props) {
     }), "\n", createVNode(_components.p, {
       children: "用于指定事件类型："
     }), "\n", createVNode(_components.pre, {
-      class: "astro-code github-dark",
+      class: "astro-code astro-code-themes github-light one-dark-pro",
       style: {
-        backgroundColor: "#24292e",
-        color: "#e1e4e8",
+        backgroundColor: "#fff",
+        "--shiki-dark-bg": "#282c34",
+        color: "#24292e",
+        "--shiki-dark": "#abb2bf",
         overflowX: "auto"
       },
       tabindex: "0",
@@ -714,10 +933,12 @@ function _createMdxContent(props) {
     }), "\n", createVNode(_components.p, {
       children: "指定重连时间（毫秒）："
     }), "\n", createVNode(_components.pre, {
-      class: "astro-code github-dark",
+      class: "astro-code astro-code-themes github-light one-dark-pro",
       style: {
-        backgroundColor: "#24292e",
-        color: "#e1e4e8",
+        backgroundColor: "#fff",
+        "--shiki-dark-bg": "#282c34",
+        color: "#24292e",
+        "--shiki-dark": "#abb2bf",
         overflowX: "auto"
       },
       tabindex: "0",
@@ -739,10 +960,12 @@ function _createMdxContent(props) {
       id: "node-服务器实例",
       children: "Node 服务器实例"
     }), "\n", createVNode(_components.pre, {
-      class: "astro-code github-dark",
+      class: "astro-code astro-code-themes github-light one-dark-pro",
       style: {
-        backgroundColor: "#24292e",
-        color: "#e1e4e8",
+        backgroundColor: "#fff",
+        "--shiki-dark-bg": "#282c34",
+        color: "#24292e",
+        "--shiki-dark": "#abb2bf",
         overflowX: "auto"
       },
       tabindex: "0",
@@ -752,37 +975,44 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "const"
           }), createVNode(_components.span, {
             style: {
-              color: "#79B8FF"
+              color: "#005CC5",
+              "--shiki-dark": "#E5C07B"
             },
             children: " express"
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#56B6C2"
             },
             children: " ="
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: " require"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'express'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ");"
           })]
@@ -790,27 +1020,32 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "const"
           }), createVNode(_components.span, {
             style: {
-              color: "#79B8FF"
+              color: "#005CC5",
+              "--shiki-dark": "#E5C07B"
             },
             children: " app"
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#56B6C2"
             },
             children: " ="
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: " express"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "();"
           })]
@@ -820,57 +1055,78 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "app."
+            children: "app"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "get"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'/events'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ", ("
           }), createVNode(_components.span, {
             style: {
-              color: "#FFAB70"
+              color: "#E36209",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#E06C75",
+              "--shiki-dark-font-style": "italic"
             },
             children: "req"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ", "
           }), createVNode(_components.span, {
             style: {
-              color: "#FFAB70"
+              color: "#E36209",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#E06C75",
+              "--shiki-dark-font-style": "italic"
             },
             children: "res"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ") "
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "=>"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: " {"
           })]
@@ -878,7 +1134,10 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#6A737D"
+              color: "#6A737D",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#7F848E",
+              "--shiki-dark-font-style": "italic"
             },
             children: "    // 设置 SSE 所需的 headers"
           })
@@ -886,27 +1145,38 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "    res."
+            children: "    res"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "writeHead"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#79B8FF"
+              color: "#005CC5",
+              "--shiki-dark": "#D19A66"
             },
             children: "200"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ", {"
           })]
@@ -914,22 +1184,26 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "        'Content-Type'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ": "
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'text/event-stream'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ","
           })]
@@ -937,22 +1211,26 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "        'Cache-Control'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ": "
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'no-cache'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ","
           })]
@@ -960,17 +1238,20 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "        'Connection'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ": "
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'keep-alive'"
           })]
@@ -978,7 +1259,8 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "    });"
           })
@@ -988,7 +1270,10 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#6A737D"
+              color: "#6A737D",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#7F848E",
+              "--shiki-dark-font-style": "italic"
             },
             children: "    // 发送初始数据"
           })
@@ -996,37 +1281,50 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "    res."
+            children: "    res"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "write"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'data: 连接已建立"
           }), createVNode(_components.span, {
             style: {
-              color: "#79B8FF"
+              color: "#005CC5",
+              "--shiki-dark": "#56B6C2"
             },
             children: "\\n\\n"
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ");"
           })]
@@ -1036,7 +1334,10 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#6A737D"
+              color: "#6A737D",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#7F848E",
+              "--shiki-dark-font-style": "italic"
             },
             children: "    // 定时发送数据"
           })
@@ -1044,37 +1345,44 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "    const"
           }), createVNode(_components.span, {
             style: {
-              color: "#79B8FF"
+              color: "#005CC5",
+              "--shiki-dark": "#E5C07B"
             },
             children: " intervalId"
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#56B6C2"
             },
             children: " ="
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: " setInterval"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "(() "
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "=>"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: " {"
           })]
@@ -1082,22 +1390,26 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "        const"
           }), createVNode(_components.span, {
             style: {
-              color: "#79B8FF"
+              color: "#005CC5",
+              "--shiki-dark": "#E5C07B"
             },
             children: " data"
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#56B6C2"
             },
             children: " ="
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: " {"
           })]
@@ -1105,32 +1417,44 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
             },
-            children: "            time: "
+            children: "            time"
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: ": "
+          }), createVNode(_components.span, {
+            style: {
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "new"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: " Date"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "()."
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "toISOString"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "(),"
           })]
@@ -1138,17 +1462,38 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
             },
-            children: "            value: Math."
+            children: "            value"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: ": "
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
+            },
+            children: "Math"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "random"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "()"
           })]
@@ -1156,7 +1501,8 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "        };"
           })
@@ -1164,7 +1510,8 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "        "
           })
@@ -1172,72 +1519,98 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "        res."
+            children: "        res"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
-            },
-            children: "write"
-          }), createVNode(_components.span, {
-            style: {
-              color: "#E1E4E8"
-            },
-            children: "("
-          }), createVNode(_components.span, {
-            style: {
-              color: "#9ECBFF"
-            },
-            children: "`data: ${"
-          }), createVNode(_components.span, {
-            style: {
-              color: "#79B8FF"
-            },
-            children: "JSON"
-          }), createVNode(_components.span, {
-            style: {
-              color: "#9ECBFF"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "."
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
-            children: "stringify"
+            children: "write"
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
+            },
+            children: "`data: "
+          }), createVNode(_components.span, {
+            style: {
+              color: "#032F62",
+              "--shiki-dark": "#C678DD"
+            },
+            children: "${"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#005CC5",
+              "--shiki-dark": "#E5C07B"
+            },
+            children: "JSON"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#032F62",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
+            },
+            children: "stringify"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#032F62",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "("
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
             },
             children: "data"
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ")"
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#C678DD"
             },
             children: "}"
           }), createVNode(_components.span, {
             style: {
-              color: "#79B8FF"
+              color: "#005CC5",
+              "--shiki-dark": "#56B6C2"
             },
             children: "\\n\\n"
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "`"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ");"
           })]
@@ -1245,17 +1618,20 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "    }, "
           }), createVNode(_components.span, {
             style: {
-              color: "#79B8FF"
+              color: "#005CC5",
+              "--shiki-dark": "#D19A66"
             },
             children: "1000"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ");"
           })]
@@ -1265,7 +1641,10 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#6A737D"
+              color: "#6A737D",
+              "--shiki-light-font-style": "inherit",
+              "--shiki-dark": "#7F848E",
+              "--shiki-dark-font-style": "italic"
             },
             children: "    // 监听连接关闭"
           })
@@ -1273,37 +1652,50 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "    req."
+            children: "    req"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "on"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'close'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ", () "
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "=>"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: " {"
           })]
@@ -1311,20 +1703,35 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "        clearInterval"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
-            children: "(intervalId);"
+            children: "("
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#E06C75"
+            },
+            children: "intervalId"
+          }), createVNode(_components.span, {
+            style: {
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: ");"
           })]
         }), "\n", createVNode(_components.span, {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "    });"
           })
@@ -1332,7 +1739,8 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "});"
           })
@@ -1342,37 +1750,50 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "app."
+            children: "app"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "listen"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#79B8FF"
+              color: "#005CC5",
+              "--shiki-dark": "#D19A66"
             },
             children: "3000"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ", () "
           }), createVNode(_components.span, {
             style: {
-              color: "#F97583"
+              color: "#D73A49",
+              "--shiki-dark": "#C678DD"
             },
             children: "=>"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: " {"
           })]
@@ -1380,27 +1801,38 @@ function _createMdxContent(props) {
           class: "line",
           children: [createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#E5C07B"
             },
-            children: "    console."
+            children: "    console"
           }), createVNode(_components.span, {
             style: {
-              color: "#B392F0"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
+            },
+            children: "."
+          }), createVNode(_components.span, {
+            style: {
+              color: "#6F42C1",
+              "--shiki-dark": "#61AFEF"
             },
             children: "log"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "("
           }), createVNode(_components.span, {
             style: {
-              color: "#9ECBFF"
+              color: "#032F62",
+              "--shiki-dark": "#98C379"
             },
             children: "'SSE 服务器运行在 3000 端口'"
           }), createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: ");"
           })]
@@ -1408,7 +1840,8 @@ function _createMdxContent(props) {
           class: "line",
           children: createVNode(_components.span, {
             style: {
-              color: "#E1E4E8"
+              color: "#24292E",
+              "--shiki-dark": "#ABB2BF"
             },
             children: "});"
           })

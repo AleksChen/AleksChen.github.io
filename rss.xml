@@ -6,8 +6,19 @@
     <link>https://blog.002085.xyz</link>
     <atom:link href="https://blog.002085.xyz/rss.xml" rel="self" type="application/rss+xml" />
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 16 Dec 2025 06:27:40 GMT</lastBuildDate>
+    <lastBuildDate>Tue, 23 Dec 2025 12:42:22 GMT</lastBuildDate>
     <generator>Astro</generator>
+
+    <item>
+      <title><![CDATA[Electron 小记]]></title>
+      <link>https://blog.002085.xyz/post/2512-electron-note</link>
+      <guid isPermaLink="true">https://blog.002085.xyz/post/2512-electron-note</guid>
+      <description><![CDATA[如果你是一个前端开发者，或者是刚接触编程的新手，你可能每天都在使用 VS Code 写代码，用 Discord 或 Slack 沟通，用 Notion 记笔记。你是否好奇过，为什么这些体验极佳的“桌面应用”，长得那么像网页？]]></description>
+      <pubDate>Tue, 23 Dec 2025 19:54:00 GMT</pubDate>
+      <updated>Tue, 23 Dec 2025 19:54:00 GMT</updated>
+      <category><![CDATA[Electron]]></category>
+      <category><![CDATA[Native]]></category>
+    </item>
 
     <item>
       <title><![CDATA[Claude Code 中接入 Kimi K2 大模型]]></title>
@@ -36,6 +47,7 @@
       <description><![CDATA[MCP (Model Control Protocol) 是 Cursor 提供的一个协议，允许外部服务为 Cursor AI 提供额外的上下文信息。通过 Figma MCP，我们可以让 Cursor 直接读取 Figma 设计稿的信息，从而实现更精准的代码还原。]]></description>
       <pubDate>Tue, 01 Apr 2025 07:33:49 GMT</pubDate>
       <updated>Thu, 03 Apr 2025 07:32:36 GMT</updated>
+      <category><![CDATA[Figma]]></category>
       <category><![CDATA[AI]]></category>
     </item>
 

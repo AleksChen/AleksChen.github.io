@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./2412-float-attribute-in-ios-android.CWb2SQFP.js');
+						return import('./2501-javascript-setTimeout-timeout.G23k9PP3.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

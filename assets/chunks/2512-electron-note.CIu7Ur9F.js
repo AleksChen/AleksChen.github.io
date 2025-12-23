@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./2504-cursor-figma-mcp.DraddKwl.js');
+						return import('./2512-electron-note.PqGVWB21.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

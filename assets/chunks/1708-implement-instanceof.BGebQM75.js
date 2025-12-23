@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./2504-sse.C1pnEJXe.js');
+						return import('./1708-implement-instanceof.Bym-dd05.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];
