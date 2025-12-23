@@ -206,12 +206,17 @@ const intro = post.data.intro || extractIntro(post.body);
 <script type="module">
   import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
 
+  // 更精确地检测 <html> 是否带有 dark class，优先用 class，否则 fallback 到 media query
+  const html = document.documentElement;
+  const isDark =
+    html.classList.contains("dark") ||
+    (!html.classList.contains("light") &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches);
+
   mermaid.initialize({
     startOnLoad: true,
-    theme: "default",
-    themeVariables: window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? { darkMode: true }
-      : { darkMode: false },
+    theme: isDark ? "dark" : "default",
+    themeVariables: isDark ? { darkMode: true } : { darkMode: false },
   });
 </script>
 
