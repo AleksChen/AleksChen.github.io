@@ -2,7 +2,9 @@ import { DEFAULT_COVER_MAP } from "@/constant/devicons";
 import { getCollection, getEntry } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 
-export type Post = CollectionEntry<"posts">;
+export type Post = CollectionEntry<"posts"> & {
+  showSidebar?: boolean;
+};
 
 export interface ShortPostData {
   id: string;

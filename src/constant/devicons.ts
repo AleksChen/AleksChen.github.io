@@ -90,5 +90,11 @@ export const DEFAULT_COVER_MAP: Record<string, { src: string }> = {
   redis: {
     src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg",
   },
+  electron: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/electron/electron-original.svg",
+  },
+  figma: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg",
+  },
   default: { src: "/post-assets/cover/cover-default.png" },
 };
