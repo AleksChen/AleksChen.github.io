@@ -15,8 +15,8 @@ function getHeadings() {
     "text": "桌面开发的范式：Electron 小记"
   }, {
     "depth": 2,
-    "slug": "一-序幕为什么我们需要-electron",
-    "text": "一、 序幕：为什么我们需要 Electron？"
+    "slug": "1-序幕为什么我们需要-electron",
+    "text": "1. 序幕：为什么我们需要 Electron？"
   }, {
     "depth": 3,
     "slug": "11-跨平台开发的痛点",
@@ -27,24 +27,20 @@ function getHeadings() {
     "text": "1.2 Electron 的诞生与核心价值"
   }, {
     "depth": 2,
-    "slug": "二-核心架构揭秘-electron-的运行机制",
-    "text": "二、 核心架构：揭秘 Electron 的运行机制"
+    "slug": "2-核心架构揭秘-electron-的运行机制",
+    "text": "2. 核心架构：揭秘 Electron 的运行机制"
   }, {
     "depth": 3,
     "slug": "21-它们怎么沟通ipc-机制",
     "text": "2.1 它们怎么沟通？(IPC 机制)"
   }, {
     "depth": 3,
-    "slug": "22-架构示意图",
-    "text": "2.2 架构示意图"
-  }, {
-    "depth": 3,
-    "slug": "23-代码怎么写",
-    "text": "2.3 代码怎么写？"
+    "slug": "22-示例代码",
+    "text": "2.2 示例代码"
   }, {
     "depth": 2,
-    "slug": "三-为什么这么设计",
-    "text": "三、 为什么这么设计？"
+    "slug": "3-设计考量",
+    "text": "3. 设计考量"
   }, {
     "depth": 3,
     "slug": "31-隔离安全与性能",
@@ -59,8 +55,8 @@ function getHeadings() {
     "text": "3.3 事件循环的融合"
   }, {
     "depth": 2,
-    "slug": "四-electron-面临的问题",
-    "text": "四、 Electron 面临的问题"
+    "slug": "4-electron-的局限",
+    "text": "4. Electron 的局限"
   }, {
     "depth": 3,
     "slug": "41-内存杀手",
@@ -75,24 +71,24 @@ function getHeadings() {
     "text": "4.3 体验对比表"
   }, {
     "depth": 2,
-    "slug": "五-进化与未来electron-的演进方向",
-    "text": "五、 进化与未来：Electron 的演进方向"
+    "slug": "5-electron-的演进方向",
+    "text": "5. Electron 的演进方向"
   }, {
     "depth": 3,
-    "slug": "51-asar-技术",
-    "text": "5.1 ASAR 技术"
+    "slug": "51-asar一种特殊的归档格式",
+    "text": "5.1 ASAR：一种特殊的归档格式"
   }, {
     "depth": 3,
-    "slug": "52-性能优化与-v8",
-    "text": "5.2 性能优化与 V8"
+    "slug": "52-性能优化的深水区",
+    "text": "5.2 性能优化的深水区"
   }, {
     "depth": 3,
-    "slug": "53-竞争对手",
-    "text": "5.3 竞争对手"
+    "slug": "53-强有力的挑战者tauri-与-flutter",
+    "text": "5.3 强有力的挑战者：Tauri 与 Flutter"
   }, {
     "depth": 2,
-    "slug": "六-总结2026-年我们还应该学-electron-吗",
-    "text": "六、 总结：2026 年我们还应该学 Electron 吗？"
+    "slug": "6-总结2026-年我们还应该学-electron-吗",
+    "text": "6. 总结：2026 年我们还应该学 Electron 吗？"
   }];
 }
 function _createMdxContent(props) {
@@ -126,8 +122,8 @@ function _createMdxContent(props) {
       id: "桌面开发的范式electron-小记",
       children: "桌面开发的范式：Electron 小记"
     }), "\n", createVNode(_components.h2, {
-      id: "一-序幕为什么我们需要-electron",
-      children: "一、 序幕：为什么我们需要 Electron？"
+      id: "1-序幕为什么我们需要-electron",
+      children: "1. 序幕：为什么我们需要 Electron？"
     }), "\n", createVNode(_components.p, {
       children: "如果你是一个前端开发者，或者是刚接触编程的新手，你可能每天都在使用 VS Code 写代码，用 Discord 或 Slack 沟通，用 Notion 记笔记。你是否好奇过，为什么这些体验极佳的“桌面应用”，长得那么像网页？"
     }), "\n", createVNode(_components.p, {
@@ -183,8 +179,8 @@ function _createMdxContent(props) {
     }), "\n", createVNode(_components.p, {
       children: "于是，Web 开发者可以直接用自己熟悉的 JavaScript，画出原生级别的桌面应用。"
     }), "\n", createVNode(_components.hr, {}), "\n", createVNode(_components.h2, {
-      id: "二-核心架构揭秘-electron-的运行机制",
-      children: "二、 核心架构：揭秘 Electron 的运行机制"
+      id: "2-核心架构揭秘-electron-的运行机制",
+      children: "2. 核心架构：揭秘 Electron 的运行机制"
     }), "\n", createVNode(_components.p, {
       children: ["Electron 并不是把网页简单地“套壳”。它设计了一套独特的", createVNode(_components.strong, {
         children: "多进程架构"
@@ -256,14 +252,8 @@ function _createMdxContent(props) {
         alt: ""
       })
     }), "\n", createVNode(_components.h3, {
-      id: "22-架构示意图",
-      children: "2.2 架构示意图"
-    }), "\n", createVNode(_components.div, {
-      class: "mermaid",
-      children: ["graph TD\n    subgraph MainProcess [\"主进程 (Node.js)\"]\n        MainScript[\"主脚本 (Main Script)", createVNode(_components.br, {}), "«核心控制»\"]\n        NativeAPI[\"原生 API", createVNode(_components.br, {}), "«系统能力»\"]\n        WindowManager[\"窗口管理", createVNode(_components.br, {}), "«业务逻辑»\"]\n    end\n\n    IPC((\"IPC 通信通道\"))\n\n    subgraph RendererA [\"渲染进程 A (Chromium)\"]\n        PageA[\"Web 页面 A", createVNode(_components.br, {}), "«用户界面»\"]\n        PreloadA[\"预加载脚本 A (Preload)", createVNode(_components.br, {}), "«桥接层»\"]\n    end\n\n    subgraph RendererB [\"渲染进程 B (Chromium)\"]\n        PageB[\"Web 页面 B", createVNode(_components.br, {}), "«用户界面»\"]\n        PreloadB[\"预加载脚本 B (Preload)", createVNode(_components.br, {}), "«桥接层»\"]\n    end\n\n    subgraph OS [\"操作系统 (OS)\"]\n        FileSystem[(\"文件系统\")]\n        Network[(\"网络\")]\n        NativeGUI[(\"原生 GUI\")]\n    end\n\n    %% 关系连接\n    MainScript <--> IPC\n    IPC <--> PreloadA\n    IPC <--> PreloadB\n\n    MainScript --> NativeAPI\n    NativeAPI --- OS\n    PageA -. \"Context Bridge (上下文桥接)\" .-> PreloadA\n    PageB -. \"Context Bridge (上下文桥接)\" .-> PreloadB"]
-    }), "\n", createVNode(_components.h3, {
-      id: "23-代码怎么写",
-      children: "2.3 代码怎么写？"
+      id: "22-示例代码",
+      children: "2.2 示例代码"
     }), "\n", createVNode(_components.p, {
       children: ["为了安全，现在官方推荐使用 ", createVNode(_components.code, {
         children: "ContextBridge"
@@ -846,9 +836,12 @@ function _createMdxContent(props) {
         src: "/post-assets/2512-electron-note/contentBridge.jpg",
         alt: ""
       })
+    }), "\n", createVNode(_components.div, {
+      class: "mermaid",
+      children: ["graph TD\n    subgraph MainProcess [\"主进程 (Node.js)\"]\n        MainScript[\"主脚本 (Main Script)", createVNode(_components.br, {}), "«核心控制»\"]\n        NativeAPI[\"原生 API", createVNode(_components.br, {}), "«系统能力»\"]\n        WindowManager[\"窗口管理", createVNode(_components.br, {}), "«业务逻辑»\"]\n    end\n\n    IPC((\"IPC 通信通道\"))\n\n    subgraph RendererA [\"渲染进程 A (Chromium)\"]\n        PageA[\"Web 页面 A", createVNode(_components.br, {}), "«用户界面»\"]\n        PreloadA[\"预加载脚本 A (Preload)", createVNode(_components.br, {}), "«桥接层»\"]\n    end\n\n    subgraph RendererB [\"渲染进程 B (Chromium)\"]\n        PageB[\"Web 页面 B", createVNode(_components.br, {}), "«用户界面»\"]\n        PreloadB[\"预加载脚本 B (Preload)", createVNode(_components.br, {}), "«桥接层»\"]\n    end\n\n    subgraph OS [\"操作系统 (OS)\"]\n        FileSystem[(\"文件系统\")]\n        Network[(\"网络\")]\n        NativeGUI[(\"原生 GUI\")]\n    end\n\n    %% 关系连接\n    MainScript <--> IPC\n    IPC <--> PreloadA\n    IPC <--> PreloadB\n\n    MainScript --> NativeAPI\n    NativeAPI --- OS\n    PageA -. \"Context Bridge (上下文桥接)\" .-> PreloadA\n    PageB -. \"Context Bridge (上下文桥接)\" .-> PreloadB"]
     }), "\n", createVNode(_components.hr, {}), "\n", createVNode(_components.h2, {
-      id: "三-为什么这么设计",
-      children: "三、 为什么这么设计？"
+      id: "3-设计考量",
+      children: "3. 设计考量"
     }), "\n", createVNode(_components.h3, {
       id: "31-隔离安全与性能",
       children: "3.1 隔离安全与性能"
@@ -885,8 +878,8 @@ function _createMdxContent(props) {
       class: "mermaid",
       children: "sequenceDiagram\n    title Node.js 与 Chromium 事件循环集成\n\n    box \"Electron 运行环境\" #e6f3ff\n        participant CML as Chromium 消息循环\n        participant Bridge as Electron 桥接层\n        participant UV as Node.js Libuv 循环\n    end\n\n    participant OS as 系统事件 (I/O, 定时器, UI)\n\n    OS->>CML: 捕获系统事件 (鼠标点击/绘制)\n    CML->>CML: 处理 Web 渲染逻辑\n\n    loop 轮询集成 (Polling Integration)\n        CML->>Bridge: 检查 Node.js 任务状态\n        Bridge->>UV: 询问: \"有待处理的异步任务吗?\"\n        UV->>UV: 处理文件 I/O、网络请求、定时器\n        UV-->>Bridge: 返回结果/回调\n        Bridge->>CML: 将 Node 回调注入消息队列\n    end\n\n    CML->>OS: 更新 UI / 执行系统响应"
     }), "\n", createVNode(_components.hr, {}), "\n", createVNode(_components.h2, {
-      id: "四-electron-面临的问题",
-      children: "四、 Electron 面临的问题"
+      id: "4-electron-的局限",
+      children: "4. Electron 的局限"
     }), "\n", createVNode(_components.p, {
       children: "虽然 Electron 开发爽，但它也不是完美的。"
     }), "\n", createVNode(_components.h3, {
@@ -1001,40 +994,78 @@ function _createMdxContent(props) {
         }), "\n"]
       }), "\n"]
     }), "\n", createVNode(_components.hr, {}), "\n", createVNode(_components.h2, {
-      id: "五-进化与未来electron-的演进方向",
-      children: "五、 进化与未来：Electron 的演进方向"
+      id: "5-electron-的演进方向",
+      children: "5. Electron 的演进方向"
     }), "\n", createVNode(_components.h3, {
-      id: "51-asar-技术",
-      children: "5.1 ASAR 技术"
+      id: "51-asar一种特殊的归档格式",
+      children: "5.1 ASAR：一种特殊的归档格式"
     }), "\n", createVNode(_components.p, {
-      children: ["这是一个简单的归档格式。Electron 把你的成千上万个小 JS 文件打包成一个 ", createVNode(_components.code, {
-        children: ".asar"
-      }), " 文件。"]
+      children: ["Electron 应用通常由成千上万个小的 JavaScript、CSS 和 HTML 文件组成。在分发应用时，Electron 默认使用 ", createVNode(_components.strong, {
+        children: "ASAR (Atom Shell Archive)"
+      }), " 格式将这些源码打包成一个单一的文件。"]
     }), "\n", createVNode(_components.ul, {
       children: ["\n", createVNode(_components.li, {
         children: [createVNode(_components.strong, {
-          children: "好处"
-        }), "：Windows 读取大文件的速度远快于读取一万个小文件。"]
+          children: "解决 Windows I/O 瓶颈"
+        }), "：在 Windows 文件系统（NTFS）上，读取成千上万个小文件的开销非常大，且容易触发杀毒软件的实时扫描钩子，导致应用启动缓慢。ASAR 将它们合并为一个大文件，显著提升读取效率。"]
       }), "\n", createVNode(_components.li, {
         children: [createVNode(_components.strong, {
-          children: "副作用"
-        }), "：稍微隐藏了一下源代码（虽然还是能被解包）。"]
+          children: "只读与随机访问"
+        }), "：ASAR 类似于 tar 包，它", createVNode(_components.strong, {
+          children: "不进行压缩"
+        }), "，支持随机访问。这意味着 Electron 可以直接从 ASAR 中读取某个文件的特定字节，而无需解压整个包。"]
+      }), "\n", createVNode(_components.li, {
+        children: [createVNode(_components.strong, {
+          children: "源码保护（有限）"
+        }), "：虽然它稍微隐藏了源代码，避免用户直接在资源管理器中修改文件，但它并非加密技术，简单的 CLI 工具即可解包。"]
       }), "\n"]
     }), "\n", createVNode(_components.h3, {
-      id: "52-性能优化与-v8",
-      children: "5.2 性能优化与 V8"
+      id: "52-性能优化的深水区",
+      children: "5.2 性能优化的深水区"
     }), "\n", createVNode(_components.p, {
-      children: "随着 V8 引擎的升级，JS 的执行速度越来越快。WebAssembly (WASM) 的引入，让视频剪辑、图像处理等重计算任务在 Electron 中也变得可行（参考 Figma 的桌面版）。"
+      children: "除了 V8 引擎每年带来的原生 JS 性能提升，Electron 在处理高性能场景时还有更多武器："
+    }), "\n", createVNode(_components.ul, {
+      children: ["\n", createVNode(_components.li, {
+        children: "WebAssembly (WASM)：通过 WASM，我们可以将 C/C++ 编写的高性能库（如 FFmpeg、OpenCV）编译后在渲染进程中运行。这让视频剪辑、图像处理等计算密集型任务在 Electron 中达到接近原生的速度（Figma 是最佳案例）。"
+      }), "\n", createVNode(_components.li, {
+        children: "Worker Threads：为了不阻塞 UI 渲染主线程，繁重的计算任务（如大文件解析、加密解密）应当放入 Worker 线程中执行。"
+      }), "\n", createVNode(_components.li, {
+        children: "Native Addons (C++)：对于 Node.js 层面都无法满足的性能需求，开发者可以编写 C++ 原生模块（Node Native Addons），直接调用操作系统底层 API，通过 N-API 与 JavaScript 交互。"
+      }), "\n"]
     }), "\n", createVNode(_components.h3, {
-      id: "53-竞争对手",
-      children: "5.3 竞争对手"
+      id: "53-强有力的挑战者tauri-与-flutter",
+      children: "5.3 强有力的挑战者：Tauri 与 Flutter"
     }), "\n", createVNode(_components.p, {
-      children: [createVNode(_components.strong, {
-        children: "Tauri"
-      }), " 是目前最强有力的挑战者。它用 Rust 写后端，前端复用系统自带的 WebView（Edge on Windows, Safari on macOS）。这解决了安装包体积大的问题，但系统兼容性处理起来比 Electron 麻烦得多。"]
+      children: "Electron 的霸主地位正在受到挑战，主要来自追求极致体积和性能的框架："
+    }), "\n", createVNode(_components.ol, {
+      children: ["\n", createVNode(_components.li, {
+        children: ["Tauri (Rust + Web 前端)\n", createVNode(_components.ul, {
+          children: ["\n", createVNode(_components.li, {
+            children: "优势：极度轻量。它不打包 Chromium，而是复用操作系统自带的 WebView（Windows 用 WebView2/Edge，macOS 用 WebKit）。安装包通常只有 Electron 的 1/20。"
+          }), "\n", createVNode(_components.li, {
+            children: "劣势：浏览器兼容性地狱。因为依赖系统 WebView，你无法保证用户电脑上的 WebView 版本是最新的。你可能需要为不同系统的渲染差异写 Polyfill。且后端需掌握 Rust。"
+          }), "\n"]
+        }), "\n"]
+      }), "\n", createVNode(_components.li, {
+        children: ["Flutter (Dart)\n", createVNode(_components.ul, {
+          children: ["\n", createVNode(_components.li, {
+            children: "优势：自带渲染引擎 (Skia/Impeller)。它不依赖 WebView，直接调用 GPU 绘制 UI，性能极强，体验最接近原生。"
+          }), "\n", createVNode(_components.li, {
+            children: "劣势：生态隔离。无法直接使用 NPM 上浩如烟海的 JavaScript 库，必须使用 Dart 生态。"
+          }), "\n"]
+        }), "\n"]
+      }), "\n", createVNode(_components.li, {
+        children: ["Electron 的护城河\n", createVNode(_components.ul, {
+          children: ["\n", createVNode(_components.li, {
+            children: ["一致性：因为自带了 Chromium，Electron 保证了", createVNode(_components.strong, {
+              children: "像素级的一致性"
+            }), "。开发者不用担心用户的电脑是 Windows 10 还是 11，网页渲染结果永远一样。这是企业级软件最看重的稳定性。"]
+          }), "\n"]
+        }), "\n"]
+      }), "\n"]
     }), "\n", createVNode(_components.hr, {}), "\n", createVNode(_components.h2, {
-      id: "六-总结2026-年我们还应该学-electron-吗",
-      children: "六、 总结：2026 年我们还应该学 Electron 吗？"
+      id: "6-总结2026-年我们还应该学-electron-吗",
+      children: "6. 总结：2026 年我们还应该学 Electron 吗？"
     }), "\n", createVNode(_components.p, {
       children: createVNode(_components.strong, {
         children: "答案是肯定的。"
