@@ -50,7 +50,7 @@ export const PostCard: React.FC<PostCardProps> = ({
           </div>
 
           {item.cover && (
-            <div className="flex-shrink-0 w-full md:w-32 h-32 md:h-24 rounded-sm overflow-hidden border-2 border-text shadow-[4px_4px_0_0_var(--color-text)]">
+            <div className="flex-shrink-0 w-32 h-32 rounded overflow-hidden border-1">
               <img
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 src={item.cover.src}

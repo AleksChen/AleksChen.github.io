@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import type { ShortPostData } from "@/lib/posts";
 import Rocket from "@/components/Rocket.astro";
 import Mountain from "@/components/Mountain.astro";
+import { TypeWriter } from "@/components/TypeWriter";
 
 import { PostCard } from "./PostCard";
 
@@ -32,9 +33,16 @@ const { posts, page, more } = Astro.props;
   <div class="flex flex-col gap-8 relative z-10 items-center">
     <section id="hero-section" class="text-center py-8 md:py-12">
       <h1
-        class="text-4xl md:text-7xl font-bold text-text mb-6 drop-shadow-[4px_2px_0_var(--color-shadow)]"
+        class="text-4xl md:text-7xl font-bold text-text mb-6 drop-shadow-[4px_4px_0_var(--color-shadow)]"
       >
-        AleksChen's Blog
+        <TypeWriter
+          client:visible
+          text="AleksChen's Blog"
+          speed={150}
+          wait={3000}
+          loop={false}
+          cursor={false}
+        />
       </h1>
       <p class="text-text-muted text-lg max-w-2xl mx-auto">活在当下 记录时间</p>
     </section>
@@ -43,7 +51,6 @@ const { posts, page, more } = Astro.props;
       {
         posts.map((item, index) => (
           <PostCard
-            key={item.slug}
             item={item}
             index={index}
             formattedDate={new Date(item.createTime).toLocaleDateString()}
