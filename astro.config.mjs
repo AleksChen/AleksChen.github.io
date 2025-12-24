@@ -24,7 +24,7 @@ function remarkMermaid() {
 // https://astro.build/config
 export default defineConfig({
   trailingSlash: "never",
-  site: import.meta.env.PUBLIC_SITE_URL || config.siteUrl,
+  site: process.env.PUBLIC_SITE_URL || config.siteUrl,
   integrations: [
     react(),
     ...(import.meta.env.DEV ? [keystatic()] : []),
