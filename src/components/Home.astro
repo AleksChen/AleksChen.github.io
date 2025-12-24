@@ -44,7 +44,16 @@ const { posts, page, more } = Astro.props;
           cursor={false}
         />
       </h1>
-      <p class="text-text-muted text-lg max-w-2xl mx-auto">活在当下 记录时间</p>
+      <p class="text-text-muted text-lg max-w-2xl mx-auto">
+        <TypeWriter
+          client:visible
+          text="活在当下 记录时间"
+          speed={250}
+          wait={3000}
+          loop={false}
+          cursor={false}
+        />
+      </p>
     </section>
 
     <div class="flex flex-col gap-6 max-w-[800px]">
