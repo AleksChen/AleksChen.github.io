@@ -13,7 +13,7 @@ slug: 2507-claude-code-kimi-k2
 
 Claude Code 是 Anthropic 推出的 AI 编程助手，具备强大的代码生成与理解能力。然而，受限于国内网络环境，Claude Sonnet 4、Claude Opus 4 等模型的使用门槛较高。为此，本文介绍如何将 Claude Code 切换为月之暗面最新发布的 Kimi K2 大模型，实现无缝对接与高效开发。
 
-![image-20250717161529431.png](/post-assets/md774iew-image-20250717161529431.png)
+![image-20250717161529431.webp](/post-assets/md774iew-image-20250717161529431.webp)
 
 ---
 
@@ -32,13 +32,13 @@ Claude Code 是 Anthropic 推出的 AI 编程助手，具备强大的代码生�
 - 打开 [Kimi API 平台](https://kimi.moonshot.cn/)，注册账号。
 - 登录后，新建 API Key。
 
-![image-20250717155709394.png](/post-assets/md774iey-image-20250717155709394.png)
+![image-20250717155709394.webp](/post-assets/md774iey-image-20250717155709394.webp)
 
 4. **充值升级账号（强烈建议）**
 
 免费版 Kimi API 限制较多，建议充值 50 元升级至 Tier1，解锁更高额度和更稳定的调用权限。
 
-![image-20250717155753583.png](/post-assets/md774iez-image-20250717155753583.png)
+![image-20250717155753583.webp](/post-assets/md774iez-image-20250717155753583.webp)
 
 ## API Key 配置
 
@@ -78,13 +78,13 @@ export ANTHROPIC_BASE_URL=https://api.moonshot.cn/anthropic
 
 2. 启动后，界面下方 Overrides 区域应显示 API Key 和 API Base 信息。
 
-![image-20250717155925831.png](/post-assets/md774iez-image-20250717155925831.png)
+![image-20250717155925831.webp](/post-assets/md774iez-image-20250717155925831.webp)
 
 3. 随便输入点啥（友情提示：每次输入都要花钱），只要 tokens 在跳动，恭喜你，模型已上线。
 
-![image-20250717160008829.png](/post-assets/md774iez-image-20250717160008829.png)
+![image-20250717160008829.webp](/post-assets/md774iez-image-20250717160008829.webp)
 
-![image-20250717161127189.png](/post-assets/md774iez-image-20250717161127189.png)
+![image-20250717161127189.webp](/post-assets/md774iez-image-20250717161127189.webp)
 
 > *界面写着 claude，其实背后已经是 kimi-k2-0711-preview 在默默搬砖。*
 

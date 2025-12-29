@@ -1,4 +1,4 @@
-import { readdir, stat, writeFile } from 'fs/promises';
+import { readdir, stat, writeFile, unlink } from 'fs/promises';
 import path from 'path';
 import sharp from 'sharp';
 
@@ -26,27 +26,37 @@ async function getAllImages(dir: string): Promise<string[]> {
 async function compressImage(filePath: string) {
   try {
     const ext = path.extname(filePath).toLowerCase();
+    const isWebP = ext === '.webp';
+    const targetPath = isWebP 
+      ? filePath 
+      : filePath.replace(new RegExp(`${ext}$`, 'i'), '.webp');
+    
     let transform = sharp(filePath);
     
-    // Configure compression based on file type
-    if (ext === '.png') {
-      transform = transform.png({ quality: QUALITY, compressionLevel: 9, palette: true });
-    } else if (ext === '.jpg' || ext === '.jpeg') {
-      transform = transform.jpeg({ quality: QUALITY, mozjpeg: true });
-    } else if (ext === '.webp') {
-      transform = transform.webp({ quality: QUALITY });
-    } else {
-      return; // Skip unsupported
-    }
+    // Convert everything to WebP
+    transform = transform.webp({ quality: QUALITY });
 
     const buffer = await transform.toBuffer();
     const originalSize = (await stat(filePath)).size;
     const newSize = buffer.length;
     const gain = 1 - newSize / originalSize;
 
-    if (gain >= MIN_GAIN) {
-      await writeFile(filePath, buffer);
-      console.log(`✅ Compressed: ${path.relative(process.cwd(), filePath)} (${(originalSize / 1024).toFixed(2)}KB -> ${(newSize / 1024).toFixed(2)}KB, -${(gain * 100).toFixed(1)}%)`);
+    // Determine if we should save:
+    // 1. If it's a format conversion (e.g. PNG -> WebP), we generally want to do it 
+    //    to unify formats, even if gain is small (though WebP usually wins).
+    // 2. If it's already WebP, only save if gain meets threshold.
+    const shouldSave = !isWebP || gain >= MIN_GAIN;
+
+    if (shouldSave) {
+      await writeFile(targetPath, buffer);
+      
+      // If we converted from another format, delete the original
+      if (!isWebP) {
+        await unlink(filePath);
+        console.log(`✅ Converted: ${path.relative(process.cwd(), filePath)} -> ${path.basename(targetPath)} (${(originalSize / 1024).toFixed(2)}KB -> ${(newSize / 1024).toFixed(2)}KB, -${(gain * 100).toFixed(1)}%)`);
+      } else {
+        console.log(`✅ Compressed: ${path.relative(process.cwd(), filePath)} (${(originalSize / 1024).toFixed(2)}KB -> ${(newSize / 1024).toFixed(2)}KB, -${(gain * 100).toFixed(1)}%)`);
+      }
     } else {
       console.log(`⏭️  Skipped (gain < ${(MIN_GAIN * 100)}%): ${path.relative(process.cwd(), filePath)}`);
     }
@@ -56,7 +66,7 @@ async function compressImage(filePath: string) {
 }
 
 async function main() {
-  console.log('Starting image compression...');
+  console.log('Starting image compression & conversion to WebP...');
   console.log(`Target Directory: ${TARGET_DIR}`);
   console.log(`Quality: ${QUALITY}`);
   

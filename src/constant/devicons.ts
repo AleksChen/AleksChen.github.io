@@ -99,5 +99,5 @@ export const DEFAULT_COVER_MAP: Record<string, { src: string }> = {
   network: {
     src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/networkx/networkx-original.svg",
   },
-  default: { src: "/post-assets/cover/cover-default.png" },
+  default: { src: "/post-assets/cover/cover-default.webp" },
 };
