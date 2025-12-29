@@ -96,5 +96,8 @@ export const DEFAULT_COVER_MAP: Record<string, { src: string }> = {
   figma: {
     src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg",
   },
+  network: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/networkx/networkx-original.svg",
+  },
   default: { src: "/post-assets/cover/cover-default.png" },
 };
