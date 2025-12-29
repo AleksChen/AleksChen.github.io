@@ -32,7 +32,7 @@
       }
 
       window.localStorage.setItem("theme", theme);
-    </script><link rel="stylesheet" href="/assets/about.Be0TaLxr.css">
+    </script><link rel="stylesheet" href="/assets/about.C2LiP66Q.css">
 <link rel="stylesheet" href="/assets/index.DI2Kqa3G.css">
 <style>@media(min-width:1024px){.layout-grid-cols[data-astro-cid-ztig7rse]{grid-template-columns:minmax(0,1fr) 240px}}
 </style></head> <body class="bg-bg text-text min-h-screen flex flex-col font-sans transition-colors duration-300">  <header id="main-header" class="sticky top-0 z-50 w-full bg-bg border-b-2 border-text transition-transform duration-300"> <div class="max-w-[800px] mx-auto px-4 h-16 flex items-center justify-between"> <a href="/" class="text-xl font-bold flex items-center gap-2 hover:text-primary transition-colors" aria-label="homepage"> <div class="i-ri:home-4-line w-6 h-6"></div> </a> <div class="flex items-center gap-4"> <nav class="hidden md:flex items-center gap-6"> <a href="/archives" class="text-sm font-medium hover:text-primary transition-colors">
@@ -123,7 +123,7 @@
 <li>类型生成：（在 TypeScript 环境中）生成相应的类型声明。</li>
 <li>代码生成：生成最终的 JavaScript 代码，通常会移除宏调用本身。</li>
 </ul>
-<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m4ml4fgx-vue3-compile-macro.png" alt="vue3-compile-macro.png" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> vue3-compile-macro.png </figcaption> </figure></p>
+<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m4ml4fgx-vue3-compile-macro.webp" alt="vue3-compile-macro.webp" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> vue3-compile-macro.webp </figcaption> </figure></p>
 <h3 id="1-以-defineprops-为例子实现一个编译宏功能">1. 以 defineProps 为例子实现一个编译宏功能</h3>
 <p>下面是一个 babel 插件的简单实现。它能将 Vue3 编译宏 <code>defineProps</code> 转换成 Vue 的 props 对象。从这个例子可以更好地理解编译宏语法糖的本质。</p>
 <div class="code-block relative group my-6 overflow-hidden">  <div class="relative"> <pre class="astro-code astro-code-themes github-light one-dark-pro !my-0 !p-4 overflow-x-auto custom-scrollbar text-sm leading-relaxed !bg-transparent" style="background-color:#fff;--shiki-dark-bg:#282c34;color:#24292e;--shiki-dark:#abb2bf;overflow-x:auto" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">const</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> { </span><span style="color:#005CC5;--shiki-dark:#E5C07B">declare</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> } </span><span style="color:#D73A49;--shiki-dark:#56B6C2">=</span><span style="color:#6F42C1;--shiki-dark:#61AFEF"> require</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#032F62;--shiki-dark:#98C379">&#39;@babel/helper-plugin-utils&#39;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">);</span></span>

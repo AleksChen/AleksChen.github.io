@@ -32,7 +32,7 @@
       }
 
       window.localStorage.setItem("theme", theme);
-    </script><link rel="stylesheet" href="/assets/about.Be0TaLxr.css">
+    </script><link rel="stylesheet" href="/assets/about.C2LiP66Q.css">
 <link rel="stylesheet" href="/assets/index.DI2Kqa3G.css">
 <style>@media(min-width:1024px){.layout-grid-cols[data-astro-cid-ztig7rse]{grid-template-columns:minmax(0,1fr) 240px}}
 </style></head> <body class="bg-bg text-text min-h-screen flex flex-col font-sans transition-colors duration-300">  <header id="main-header" class="sticky top-0 z-50 w-full bg-bg border-b-2 border-text transition-transform duration-300"> <div class="max-w-[800px] mx-auto px-4 h-16 flex items-center justify-between"> <a href="/" class="text-xl font-bold flex items-center gap-2 hover:text-primary transition-colors" aria-label="homepage"> <div class="i-ri:home-4-line w-6 h-6"></div> </a> <div class="flex items-center gap-4"> <nav class="hidden md:flex items-center gap-6"> <a href="/archives" class="text-sm font-medium hover:text-primary transition-colors">
@@ -129,11 +129,11 @@
 <blockquote>
 <p>注意：左侧可以是任意类型，而右侧必须是一个函数的实例。参数错误时会报错。</p>
 </blockquote>
-<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m46rsblg-%E5%8F%82%E6%95%B0%E8%A6%81%E6%B1%82.png" alt="参数要求.png" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> 参数要求.png </figcaption> </figure></p>
+<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m46rsblg-%E5%8F%82%E6%95%B0%E8%A6%81%E6%B1%82.webp" alt="参数要求.webp" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> 参数要求.webp </figcaption> </figure></p>
 <h2 id="instanceof-原理">instanceof 原理</h2>
 <p>每个对象都有一个 <code>__proto__</code> 属性。在对象创建的时候会将 <code>__proto__</code> 属性指向它的构造函数的 <code>prototype</code> 属性上。并且构造函数的 <code>prototype</code> 属性本身也是一个对象。它也有自己的 <code>__proto__</code> 属性。通过 <code>__proto__</code> -&gt; <code>prototype</code> 这样串联形成一个链条，这个链条就是原型链。原型链的终点是 <code>Object</code>，<code>Object.prototype.__proto__</code> 的值为 <code>null</code>。</p>
 <p>每个对象的构造函数都可以在原型链上找到，因此 <code>instanceof</code> 通过原型链可以判断对象是否由某个构造函数创建。</p>
-<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m46rsblj-%E5%8E%9F%E5%9E%8B%E9%93%BE.png" alt="原型链.png" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> 原型链.png </figcaption> </figure></p>
+<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m46rsblj-%E5%8E%9F%E5%9E%8B%E9%93%BE.webp" alt="原型链.webp" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> 原型链.webp </figcaption> </figure></p>
 <h2 id="实现一个-instanceof">实现一个 instanceof</h2>
 <h3 id="手写-instanceof">手写 instanceof</h3>
 <p>手写 <code>instanceof</code> 的实现可以帮助我们更深入地理解 JavaScript 的原型链。下面是一个简易的 <code>instanceof</code> 实现：</p>
@@ -182,7 +182,7 @@
 <p>当传入的参数是对象时，如果操作成功  <code>Reflect.getPrototypeOf(target)</code>  返回对象的原型，如果操作失败（比如，目标不是对象）则返回  <code>false</code>。</p>
 </blockquote>
 <h3 id="测试结果">测试结果</h3>
-<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m46rsbli-%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C.png" alt="测试结果.png" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> 测试结果.png </figcaption> </figure></p>
+<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m46rsbli-%E6%B5%8B%E8%AF%95%E7%BB%93%E6%9E%9C.webp" alt="测试结果.webp" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> 测试结果.webp </figcaption> </figure></p>
 <h2 id="总结">总结</h2>
 <p>本文介绍了 JavaScript 类型判断的方法。对 <code>instanceof</code> 的概念、用法和实现进行了介绍。</p>
 <h2 id="资料">资料</h2>
