@@ -49,7 +49,22 @@
     mountain.style.transform = `translateY(calc(100% - ${actualRise}px))`;
   };
 
-  window.addEventListener("scroll", updatePosition, { passive: true });
+  // 使用 requestAnimationFrame 优化滚动性能 (Optimize scroll with requestAnimationFrame)
+  let ticking = false;
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updatePosition();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    },
+    { passive: true }
+  );
+  
   // Initial call to set position
   updatePosition();
 </script>

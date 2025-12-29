@@ -12,10 +12,9 @@
   // 封装所有 Three.js 逻辑到异步函数中，实现动态加载
   // (Encapsulate all Three.js logic in async function for dynamic loading)
   async function loadThreeAndRun() {
-    // 动态从 CDN 导入依赖，大大减少主包体积
-    // (Dynamic import from CDN to reduce main bundle size)
-    const THREE = await import("https://esm.sh/three@0.169.0");
-    const { gsap } = await import("https://esm.sh/gsap@3.12.5");
+    // 动态导入依赖
+    const THREE = await import("three");
+    const { gsap } = await import("gsap");
 
     // 颜色配置 (Color Configuration)
     const Colors = {
@@ -317,7 +316,8 @@
         powerPreference: "high-performance",
       });
 
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 3));
+      // 优化：限制像素比，平衡性能和画质 (Limit pixel ratio for performance)
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
       renderer.setSize(WIDTH, HEIGHT);
       renderer.shadowMap.enabled = true;
       renderer.shadowMap.type = THREE.PCFSoftShadowMap;
@@ -388,6 +388,12 @@
     }
 
     function loop() {
+      // 优化：页面不可见时暂停渲染 (Pause rendering when page is hidden)
+      if (document.hidden) {
+        setTimeout(() => requestAnimationFrame(loop), 500);
+        return;
+      }
+
       renderer.render(scene, camera);
 
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
@@ -534,9 +540,15 @@
     const run = () => {
       if ("requestIdleCallback" in window) {
         // @ts-ignore
-        requestIdleCallback(() => loadThreeAndRun(), { timeout: 3000 });
+        requestIdleCallback(
+          () => {
+            // 再次延迟，避免与 hydration 竞争 (Add extra delay to avoid hydration contention)
+            setTimeout(loadThreeAndRun, 500);
+          },
+          { timeout: 4000 }
+        );
       } else {
-        setTimeout(loadThreeAndRun, 200);
+        setTimeout(loadThreeAndRun, 1000);
       }
     };
 
