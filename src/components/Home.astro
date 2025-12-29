@@ -3,7 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import type { ShortPostData } from "@/lib/posts";
 import Rocket from "@/components/Rocket.astro";
 import Mountain from "@/components/Mountain.astro";
-import { TypeWriter } from "@/components/TypeWriter";
+import TypeWriter from "@/components/TypeWriter.astro";
 
 import { PostCard } from "./PostCard";
 
@@ -36,7 +36,6 @@ const { posts, page, more } = Astro.props;
         class="text-4xl md:text-7xl font-bold text-text mb-6 drop-shadow-[4px_4px_0_var(--color-shadow)]"
       >
         <TypeWriter
-          client:visible
           text="AleksChen's Blog"
           speed={150}
           wait={3000}
@@ -46,7 +45,6 @@ const { posts, page, more } = Astro.props;
       </h1>
       <p class="text-text-muted text-lg max-w-2xl mx-auto">
         <TypeWriter
-          client:visible
           text="活在当下 记录时间"
           speed={250}
           wait={3000}

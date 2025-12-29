@@ -1,0 +1,117 @@
+---
+interface Props {
+  text: string | string[];
+  speed?: number;
+  deleteSpeed?: number;
+  wait?: number;
+  loop?: boolean;
+  cursor?: boolean;
+  cursorChar?: string;
+  className?: string;
+}
+
+const {
+  text,
+  speed = 150,
+  deleteSpeed = 100,
+  wait = 1500,
+  loop = true,
+  cursor = true,
+  cursorChar = "|",
+  className = "",
+} = Astro.props;
+
+const texts = Array.isArray(text) ? text : [text];
+---
+
+<span
+  class:list={["typewriter-component", className]}
+  data-texts={JSON.stringify(texts)}
+  data-speed={speed}
+  data-delete-speed={deleteSpeed}
+  data-wait={wait}
+  data-loop={loop}
+>
+  <span class="typewriter-text"></span>{
+    cursor && <span class="typewriter-cursor animate-pulse ml-1">{cursorChar}</span>
+  }
+</span>
+
+<script>
+  class TypeWriter {
+    element: HTMLElement;
+    textElement: HTMLElement;
+    texts: string[];
+    speed: number;
+    deleteSpeed: number;
+    wait: number;
+    loop: boolean;
+    
+    displayText: string = "";
+    isDeleting: boolean = false;
+    loopNum: number = 0;
+    typingSpeed: number;
+    timer: number | undefined;
+
+    constructor(el: HTMLElement) {
+      this.element = el;
+      this.textElement = el.querySelector(".typewriter-text") as HTMLElement;
+      
+      this.texts = JSON.parse(el.dataset.texts || "[]");
+      this.speed = parseInt(el.dataset.speed || "150");
+      this.deleteSpeed = parseInt(el.dataset.deleteSpeed || "100");
+      this.wait = parseInt(el.dataset.wait || "1500");
+      this.loop = el.dataset.loop === "true";
+      
+      this.typingSpeed = this.speed;
+
+      // Start observing for visibility
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.start();
+            observer.unobserve(el);
+          }
+        });
+      });
+      observer.observe(el);
+    }
+
+    start() {
+      this.handleType();
+    }
+
+    handleType() {
+      const i = this.loopNum % this.texts.length;
+      const fullText = this.texts[i];
+
+      if (this.isDeleting) {
+        this.displayText = fullText.substring(0, this.displayText.length - 1);
+      } else {
+        this.displayText = fullText.substring(0, this.displayText.length + 1);
+      }
+
+      this.textElement.textContent = this.displayText;
+
+      this.typingSpeed = this.isDeleting ? this.deleteSpeed : this.speed;
+
+      if (!this.isDeleting && this.displayText === fullText) {
+        if (!this.loop && this.loopNum === this.texts.length - 1) return;
+        this.typingSpeed = this.wait;
+        this.isDeleting = true;
+      } else if (this.isDeleting && this.displayText === "") {
+        this.isDeleting = false;
+        this.loopNum++;
+        this.typingSpeed = this.speed;
+      }
+
+      this.timer = window.setTimeout(() => this.handleType(), this.typingSpeed);
+    }
+  }
+
+  // Initialize all instances
+  document.querySelectorAll(".typewriter-component").forEach((el) => {
+    new TypeWriter(el as HTMLElement);
+  });
+</script>
+
