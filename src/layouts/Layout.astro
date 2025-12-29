@@ -209,8 +209,8 @@ const {
     <script>
       let lastScrollY = window.scrollY;
       const header = document.getElementById("main-header");
-
-      window.addEventListener("scroll", () => {
+      
+      const updateHeader = () => {
         const currentScrollY = window.scrollY;
 
         if (!header) return;
@@ -225,7 +225,9 @@ const {
         }
 
         lastScrollY = currentScrollY;
-      });
+      };
+
+      window.addEventListener("scroll", updateHeader, { passive: true });
     </script>
   </body>
 </html>

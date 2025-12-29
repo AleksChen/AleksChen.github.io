@@ -26,6 +26,12 @@
 
   const updatePosition = () => {
     if (!mountain) return;
+    
+    // 移动端禁用视差滚动 (Mobile: Disable parallax scroll)
+    if (window.matchMedia("(max-width: 768px)").matches) {
+      return;
+    }
+
     const scrollY = window.scrollY;
     // Rising effect:
     // As we scroll down, the mountain rises up from the bottom.

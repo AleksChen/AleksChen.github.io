@@ -526,6 +526,11 @@
 
   // 优化：延迟初始化，避免阻塞首屏渲染和交互
   function deferredInit() {
+    // 移动端不加载 3D 效果以节省性能 (Mobile: Skip 3D effect to save performance)
+    if (window.matchMedia("(max-width: 768px)").matches) {
+      return;
+    }
+
     const run = () => {
       if ("requestIdleCallback" in window) {
         // @ts-ignore
