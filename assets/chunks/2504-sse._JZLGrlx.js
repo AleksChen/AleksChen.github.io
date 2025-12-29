@@ -7,8 +7,7 @@ const frontmatter = {
   "updatedAt": "2025-12-01T09:28:48.190Z",
   "tags": ["Network"],
   "draft": false,
-  "slug": "2504-sse",
-  "cover": "/post-assets/m911icos-Pasted-image-20250402200626.png"
+  "slug": "2504-sse"
 };
 function getHeadings() {
   return [{

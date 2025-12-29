@@ -7,8 +7,7 @@ const frontmatter = {
   "updatedAt": "2025-07-17T09:44:32.159Z",
   "tags": ["AI"],
   "draft": false,
-  "slug": "2507-claude-code-kimi-k2",
-  "cover": "/post-assets/md774iew-image-20250717161529431.png"
+  "slug": "2507-claude-code-kimi-k2"
 };
 function getHeadings() {
   return [{
