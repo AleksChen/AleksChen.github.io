@@ -76,7 +76,9 @@ const intro = post.data.intro || extractIntro(post.body);
       { "layout-grid-cols": showSidebar },
     ]}
   >
-    <article class="w-full min-w-0 bg-card p-4 md:p-8 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)]">
+    <article
+      class="w-full min-w-0 bg-card p-4 md:p-8 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)]"
+    >
       {/* 文章头部信息 */}
       <header class="mb-8 pb-8 border-b border-border">
         <div class="flex flex-wrap gap-2 mb-4">
@@ -186,9 +188,9 @@ const intro = post.data.intro || extractIntro(post.body);
                   return (
                     <a
                       href={`#${heading.id}`}
-                      class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors truncate"
+                      class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors break-words text-sm leading-snug"
                       data-id={heading.id}
-                      style={`padding-left: ${(heading.depth - 1) * 0.75}rem`}
+                      style={`padding-left: calc(0.5rem + ${(heading.depth - 1) * 0.75}rem)`}
                     >
                       {heading.text}
                     </a>
@@ -222,25 +224,28 @@ const intro = post.data.intro || extractIntro(post.body);
 
 <script>
   // TOC 滚动高亮逻辑
+  let isManualScroll = false;
+  let scrollTimeout: NodeJS.Timeout;
+
+  // 提取更新高亮样式的函数
+  const updateActiveLink = (id: string) => {
+    document.querySelectorAll(".toc-link").forEach((link) => {
+      const isActive = link.getAttribute("data-id") === id;
+      link.classList.toggle("text-white", isActive);
+      link.classList.toggle("bg-primary/10", isActive);
+      link.classList.toggle("font-medium", isActive);
+    });
+  };
+
   const observer = new IntersectionObserver(
     (entries) => {
+      // 如果是手动点击触发的滚动，不进行 Observer 更新
+      if (isManualScroll) return;
+
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const id = entry.target.id;
-          document.querySelectorAll(".toc-link").forEach((link) => {
-            link.classList.toggle(
-              "text-white",
-              link.getAttribute("data-id") === id
-            );
-            link.classList.toggle(
-              "bg-primary/10",
-              link.getAttribute("data-id") === id
-            );
-            link.classList.toggle(
-              "font-medium",
-              link.getAttribute("data-id") === id
-            );
-          });
+          updateActiveLink(id);
         }
       });
     },
@@ -251,6 +256,23 @@ const intro = post.data.intro || extractIntro(post.body);
 
   document.querySelectorAll("h1[id], h2[id], h3[id]").forEach((h) => {
     observer.observe(h);
+  });
+
+  // 处理点击事件
+  document.querySelectorAll(".toc-link").forEach((link) => {
+    link.addEventListener("click", (e) => {
+      isManualScroll = true;
+      const id = (e.currentTarget as HTMLElement).getAttribute("data-id");
+      if (id) updateActiveLink(id);
+
+      // 清除旧定时器
+      if (scrollTimeout) clearTimeout(scrollTimeout);
+      
+      // 假设滚动动画最长持续 800ms，之后恢复 Observer
+      scrollTimeout = setTimeout(() => {
+        isManualScroll = false;
+      }, 800);
+    });
   });
 </script>
 
