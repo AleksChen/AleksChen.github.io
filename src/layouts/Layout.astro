@@ -34,11 +34,6 @@ const {
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link
-      rel="apple-touch-icon-precomposed"
-      sizes="144x144"
-      href="/favicon.png"
-    />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta
@@ -53,7 +48,6 @@ const {
     />
     <meta name="baidu-site-verification" content="codeva-tU6pIQVfyl" />
     <meta name="msvalidate.01" content="96ADAC3B4A010DE98F0350319BAF9DAB" />
-    <link rel="icon" href="/favicon.ico" />
     <link rel="sitemap" href="/sitemap-index.xml" />
     <link
       rel="alternate"
@@ -61,8 +55,9 @@ const {
       title="RSS Feed"
       href="/rss.xml"
     />
+    <link rel="icon" href="/favicon.ico" />
     <title>
-      {[config.head.title, title].filter(Boolean).reverse().join(" | ")}
+      {title}
     </title>
 
     <SEO title={title} description={description} {...seo} />
@@ -209,7 +204,7 @@ const {
     <script>
       let lastScrollY = window.scrollY;
       const header = document.getElementById("main-header");
-      
+
       const updateHeader = () => {
         const currentScrollY = window.scrollY;
 
@@ -228,6 +223,38 @@ const {
       };
 
       window.addEventListener("scroll", updateHeader, { passive: true });
+    </script>
+
+    <script>
+      let originalTitle = document.title;
+      let timeoutId: number | undefined;
+
+      document.addEventListener("visibilitychange", () => {
+        const icon = document.querySelector(
+          "link[rel*='icon']"
+        ) as HTMLLinkElement | null;
+
+        if (document.hidden) {
+          if (
+            document.title !== "快回来吧 T_T" &&
+            document.title !== "你来啦!OvO"
+          ) {
+            originalTitle = document.title;
+          }
+
+          document.title = "快回来吧 T_T";
+          if (icon) icon.href = "/failure.ico";
+          
+          if (timeoutId) clearTimeout(timeoutId);
+        } else {
+          document.title = "你来啦!OvO";
+          if (icon) icon.href = "/favicon.ico";
+
+          timeoutId = window.setTimeout(() => {
+            document.title = originalTitle;
+          }, 1000);
+        }
+      });
     </script>
   </body>
 </html>
