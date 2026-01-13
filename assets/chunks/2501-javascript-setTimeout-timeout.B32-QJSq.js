@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./1708-vue3-compiler-macro.CXoOVRQP.js');
+						return import('./2501-javascript-setTimeout-timeout.BfLTThrn.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

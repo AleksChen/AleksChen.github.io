@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./2504-cursor-figma-mcp.DYo_YtjD.js');
+						return import('./1708-vue3-compiler-macro.CyKqzLdS.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

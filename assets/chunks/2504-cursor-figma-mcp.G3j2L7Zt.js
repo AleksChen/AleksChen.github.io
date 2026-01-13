@@ -1,4 +1,4 @@
-import { l as createVNode, H as Fragment, _ as __astro_tag_component__ } from './astro/server.BPJSHmb2.js';
+import { l as createVNode, H as Fragment, _ as __astro_tag_component__ } from './astro/server.C36FTnHO.js';
 import 'clsx';
 
 const frontmatter = {
@@ -135,8 +135,8 @@ function _createMdxContent(props) {
       children: "运行后，显示在本地 3333 端口启动 Figma MCP Server"
     }), "\n", createVNode(_components.p, {
       children: createVNode(_components.img, {
-        src: "/post-assets/m8yazve7-2.jpg",
-        alt: "2.jpg"
+        src: "/post-assets/m8yazve7-2.webp",
+        alt: "2.webp"
       })
     }), "\n", createVNode(_components.h3, {
       id: "cursor-mcp-配置",
@@ -145,8 +145,8 @@ function _createMdxContent(props) {
       children: "在 Cursor 设置中添加 MCP 配置（Cursor Version: 0.47.8）"
     }), "\n", createVNode(_components.p, {
       children: createVNode(_components.img, {
-        src: "/post-assets/m8yazve4-3.jpg",
-        alt: "3.jpg"
+        src: "/post-assets/m8yazve4-3.webp",
+        alt: "3.webp"
       })
     }), "\n", createVNode(_components.p, {
       children: ["在 ", createVNode(_components.code, {
@@ -171,7 +171,7 @@ function _createMdxContent(props) {
               color: "#24292E",
               "--shiki-dark": "#ABB2BF"
             },
-            children: "{ "
+            children: "{"
           })
         }), "\n", createVNode(_components.span, {
           class: "line",
@@ -180,13 +180,13 @@ function _createMdxContent(props) {
               color: "#005CC5",
               "--shiki-dark": "#E06C75"
             },
-            children: "\t\"mcpServers\""
+            children: "  \"mcpServers\""
           }), createVNode(_components.span, {
             style: {
               color: "#24292E",
               "--shiki-dark": "#ABB2BF"
             },
-            children: ": { "
+            children: ": {"
           })]
         }), "\n", createVNode(_components.span, {
           class: "line",
@@ -195,13 +195,13 @@ function _createMdxContent(props) {
               color: "#005CC5",
               "--shiki-dark": "#E06C75"
             },
-            children: "\t\t\"Figma\""
+            children: "    \"Figma\""
           }), createVNode(_components.span, {
             style: {
               color: "#24292E",
               "--shiki-dark": "#ABB2BF"
             },
-            children: ": { "
+            children: ": {"
           })]
         }), "\n", createVNode(_components.span, {
           class: "line",
@@ -210,7 +210,7 @@ function _createMdxContent(props) {
               color: "#005CC5",
               "--shiki-dark": "#E06C75"
             },
-            children: "\t\t\t\"url\""
+            children: "      \"url\""
           }), createVNode(_components.span, {
             style: {
               color: "#24292E",
@@ -223,12 +223,6 @@ function _createMdxContent(props) {
               "--shiki-dark": "#98C379"
             },
             children: "\"http://localhost:3333/sse\""
-          }), createVNode(_components.span, {
-            style: {
-              color: "#24292E",
-              "--shiki-dark": "#ABB2BF"
-            },
-            children: " "
           })]
         }), "\n", createVNode(_components.span, {
           class: "line",
@@ -237,7 +231,7 @@ function _createMdxContent(props) {
               color: "#24292E",
               "--shiki-dark": "#ABB2BF"
             },
-            children: "\t\t} "
+            children: "    }"
           })
         }), "\n", createVNode(_components.span, {
           class: "line",
@@ -246,7 +240,7 @@ function _createMdxContent(props) {
               color: "#24292E",
               "--shiki-dark": "#ABB2BF"
             },
-            children: "\t} "
+            children: "  }"
           })
         }), "\n", createVNode(_components.span, {
           class: "line",
@@ -273,20 +267,20 @@ function _createMdxContent(props) {
       children: "Figma MCP 只是增强了 Cursor 的能力，使其具备了和 Figma 设计稿交互的能力。我们只需要在使用 Cursor 的过程中，将设计稿的信息附上。Cursor 就能够自动去获取目标元素的设计信息，更好地还原。"
     }), "\n", createVNode(_components.p, {
       children: createVNode(_components.img, {
-        src: "/post-assets/m8yazve6-5.jpg",
-        alt: "5.jpg"
+        src: "/post-assets/m8yazve6-5.webp",
+        alt: "5.webp"
       })
     }), "\n", createVNode(_components.p, {
       children: "在 Prompt 中附上 Figma Section URL 并指定需要写入的文件（开启 Agent 模式）"
     }), "\n", createVNode(_components.p, {
       children: createVNode(_components.img, {
-        src: "/post-assets/m8yazve6-6.jpg",
-        alt: "6.jpg"
+        src: "/post-assets/m8yazve6-6.webp",
+        alt: "6.webp"
       })
     }), "\n", createVNode(_components.p, {
       children: createVNode(_components.img, {
-        src: "/post-assets/m8yazve7-7.jpg",
-        alt: "7.jpg"
+        src: "/post-assets/m8yazve7-7.webp",
+        alt: "7.webp"
       })
     }), "\n", createVNode(_components.h3, {
       id: "还原效果",

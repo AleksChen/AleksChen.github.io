@@ -1,4 +1,4 @@
-import { l as createVNode, H as Fragment, _ as __astro_tag_component__ } from './astro/server.BPJSHmb2.js';
+import { l as createVNode, H as Fragment, _ as __astro_tag_component__ } from './astro/server.C36FTnHO.js';
 import 'clsx';
 
 const frontmatter = {
@@ -244,13 +244,8 @@ function _createMdxContent(props) {
       }), "\n", createVNode(_components.li, {
         children: [createVNode(_components.strong, {
           children: "IPC Renderer"
-        }), ": 渲染进程端的电话。"]
+        }), ": 渲染进程端的电话。\n![](/post-assets/2512-electron-note/IPC 通信.webp)"]
       }), "\n"]
-    }), "\n", createVNode(_components.p, {
-      children: createVNode(_components.img, {
-        src: "/post-assets/2512-electron-note/IPC%20%E9%80%9A%E4%BF%A1.jpg",
-        alt: ""
-      })
     }), "\n", createVNode(_components.h3, {
       id: "22-示例代码",
       children: "2.2 示例代码"
@@ -833,7 +828,7 @@ function _createMdxContent(props) {
       }), "\n"]
     }), "\n", createVNode(_components.p, {
       children: createVNode(_components.img, {
-        src: "/post-assets/2512-electron-note/contentBridge.jpg",
+        src: "/post-assets/2512-electron-note/contentBridge.webp",
         alt: ""
       })
     }), "\n", createVNode(_components.div, {

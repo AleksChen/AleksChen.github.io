@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./1708-implement-instanceof.ma_hu9mM.js');
+						return import('./2412-float-attribute-in-ios-android.BGaNwrMy.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];
