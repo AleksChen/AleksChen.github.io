@@ -27,23 +27,23 @@ pnpx figma-developer-mcp --figma-api-key=<your-figma-api-key>
 
 运行后，显示在本地 3333 端口启动 Figma MCP Server
 
-![2.jpg](/post-assets/m8yazve7-2.jpg)
+![2.webp](/post-assets/m8yazve7-2.webp)
 
 ### Cursor MCP 配置
 
 在 Cursor 设置中添加 MCP 配置（Cursor Version: 0.47.8）
 
-![3.jpg](/post-assets/m8yazve4-3.jpg)
+![3.webp](/post-assets/m8yazve4-3.webp)
 
 在 `mcp.json` 中设置 Figma MCP Server 地址
 
 ```json
-{ 
-	"mcpServers": { 
-		"Figma": { 
-			"url": "http://localhost:3333/sse" 
-		} 
-	} 
+{
+  "mcpServers": {
+    "Figma": {
+      "url": "http://localhost:3333/sse"
+    }
+  }
 }
 ```
 
@@ -55,13 +55,13 @@ pnpx figma-developer-mcp --figma-api-key=<your-figma-api-key>
 
 Figma MCP 只是增强了 Cursor 的能力，使其具备了和 Figma 设计稿交互的能力。我们只需要在使用 Cursor 的过程中，将设计稿的信息附上。Cursor 就能够自动去获取目标元素的设计信息，更好地还原。
 
-![5.jpg](/post-assets/m8yazve6-5.jpg)
+![5.webp](/post-assets/m8yazve6-5.webp)
 
 在 Prompt 中附上 Figma Section URL 并指定需要写入的文件（开启 Agent 模式）
 
-![6.jpg](/post-assets/m8yazve6-6.jpg)
+![6.webp](/post-assets/m8yazve6-6.webp)
 
-![7.jpg](/post-assets/m8yazve7-7.jpg)
+![7.webp](/post-assets/m8yazve7-7.webp)
 
 ### 还原效果
 
@@ -90,4 +90,3 @@ Figma MCP 为 Cursor AI 提供了直接获取设计稿信息的能力，相比�
 3. 提高代码还原的效率和准确度
 
 这种工作流程特别适合前端开发团队，能够显著提升设计稿还原的效率。不过在使用过程中需要注意配置正确的权限和保持 MCP 服务器的稳定运行。
-

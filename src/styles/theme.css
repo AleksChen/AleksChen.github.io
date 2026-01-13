@@ -99,6 +99,31 @@
   --color-code-text: #fafafa;
 }
 
+/* ========================================
+   Theme Transition Effects
+   ======================================== */
+
+/* View Transitions API 支持 */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 降级方案:为不支持 View Transitions 的浏览器添加过渡 */
+html.theme-transitioning,
+html.theme-transitioning *,
+html.theme-transitioning *::before,
+html.theme-transitioning *::after {
+  transition:
+    background-color var(--transition-slow),
+    border-color var(--transition-slow),
+    color var(--transition-slow),
+    fill var(--transition-slow),
+    stroke var(--transition-slow) !important;
+  transition-delay: 0s !important;
+}
+
 /* Shiki Dual Theme Support */
 html.dark .astro-code,
 html.dark .astro-code span {

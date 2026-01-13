@@ -62,8 +62,7 @@ CEO 和员工不在同一个房间（进程隔离），不能直接对话。他�
 
 - **IPC Main**: 主进程端的电话。
 - **IPC Renderer**: 渲染进程端的电话。
-
-![](/post-assets/2512-electron-note/IPC%20%E9%80%9A%E4%BF%A1.jpg)
+  ![](/post-assets/2512-electron-note/IPC 通信.webp)
 
 ### 2.2 示例代码
 
@@ -99,7 +98,7 @@ CEO 和员工不在同一个房间（进程隔离），不能直接对话。他�
    console.log(info);
    ```
 
-![](/post-assets/2512-electron-note/contentBridge.jpg)
+![](/post-assets/2512-electron-note/contentBridge.webp)
 
 ```mermaid
 graph TD
@@ -137,7 +136,6 @@ graph TD
     PageA -. "Context Bridge (上下文桥接)" .-> PreloadA
     PageB -. "Context Bridge (上下文桥接)" .-> PreloadB
 ```
-
 
 ---
 
