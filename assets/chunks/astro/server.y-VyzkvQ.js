@@ -226,7 +226,7 @@ const FontFamilyNotFound = {
   name: "FontFamilyNotFound",
   title: "Font family not found",
   message: (family) => `No data was found for the \`"${family}"\` family passed to the \`<Font>\` component.`,
-  hint: "This is often caused by a typo. Check that the `<Font />` component or `getFontData()` function are using a `cssVariable` specified in your config."
+  hint: "This is often caused by a typo. Check that the `<Font />` component is using a `cssVariable` specified in your config."
 };
 const UnknownContentCollectionError = {
   name: "UnknownContentCollectionError",
@@ -272,7 +272,7 @@ function createComponent(arg1, moduleId, propagation) {
   }
 }
 
-const ASTRO_VERSION = "5.16.9";
+const ASTRO_VERSION = "5.17.1";
 const NOOP_MIDDLEWARE_HEADER = "X-Astro-Noop";
 
 function createAstroGlobFn() {
@@ -1210,9 +1210,9 @@ const COMMENT_REPLACER = "\\u003C!--";
 function safeJsonStringify(obj) {
   return JSON.stringify(obj).replace(SCRIPT_RE, SCRIPT_REPLACER).replace(COMMENT_RE, COMMENT_REPLACER);
 }
-function createSearchParams(componentExport, encryptedProps, slots) {
+function createSearchParams(encryptedComponentExport, encryptedProps, slots) {
   const params = new URLSearchParams();
-  params.set("e", componentExport);
+  params.set("e", encryptedComponentExport);
   params.set("p", encryptedProps);
   params.set("s", slots);
   return params;
@@ -1314,13 +1314,14 @@ class ServerIslandComponent {
       }
     }
     const key = await this.result.key;
+    const componentExportEncrypted = await encryptString(key, componentExport);
     const propsEncrypted = Object.keys(this.props).length === 0 ? "" : await encryptString(key, JSON.stringify(this.props));
     const slotsEncrypted = Object.keys(renderedSlots).length === 0 ? "" : await encryptString(key, JSON.stringify(renderedSlots));
     const hostId = await this.getHostId();
     const slash = this.result.base.endsWith("/") ? "" : "/";
     let serverIslandUrl = `${this.result.base}${slash}_server-islands/${componentId}${this.result.trailingSlash === "always" ? "/" : ""}`;
     const potentialSearchParams = createSearchParams(
-      componentExport,
+      componentExportEncrypted,
       propsEncrypted,
       slotsEncrypted
     );
@@ -1342,7 +1343,7 @@ let response = await fetch('${serverIslandUrl}', { headers });`
     ) : (
       // POST request
       `let data = {
-	componentExport: ${safeJsonStringify(componentExport)},
+	encryptedComponentExport: ${safeJsonStringify(componentExportEncrypted)},
 	encryptedProps: ${safeJsonStringify(propsEncrypted)},
 	encryptedSlots: ${safeJsonStringify(slotsEncrypted)},
 };
@@ -2043,7 +2044,6 @@ function normalizeProps(props) {
 }
 async function renderComponentToString(result, displayName, Component, props, slots = {}, isPage = false, route) {
   let str = "";
-  let instructions = null;
   let renderedFirstPageChunk = false;
   let head = "";
   if (isPage && !result.partial && nonAstroPageNeedsHeadInjection(Component)) {
@@ -2060,19 +2060,7 @@ async function renderComponentToString(result, displayName, Component, props, sl
           }
         }
         if (chunk instanceof Response) return;
-        if (isPage) {
-          str += chunkToString(result, chunk);
-        } else {
-          if (chunk instanceof SlotString) {
-            str += chunk;
-            instructions = mergeSlotInstructions(instructions, chunk);
-          } else if (isRenderInstruction(chunk)) {
-            instructions ??= [];
-            instructions.push(chunk);
-          } else {
-            str += chunkToString(result, chunk);
-          }
-        }
+        str += chunkToString(result, chunk);
       }
     };
     const renderInstance = await renderComponent(result, displayName, Component, props, slots);
@@ -2088,10 +2076,7 @@ async function renderComponentToString(result, displayName, Component, props, sl
     }
     throw e;
   }
-  if (isPage) {
-    return str;
-  }
-  return new SlotString(str, instructions);
+  return str;
 }
 function nonAstroPageNeedsHeadInjection(pageComponent) {
   return !!pageComponent?.[needsHeadRenderingSymbol];

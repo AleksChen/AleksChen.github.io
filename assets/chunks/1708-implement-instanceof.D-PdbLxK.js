@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./2512-electron-note.ibimVvIA.js');
+						return import('./1708-implement-instanceof.cPOQZsaG.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

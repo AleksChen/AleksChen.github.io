@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./2507-claude-code-kimi-k2.2tGz9-ii.js');
+						return import('./2504-sse.BaRlqeqb.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];
