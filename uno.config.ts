@@ -175,6 +175,10 @@ export default defineConfig({
     "i-ri:time-line",
     "i-ri:price-tag-3-line",
     "i-ri:arrow-up-line",
+    "i-ri:book-line",
+    "i-ri:star-fill",
+    "i-ri:star-line",
+    "i-ri:file-text-line",
     "i-svg-spinners:ring-resize",
     // 动态类（用于 TOC 高亮）
     "text-primary",

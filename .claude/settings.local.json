@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run build)",
+      "Bash(python3 .claude/skills/ui-ux-pro-max/scripts/search.py \"reading library book collection personal portfolio\" --design-system -p \"Reading Page\" -f markdown)",
+      "Bash(find /Users/chenwenwu/workplace/cww/AleksChen.github.io/src/content/posts -type f -name *.md -o -name *.mdx)",
+      "Bash(npm run dev)"
+    ]
+  }
+}
