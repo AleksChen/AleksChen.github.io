@@ -1,6 +1,6 @@
 import { joinPaths, isRemotePath } from '@astrojs/internal-helpers/path';
-import { A as AstroError, E as ExpectedImage, L as LocalImageUsedWrongly, M as MissingImageDimension, q as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, t as UnsupportedImageConversion, v as toStyleString, w as NoImageMetadata, F as FailedToFetchRemoteImageDimensions, x as ExpectedImageOptions, y as ExpectedNotESMImage, z as InvalidImageService, b as createAstro, c as createComponent, B as ImageMissingAlt, m as maybeRenderHead, d as addAttribute, s as spreadAttributes, a as renderTemplate, C as ExperimentalFontsNotEnabled, D as FontFamilyNotFound, u as unescapeHTML } from './astro/server.y-VyzkvQ.js';
-import { D as DEFAULT_OUTPUT_FORMAT, V as VALID_SUPPORTED_FORMATS, d as DEFAULT_HASH_PROPS } from './posts.yGcJl0g_.js';
+import { A as AstroError, E as ExpectedImage, L as LocalImageUsedWrongly, M as MissingImageDimension, q as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, t as UnsupportedImageConversion, v as toStyleString, w as NoImageMetadata, F as FailedToFetchRemoteImageDimensions, x as ExpectedImageOptions, y as ExpectedNotESMImage, z as InvalidImageService, b as createAstro, c as createComponent, B as ImageMissingAlt, m as maybeRenderHead, d as addAttribute, s as spreadAttributes, a as renderTemplate, C as ExperimentalFontsNotEnabled, D as FontFamilyNotFound, u as unescapeHTML } from './astro/server.BAUMsSkh.js';
+import { D as DEFAULT_OUTPUT_FORMAT, V as VALID_SUPPORTED_FORMATS, b as DEFAULT_HASH_PROPS } from './_astro_content.DzWitV_U.js';
 import { isRemoteAllowed } from '@astrojs/internal-helpers/remote';
 import * as mime from 'mrmime';
 import 'clsx';
@@ -1410,7 +1410,7 @@ async function getConfiguredImageService() {
   if (!globalThis?.astroAsset?.imageService) {
     const { default: service } = await import(
       // @ts-expect-error
-      './sharp.BXP6IMvT.js'
+      './sharp.CkX1mMvO.js'
     ).catch((e) => {
       const error = new AstroError(InvalidImageService);
       error.cause = e;

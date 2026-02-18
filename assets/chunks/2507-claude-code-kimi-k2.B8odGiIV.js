@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./2501-javascript-setTimeout-timeout.UCIp05Ty.js');
+						return import('./2507-claude-code-kimi-k2.D3row079.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

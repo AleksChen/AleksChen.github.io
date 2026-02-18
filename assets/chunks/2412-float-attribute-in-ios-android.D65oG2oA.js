@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./2504-cursor-figma-mcp.Bj_LCGLv.js');
+						return import('./2412-float-attribute-in-ios-android.DUTO9fAl.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

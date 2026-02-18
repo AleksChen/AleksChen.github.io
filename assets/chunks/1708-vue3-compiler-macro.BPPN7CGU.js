@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./2507-claude-code-kimi-k2.6QlwD3Un.js');
+						return import('./1708-vue3-compiler-macro.Dmjg0fi4.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

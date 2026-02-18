@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./1708-implement-instanceof.cPOQZsaG.js');
+						return import('./2501-javascript-setTimeout-timeout.BPnOveMu.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];
