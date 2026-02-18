@@ -31,9 +31,15 @@ const texts = Array.isArray(text) ? text : [text];
   data-delete-speed={deleteSpeed}
   data-wait={wait}
   data-loop={loop}
+  aria-label={texts[0]}
 >
-  <span class="typewriter-text"></span>{
-    cursor && <span class="typewriter-cursor animate-pulse ml-1">{cursorChar}</span>
+  <span class="sr-only">{texts[0]}</span>
+  <span class="typewriter-text" aria-hidden="true"></span>{
+    cursor && (
+      <span class="typewriter-cursor animate-pulse ml-1" aria-hidden="true">
+        {cursorChar}
+      </span>
+    )
   }
 </span>
 

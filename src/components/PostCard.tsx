@@ -55,7 +55,11 @@ export const PostCard: React.FC<PostCardProps> = ({
                 className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 src={item.cover.src}
                 alt={item.cover.alt || item.title}
-                loading="lazy"
+                loading={index <= 1 ? "eager" : "lazy"}
+                fetchPriority={index <= 1 ? "high" : "auto"}
+                decoding="async"
+                width={128}
+                height={128}
               />
             </div>
           )}

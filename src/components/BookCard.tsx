@@ -2,7 +2,7 @@ import React from "react";
 
 interface Book {
   title: string;
-  author: string;
+  author?: string;
   cover?: string;
   status: "reading" | "completed" | "wishlist";
   rating?: number;

@@ -24,18 +24,24 @@ const sortedBooks = books.sort((a, b) => {
   description="我的阅读记录和书单"
   className="max-w-[1200px]"
 >
+  <!-- Google Fonts: Caveat + Quicksand (Only for reading page) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" slot="head" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin slot="head" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+    slot="head"
+  />
+
   <div class="space-y-8">
-    <div class="text-center space-y-4">
-      <div class="flex items-center justify-center gap-3 mb-2">
-        <div class="i-ri:book-open-line w-12 h-12 text-primary"></div>
-        <h1
-          class="text-4xl md:text-5xl font-bold"
-          style="font-family: 'Caveat', cursive;"
-        >
-          阅读
-        </h1>
-      </div>
-    </div>
+    <section class="text-center py-8 md:py-12 animate-slide-in">
+      <h1
+        class="text-4xl md:text-5xl font-bold text-text mb-4 drop-shadow-[2px_2px_0_var(--color-shadow)]"
+      >
+        阅读
+      </h1>
+ 
+    </section>
 
     {
       books.length === 0 ? (
@@ -50,9 +56,15 @@ const sortedBooks = books.sort((a, b) => {
         >
           {sortedBooks.map((book) => {
             const bookData = {
-              ...book.data,
-              notes: book.data.intro || book.data.notes,
+              title: book.data.title,
+              author: book.data.author,
+              cover: book.data.cover,
               status: book.data.status || "completed",
+              rating: book.data.rating,
+              startDate: book.data.startDate,
+              finishDate: book.data.finishDate,
+              notes: book.data.intro,
+              pages: book.data.pages,
             };
             return <BookCard client:load book={bookData} slug={book.slug} />;
           })}
@@ -61,34 +73,36 @@ const sortedBooks = books.sort((a, b) => {
     }
   </div>
 
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const bookItems = document.querySelectorAll("#books-grid > *");
-      const prefersReducedMotion = window.matchMedia(
-        "(prefers-reduced-motion: reduce)",
-      ).matches;
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const bookItems = document.querySelectorAll("#books-grid > *");
+        const prefersReducedMotion = window.matchMedia(
+          "(prefers-reduced-motion: reduce)",
+        ).matches;
 
-      // Intersection Observer for scroll animations
-      if (!prefersReducedMotion) {
-        const observer = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add("animate-fade-in");
-                observer.unobserve(entry.target);
-              }
-            });
-          },
-          { threshold: 0.1 },
-        );
+        // Intersection Observer for scroll animations
+        if (!prefersReducedMotion) {
+          const observer = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                  entry.target.classList.add("animate-fade-in");
+                  observer.unobserve(entry.target);
+                }
+              });
+            },
+            { threshold: 0.1 },
+          );
 
-        bookItems.forEach((item) => {
-          item.style.opacity = "0";
-          observer.observe(item);
-        });
-      }
-    });
-  </script>
+          bookItems.forEach((item) => {
+            if (item instanceof HTMLElement) {
+              item.style.opacity = "0";
+              observer.observe(item);
+            }
+          });
+        }
+      });
+    </script>
 
   <style>
     @keyframes fadeIn {

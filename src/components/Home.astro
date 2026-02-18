@@ -33,7 +33,7 @@ const { posts, page, more } = Astro.props;
   <div class="flex flex-col gap-8 relative z-10 items-center">
     <section id="hero-section" class="text-center py-8 md:py-12">
       <h1
-        class="text-4xl md:text-7xl font-bold text-text mb-6 drop-shadow-[4px_4px_0_var(--color-shadow)]"
+        class="text-4xl md:text-7xl font-bold text-text mb-6 drop-shadow-[4px_4px_0_var(--color-shadow)] min-h-[1.2em]"
       >
         <TypeWriter
           text="AleksChen's Blog"
@@ -43,7 +43,7 @@ const { posts, page, more } = Astro.props;
           cursor={false}
         />
       </h1>
-      <p class="text-text-muted text-lg max-w-2xl mx-auto">
+      <p class="text-text-muted text-lg max-w-2xl mx-auto min-h-[1.5em]">
         <TypeWriter
           text="活在当下 记录时间"
           speed={250}
@@ -78,19 +78,32 @@ const { posts, page, more } = Astro.props;
   </div>
 </Layout>
 
-<script>
-  // Hero section 淡出效果
-  const heroSection = document.getElementById("hero-section");
-  if (heroSection) {
-    const fadeOutHeight = 249; // 滚动多少像素后完全消失
+    <script>
+      // Hero section 淡出效果
+      const heroSection = document.getElementById("hero-section");
+      if (heroSection) {
+        const fadeOutHeight = 249; // 滚动多少像素后完全消失
+        let ticking = false;
 
-    const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const opacity = Math.max(0, 1 - scrollY / fadeOutHeight);
-      heroSection.style.opacity = opacity.toString();
-    };
+        const handleScroll = () => {
+          if (!ticking) {
+            window.requestAnimationFrame(() => {
+              const scrollY = window.scrollY;
+              if (scrollY <= fadeOutHeight) {
+                const opacity = Math.max(0, 1 - scrollY / fadeOutHeight);
+                heroSection.style.opacity = opacity.toString();
+                heroSection.style.visibility = "visible";
+              } else {
+                heroSection.style.opacity = "0";
+                heroSection.style.visibility = "hidden";
+              }
+              ticking = false;
+            });
+            ticking = true;
+          }
+        };
 
-    handleScroll(); // 初始化
-    window.addEventListener("scroll", handleScroll, { passive: true });
-  }
-</script>
+        handleScroll(); // 初始化
+        window.addEventListener("scroll", handleScroll, { passive: true });
+      }
+    </script>

@@ -62,13 +62,7 @@ const {
 
     <SEO title={title} description={description} {...seo} />
 
-    <!-- Google Fonts: Caveat + Quicksand -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&family=Quicksand:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
+    <slot name="head" />
 
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
