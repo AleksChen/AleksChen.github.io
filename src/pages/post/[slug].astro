@@ -3,7 +3,8 @@ import Layout from "@/layouts/Layout.astro";
 import {
   getPostList,
   getPostBySlug,
-  extractIntro,
+  buildPostSeoDescription,
+  buildPostSeoKeywords,
   getCoverFromTags,
 } from "@/lib/posts";
 import config from "site.config";
@@ -40,23 +41,36 @@ const toc = headings
     depth: h.depth,
   }));
 
-const siteUrl = Astro.site || "https://alekschen.github.io";
-const postUrl = `${siteUrl}/post/${post.slug}`;
+const siteUrl = (Astro.site || config.siteUrl).toString().replace(/\/$/, "");
+const postUrl = new URL(`/post/${post.slug}`, `${siteUrl}/`).toString();
 const showSidebar = post?.showSidebar ?? true;
 const coverData = post.data.cover
   ? { src: post.data.cover }
   : getCoverFromTags(post.data.tags);
 
-const coverImage = coverData.src.startsWith("http")
-  ? coverData.src
-  : new URL(coverData.src, siteUrl).toString();
+const seoImagePath = post.data.seoImage || coverData.src;
+const coverImage = seoImagePath.startsWith("http")
+  ? seoImagePath
+  : new URL(seoImagePath, `${siteUrl}/`).toString();
 
-const intro = post.data.intro || extractIntro(post.body);
+const seoTitle = post.data.seoTitle || post.data.title;
+const seoDescription =
+  post.data.seoDescription ||
+  buildPostSeoDescription(post.data.title, post.data.intro, post.body);
+const seoKeywords =
+  post.data.seoKeywords?.length
+    ? post.data.seoKeywords
+    : buildPostSeoKeywords({
+        title: post.data.title,
+        tags: post.data.tags,
+        intro: post.data.intro,
+        body: post.body,
+      });
 ---
 
 <Layout
-  title={post.data.title}
-  description={intro}
+  title={seoTitle}
+  description={seoDescription}
   className="max-w-[1200px]"
   seo={{
     type: "article",
@@ -67,6 +81,7 @@ const intro = post.data.intro || extractIntro(post.body);
       : undefined,
     author: config.head.title,
     tags: post.data.tags,
+    keywords: seoKeywords,
     url: postUrl,
   }}
 >

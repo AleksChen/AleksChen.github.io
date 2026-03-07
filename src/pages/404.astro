@@ -2,7 +2,11 @@
 import Layout from "@/layouts/Layout.astro";
 ---
 
-<Layout title="404 - Page Not Found" description="页面未找到">
+<Layout
+  title="404 - Page Not Found"
+  description="页面未找到"
+  seo={{ robots: "noindex,nofollow" }}
+>
   <div class="flex flex-col items-center justify-center min-h-[60vh] text-center">
     <h1 class="text-6xl font-bold mb-4 text-primary">404</h1>
     <h2 class="text-2xl font-semibold mb-4">页面未找到</h2>
@@ -17,4 +21,3 @@ import Layout from "@/layouts/Layout.astro";
     </a>
   </div>
 </Layout>
-

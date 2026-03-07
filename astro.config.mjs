@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from "astro/config";
 import { fileURLToPath } from "url";
-import sitemap from "@astrojs/sitemap";
 import keystatic from "@keystatic/astro";
 import react from "@astrojs/react";
 import UnoCSS from "@unocss/astro";
@@ -30,17 +29,6 @@ export default defineConfig({
     ...(import.meta.env.DEV ? [keystatic()] : []),
     UnoCSS({
       injectReset: true,
-    }),
-    sitemap({
-      filter: (page) => {
-        return (
-          !page.includes("/tag/") &&
-          !page.includes("/404") &&
-          !page.includes("/archives") &&
-          !page.includes("/about") &&
-          !page.includes("/tags")
-        );
-      },
     }),
     mdx({
       remarkPlugins: [remarkMermaid],

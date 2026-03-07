@@ -18,7 +18,11 @@ allPosts.forEach((post) => {
 const sortedYears = Array.from(postsByYear.keys()).sort((a, b) => b - a);
 ---
 
-<Layout title="归档" description="所有文章归档">
+<Layout
+  title="归档"
+  description="所有文章归档"
+  seo={{ robots: "noindex,follow" }}
+>
   <div class="flex flex-col gap-8">
     <section class="text-center py-8 md:py-12 animate-slide-in">
       <h1
@@ -116,4 +120,3 @@ const sortedYears = Array.from(postsByYear.keys()).sort((a, b) => b - a);
     </div>
   </div>
 </Layout>
-

@@ -3,7 +3,11 @@ import Layout from "@/layouts/Layout.astro";
 import config from "site.config";
 ---
 
-<Layout title="关于" description="关于我">
+<Layout
+  title="关于"
+  description="关于我"
+  seo={{ robots: "noindex,follow" }}
+>
   <div class="flex flex-col gap-8">
     <section class="text-center py-8 md:py-12 animate-slide-in">
       <h1

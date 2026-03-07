@@ -21,7 +21,11 @@ const sortedTags = allTags.sort((a, b) => {
 });
 ---
 
-<Layout title="标签" description="所有标签">
+<Layout
+  title="标签"
+  description="所有标签"
+  seo={{ robots: "noindex,follow" }}
+>
   <div class="flex flex-col gap-8">
     <section class="text-center py-8 md:py-12 animate-slide-in">
       <h1
@@ -57,4 +61,3 @@ const sortedTags = allTags.sort((a, b) => {
     </div>
   </div>
 </Layout>
-

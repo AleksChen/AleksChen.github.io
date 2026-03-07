@@ -17,6 +17,8 @@ interface Props {
     modifiedTime?: string;
     author?: string;
     tags?: string[];
+    keywords?: string[];
+    robots?: string;
     url?: string;
   };
 }
@@ -31,7 +33,7 @@ const {
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -48,14 +50,14 @@ const {
     />
     <meta name="baidu-site-verification" content="codeva-tU6pIQVfyl" />
     <meta name="msvalidate.01" content="96ADAC3B4A010DE98F0350319BAF9DAB" />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="sitemap" href="/sitemap.xml" />
     <link
       rel="alternate"
       type="application/rss+xml"
       title="RSS Feed"
       href="/rss.xml"
     />
-    <link rel="icon" href="/favicon.ico" />
     <title>
       {title}
     </title>

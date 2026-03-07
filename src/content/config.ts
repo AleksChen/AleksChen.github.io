@@ -34,6 +34,10 @@ const books = defineCollection({
     notes: z.string().optional(),
     isbn: z.string().optional(),
     pages: z.number().optional(),
+    seoImage: z.string().optional(),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    seoKeywords: z.array(z.string()).optional(),
   }),
 });
 
@@ -41,4 +45,3 @@ export const collections = {
   posts,
   books,
 };
-

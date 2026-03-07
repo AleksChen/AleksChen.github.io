@@ -10,31 +10,39 @@ interface Props {
   modifiedTime?: string;
   author?: string;
   tags?: string[];
+  keywords?: string[];
+  robots?: string;
   url?: string;
 }
 
 const {
   title = config.head.title,
   description = config.head.description,
-  image = `${Astro.site}/favicon.ico`,
+  image = "/favicon.ico",
   type = "website",
   publishedTime,
   modifiedTime,
   author = config.head.title,
   tags = [],
+  keywords = tags,
+  robots = "index,follow",
   url,
 } = Astro.props;
 
-const siteUrl = Astro.site || config.siteUrl;
-const canonicalUrl = url || new URL(Astro.url.pathname, siteUrl).toString();
-const ogImage = image.startsWith("http") ? image : new URL(image, siteUrl).toString();
+const siteUrl = (Astro.site || config.siteUrl).toString().replace(/\/$/, "");
+const canonicalUrl = url || new URL(Astro.url.pathname, `${siteUrl}/`).toString();
+const ogImage = image.startsWith("http")
+  ? image
+  : new URL(image, `${siteUrl}/`).toString();
 ---
 
 <!-- 基础 SEO -->
 <meta name="description" content={description} />
 <meta name="author" content={author} />
-{tags.length > 0 && (
-  <meta name="keywords" content={tags.join(", ")} />
+<meta name="robots" content={robots} />
+<meta name="googlebot" content={robots} />
+{keywords.length > 0 && (
+  <meta name="keywords" content={keywords.join(", ")} />
 )}
 <link rel="canonical" href={canonicalUrl} />
 
@@ -90,7 +98,7 @@ const ogImage = image.startsWith("http") ? image : new URL(image, siteUrl).toStr
       "@type": "WebPage",
       "@id": canonicalUrl,
     },
-    keywords: tags.join(", "),
+    keywords: keywords.join(", "),
   })} />
 )}
 
@@ -101,14 +109,6 @@ const ogImage = image.startsWith("http") ? image : new URL(image, siteUrl).toStr
     name: config.head.title,
     description: config.head.description,
     url: siteUrl,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: {
-        "@type": "EntryPoint",
-        urlTemplate: `${siteUrl}/search?q={search_term_string}`,
-      },
-      "query-input": "required name=search_term_string",
-    },
+    inLanguage: "zh-CN",
   })} />
 )}
-

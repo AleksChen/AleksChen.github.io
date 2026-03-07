@@ -12,6 +12,7 @@
     "preview": "astro preview",
     "astro": "astro",
     "edit": "npm run dev & sleep 1 && open http://localhost:4321/keystatic",
+    "generate-og-images": "tsx scripts/generate-og-images.ts",
     "clean-images": "tsx scripts/clean-images.ts",
     "compress-images": "tsx scripts/compress-images.ts"
   },

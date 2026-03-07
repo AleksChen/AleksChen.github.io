@@ -1,12 +1,12 @@
 export const config = {
-  siteUrl: "https://blog.002085.xyz",
+  siteUrl: "https://alekschen.github.io",
   github: {
     login: "Alekschen",
     repo: "Alekschen.github.io",
   },
   head: {
     title: "Aleks",
-    description: "Alekschen's blog",
+    description: "Aleks 的技术博客，专注前端工程、跨端开发与网络技术实践。",
     links: {
       github: "https://github.com/AleksChen",
       juejin: "https://juejin.cn/user/254742428393742",
