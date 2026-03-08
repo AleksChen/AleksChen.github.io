@@ -1,4 +1,4 @@
-import { g as getCollection, a as getEntry } from './_astro_content.DHSZS-BR.js';
+import { g as getCollection, a as getEntry } from './_astro_content.BIinyaGc.js';
 
 const DEFAULT_COVER_MAP = {
   javascript: {
