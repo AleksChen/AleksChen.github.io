@@ -1,4 +1,4 @@
-import { g as getCollection, a as getEntry } from './_astro_content.DY2yO7Mi.js';
+import { g as getCollection, a as getEntry } from './_astro_content.DHSZS-BR.js';
 
 const DEFAULT_COVER_MAP = {
   javascript: {
@@ -361,7 +361,11 @@ async function getPostList(filterDraft = true) {
   });
 }
 async function getPostBySlug(slug) {
-  return getEntry("posts", slug) || null;
+  const post = await getEntry("posts", slug);
+  if (!post || post.data.draft) {
+    return null;
+  }
+  return post;
 }
 async function getAllTags() {
   const posts = await getCollection("posts", ({ data }) => {

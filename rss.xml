@@ -6,7 +6,7 @@
     <link>https://alekschen.github.io</link>
     <atom:link href="https://alekschen.github.io/rss.xml" rel="self" type="application/rss+xml" />
     <language>zh-CN</language>
-    <lastBuildDate>Sat, 07 Mar 2026 16:24:27 GMT</lastBuildDate>
+    <lastBuildDate>Sun, 08 Mar 2026 02:21:21 GMT</lastBuildDate>
     <generator>Astro</generator>
 
     <item>
@@ -15,7 +15,6 @@
       <guid isPermaLink="true">https://alekschen.github.io/post/2512-electron-note</guid>
       <description><![CDATA[桌面开发的范式：Electron 小记 序幕：为什么我们需要 Electron]]></description>
       <pubDate>Tue, 23 Dec 2025 19:54:00 GMT</pubDate>
-      <updated>Tue, 23 Dec 2025 19:54:00 GMT</updated>
       <category><![CDATA[Electron]]></category>
       <category><![CDATA[Native]]></category>
     </item>
@@ -26,7 +25,6 @@
       <guid isPermaLink="true">https://alekschen.github.io/post/2507-claude-code-kimi-k2</guid>
       <description><![CDATA[前言 Claude Code 是 Anthropic 推出的 AI 编程助手，具备强大的代码生成与理解能力]]></description>
       <pubDate>Thu, 17 Jul 2025 09:39:21 GMT</pubDate>
-      <updated>Thu, 17 Jul 2025 09:44:32 GMT</updated>
       <category><![CDATA[AI]]></category>
     </item>
 
@@ -36,7 +34,6 @@
       <guid isPermaLink="true">https://alekschen.github.io/post/2504-sse</guid>
       <description><![CDATA[引言 Server-Sent Events (SSE) 是一种服务器推送技术，允许服务器向客户端实时推送数据]]></description>
       <pubDate>Thu, 03 Apr 2025 07:35:49 GMT</pubDate>
-      <updated>Mon, 01 Dec 2025 09:28:48 GMT</updated>
       <category><![CDATA[Network]]></category>
     </item>
 
@@ -46,7 +43,6 @@
       <guid isPermaLink="true">https://alekschen.github.io/post/2504-cursor-figma-mcp</guid>
       <description><![CDATA[MCP MCP (Model Control Protocol) 是 Cursor 提供的一个协议，允许外部服务为 Cursor AI 提供额外的上下文信息]]></description>
       <pubDate>Tue, 01 Apr 2025 07:33:49 GMT</pubDate>
-      <updated>Thu, 03 Apr 2025 07:32:36 GMT</updated>
       <category><![CDATA[Figma]]></category>
       <category><![CDATA[AI]]></category>
     </item>
@@ -57,7 +53,6 @@
       <guid isPermaLink="true">https://alekschen.github.io/post/2501-javascript-setTimeout-timeout</guid>
       <description><![CDATA[引言 在 JavaScript 中，setTimeout 是最常用的定时器 API 之一]]></description>
       <pubDate>Thu, 09 Jan 2025 07:33:49 GMT</pubDate>
-      <updated>Thu, 09 Jan 2025 08:12:09 GMT</updated>
       <category><![CDATA[JavaScript]]></category>
     </item>
 
@@ -67,7 +62,6 @@
       <guid isPermaLink="true">https://alekschen.github.io/post/2412-float-attribute-in-ios-android</guid>
       <description><![CDATA[一、概述 移动端 H5 开发中，浮点数的渲染处理是一个常见但容易被忽视的问题]]></description>
       <pubDate>Fri, 13 Dec 2024 09:26:35 GMT</pubDate>
-      <updated>Fri, 13 Dec 2024 09:26:35 GMT</updated>
       <category><![CDATA[Android]]></category>
       <category><![CDATA[iOS]]></category>
     </item>
@@ -78,7 +72,6 @@
       <guid isPermaLink="true">https://alekschen.github.io/post/1708-vue3-compiler-macro</guid>
       <description><![CDATA[Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明]]></description>
       <pubDate>Fri, 23 Oct 2020 13:19:02 GMT</pubDate>
-      <updated>Fri, 13 Dec 2024 10:07:53 GMT</updated>
       <category><![CDATA[Vue]]></category>
     </item>
 
@@ -88,7 +81,6 @@
       <guid isPermaLink="true">https://alekschen.github.io/post/1708-implement-instanceof</guid>
       <description><![CDATA[在前端面试中，instanceof 是一个常见的问题]]></description>
       <pubDate>Wed, 23 Aug 2017 03:32:22 GMT</pubDate>
-      <updated>Mon, 02 Dec 2024 09:46:21 GMT</updated>
       <category><![CDATA[JavaScript]]></category>
     </item>
   </channel>

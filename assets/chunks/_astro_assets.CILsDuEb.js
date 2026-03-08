@@ -1,10 +1,5 @@
-import { joinPaths, isRemotePath } from '@astrojs/internal-helpers/path';
-import { isRemoteAllowed } from '@astrojs/internal-helpers/remote';
-import { A as AstroError, E as ExpectedImage, L as LocalImageUsedWrongly, M as MissingImageDimension, q as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, t as UnsupportedImageConversion, v as toStyleString, w as NoImageMetadata, F as FailedToFetchRemoteImageDimensions, x as RemoteImageNotAllowed, y as ExpectedImageOptions, z as ExpectedNotESMImage, B as InvalidImageService, b as createAstro, c as createComponent, C as ImageMissingAlt, m as maybeRenderHead, d as addAttribute, s as spreadAttributes, a as renderTemplate, D as ExperimentalFontsNotEnabled, G as FontFamilyNotFound, u as unescapeHTML } from './astro/server.DUKugfk_.js';
-import { D as DEFAULT_OUTPUT_FORMAT, V as VALID_SUPPORTED_FORMATS, b as DEFAULT_HASH_PROPS } from './_astro_content.DY2yO7Mi.js';
-import * as mime from 'mrmime';
-import 'clsx';
-import 'piccolore';
+import { j as joinPaths, D as DEFAULT_OUTPUT_FORMAT, i as isRemotePath, V as VALID_SUPPORTED_FORMATS, b as DEFAULT_HASH_PROPS } from './_astro_content.DHSZS-BR.js';
+import { A as AstroError, E as ExpectedImage, L as LocalImageUsedWrongly, M as MissingImageDimension, y as UnsupportedImageFormat, I as IncompatibleDescriptorOptions, z as UnsupportedImageConversion, B as toStyleString, C as NoImageMetadata, F as FailedToFetchRemoteImageDimensions, D as ExpectedImageOptions, G as ExpectedNotESMImage, H as InvalidImageService, b as createAstro, c as createComponent, J as ImageMissingAlt, m as maybeRenderHead, d as addAttribute, s as spreadAttributes, a as renderTemplate, K as ExperimentalFontsNotEnabled, O as FontFamilyNotFound, u as unescapeHTML } from './astro/server.CAacAaxv.js';
 
 const DEFAULT_RESOLUTIONS = [
   640,
@@ -108,6 +103,62 @@ const getSizesAttribute = ({
   }
 };
 
+function matchPattern(url, remotePattern) {
+  return matchProtocol(url, remotePattern.protocol) && matchHostname(url, remotePattern.hostname, true) && matchPort(url, remotePattern.port) && matchPathname(url, remotePattern.pathname, true);
+}
+function matchPort(url, port) {
+  return !port || port === url.port;
+}
+function matchProtocol(url, protocol) {
+  return !protocol || protocol === url.protocol.slice(0, -1);
+}
+function matchHostname(url, hostname, allowWildcard = false) {
+  if (!hostname) {
+    return true;
+  } else if (!allowWildcard || !hostname.startsWith("*")) {
+    return hostname === url.hostname;
+  } else if (hostname.startsWith("**.")) {
+    const slicedHostname = hostname.slice(2);
+    return slicedHostname !== url.hostname && url.hostname.endsWith(slicedHostname);
+  } else if (hostname.startsWith("*.")) {
+    const slicedHostname = hostname.slice(1);
+    if (!url.hostname.endsWith(slicedHostname)) {
+      return false;
+    }
+    const subdomainWithDot = url.hostname.slice(0, -(slicedHostname.length - 1));
+    return subdomainWithDot.endsWith(".") && !subdomainWithDot.slice(0, -1).includes(".");
+  }
+  return false;
+}
+function matchPathname(url, pathname, allowWildcard = false) {
+  if (!pathname) {
+    return true;
+  } else if (!allowWildcard || !pathname.endsWith("*")) {
+    return pathname === url.pathname;
+  } else if (pathname.endsWith("/**")) {
+    const slicedPathname = pathname.slice(0, -2);
+    return slicedPathname !== url.pathname && url.pathname.startsWith(slicedPathname);
+  } else if (pathname.endsWith("/*")) {
+    const slicedPathname = pathname.slice(0, -1);
+    const additionalPathChunks = url.pathname.replace(slicedPathname, "").split("/").filter(Boolean);
+    return additionalPathChunks.length === 1;
+  }
+  return false;
+}
+function isRemoteAllowed(src, {
+  domains,
+  remotePatterns
+}) {
+  if (!URL.canParse(src)) {
+    return false;
+  }
+  const url = new URL(src);
+  if (!["http:", "https:", "data:"].includes(url.protocol)) {
+    return false;
+  }
+  return domains.some((domain) => matchHostname(url, domain)) || remotePatterns.some((remotePattern) => matchPattern(url, remotePattern));
+}
+
 function isESMImportedImage(src) {
   return typeof src === "object" || typeof src === "function" && "src" in src;
 }
@@ -136,63 +187,60 @@ function parseQuality(quality) {
   return result;
 }
 const sortNumeric = (a, b) => a - b;
-function verifyOptions(options) {
-  if (!options.src || !isRemoteImage(options.src) && !isESMImportedImage(options.src)) {
-    throw new AstroError({
-      ...ExpectedImage,
-      message: ExpectedImage.message(
-        JSON.stringify(options.src),
-        typeof options.src,
-        JSON.stringify(options, (_, v) => v === void 0 ? null : v)
-      )
-    });
-  }
-  if (!isESMImportedImage(options.src)) {
-    if (options.src.startsWith("/@fs/") || !isRemotePath(options.src) && !options.src.startsWith("/")) {
+const baseService = {
+  validateOptions(options) {
+    if (!options.src || !isRemoteImage(options.src) && !isESMImportedImage(options.src)) {
       throw new AstroError({
-        ...LocalImageUsedWrongly,
-        message: LocalImageUsedWrongly.message(options.src)
-      });
-    }
-    let missingDimension;
-    if (!options.width && !options.height) {
-      missingDimension = "both";
-    } else if (!options.width && options.height) {
-      missingDimension = "width";
-    } else if (options.width && !options.height) {
-      missingDimension = "height";
-    }
-    if (missingDimension) {
-      throw new AstroError({
-        ...MissingImageDimension,
-        message: MissingImageDimension.message(missingDimension, options.src)
-      });
-    }
-  } else {
-    if (!VALID_SUPPORTED_FORMATS.includes(options.src.format)) {
-      throw new AstroError({
-        ...UnsupportedImageFormat,
-        message: UnsupportedImageFormat.message(
-          options.src.format,
-          options.src.src,
-          VALID_SUPPORTED_FORMATS
+        ...ExpectedImage,
+        message: ExpectedImage.message(
+          JSON.stringify(options.src),
+          typeof options.src,
+          JSON.stringify(options, (_, v) => v === void 0 ? null : v)
         )
       });
     }
-    if (options.widths && options.densities) {
-      throw new AstroError(IncompatibleDescriptorOptions);
+    if (!isESMImportedImage(options.src)) {
+      if (options.src.startsWith("/@fs/") || !isRemotePath(options.src) && !options.src.startsWith("/")) {
+        throw new AstroError({
+          ...LocalImageUsedWrongly,
+          message: LocalImageUsedWrongly.message(options.src)
+        });
+      }
+      let missingDimension;
+      if (!options.width && !options.height) {
+        missingDimension = "both";
+      } else if (!options.width && options.height) {
+        missingDimension = "width";
+      } else if (options.width && !options.height) {
+        missingDimension = "height";
+      }
+      if (missingDimension) {
+        throw new AstroError({
+          ...MissingImageDimension,
+          message: MissingImageDimension.message(missingDimension, options.src)
+        });
+      }
+    } else {
+      if (!VALID_SUPPORTED_FORMATS.includes(options.src.format)) {
+        throw new AstroError({
+          ...UnsupportedImageFormat,
+          message: UnsupportedImageFormat.message(
+            options.src.format,
+            options.src.src,
+            VALID_SUPPORTED_FORMATS
+          )
+        });
+      }
+      if (options.widths && options.densities) {
+        throw new AstroError(IncompatibleDescriptorOptions);
+      }
+      if (options.src.format === "svg") {
+        options.format = "svg";
+      }
+      if (options.src.format === "svg" && options.format !== "svg" || options.src.format !== "svg" && options.format === "svg") {
+        throw new AstroError(UnsupportedImageConversion);
+      }
     }
-    if (options.src.format === "svg" && options.format !== "svg" || options.src.format !== "svg" && options.format === "svg") {
-      throw new AstroError(UnsupportedImageConversion);
-    }
-  }
-}
-const baseService = {
-  validateOptions(options) {
-    if (isESMImportedImage(options.src) && options.src.format === "svg") {
-      options.format = "svg";
-    }
-    verifyOptions(options);
     if (!options.format) {
       options.format = DEFAULT_OUTPUT_FORMAT;
     }
@@ -222,7 +270,6 @@ const baseService = {
       priority,
       fit,
       position,
-      background,
       ...attributes
     } = options;
     return {
@@ -302,8 +349,7 @@ const baseService = {
       q: "quality",
       f: "format",
       fit: "fit",
-      position: "position",
-      background: "background"
+      position: "position"
     };
     Object.entries(params).forEach(([param, key]) => {
       options[key] && searchParams.append(param, options[key].toString());
@@ -330,8 +376,7 @@ const baseService = {
       format: params.get("f"),
       quality: params.get("q"),
       fit: params.get("fit"),
-      position: params.get("position") ?? void 0,
-      background: params.get("background") ?? void 0
+      position: params.get("position") ?? void 0
     };
     return transform;
   }
@@ -372,46 +417,45 @@ function addCSSVarsToStyle(vars, styles) {
 
 const decoder = new TextDecoder();
 const toUTF8String = (input, start = 0, end = input.length) => decoder.decode(input.slice(start, end));
-const toHexString = (input, start = 0, end = input.length) => input.slice(start, end).reduce((memo, i) => memo + `0${i.toString(16)}`.slice(-2), "");
-const getView = (input, offset) => new DataView(input.buffer, input.byteOffset + offset);
-const readInt16LE = (input, offset = 0) => getView(input, offset).getInt16(0, true);
-const readUInt16BE = (input, offset = 0) => getView(input, offset).getUint16(0, false);
-const readUInt16LE = (input, offset = 0) => getView(input, offset).getUint16(0, true);
-const readUInt24LE = (input, offset = 0) => {
-  const view = getView(input, offset);
-  return view.getUint16(0, true) + (view.getUint8(2) << 16);
+const toHexString = (input, start = 0, end = input.length) => input.slice(start, end).reduce((memo, i) => memo + ("0" + i.toString(16)).slice(-2), "");
+const readInt16LE = (input, offset = 0) => {
+  const val = input[offset] + input[offset + 1] * 2 ** 8;
+  return val | (val & 2 ** 15) * 131070;
 };
-const readInt32LE = (input, offset = 0) => getView(input, offset).getInt32(0, true);
-const readUInt32BE = (input, offset = 0) => getView(input, offset).getUint32(0, false);
-const readUInt32LE = (input, offset = 0) => getView(input, offset).getUint32(0, true);
-const readUInt64 = (input, offset, isBigEndian) => getView(input, offset).getBigUint64(0, !isBigEndian);
+const readUInt16BE = (input, offset = 0) => input[offset] * 2 ** 8 + input[offset + 1];
+const readUInt16LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8;
+const readUInt24LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16;
+const readInt32LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16 + (input[offset + 3] << 24);
+const readUInt32BE = (input, offset = 0) => input[offset] * 2 ** 24 + input[offset + 1] * 2 ** 16 + input[offset + 2] * 2 ** 8 + input[offset + 3];
+const readUInt32LE = (input, offset = 0) => input[offset] + input[offset + 1] * 2 ** 8 + input[offset + 2] * 2 ** 16 + input[offset + 3] * 2 ** 24;
 const methods = {
   readUInt16BE,
   readUInt16LE,
   readUInt32BE,
   readUInt32LE
 };
-function readUInt(input, bits, offset = 0, isBigEndian = false) {
+function readUInt(input, bits, offset, isBigEndian) {
+  offset = offset || 0;
   const endian = isBigEndian ? "BE" : "LE";
-  const methodName = `readUInt${bits}${endian}`;
+  const methodName = "readUInt" + bits + endian;
   return methods[methodName](input, offset);
 }
-function readBox(input, offset) {
-  if (input.length - offset < 4) return;
-  const boxSize = readUInt32BE(input, offset);
-  if (input.length - offset < boxSize) return;
+function readBox(buffer, offset) {
+  if (buffer.length - offset < 4) return;
+  const boxSize = readUInt32BE(buffer, offset);
+  if (buffer.length - offset < boxSize) return;
   return {
-    name: toUTF8String(input, 4 + offset, 8 + offset),
+    name: toUTF8String(buffer, 4 + offset, 8 + offset),
     offset,
     size: boxSize
   };
 }
-function findBox(input, boxName, currentOffset) {
-  while (currentOffset < input.length) {
-    const box = readBox(input, currentOffset);
+function findBox(buffer, boxName, offset) {
+  while (offset < buffer.length) {
+    const box = readBox(buffer, offset);
     if (!box) break;
     if (box.name === boxName) return box;
-    currentOffset += box.size > 0 ? box.size : 8;
+    offset += box.size;
   }
 }
 
@@ -449,14 +493,14 @@ const ICO = {
     const nbImages = readUInt16LE(input, 4);
     const imageSize = getImageSize$1(input, 0);
     if (nbImages === 1) return imageSize;
-    const images = [];
-    for (let imageIndex = 0; imageIndex < nbImages; imageIndex += 1) {
-      images.push(getImageSize$1(input, imageIndex));
+    const imgs = [imageSize];
+    for (let imageIndex = 1; imageIndex < nbImages; imageIndex += 1) {
+      imgs.push(getImageSize$1(input, imageIndex));
     }
     return {
-      width: imageSize.width,
       height: imageSize.height,
-      images
+      images: imgs,
+      width: imageSize.width
     };
   }
 };
@@ -504,63 +548,41 @@ const brandMap = {
   hevx: "heic"
   // heic-sequence
 };
-function detectType(input, start, end) {
-  let hasAvif = false;
-  let hasHeic = false;
-  let hasHeif = false;
+function detectBrands(buffer, start, end) {
+  let brandsDetected = {};
   for (let i = start; i <= end; i += 4) {
-    const brand = toUTF8String(input, i, i + 4);
-    if (brand === "avif" || brand === "avis") hasAvif = true;
-    else if (brand === "heic" || brand === "heix" || brand === "hevc" || brand === "hevx") hasHeic = true;
-    else if (brand === "mif1" || brand === "msf1") hasHeif = true;
+    const brand = toUTF8String(buffer, i, i + 4);
+    if (brand in brandMap) {
+      brandsDetected[brand] = 1;
+    }
   }
-  if (hasAvif) return "avif";
-  if (hasHeic) return "heic";
-  if (hasHeif) return "heif";
+  if ("avif" in brandsDetected || "avis" in brandsDetected) {
+    return "avif";
+  } else if ("heic" in brandsDetected || "heix" in brandsDetected || "hevc" in brandsDetected || "hevx" in brandsDetected) {
+    return "heic";
+  } else if ("mif1" in brandsDetected || "msf1" in brandsDetected) {
+    return "heif";
+  }
 }
 const HEIF = {
-  validate(input) {
-    const boxType = toUTF8String(input, 4, 8);
-    if (boxType !== "ftyp") return false;
-    const ftypBox = findBox(input, "ftyp", 0);
-    if (!ftypBox) return false;
-    const brand = toUTF8String(input, ftypBox.offset + 8, ftypBox.offset + 12);
-    return brand in brandMap;
+  validate(buffer) {
+    const ftype = toUTF8String(buffer, 4, 8);
+    const brand = toUTF8String(buffer, 8, 12);
+    return "ftyp" === ftype && brand in brandMap;
   },
-  calculate(input) {
-    const metaBox = findBox(input, "meta", 0);
-    const iprpBox = metaBox && findBox(input, "iprp", metaBox.offset + 12);
-    const ipcoBox = iprpBox && findBox(input, "ipco", iprpBox.offset + 8);
-    if (!ipcoBox) {
-      throw new TypeError("Invalid HEIF, no ipco box found");
+  calculate(buffer) {
+    const metaBox = findBox(buffer, "meta", 0);
+    const iprpBox = metaBox && findBox(buffer, "iprp", metaBox.offset + 12);
+    const ipcoBox = iprpBox && findBox(buffer, "ipco", iprpBox.offset + 8);
+    const ispeBox = ipcoBox && findBox(buffer, "ispe", ipcoBox.offset + 8);
+    if (ispeBox) {
+      return {
+        height: readUInt32BE(buffer, ispeBox.offset + 16),
+        width: readUInt32BE(buffer, ispeBox.offset + 12),
+        type: detectBrands(buffer, 8, metaBox.offset)
+      };
     }
-    const type = detectType(input, 8, metaBox.offset);
-    const images = [];
-    let currentOffset = ipcoBox.offset + 8;
-    while (currentOffset < ipcoBox.offset + ipcoBox.size) {
-      const ispeBox = findBox(input, "ispe", currentOffset);
-      if (!ispeBox) break;
-      const rawWidth = readUInt32BE(input, ispeBox.offset + 12);
-      const rawHeight = readUInt32BE(input, ispeBox.offset + 16);
-      const clapBox = findBox(input, "clap", currentOffset);
-      let width = rawWidth;
-      let height = rawHeight;
-      if (clapBox && clapBox.offset < ipcoBox.offset + ipcoBox.size) {
-        const cropRight = readUInt32BE(input, clapBox.offset + 12);
-        width = rawWidth - cropRight;
-      }
-      images.push({ height, width });
-      currentOffset = ispeBox.offset + ispeBox.size;
-    }
-    if (images.length === 0) {
-      throw new TypeError("Invalid HEIF, no sizes found");
-    }
-    return {
-      width: images[0].width,
-      height: images[0].height,
-      type,
-      ...images.length > 1 ? { images } : {}
-    };
+    throw new TypeError("Invalid HEIF, no size found");
   }
 };
 
@@ -626,27 +648,28 @@ const ICNS = {
     const inputLength = input.length;
     const fileLength = readUInt32BE(input, FILE_LENGTH_OFFSET);
     let imageOffset = SIZE_HEADER;
-    const images = [];
-    while (imageOffset < fileLength && imageOffset < inputLength) {
-      const imageHeader = readImageHeader(input, imageOffset);
-      const imageSize = getImageSize(imageHeader[0]);
-      images.push(imageSize);
-      imageOffset += imageHeader[1];
-    }
-    if (images.length === 0) {
-      throw new TypeError("Invalid ICNS, no sizes found");
-    }
-    return {
-      width: images[0].width,
-      height: images[0].height,
-      ...images.length > 1 ? { images } : {}
+    let imageHeader = readImageHeader(input, imageOffset);
+    let imageSize = getImageSize(imageHeader[0]);
+    imageOffset += imageHeader[1];
+    if (imageOffset === fileLength) return imageSize;
+    const result = {
+      height: imageSize.height,
+      images: [imageSize],
+      width: imageSize.width
     };
+    while (imageOffset < fileLength && imageOffset < inputLength) {
+      imageHeader = readImageHeader(input, imageOffset);
+      imageSize = getImageSize(imageHeader[0]);
+      imageOffset += imageHeader[1];
+      result.images.push(imageSize);
+    }
+    return result;
   }
 };
 
 const J2C = {
   // TODO: this doesn't seem right. SIZ marker doesn't have to be right after the SOC
-  validate: (input) => readUInt32BE(input, 0) === 4283432785,
+  validate: (input) => toHexString(input, 0, 4) === "ff4fff51",
   calculate: (input) => ({
     height: readUInt32BE(input, 12),
     width: readUInt32BE(input, 8)
@@ -655,12 +678,10 @@ const J2C = {
 
 const JP2 = {
   validate(input) {
-    const boxType = toUTF8String(input, 4, 8);
-    if (boxType !== "jP  ") return false;
+    if (readUInt32BE(input, 4) !== 1783636e3 || readUInt32BE(input, 0) < 1) return false;
     const ftypBox = findBox(input, "ftyp", 0);
     if (!ftypBox) return false;
-    const brand = toUTF8String(input, ftypBox.offset + 8, ftypBox.offset + 12);
-    return brand === "jp2 ";
+    return readUInt32BE(input, ftypBox.offset + 4) === 1718909296;
   },
   calculate(input) {
     const jp2hBox = findBox(input, "jp2h", 0);
@@ -737,20 +758,20 @@ function validateInput(input, index) {
 }
 const JPG = {
   validate: (input) => toHexString(input, 0, 2) === "ffd8",
-  calculate(_input) {
-    let input = _input.slice(4);
+  calculate(input) {
+    input = input.slice(4);
     let orientation;
     let next;
     while (input.length) {
       const i = readUInt16BE(input, 0);
-      validateInput(input, i);
       if (input[i] !== 255) {
-        input = input.slice(1);
+        input = input.slice(i);
         continue;
       }
       if (isEXIF(input)) {
         orientation = validateExifBlock(input, i);
       }
+      validateInput(input, i);
       next = input[i + 1];
       if (next === 192 || next === 193 || next === 194) {
         const size = extractSize(input, i + 5);
@@ -766,130 +787,6 @@ const JPG = {
       input = input.slice(i + 2);
     }
     throw new TypeError("Invalid JPG, no size found");
-  }
-};
-
-class BitReader {
-  constructor(input, endianness) {
-    this.input = input;
-    this.endianness = endianness;
-  }
-  // Skip the first 16 bits (2 bytes) of signature
-  byteOffset = 2;
-  bitOffset = 0;
-  /** Reads a specified number of bits, and move the offset */
-  getBits(length = 1) {
-    let result = 0;
-    let bitsRead = 0;
-    while (bitsRead < length) {
-      if (this.byteOffset >= this.input.length) {
-        throw new Error("Reached end of input");
-      }
-      const currentByte = this.input[this.byteOffset];
-      const bitsLeft = 8 - this.bitOffset;
-      const bitsToRead = Math.min(length - bitsRead, bitsLeft);
-      if (this.endianness === "little-endian") {
-        const mask = (1 << bitsToRead) - 1;
-        const bits = currentByte >> this.bitOffset & mask;
-        result |= bits << bitsRead;
-      } else {
-        const mask = (1 << bitsToRead) - 1 << 8 - this.bitOffset - bitsToRead;
-        const bits = (currentByte & mask) >> 8 - this.bitOffset - bitsToRead;
-        result = result << bitsToRead | bits;
-      }
-      bitsRead += bitsToRead;
-      this.bitOffset += bitsToRead;
-      if (this.bitOffset === 8) {
-        this.byteOffset++;
-        this.bitOffset = 0;
-      }
-    }
-    return result;
-  }
-}
-
-function calculateImageDimension(reader, isSmallImage) {
-  if (isSmallImage) {
-    return 8 * (1 + reader.getBits(5));
-  }
-  const sizeClass = reader.getBits(2);
-  const extraBits = [9, 13, 18, 30][sizeClass];
-  return 1 + reader.getBits(extraBits);
-}
-function calculateImageWidth(reader, isSmallImage, widthMode, height) {
-  if (isSmallImage && widthMode === 0) {
-    return 8 * (1 + reader.getBits(5));
-  }
-  if (widthMode === 0) {
-    return calculateImageDimension(reader, false);
-  }
-  const aspectRatios = [1, 1.2, 4 / 3, 1.5, 16 / 9, 5 / 4, 2];
-  return Math.floor(height * aspectRatios[widthMode - 1]);
-}
-const JXLStream = {
-  validate: (input) => {
-    return toHexString(input, 0, 2) === "ff0a";
-  },
-  calculate(input) {
-    const reader = new BitReader(input, "little-endian");
-    const isSmallImage = reader.getBits(1) === 1;
-    const height = calculateImageDimension(reader, isSmallImage);
-    const widthMode = reader.getBits(3);
-    const width = calculateImageWidth(reader, isSmallImage, widthMode, height);
-    return { width, height };
-  }
-};
-
-function extractCodestream(input) {
-  const jxlcBox = findBox(input, "jxlc", 0);
-  if (jxlcBox) {
-    return input.slice(jxlcBox.offset + 8, jxlcBox.offset + jxlcBox.size);
-  }
-  const partialStreams = extractPartialStreams(input);
-  if (partialStreams.length > 0) {
-    return concatenateCodestreams(partialStreams);
-  }
-  return void 0;
-}
-function extractPartialStreams(input) {
-  const partialStreams = [];
-  let offset = 0;
-  while (offset < input.length) {
-    const jxlpBox = findBox(input, "jxlp", offset);
-    if (!jxlpBox) break;
-    partialStreams.push(
-      input.slice(jxlpBox.offset + 12, jxlpBox.offset + jxlpBox.size)
-    );
-    offset = jxlpBox.offset + jxlpBox.size;
-  }
-  return partialStreams;
-}
-function concatenateCodestreams(partialCodestreams) {
-  const totalLength = partialCodestreams.reduce(
-    (acc, curr) => acc + curr.length,
-    0
-  );
-  const codestream = new Uint8Array(totalLength);
-  let position = 0;
-  for (const partial of partialCodestreams) {
-    codestream.set(partial, position);
-    position += partial.length;
-  }
-  return codestream;
-}
-const JXL = {
-  validate: (input) => {
-    const boxType = toUTF8String(input, 4, 8);
-    if (boxType !== "JXL ") return false;
-    const ftypBox = findBox(input, "ftyp", 0);
-    if (!ftypBox) return false;
-    const brand = toUTF8String(input, ftypBox.offset + 8, ftypBox.offset + 12);
-    return brand === "jxl ";
-  },
-  calculate(input) {
-    const codestream = extractCodestream(input);
-    if (codestream) return JXLStream.calculate(codestream);
-    throw new Error("No codestream found in JXL container");
   }
 };
 
@@ -963,11 +860,12 @@ const handlers = {
     }
     if (dimensions.length === 2) {
       return {
-        height: Number.parseInt(dimensions[1], 10),
-        width: Number.parseInt(dimensions[0], 10)
+        height: parseInt(dimensions[1], 10),
+        width: parseInt(dimensions[0], 10)
       };
+    } else {
+      throw new TypeError("Invalid PNM");
     }
-    throw new TypeError("Invalid PNM");
   },
   pam: (lines) => {
     const size = {};
@@ -978,7 +876,7 @@ const handlers = {
       }
       const [key, value] = line.split(" ");
       if (key && value) {
-        size[key.toLowerCase()] = Number.parseInt(value, 10);
+        size[key.toLowerCase()] = parseInt(value, 10);
       }
       if (size.height && size.width) {
         break;
@@ -989,8 +887,9 @@ const handlers = {
         height: size.height,
         width: size.width
       };
+    } else {
+      throw new TypeError("Invalid PAM");
     }
-    throw new TypeError("Invalid PAM");
   }
 };
 const PNM = {
@@ -1113,119 +1012,66 @@ const TGA = {
   }
 };
 
-const CONSTANTS = {
-  TAG: {
-    WIDTH: 256,
-    HEIGHT: 257,
-    COMPRESSION: 259
-  },
-  TYPE: {
-    SHORT: 3,
-    LONG: 4,
-    LONG8: 16
-  },
-  ENTRY_SIZE: {
-    STANDARD: 12,
-    BIG: 20
-  },
-  COUNT_SIZE: {
-    STANDARD: 2,
-    BIG: 8
-  }
-};
-function readIFD(input, { isBigEndian, isBigTiff }) {
-  const ifdOffset = isBigTiff ? Number(readUInt64(input, 8, isBigEndian)) : readUInt(input, 32, 4, isBigEndian);
-  const entryCountSize = isBigTiff ? CONSTANTS.COUNT_SIZE.BIG : CONSTANTS.COUNT_SIZE.STANDARD;
-  return input.slice(ifdOffset + entryCountSize);
+function readIFD(input, isBigEndian) {
+  const ifdOffset = readUInt(input, 32, 4, isBigEndian);
+  return input.slice(ifdOffset + 2);
 }
-function readTagValue(input, type, offset, isBigEndian) {
-  switch (type) {
-    case CONSTANTS.TYPE.SHORT:
-      return readUInt(input, 16, offset, isBigEndian);
-    case CONSTANTS.TYPE.LONG:
-      return readUInt(input, 32, offset, isBigEndian);
-    case CONSTANTS.TYPE.LONG8: {
-      const value = Number(readUInt64(input, offset, isBigEndian));
-      if (value > Number.MAX_SAFE_INTEGER) {
-        throw new TypeError("Value too large");
-      }
-      return value;
-    }
-    default:
-      return 0;
+function readValue(input, isBigEndian) {
+  const low = readUInt(input, 16, 8, isBigEndian);
+  const high = readUInt(input, 16, 10, isBigEndian);
+  return (high << 16) + low;
+}
+function nextTag(input) {
+  if (input.length > 24) {
+    return input.slice(12);
   }
 }
-function nextTag(input, isBigTiff) {
-  const entrySize = isBigTiff ? CONSTANTS.ENTRY_SIZE.BIG : CONSTANTS.ENTRY_SIZE.STANDARD;
-  if (input.length > entrySize) {
-    return input.slice(entrySize);
-  }
-}
-function extractTags(input, { isBigEndian, isBigTiff }) {
+function extractTags(input, isBigEndian) {
   const tags = {};
   let temp = input;
-  while (temp?.length) {
+  while (temp && temp.length) {
     const code = readUInt(temp, 16, 0, isBigEndian);
     const type = readUInt(temp, 16, 2, isBigEndian);
-    const length = isBigTiff ? Number(readUInt64(temp, 4, isBigEndian)) : readUInt(temp, 32, 4, isBigEndian);
-    if (code === 0) break;
-    if (length === 1 && (type === CONSTANTS.TYPE.SHORT || type === CONSTANTS.TYPE.LONG || isBigTiff && type === CONSTANTS.TYPE.LONG8)) {
-      const valueOffset = isBigTiff ? 12 : 8;
-      tags[code] = readTagValue(temp, type, valueOffset, isBigEndian);
+    const length = readUInt(temp, 32, 4, isBigEndian);
+    if (code === 0) {
+      break;
+    } else {
+      if (length === 1 && (type === 3 || type === 4)) {
+        tags[code] = readValue(temp, isBigEndian);
+      }
+      temp = nextTag(temp);
     }
-    temp = nextTag(temp, isBigTiff);
   }
   return tags;
 }
-function determineFormat(input) {
+function determineEndianness(input) {
   const signature = toUTF8String(input, 0, 2);
-  const version = readUInt(input, 16, 2, signature === "MM");
-  return {
-    isBigEndian: signature === "MM",
-    isBigTiff: version === 43
-  };
-}
-function validateBigTIFFHeader(input, isBigEndian) {
-  const byteSize = readUInt(input, 16, 4, isBigEndian);
-  const reserved = readUInt(input, 16, 6, isBigEndian);
-  if (byteSize !== 8 || reserved !== 0) {
-    throw new TypeError("Invalid BigTIFF header");
+  if ("II" === signature) {
+    return "LE";
+  } else if ("MM" === signature) {
+    return "BE";
   }
 }
-const signatures = /* @__PURE__ */ new Set([
+const signatures = [
+  // '492049', // currently not supported
   "49492a00",
-  // Little Endian
-  "4d4d002a",
+  // Little endian
+  "4d4d002a"
   // Big Endian
-  "49492b00",
-  // BigTIFF Little Endian
-  "4d4d002b"
-  // BigTIFF Big Endian
-]);
+  // '4d4d002a', // BigTIFF > 4GB. currently not supported
+];
 const TIFF = {
-  validate: (input) => {
-    const signature = toHexString(input, 0, 4);
-    return signatures.has(signature);
-  },
+  validate: (input) => signatures.includes(toHexString(input, 0, 4)),
   calculate(input) {
-    const format = determineFormat(input);
-    if (format.isBigTiff) {
-      validateBigTIFFHeader(input, format.isBigEndian);
-    }
-    const ifdBuffer = readIFD(input, format);
-    const tags = extractTags(ifdBuffer, format);
-    const info = {
-      height: tags[CONSTANTS.TAG.HEIGHT],
-      width: tags[CONSTANTS.TAG.WIDTH],
-      type: format.isBigTiff ? "bigtiff" : "tiff"
-    };
-    if (tags[CONSTANTS.TAG.COMPRESSION]) {
-      info.compression = tags[CONSTANTS.TAG.COMPRESSION];
-    }
-    if (!info.width || !info.height) {
+    const isBigEndian = determineEndianness(input) === "BE";
+    const ifdBuffer = readIFD(input, isBigEndian);
+    const tags = extractTags(ifdBuffer, isBigEndian);
+    const width = tags[256];
+    const height = tags[257];
+    if (!width || !height) {
       throw new TypeError("Invalid Tiff. Missing tags");
     }
-    return info;
+    return { height, width };
   }
 };
 
@@ -1254,17 +1100,18 @@ const WEBP = {
     const vp8Header = "VP8" === toUTF8String(input, 12, 15);
     return riffHeader && webpHeader && vp8Header;
   },
-  calculate(_input) {
-    const chunkHeader = toUTF8String(_input, 12, 16);
-    const input = _input.slice(20, 30);
+  calculate(input) {
+    const chunkHeader = toUTF8String(input, 12, 16);
+    input = input.slice(20, 30);
     if (chunkHeader === "VP8X") {
       const extendedHeader = input[0];
       const validStart = (extendedHeader & 192) === 0;
       const validEnd = (extendedHeader & 1) === 0;
       if (validStart && validEnd) {
         return calculateExtended(input);
+      } else {
+        throw new TypeError("Invalid WebP");
       }
-      throw new TypeError("Invalid WebP");
     }
     if (chunkHeader === "VP8 " && input[0] !== 47) {
       return calculateLossy(input);
@@ -1288,8 +1135,6 @@ const typeHandlers = /* @__PURE__ */ new Map([
   ["j2c", J2C],
   ["jp2", JP2],
   ["jpg", JPG],
-  ["jxl", JXL],
-  ["jxl-stream", JXLStream],
   ["ktx", KTX],
   ["png", PNG],
   ["pnm", PNM],
@@ -1302,7 +1147,6 @@ const typeHandlers = /* @__PURE__ */ new Map([
 const types = Array.from(typeHandlers.keys());
 
 const firstBytes = /* @__PURE__ */ new Map([
-  [0, "heif"],
   [56, "psd"],
   [66, "bmp"],
   [68, "dds"],
@@ -1320,10 +1164,10 @@ function detector(input) {
   if (type && typeHandlers.get(type).validate(input)) {
     return type;
   }
-  return types.find((imageType) => typeHandlers.get(imageType).validate(input));
+  return types.find((fileType) => typeHandlers.get(fileType).validate(input));
 }
 
-function lookup(input) {
+function lookup$1(input) {
   const type = detector(input);
   if (typeof type !== "undefined") {
     const size = typeHandlers.get(type).calculate(input);
@@ -1338,7 +1182,7 @@ function lookup(input) {
 async function imageMetadata(data, src) {
   let result;
   try {
-    result = lookup(data);
+    result = lookup$1(data);
   } catch {
     throw new AstroError({
       ...NoImageMetadata,
@@ -1361,39 +1205,8 @@ async function imageMetadata(data, src) {
   };
 }
 
-async function inferRemoteSize(url, imageConfig) {
-  if (!URL.canParse(url)) {
-    throw new AstroError({
-      ...FailedToFetchRemoteImageDimensions,
-      message: FailedToFetchRemoteImageDimensions.message(url)
-    });
-  }
-  const allowlistConfig = imageConfig ? {
-    domains: imageConfig.domains ?? [],
-    remotePatterns: imageConfig.remotePatterns ?? []
-  } : void 0;
-  if (!allowlistConfig) {
-    const parsedUrl = new URL(url);
-    if (!["http:", "https:"].includes(parsedUrl.protocol)) {
-      throw new AstroError({
-        ...FailedToFetchRemoteImageDimensions,
-        message: FailedToFetchRemoteImageDimensions.message(url)
-      });
-    }
-  }
-  if (allowlistConfig && !isRemoteAllowed(url, allowlistConfig)) {
-    throw new AstroError({
-      ...RemoteImageNotAllowed,
-      message: RemoteImageNotAllowed.message(url)
-    });
-  }
-  const response = await fetch(url, { redirect: "manual" });
-  if (response.status >= 300 && response.status < 400) {
-    throw new AstroError({
-      ...FailedToFetchRemoteImageDimensions,
-      message: FailedToFetchRemoteImageDimensions.message(url)
-    });
-  }
+async function inferRemoteSize(url) {
+  const response = await fetch(url);
   if (!response.body || !response.ok) {
     throw new AstroError({
       ...FailedToFetchRemoteImageDimensions,
@@ -1441,7 +1254,7 @@ async function getConfiguredImageService() {
   if (!globalThis?.astroAsset?.imageService) {
     const { default: service } = await import(
       // @ts-expect-error
-      './sharp.CqCZR-kn.js'
+      './sharp.CRzMfeBN.js'
     ).catch((e) => {
       const error = new AstroError(InvalidImageService);
       error.cause = e;
@@ -1480,21 +1293,13 @@ async function getImage$1(options, imageConfig) {
   };
   let originalWidth;
   let originalHeight;
-  if (options.inferSize) {
+  if (options.inferSize && isRemoteImage(resolvedOptions.src) && isRemotePath(resolvedOptions.src)) {
+    const result = await inferRemoteSize(resolvedOptions.src);
+    resolvedOptions.width ??= result.width;
+    resolvedOptions.height ??= result.height;
+    originalWidth = result.width;
+    originalHeight = result.height;
     delete resolvedOptions.inferSize;
-    if (isRemoteImage(resolvedOptions.src) && isRemotePath(resolvedOptions.src)) {
-      if (!isRemoteAllowed(resolvedOptions.src, imageConfig)) {
-        throw new AstroError({
-          ...RemoteImageNotAllowed,
-          message: RemoteImageNotAllowed.message(resolvedOptions.src)
-        });
-      }
-      const result = await inferRemoteSize(resolvedOptions.src, imageConfig);
-      resolvedOptions.width ??= result.width;
-      resolvedOptions.height ??= result.height;
-      originalWidth = result.width;
-      originalHeight = result.height;
-    }
   }
   const originalFilePath = isESMImportedImage(resolvedOptions.src) ? resolvedOptions.src.fsPath : void 0;
   const clonedSrc = isESMImportedImage(resolvedOptions.src) ? (
@@ -1631,7 +1436,454 @@ const $$Image = createComponent(async ($$result, $$props, $$slots) => {
   }
   const { class: className, ...attributes } = { ...additionalAttributes, ...image.attributes };
   return renderTemplate`${maybeRenderHead()}<img${addAttribute(image.src, "src")}${spreadAttributes(attributes)}${addAttribute(className, "class")}>`;
-}, "/home/runner/work/AleksChen.github.io/AleksChen.github.io/node_modules/astro/components/Image.astro", void 0);
+}, "/home/runner/work/AleksChen.github.io/AleksChen.github.io/node_modules/.pnpm/astro@5.16.4_@types+node@22.9.0_idb-keyval@6.2.2_jiti@2.6.1_rollup@4.53.3_sass-embedded_7432d604a96160b1876a7a5bea6ff439/node_modules/astro/components/Image.astro", void 0);
+
+const mimes = {
+  "3g2": "video/3gpp2",
+  "3gp": "video/3gpp",
+  "3gpp": "video/3gpp",
+  "3mf": "model/3mf",
+  "aac": "audio/aac",
+  "ac": "application/pkix-attr-cert",
+  "adp": "audio/adpcm",
+  "adts": "audio/aac",
+  "ai": "application/postscript",
+  "aml": "application/automationml-aml+xml",
+  "amlx": "application/automationml-amlx+zip",
+  "amr": "audio/amr",
+  "apng": "image/apng",
+  "appcache": "text/cache-manifest",
+  "appinstaller": "application/appinstaller",
+  "appx": "application/appx",
+  "appxbundle": "application/appxbundle",
+  "asc": "application/pgp-keys",
+  "atom": "application/atom+xml",
+  "atomcat": "application/atomcat+xml",
+  "atomdeleted": "application/atomdeleted+xml",
+  "atomsvc": "application/atomsvc+xml",
+  "au": "audio/basic",
+  "avci": "image/avci",
+  "avcs": "image/avcs",
+  "avif": "image/avif",
+  "aw": "application/applixware",
+  "bdoc": "application/bdoc",
+  "bin": "application/octet-stream",
+  "bmp": "image/bmp",
+  "bpk": "application/octet-stream",
+  "btf": "image/prs.btif",
+  "btif": "image/prs.btif",
+  "buffer": "application/octet-stream",
+  "ccxml": "application/ccxml+xml",
+  "cdfx": "application/cdfx+xml",
+  "cdmia": "application/cdmi-capability",
+  "cdmic": "application/cdmi-container",
+  "cdmid": "application/cdmi-domain",
+  "cdmio": "application/cdmi-object",
+  "cdmiq": "application/cdmi-queue",
+  "cer": "application/pkix-cert",
+  "cgm": "image/cgm",
+  "cjs": "application/node",
+  "class": "application/java-vm",
+  "coffee": "text/coffeescript",
+  "conf": "text/plain",
+  "cpl": "application/cpl+xml",
+  "cpt": "application/mac-compactpro",
+  "crl": "application/pkix-crl",
+  "css": "text/css",
+  "csv": "text/csv",
+  "cu": "application/cu-seeme",
+  "cwl": "application/cwl",
+  "cww": "application/prs.cww",
+  "davmount": "application/davmount+xml",
+  "dbk": "application/docbook+xml",
+  "deb": "application/octet-stream",
+  "def": "text/plain",
+  "deploy": "application/octet-stream",
+  "dib": "image/bmp",
+  "disposition-notification": "message/disposition-notification",
+  "dist": "application/octet-stream",
+  "distz": "application/octet-stream",
+  "dll": "application/octet-stream",
+  "dmg": "application/octet-stream",
+  "dms": "application/octet-stream",
+  "doc": "application/msword",
+  "dot": "application/msword",
+  "dpx": "image/dpx",
+  "drle": "image/dicom-rle",
+  "dsc": "text/prs.lines.tag",
+  "dssc": "application/dssc+der",
+  "dtd": "application/xml-dtd",
+  "dump": "application/octet-stream",
+  "dwd": "application/atsc-dwd+xml",
+  "ear": "application/java-archive",
+  "ecma": "application/ecmascript",
+  "elc": "application/octet-stream",
+  "emf": "image/emf",
+  "eml": "message/rfc822",
+  "emma": "application/emma+xml",
+  "emotionml": "application/emotionml+xml",
+  "eps": "application/postscript",
+  "epub": "application/epub+zip",
+  "exe": "application/octet-stream",
+  "exi": "application/exi",
+  "exp": "application/express",
+  "exr": "image/aces",
+  "ez": "application/andrew-inset",
+  "fdf": "application/fdf",
+  "fdt": "application/fdt+xml",
+  "fits": "image/fits",
+  "g3": "image/g3fax",
+  "gbr": "application/rpki-ghostbusters",
+  "geojson": "application/geo+json",
+  "gif": "image/gif",
+  "glb": "model/gltf-binary",
+  "gltf": "model/gltf+json",
+  "gml": "application/gml+xml",
+  "gpx": "application/gpx+xml",
+  "gram": "application/srgs",
+  "grxml": "application/srgs+xml",
+  "gxf": "application/gxf",
+  "gz": "application/gzip",
+  "h261": "video/h261",
+  "h263": "video/h263",
+  "h264": "video/h264",
+  "heic": "image/heic",
+  "heics": "image/heic-sequence",
+  "heif": "image/heif",
+  "heifs": "image/heif-sequence",
+  "hej2": "image/hej2k",
+  "held": "application/atsc-held+xml",
+  "hjson": "application/hjson",
+  "hlp": "application/winhlp",
+  "hqx": "application/mac-binhex40",
+  "hsj2": "image/hsj2",
+  "htm": "text/html",
+  "html": "text/html",
+  "ics": "text/calendar",
+  "ief": "image/ief",
+  "ifb": "text/calendar",
+  "iges": "model/iges",
+  "igs": "model/iges",
+  "img": "application/octet-stream",
+  "in": "text/plain",
+  "ini": "text/plain",
+  "ink": "application/inkml+xml",
+  "inkml": "application/inkml+xml",
+  "ipfix": "application/ipfix",
+  "iso": "application/octet-stream",
+  "its": "application/its+xml",
+  "jade": "text/jade",
+  "jar": "application/java-archive",
+  "jhc": "image/jphc",
+  "jls": "image/jls",
+  "jp2": "image/jp2",
+  "jpe": "image/jpeg",
+  "jpeg": "image/jpeg",
+  "jpf": "image/jpx",
+  "jpg": "image/jpeg",
+  "jpg2": "image/jp2",
+  "jpgm": "image/jpm",
+  "jpgv": "video/jpeg",
+  "jph": "image/jph",
+  "jpm": "image/jpm",
+  "jpx": "image/jpx",
+  "js": "text/javascript",
+  "json": "application/json",
+  "json5": "application/json5",
+  "jsonld": "application/ld+json",
+  "jsonml": "application/jsonml+json",
+  "jsx": "text/jsx",
+  "jt": "model/jt",
+  "jxl": "image/jxl",
+  "jxr": "image/jxr",
+  "jxra": "image/jxra",
+  "jxrs": "image/jxrs",
+  "jxs": "image/jxs",
+  "jxsc": "image/jxsc",
+  "jxsi": "image/jxsi",
+  "jxss": "image/jxss",
+  "kar": "audio/midi",
+  "ktx": "image/ktx",
+  "ktx2": "image/ktx2",
+  "less": "text/less",
+  "lgr": "application/lgr+xml",
+  "list": "text/plain",
+  "litcoffee": "text/coffeescript",
+  "log": "text/plain",
+  "lostxml": "application/lost+xml",
+  "lrf": "application/octet-stream",
+  "m1v": "video/mpeg",
+  "m21": "application/mp21",
+  "m2a": "audio/mpeg",
+  "m2t": "video/mp2t",
+  "m2ts": "video/mp2t",
+  "m2v": "video/mpeg",
+  "m3a": "audio/mpeg",
+  "m4a": "audio/mp4",
+  "m4p": "application/mp4",
+  "m4s": "video/iso.segment",
+  "ma": "application/mathematica",
+  "mads": "application/mads+xml",
+  "maei": "application/mmt-aei+xml",
+  "man": "text/troff",
+  "manifest": "text/cache-manifest",
+  "map": "application/json",
+  "mar": "application/octet-stream",
+  "markdown": "text/markdown",
+  "mathml": "application/mathml+xml",
+  "mb": "application/mathematica",
+  "mbox": "application/mbox",
+  "md": "text/markdown",
+  "mdx": "text/mdx",
+  "me": "text/troff",
+  "mesh": "model/mesh",
+  "meta4": "application/metalink4+xml",
+  "metalink": "application/metalink+xml",
+  "mets": "application/mets+xml",
+  "mft": "application/rpki-manifest",
+  "mid": "audio/midi",
+  "midi": "audio/midi",
+  "mime": "message/rfc822",
+  "mj2": "video/mj2",
+  "mjp2": "video/mj2",
+  "mjs": "text/javascript",
+  "mml": "text/mathml",
+  "mods": "application/mods+xml",
+  "mov": "video/quicktime",
+  "mp2": "audio/mpeg",
+  "mp21": "application/mp21",
+  "mp2a": "audio/mpeg",
+  "mp3": "audio/mpeg",
+  "mp4": "video/mp4",
+  "mp4a": "audio/mp4",
+  "mp4s": "application/mp4",
+  "mp4v": "video/mp4",
+  "mpd": "application/dash+xml",
+  "mpe": "video/mpeg",
+  "mpeg": "video/mpeg",
+  "mpf": "application/media-policy-dataset+xml",
+  "mpg": "video/mpeg",
+  "mpg4": "video/mp4",
+  "mpga": "audio/mpeg",
+  "mpp": "application/dash-patch+xml",
+  "mrc": "application/marc",
+  "mrcx": "application/marcxml+xml",
+  "ms": "text/troff",
+  "mscml": "application/mediaservercontrol+xml",
+  "msh": "model/mesh",
+  "msi": "application/octet-stream",
+  "msix": "application/msix",
+  "msixbundle": "application/msixbundle",
+  "msm": "application/octet-stream",
+  "msp": "application/octet-stream",
+  "mtl": "model/mtl",
+  "mts": "video/mp2t",
+  "musd": "application/mmt-usd+xml",
+  "mxf": "application/mxf",
+  "mxmf": "audio/mobile-xmf",
+  "mxml": "application/xv+xml",
+  "n3": "text/n3",
+  "nb": "application/mathematica",
+  "nq": "application/n-quads",
+  "nt": "application/n-triples",
+  "obj": "model/obj",
+  "oda": "application/oda",
+  "oga": "audio/ogg",
+  "ogg": "audio/ogg",
+  "ogv": "video/ogg",
+  "ogx": "application/ogg",
+  "omdoc": "application/omdoc+xml",
+  "onepkg": "application/onenote",
+  "onetmp": "application/onenote",
+  "onetoc": "application/onenote",
+  "onetoc2": "application/onenote",
+  "opf": "application/oebps-package+xml",
+  "opus": "audio/ogg",
+  "otf": "font/otf",
+  "owl": "application/rdf+xml",
+  "oxps": "application/oxps",
+  "p10": "application/pkcs10",
+  "p7c": "application/pkcs7-mime",
+  "p7m": "application/pkcs7-mime",
+  "p7s": "application/pkcs7-signature",
+  "p8": "application/pkcs8",
+  "pdf": "application/pdf",
+  "pfr": "application/font-tdpfr",
+  "pgp": "application/pgp-encrypted",
+  "pkg": "application/octet-stream",
+  "pki": "application/pkixcmp",
+  "pkipath": "application/pkix-pkipath",
+  "pls": "application/pls+xml",
+  "png": "image/png",
+  "prc": "model/prc",
+  "prf": "application/pics-rules",
+  "provx": "application/provenance+xml",
+  "ps": "application/postscript",
+  "pskcxml": "application/pskc+xml",
+  "pti": "image/prs.pti",
+  "qt": "video/quicktime",
+  "raml": "application/raml+yaml",
+  "rapd": "application/route-apd+xml",
+  "rdf": "application/rdf+xml",
+  "relo": "application/p2p-overlay+xml",
+  "rif": "application/reginfo+xml",
+  "rl": "application/resource-lists+xml",
+  "rld": "application/resource-lists-diff+xml",
+  "rmi": "audio/midi",
+  "rnc": "application/relax-ng-compact-syntax",
+  "rng": "application/xml",
+  "roa": "application/rpki-roa",
+  "roff": "text/troff",
+  "rq": "application/sparql-query",
+  "rs": "application/rls-services+xml",
+  "rsat": "application/atsc-rsat+xml",
+  "rsd": "application/rsd+xml",
+  "rsheet": "application/urc-ressheet+xml",
+  "rss": "application/rss+xml",
+  "rtf": "text/rtf",
+  "rtx": "text/richtext",
+  "rusd": "application/route-usd+xml",
+  "s3m": "audio/s3m",
+  "sbml": "application/sbml+xml",
+  "scq": "application/scvp-cv-request",
+  "scs": "application/scvp-cv-response",
+  "sdp": "application/sdp",
+  "senmlx": "application/senml+xml",
+  "sensmlx": "application/sensml+xml",
+  "ser": "application/java-serialized-object",
+  "setpay": "application/set-payment-initiation",
+  "setreg": "application/set-registration-initiation",
+  "sgi": "image/sgi",
+  "sgm": "text/sgml",
+  "sgml": "text/sgml",
+  "shex": "text/shex",
+  "shf": "application/shf+xml",
+  "shtml": "text/html",
+  "sieve": "application/sieve",
+  "sig": "application/pgp-signature",
+  "sil": "audio/silk",
+  "silo": "model/mesh",
+  "siv": "application/sieve",
+  "slim": "text/slim",
+  "slm": "text/slim",
+  "sls": "application/route-s-tsid+xml",
+  "smi": "application/smil+xml",
+  "smil": "application/smil+xml",
+  "snd": "audio/basic",
+  "so": "application/octet-stream",
+  "spdx": "text/spdx",
+  "spp": "application/scvp-vp-response",
+  "spq": "application/scvp-vp-request",
+  "spx": "audio/ogg",
+  "sql": "application/sql",
+  "sru": "application/sru+xml",
+  "srx": "application/sparql-results+xml",
+  "ssdl": "application/ssdl+xml",
+  "ssml": "application/ssml+xml",
+  "stk": "application/hyperstudio",
+  "stl": "model/stl",
+  "stpx": "model/step+xml",
+  "stpxz": "model/step-xml+zip",
+  "stpz": "model/step+zip",
+  "styl": "text/stylus",
+  "stylus": "text/stylus",
+  "svg": "image/svg+xml",
+  "svgz": "image/svg+xml",
+  "swidtag": "application/swid+xml",
+  "t": "text/troff",
+  "t38": "image/t38",
+  "td": "application/urc-targetdesc+xml",
+  "tei": "application/tei+xml",
+  "teicorpus": "application/tei+xml",
+  "text": "text/plain",
+  "tfi": "application/thraud+xml",
+  "tfx": "image/tiff-fx",
+  "tif": "image/tiff",
+  "tiff": "image/tiff",
+  "toml": "application/toml",
+  "tr": "text/troff",
+  "trig": "application/trig",
+  "ts": "video/mp2t",
+  "tsd": "application/timestamped-data",
+  "tsv": "text/tab-separated-values",
+  "ttc": "font/collection",
+  "ttf": "font/ttf",
+  "ttl": "text/turtle",
+  "ttml": "application/ttml+xml",
+  "txt": "text/plain",
+  "u3d": "model/u3d",
+  "u8dsn": "message/global-delivery-status",
+  "u8hdr": "message/global-headers",
+  "u8mdn": "message/global-disposition-notification",
+  "u8msg": "message/global",
+  "ubj": "application/ubjson",
+  "uri": "text/uri-list",
+  "uris": "text/uri-list",
+  "urls": "text/uri-list",
+  "vcard": "text/vcard",
+  "vrml": "model/vrml",
+  "vtt": "text/vtt",
+  "vxml": "application/voicexml+xml",
+  "war": "application/java-archive",
+  "wasm": "application/wasm",
+  "wav": "audio/wav",
+  "weba": "audio/webm",
+  "webm": "video/webm",
+  "webmanifest": "application/manifest+json",
+  "webp": "image/webp",
+  "wgsl": "text/wgsl",
+  "wgt": "application/widget",
+  "wif": "application/watcherinfo+xml",
+  "wmf": "image/wmf",
+  "woff": "font/woff",
+  "woff2": "font/woff2",
+  "wrl": "model/vrml",
+  "wsdl": "application/wsdl+xml",
+  "wspolicy": "application/wspolicy+xml",
+  "x3d": "model/x3d+xml",
+  "x3db": "model/x3d+fastinfoset",
+  "x3dbz": "model/x3d+binary",
+  "x3dv": "model/x3d-vrml",
+  "x3dvz": "model/x3d+vrml",
+  "x3dz": "model/x3d+xml",
+  "xaml": "application/xaml+xml",
+  "xav": "application/xcap-att+xml",
+  "xca": "application/xcap-caps+xml",
+  "xcs": "application/calendar+xml",
+  "xdf": "application/xcap-diff+xml",
+  "xdssc": "application/dssc+xml",
+  "xel": "application/xcap-el+xml",
+  "xenc": "application/xenc+xml",
+  "xer": "application/patch-ops-error+xml",
+  "xfdf": "application/xfdf",
+  "xht": "application/xhtml+xml",
+  "xhtml": "application/xhtml+xml",
+  "xhvml": "application/xv+xml",
+  "xlf": "application/xliff+xml",
+  "xm": "audio/xm",
+  "xml": "text/xml",
+  "xns": "application/xcap-ns+xml",
+  "xop": "application/xop+xml",
+  "xpl": "application/xproc+xml",
+  "xsd": "application/xml",
+  "xsf": "application/prs.xsf+xml",
+  "xsl": "application/xml",
+  "xslt": "application/xml",
+  "xspf": "application/xspf+xml",
+  "xvm": "application/xv+xml",
+  "xvml": "application/xv+xml",
+  "yaml": "text/yaml",
+  "yang": "application/yang",
+  "yin": "application/yin+xml",
+  "yml": "text/yaml",
+  "zip": "application/zip"
+};
+
+function lookup(extn) {
+	let tmp = ('' + extn).trim().toLowerCase();
+	let idx = tmp.lastIndexOf('.');
+	return mimes[!~idx ? tmp : tmp.substring(++idx)];
+}
 
 const $$Astro$1 = createAstro("https://alekschen.github.io");
 const $$Picture = createComponent(async ($$result, $$props, $$slots) => {
@@ -1700,11 +1952,11 @@ const $$Picture = createComponent(async ($$result, $$props, $$slots) => {
   };
   return renderTemplate`${maybeRenderHead()}<picture${spreadAttributes(pictureAttributes)}> ${Object.entries(optimizedImages).map(([_, image]) => {
     const srcsetAttribute = props.densities || !props.densities && !props.widths && !useResponsive ? `${image.src}${image.srcSet.values.length > 0 ? ", " + image.srcSet.attribute : ""}` : image.srcSet.attribute;
-    return renderTemplate`<source${addAttribute(srcsetAttribute, "srcset")}${addAttribute(mime.lookup(image.options.format ?? image.src) ?? `image/${image.options.format}`, "type")}${spreadAttributes(sourceAdditionalAttributes)}>`;
+    return renderTemplate`<source${addAttribute(srcsetAttribute, "srcset")}${addAttribute(lookup(image.options.format ?? image.src) ?? `image/${image.options.format}`, "type")}${spreadAttributes(sourceAdditionalAttributes)}>`;
   })}  <img${addAttribute(fallbackImage.src, "src")}${spreadAttributes(attributes)}${addAttribute(className, "class")}> </picture>`;
-}, "/home/runner/work/AleksChen.github.io/AleksChen.github.io/node_modules/astro/components/Picture.astro", void 0);
+}, "/home/runner/work/AleksChen.github.io/AleksChen.github.io/node_modules/.pnpm/astro@5.16.4_@types+node@22.9.0_idb-keyval@6.2.2_jiti@2.6.1_rollup@4.53.3_sass-embedded_7432d604a96160b1876a7a5bea6ff439/node_modules/astro/components/Picture.astro", void 0);
 
-const mod = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
+const fontsMod = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.defineProperty({
   __proto__: null
 }, Symbol.toStringTag, { value: 'Module' }));
 
@@ -1747,21 +1999,21 @@ const $$Astro = createAstro("https://alekschen.github.io");
 const $$Font = createComponent(($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$Font;
-  const { componentDataByCssVariable } = mod;
-  if (!componentDataByCssVariable) {
+  const { internalConsumableMap } = fontsMod;
+  if (!internalConsumableMap) {
     throw new AstroError(ExperimentalFontsNotEnabled);
   }
   const { cssVariable, preload = false } = Astro2.props;
-  const data = componentDataByCssVariable.get(cssVariable);
+  const data = internalConsumableMap.get(cssVariable);
   if (!data) {
     throw new AstroError({
       ...FontFamilyNotFound,
       message: FontFamilyNotFound.message(cssVariable)
     });
   }
-  const filteredPreloadData = filterPreloads(data.preloads, preload);
+  const filteredPreloadData = filterPreloads(data.preloadData, preload);
   return renderTemplate`<style>${unescapeHTML(data.css)}</style>${filteredPreloadData?.map(({ url, type }) => renderTemplate`<link rel="preload"${addAttribute(url, "href")} as="font"${addAttribute(`font/${type}`, "type")} crossorigin>`)}`;
-}, "/home/runner/work/AleksChen.github.io/AleksChen.github.io/node_modules/astro/components/Font.astro", void 0);
+}, "/home/runner/work/AleksChen.github.io/AleksChen.github.io/node_modules/.pnpm/astro@5.16.4_@types+node@22.9.0_idb-keyval@6.2.2_jiti@2.6.1_rollup@4.53.3_sass-embedded_7432d604a96160b1876a7a5bea6ff439/node_modules/astro/components/Font.astro", void 0);
 
 const assetQueryParams = undefined;
 							const imageConfig = {"endpoint":{"route":"/_image"},"service":{"entrypoint":"astro/assets/services/sharp","config":{}},"domains":[],"remotePatterns":[],"responsiveStyles":false};
@@ -1778,6 +2030,7 @@ const _astro_assets = /*#__PURE__*/Object.freeze(/*#__PURE__*/Object.definePrope
   getConfiguredImageService,
   getImage,
   imageConfig,
+  inferRemoteSize,
   isLocalService
 }, Symbol.toStringTag, { value: 'Module' }));
 

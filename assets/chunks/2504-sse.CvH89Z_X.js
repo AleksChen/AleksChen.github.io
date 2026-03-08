@@ -1,5 +1,4 @@
-import { l as createVNode, J as Fragment, _ as __astro_tag_component__ } from './astro/server.DUKugfk_.js';
-import 'clsx';
+import { t as createVNode, Q as Fragment, _ as __astro_tag_component__ } from './astro/server.CAacAaxv.js';
 
 const frontmatter = {
   "title": "SSE 服务端推送",
@@ -8,7 +7,7 @@ const frontmatter = {
   "tags": ["Network"],
   "draft": false,
   "slug": "2504-sse",
-  "cover": "/post-assets/m911icos-Pasted-image-20250402200626.png",
+  "cover": "/post-assets/m911icos-Pasted-image-20250402200626.webp",
   "seoImage": "/post-assets/og/2504-sse.png",
   "seoDescription": "从原理到代码讲清 SSE（Server-Sent Events）服务端推送，包含通信机制、客户端 API、服务端实现与常见应用场景。",
   "seoKeywords": ["SSE", "Server-Sent Events", "服务端推送", "实时通信", "EventSource", "网络"]

@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./2504-sse.DmC1iZ6M.js');
+						return import('./1708-vue3-compiler-macro.DVIzNWKf.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];

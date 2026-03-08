@@ -1,5 +1,4 @@
-import { l as createVNode, J as Fragment, _ as __astro_tag_component__ } from './astro/server.DUKugfk_.js';
-import 'clsx';
+import { t as createVNode, Q as Fragment, _ as __astro_tag_component__ } from './astro/server.CAacAaxv.js';
 
 const frontmatter = {
   "title": "Claude Code 中接入 Kimi K2 大模型",
@@ -8,7 +7,7 @@ const frontmatter = {
   "tags": ["AI"],
   "draft": false,
   "slug": "2507-claude-code-kimi-k2",
-  "cover": "/post-assets/md774iew-image-20250717161529431.png",
+  "cover": "/post-assets/md774iew-image-20250717161529431.webp",
   "seoImage": "/post-assets/og/2507-claude-code-kimi-k2.png",
   "seoDescription": "手把手讲解 Claude Code 接入 Kimi K2 的完整步骤，包括环境准备、API Key 配置、模型切换验证与常见问题排查。",
   "seoKeywords": ["Claude Code", "Kimi K2", "大模型接入", "API Key", "AI 编程", "Moonshot"]

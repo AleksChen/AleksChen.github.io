@@ -1,5 +1,5 @@
 async function getMod() {
-						return import('./2504-cursor-figma-mcp.KbeSFbf5.js');
+						return import('./2507-claude-code-kimi-k2.Dz0M0_TX.js');
 					}
 					const collectedLinks = [];
 					const collectedStyles = [];
