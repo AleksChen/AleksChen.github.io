@@ -10,8 +10,8 @@ import mdx from "@astrojs/mdx";
 import { visit } from "unist-util-visit";
 
 function remarkMermaid() {
-  return (tree) => {
-    visit(tree, "code", (node) => {
+  return (/** @type {any} */ tree) => {
+    visit(tree, "code", (/** @type {any} */ node) => {
       if (node.lang === "mermaid") {
         node.type = "html";
         node.value = `<div class="mermaid">${node.value}</div>`;

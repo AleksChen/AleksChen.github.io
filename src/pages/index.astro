@@ -3,8 +3,13 @@ import { sortByPin } from "@/shared/tag";
 import Home from "../components/Home.astro";
 import { getPostList } from "@/lib/posts";
 
+const PAGE_SIZE = 10;
 const rawPosts = await getPostList();
-const posts = sortByPin(rawPosts as any);
+const posts = sortByPin(rawPosts);
 ---
 
-<Home posts={posts.slice(0, 20)} page={0} more={posts.length > 10} />
+<Home
+  posts={posts.slice(0, PAGE_SIZE)}
+  page={1}
+  more={posts.length > PAGE_SIZE}
+/>

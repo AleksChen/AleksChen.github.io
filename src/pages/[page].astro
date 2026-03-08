@@ -1,0 +1,35 @@
+---
+import Home from "@/components/Home.astro";
+import { getPostList } from "@/lib/posts";
+import { sortByPin } from "@/shared/tag";
+
+export async function getStaticPaths() {
+  const PAGE_SIZE = 10;
+  const rawPosts = await getPostList();
+  const posts = sortByPin(rawPosts);
+  const totalPages = Math.ceil(posts.length / PAGE_SIZE);
+
+  if (totalPages <= 1) {
+    return [];
+  }
+
+  return Array.from({ length: totalPages - 1 }, (_, index) => {
+    const page = index + 2;
+    const start = (page - 1) * PAGE_SIZE;
+    const end = start + PAGE_SIZE;
+
+    return {
+      params: { page: String(page) },
+      props: {
+        page,
+        posts: posts.slice(start, end),
+        more: page < totalPages,
+      },
+    };
+  });
+}
+
+const { page, posts, more } = Astro.props;
+---
+
+<Home posts={posts} page={page} more={more} />

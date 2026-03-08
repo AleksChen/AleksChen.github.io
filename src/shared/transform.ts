@@ -1,6 +1,11 @@
-import type { JSONContent } from "@tiptap/core";
 import type { PageData } from "./type";
 import { slug } from "github-slugger";
+
+type JSONContent = {
+  type?: string;
+  text?: string;
+  content?: JSONContent[];
+};
 
 const slugify = (v: string) => slug(v, true);
 

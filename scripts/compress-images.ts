@@ -5,6 +5,7 @@ import sharp from 'sharp';
 const TARGET_DIR = path.join(process.cwd(), 'public/post-assets');
 const QUALITY = 80;
 const MIN_GAIN = 0.1; // 10% minimum gain required to overwrite
+const KEEP_ORIGINALS = true;
 
 async function getAllImages(dir: string): Promise<string[]> {
   const files = await readdir(dir);
@@ -52,8 +53,12 @@ async function compressImage(filePath: string) {
       
       // If we converted from another format, delete the original
       if (!isWebP) {
-        await unlink(filePath);
-        console.log(`✅ Converted: ${path.relative(process.cwd(), filePath)} -> ${path.basename(targetPath)} (${(originalSize / 1024).toFixed(2)}KB -> ${(newSize / 1024).toFixed(2)}KB, -${(gain * 100).toFixed(1)}%)`);
+        if (!KEEP_ORIGINALS) {
+          await unlink(filePath);
+          console.log(`✅ Converted: ${path.relative(process.cwd(), filePath)} -> ${path.basename(targetPath)} (${(originalSize / 1024).toFixed(2)}KB -> ${(newSize / 1024).toFixed(2)}KB, -${(gain * 100).toFixed(1)}%)`);
+        } else {
+          console.log(`✅ Converted (kept original): ${path.relative(process.cwd(), filePath)} -> ${path.basename(targetPath)} (${(originalSize / 1024).toFixed(2)}KB -> ${(newSize / 1024).toFixed(2)}KB, -${(gain * 100).toFixed(1)}%)`);
+        }
       } else {
         console.log(`✅ Compressed: ${path.relative(process.cwd(), filePath)} (${(originalSize / 1024).toFixed(2)}KB -> ${(newSize / 1024).toFixed(2)}KB, -${(gain * 100).toFixed(1)}%)`);
       }
@@ -80,4 +85,3 @@ async function main() {
 }
 
 main().catch(console.error);
-

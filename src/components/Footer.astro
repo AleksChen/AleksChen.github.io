@@ -7,6 +7,7 @@ import config from "../../site.config";
     <a
       href={config.head.links.github}
       target="_blank"
+      rel="noopener noreferrer"
       class="hover:text-primary transition-transform hover:scale-110 flex items-center gap-1 text-sm font-medium"
       title="GitHub"
     >
@@ -17,6 +18,7 @@ import config from "../../site.config";
     <a
       href={config.head.links.juejin}
       target="_blank"
+      rel="noopener noreferrer"
       class="hover:text-primary transition-transform hover:scale-110 flex items-center gap-1 text-sm font-medium"
       title="Juejin"
     >
@@ -27,6 +29,7 @@ import config from "../../site.config";
     <a
       href="/rss.xml"
       target="_blank"
+      rel="noopener noreferrer"
       class="hover:text-primary transition-transform hover:scale-110 flex items-center gap-1 text-sm font-medium"
       title="RSS"
     >
@@ -37,8 +40,12 @@ import config from "../../site.config";
   <small
     class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"
   >
-    <a href={config.footer.copyrightUrl} target="_blank"
-      >{`© ${new Date().getFullYear()} ${config.footer.copyright}`}</a
+    <a
+      href={config.footer.copyrightUrl}
+      target="_blank"
+      rel="noopener noreferrer"
     >
+      {`© ${new Date().getFullYear()} ${config.footer.copyright}`}
+    </a>
   </small>
 </footer>

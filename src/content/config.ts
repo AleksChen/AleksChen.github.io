@@ -11,6 +11,10 @@ const posts = defineCollection({
     slug: z.string().optional(),
     cover: z.string().optional(),
     intro: z.string().optional(), // In case it's manually specified
+    seoImage: z.string().optional(),
+    seoTitle: z.string().optional(),
+    seoDescription: z.string().optional(),
+    seoKeywords: z.array(z.string()).optional(),
     // Book-specific fields (optional)
     author: z.string().optional(),
     status: z.enum(["reading", "completed", "wishlist"]).optional(),
@@ -21,27 +25,6 @@ const posts = defineCollection({
   }),
 });
 
-const books = defineCollection({
-  type: "data",
-  schema: z.object({
-    title: z.string(),
-    author: z.string(),
-    cover: z.string().optional(),
-    status: z.enum(["reading", "completed", "wishlist"]),
-    rating: z.number().min(0).max(5).optional(),
-    startDate: z.coerce.date().optional(),
-    finishDate: z.coerce.date().optional(),
-    notes: z.string().optional(),
-    isbn: z.string().optional(),
-    pages: z.number().optional(),
-    seoImage: z.string().optional(),
-    seoTitle: z.string().optional(),
-    seoDescription: z.string().optional(),
-    seoKeywords: z.array(z.string()).optional(),
-  }),
-});
-
 export const collections = {
   posts,
-  books,
 };

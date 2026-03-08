@@ -392,7 +392,11 @@ export async function getPostList(
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | null> {
-  return getEntry("posts", slug) || null;
+  const post = await getEntry("posts", slug);
+  if (!post || post.data.draft) {
+    return null;
+  }
+  return post;
 }
 
 export async function getAllTags(): Promise<string[]> {

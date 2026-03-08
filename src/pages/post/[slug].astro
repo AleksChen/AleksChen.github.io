@@ -1,24 +1,38 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import {
-  getPostList,
   getPostBySlug,
   buildPostSeoDescription,
   buildPostSeoKeywords,
   getCoverFromTags,
 } from "@/lib/posts";
 import config from "site.config";
+import { getCollection } from "astro:content";
 import MDXImage from "@/components/mdx/MDXImage.astro";
 import MDXCode from "@/components/mdx/MDXCode.astro";
 import MDXTable from "@/components/mdx/MDXTable.astro";
 
 export async function getStaticPaths() {
-  const posts = await getPostList(false);
-  return posts.map((p, index) => ({
-    params: { slug: p.slug },
+  const posts = await getCollection("posts", ({ data }) => !data.draft);
+  const sortedPosts = posts.sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  );
+
+  return sortedPosts.map((post, index) => ({
+    params: { slug: post.slug },
     props: {
-      prev: posts[index + 1] || null,
-      next: posts[index - 1] || null,
+      prev: sortedPosts[index + 1]
+        ? {
+            slug: sortedPosts[index + 1].slug,
+            title: sortedPosts[index + 1].data.title,
+          }
+        : null,
+      next: sortedPosts[index - 1]
+        ? {
+            slug: sortedPosts[index - 1].slug,
+            title: sortedPosts[index - 1].data.title,
+          }
+        : null,
     },
   }));
 }

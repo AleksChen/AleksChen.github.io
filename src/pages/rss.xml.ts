@@ -11,9 +11,6 @@ export const GET: APIRoute = async () => {
     .map((post) => {
       const postUrl = `${siteUrl}/post/${post.slug}`;
       const pubDate = new Date(post.date).toUTCString();
-      const updatedDate = post.updatedAt
-        ? new Date(post.updatedAt).toUTCString()
-        : pubDate;
 
       return `
     <item>
@@ -22,7 +19,6 @@ export const GET: APIRoute = async () => {
       <guid isPermaLink="true">${postUrl}</guid>
       <description><![CDATA[${post.intro || ""}]]></description>
       <pubDate>${pubDate}</pubDate>
-      <updated>${updatedDate}</updated>
       ${post.tags.map((tag) => `<category><![CDATA[${tag}]]></category>`).join("\n      ")}
     </item>`;
     })
@@ -48,4 +44,3 @@ ${rssItems}
     },
   });
 };
-

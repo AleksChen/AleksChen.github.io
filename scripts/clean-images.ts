@@ -6,11 +6,64 @@ import { createInterface } from "readline";
 const POSTS_DIR = path.join(process.cwd(), "src/content/posts");
 const ASSETS_DIR = path.join(process.cwd(), "public/post-assets");
 
-// Regex to find image paths
-// Matches markdown images: ![alt](/post-assets/img.png)
-// Matches HTML images: <img src="/post-assets/img.png" />
-// Matches frontmatter cover: cover: /post-assets/img.png
-const IMG_REGEX = /\/post-assets\/([^)\s"']+)/g;
+const MARKDOWN_IMAGE_REGEX = /!\[[^\]]*]\((\/post-assets\/[^)]+)\)/g;
+const HTML_IMAGE_REGEX = /<img[^>]+src=["'](\/post-assets\/[^"']+)["']/g;
+const FRONTMATTER_ASSET_REGEX =
+  /^\s*(?:cover|seoImage)\s*:\s*(?:"([^"]+)"|'([^']+)'|([^\s#]+))\s*$/gm;
+
+function normalizeAssetPath(rawPath: string): string | null {
+  const cleaned = decodeURIComponent(rawPath).split(/[?#]/)[0].trim();
+  const normalized = cleaned.replace(/\\/g, "/");
+
+  if (!normalized.startsWith("/post-assets/")) {
+    return null;
+  }
+
+  return normalized.slice("/post-assets/".length);
+}
+
+async function listFilesRecursive(rootDir: string): Promise<string[]> {
+  const entries = await readdir(rootDir);
+  const files: string[] = [];
+
+  for (const entry of entries) {
+    const entryPath = path.join(rootDir, entry);
+    const entryStat = await stat(entryPath);
+
+    if (entryStat.isDirectory()) {
+      files.push(...(await listFilesRecursive(entryPath)));
+      continue;
+    }
+
+    files.push(entryPath);
+  }
+
+  return files;
+}
+
+function collectUsedAssetsByRegex(
+  content: string,
+  regex: RegExp,
+  usedImages: Set<string>
+) {
+  for (const match of content.matchAll(regex)) {
+    const candidate = match[1];
+    if (!candidate) continue;
+    const normalized = normalizeAssetPath(candidate);
+    if (!normalized) continue;
+    usedImages.add(normalized);
+  }
+}
+
+function collectUsedAssetsFromFrontmatter(content: string, usedImages: Set<string>) {
+  for (const match of content.matchAll(FRONTMATTER_ASSET_REGEX)) {
+    const candidate = match[1] || match[2] || match[3];
+    if (!candidate) continue;
+    const normalized = normalizeAssetPath(candidate);
+    if (!normalized) continue;
+    usedImages.add(normalized);
+  }
+}
 
 async function getUsedImages(): Promise<Set<string>> {
   const usedImages = new Set<string>();
@@ -20,22 +73,14 @@ async function getUsedImages(): Promise<Set<string>> {
     return usedImages;
   }
 
-  const files = await readdir(POSTS_DIR);
+  const files = await listFilesRecursive(POSTS_DIR);
   const mdxFiles = files.filter((f) => f.endsWith(".mdx") || f.endsWith(".md"));
 
   for (const file of mdxFiles) {
-    const content = await readFile(path.join(POSTS_DIR, file), "utf-8");
-    const matches = content.matchAll(IMG_REGEX);
-    for (const match of matches) {
-      if (match[1]) {
-        // Decode URI component to handle spaces/special chars
-        let filename = decodeURIComponent(match[1]);
-        // Remove query params or hash
-        filename = filename.split(/[?#]/)[0];
-
-        usedImages.add(filename);
-      }
-    }
+    const content = await readFile(file, "utf-8");
+    collectUsedAssetsByRegex(content, MARKDOWN_IMAGE_REGEX, usedImages);
+    collectUsedAssetsByRegex(content, HTML_IMAGE_REGEX, usedImages);
+    collectUsedAssetsFromFrontmatter(content, usedImages);
   }
 
   return usedImages;
@@ -47,21 +92,10 @@ async function getAssetFiles(): Promise<string[]> {
     return [];
   }
 
-  const files = await readdir(ASSETS_DIR);
-  // Filter out 'cover' directory and other directories if necessary
-  // We only want to clean up files that are potential orphans.
-  // We will check if it's a file.
-  const assetFiles: string[] = [];
-
-  for (const file of files) {
-    const filePath = path.join(ASSETS_DIR, file);
-    const stats = await stat(filePath);
-    if (stats.isFile() && file !== ".DS_Store") {
-      assetFiles.push(file);
-    }
-  }
-
-  return assetFiles;
+  const files = await listFilesRecursive(ASSETS_DIR);
+  return files
+    .map((filePath) => path.relative(ASSETS_DIR, filePath).replace(/\\/g, "/"))
+    .filter((file) => file !== ".DS_Store" && !file.endsWith("/.DS_Store"));
 }
 
 async function main() {
@@ -69,7 +103,6 @@ async function main() {
 
   const usedImages = await getUsedImages();
   const assetFiles = await getAssetFiles();
-
   const unusedFiles = assetFiles.filter((file) => !usedImages.has(file));
 
   if (unusedFiles.length === 0) {
@@ -78,7 +111,7 @@ async function main() {
   }
 
   console.log(`Found ${unusedFiles.length} unused images:`);
-  unusedFiles.forEach((f) => console.log(`- ${f}`));
+  unusedFiles.forEach((file) => console.log(`- ${file}`));
 
   const rl = createInterface({
     input: process.stdin,
