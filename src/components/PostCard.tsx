@@ -14,55 +14,59 @@ export const PostCard: React.FC<PostCardProps> = ({
 }: PostCardProps) => {
   return (
     <article
-      className="group relative card transition-all duration-300 hover:-translate-y-1"
+      className="group relative overflow-hidden rounded-xl border-2 border-text bg-card shadow-[4px_4px_0_0_var(--color-text)] transition-all duration-300 hover:-translate-y-1 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_var(--color-shadow)]"
       style={{
         animationDelay: `${index * 100}ms`,
       }}
     >
       <a href={`/post/${item.slug}`} className="block">
-        <div className="flex flex-col md:flex-row gap-4 md:items-start justify-between">
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-3 text-xs text-text-muted mb-2">
-              <span className="flex items-center gap-1">
-                <div className="i-ri:calendar-line" />
-                {formattedDate}
-              </span>
-            </div>
+        <div className="relative w-full overflow-hidden border-b-2 border-text bg-bg-secondary aspect-[16/8.2]">
+          {item.cover ? (
+            <img
+              className="h-full w-full object-fill transition-transform duration-700 group-hover:scale-105"
+              src={item.cover.src}
+              alt={item.cover.alt || item.title}
+              loading={index <= 1 ? "eager" : "lazy"}
+              fetchPriority={index <= 1 ? "high" : "auto"}
+              decoding="async"
+            />
+          ) : (
+            <div
+              className="h-full w-full"
+              style={{
+                background:
+                  "linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-primary-light) 100%)",
+              }}
+            />
+          )}
+        </div>
 
-            <h2 className="text-xl md:text-2xl font-bold text-text mb-3 group-hover:underline decoration-2 underline-offset-4 transition-colors line-clamp-2 hover:text-[var(--color-primary)]">
-              {item.title}
-            </h2>
-
-            <p className="text-text-muted text-sm md:text-base line-clamp-3 mb-4 leading-relaxed">
-              {item.intro || "暂无简介"}
-            </p>
-
-            <div className="flex flex-wrap gap-2 mt-auto">
-              {item.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-bold border border-text text-text bg-transparent shadow-[2px_2px_0_0_var(--color-text)]"
-                >
-                  #{tag}
-                </span>
-              ))}
-            </div>
+        <div className="flex flex-col gap-3 p-5 md:p-6">
+          <div className="flex items-center gap-3 text-xs text-text-muted">
+            <span className="inline-flex items-center gap-1 rounded-full border border-border bg-bg-secondary px-2.5 py-1">
+              <div className="i-ri:calendar-line" />
+              {formattedDate}
+            </span>
           </div>
 
-          {item.cover && (
-            <div className="flex-shrink-0 w-32 h-32 rounded overflow-hidden border-1">
-              <img
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                src={item.cover.src}
-                alt={item.cover.alt || item.title}
-                loading={index <= 1 ? "eager" : "lazy"}
-                fetchPriority={index <= 1 ? "high" : "auto"}
-                decoding="async"
-                width={128}
-                height={128}
-              />
-            </div>
-          )}
+          <h2 className="line-clamp-2 text-xl font-bold text-text decoration-2 underline-offset-4 transition-all group-hover:underline md:text-2xl">
+            {item.title}
+          </h2>
+
+          <p className="line-clamp-3 text-sm leading-relaxed text-text-muted md:text-base">
+            {item.intro || "暂无简介"}
+          </p>
+
+          <div className="mt-1 flex flex-wrap gap-2">
+            {item.tags.map((tag) => (
+              <span
+                key={tag}
+                className="inline-flex items-center rounded-full border border-text/40 bg-transparent px-2.5 py-1 text-xs font-medium text-text"
+              >
+                #{tag}
+              </span>
+            ))}
+          </div>
         </div>
       </a>
     </article>
