@@ -1,0 +1,114 @@
+---
+---
+
+<div id="page-loader" aria-hidden="true">
+  <div class="loader-inner">
+    <div class="loader-text">
+      <span>L</span><span>O</span><span>A</span><span>D</span><span>I</span><span>N</span><span>G</span>
+    </div>
+    <div class="loader-bar">
+      <div class="loader-bar-fill"></div>
+    </div>
+  </div>
+</div>
+
+<style>
+  #page-loader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background-color: var(--color-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  #page-loader.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+  }
+
+  .loader-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .loader-text {
+    display: flex;
+    gap: 4px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--color-text);
+    font-family: var(--font-mono);
+  }
+
+  .loader-text span {
+    display: inline-block;
+    animation: bounce 0.8s ease-in-out infinite;
+  }
+
+  .loader-text span:nth-child(1) { animation-delay: 0s; }
+  .loader-text span:nth-child(2) { animation-delay: 0.08s; }
+  .loader-text span:nth-child(3) { animation-delay: 0.16s; }
+  .loader-text span:nth-child(4) { animation-delay: 0.24s; }
+  .loader-text span:nth-child(5) { animation-delay: 0.32s; }
+  .loader-text span:nth-child(6) { animation-delay: 0.40s; }
+  .loader-text span:nth-child(7) { animation-delay: 0.48s; }
+
+  .loader-bar {
+    width: 120px;
+    height: 3px;
+    background-color: var(--color-border);
+    border: 1px solid var(--color-text);
+    overflow: hidden;
+  }
+
+  .loader-bar-fill {
+    height: 100%;
+    width: 0%;
+    background-color: var(--color-text);
+    animation: fill 0.8s ease-out forwards;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+
+  @keyframes fill {
+    0% { width: 0%; }
+    60% { width: 75%; }
+    100% { width: 100%; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .loader-text span {
+      animation: none;
+    }
+    .loader-bar-fill {
+      animation: none;
+      width: 100%;
+    }
+  }
+</style>
+
+<script>
+  const loader = document.getElementById("page-loader");
+
+  const hide = () => {
+    loader?.classList.add("hidden");
+  };
+
+  if (document.readyState === "complete") {
+    hide();
+  } else {
+    window.addEventListener("load", hide, { once: true });
+    // 最长等待 2s，防止资源加载过慢卡住
+    setTimeout(hide, 2000);
+  }
+</script>

@@ -3,6 +3,7 @@ import "@/styles/theme.css";
 import "@/index.scss";
 import Footer from "@/components/Footer.astro";
 import SEO from "@/components/SEO.astro";
+import PageLoader from "@/components/PageLoader.astro";
 import config from "site.config";
 
 interface Props {
@@ -109,6 +110,7 @@ const {
   <body
     class="bg-bg text-text min-h-screen flex flex-col font-sans transition-colors duration-300"
   >
+    <PageLoader />
     <slot name="background" />
     <header
       id="main-header"
