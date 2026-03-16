@@ -1,4 +1,4 @@
-import { g as getCollection, a as getEntry } from './_astro_content.BIinyaGc.js';
+import { g as getCollection, a as getEntry } from './_astro_content.Cil8dK-B.js';
 
 const DEFAULT_COVER_MAP = {
   javascript: {

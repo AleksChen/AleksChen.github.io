@@ -6,6 +6,7 @@ const frontmatter = {
   "updatedAt": "2025-12-23T19:54:00.000Z",
   "tags": ["Electron", "Native"],
   "draft": false,
+  "cover": "/post-assets/2512-electron-note/IPC 通信.webp",
   "seoImage": "/post-assets/og/2512-electron-note.png",
   "seoDescription": "一文掌握 Electron 桌面开发核心：主进程与渲染进程、IPC 通信、ContextBridge 安全实践、工程化流程与性能优化思路。",
   "seoKeywords": ["Electron", "桌面开发", "主进程", "渲染进程", "IPC", "ContextBridge", "跨平台"]

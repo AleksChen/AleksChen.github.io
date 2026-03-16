@@ -6,8 +6,17 @@
     <link>https://alekschen.github.io</link>
     <atom:link href="https://alekschen.github.io/rss.xml" rel="self" type="application/rss+xml" />
     <language>zh-CN</language>
-    <lastBuildDate>Sun, 08 Mar 2026 04:30:23 GMT</lastBuildDate>
+    <lastBuildDate>Mon, 16 Mar 2026 10:39:24 GMT</lastBuildDate>
     <generator>Astro</generator>
+
+    <item>
+      <title><![CDATA[约束的艺术：从嫡长子继承制到 Harness Engineering]]></title>
+      <link>https://alekschen.github.io/post/2603-ai-harness</link>
+      <guid isPermaLink="true">https://alekschen.github.io/post/2603-ai-harness</guid>
+      <description><![CDATA[在万物生长的自然界与精密运转的工业界，存在着一个永恒的悖论：自由度越高，系统越趋向于混沌；而真正的力量，往往源于对自由的精巧剥夺]]></description>
+      <pubDate>Sun, 15 Mar 2026 18:07:00 GMT</pubDate>
+      <category><![CDATA[AI]]></category>
+    </item>
 
     <item>
       <title><![CDATA[Electron 小记]]></title>
