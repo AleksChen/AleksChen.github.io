@@ -110,6 +110,13 @@ const {
   <body
     class="bg-bg text-text min-h-screen flex flex-col font-sans transition-colors duration-300"
   >
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-bg"
+    >
+      跳到主内容
+    </a>
+
     <PageLoader />
     <slot name="background" />
     <header
@@ -122,13 +129,13 @@ const {
         <a
           href="/"
           class="text-xl font-bold flex items-center gap-2 hover:text-primary transition-colors"
-          aria-label="homepage"
+          aria-label="返回首页"
         >
           <div class="i-ri:home-4-line w-6 h-6"></div>
         </a>
 
         <div class="flex items-center gap-4">
-          <nav class="hidden md:flex items-center gap-6">
+          <nav id="main-nav" class="hidden md:flex items-center gap-6" aria-label="主导航">
             <a
               href="/archives"
               class="text-sm font-medium hover:text-primary transition-colors"
@@ -162,26 +169,54 @@ const {
               target="_blank"
               rel="noopener noreferrer"
               class="hover:text-primary transition-transform hover:scale-110"
-              title="GitHub"
+              aria-label="GitHub 主页"
             >
-              <div class="i-ri:github-fill w-6 h-6"></div>
+              <div class="i-ri:github-fill w-6 h-6" aria-hidden="true"></div>
             </a>
 
             <button
               id="theme-toggle"
               class="hover:text-primary transition-transform hover:scale-110 focus:outline-none"
-              title="Toggle Theme"
+              aria-label="切换主题"
+              aria-pressed="false"
             >
-              <div class="i-ri:sun-line w-6 h-6 dark:hidden"></div>
-              <div class="i-ri:moon-line w-6 h-6 hidden dark:block"></div>
+              <div class="i-ri:sun-line w-6 h-6 dark:hidden" aria-hidden="true"></div>
+              <div class="i-ri:moon-line w-6 h-6 hidden dark:block" aria-hidden="true"></div>
+            </button>
+
+            <button
+              id="mobile-menu-toggle"
+              class="md:hidden hover:text-primary transition-transform hover:scale-110 focus:outline-none"
+              aria-label="打开导航菜单"
+              aria-expanded="false"
+              aria-controls="mobile-nav"
+            >
+              <div id="menu-icon-open" class="i-ri:menu-line w-6 h-6" aria-hidden="true"></div>
+              <div id="menu-icon-close" class="i-ri:close-line w-6 h-6 hidden" aria-hidden="true"></div>
             </button>
           </div>
         </div>
       </div>
+
+      <!-- 移动端下拉菜单 -->
+      <div
+        id="mobile-nav"
+        class="hidden md:hidden border-t-2 border-text bg-bg"
+        aria-label="移动端导航"
+      >
+        <nav class="max-w-[800px] mx-auto px-4 py-4 flex flex-col gap-1">
+          <a href="/archives" class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors">归档</a>
+          <a href="/tags" class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors">标签</a>
+          <a href="/reading" class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors">阅读</a>
+          <a href="/about" class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors">关于</a>
+        </nav>
+      </div>
     </header>
 
     <main
+      id="main-content"
       class={`flex-1 w-full mx-auto px-4 py-8 animate-fade-in ${className}`}
+      tabindex="-1"
     >
       <slot />
     </main>
@@ -189,32 +224,52 @@ const {
     {footer && <Footer />}
 
     <script>
+      const themeBtn = document.getElementById("theme-toggle");
+
+      const syncAriaPressed = () => {
+        const isDark = document.documentElement.classList.contains("dark");
+        themeBtn?.setAttribute("aria-pressed", String(isDark));
+      };
+
       const handleToggleClick = () => {
         const element = document.documentElement;
         const isDark = element.classList.contains("dark");
 
-        // 使用 View Transitions API (如果支持)
         if (document.startViewTransition) {
           document.startViewTransition(() => {
             element.classList.toggle("dark");
             localStorage.setItem("theme", !isDark ? "dark" : "light");
+            syncAriaPressed();
           });
         } else {
-          // 降级方案:添加过渡类
           element.classList.add("theme-transitioning");
           element.classList.toggle("dark");
           localStorage.setItem("theme", !isDark ? "dark" : "light");
-
-          // 过渡完成后移除过渡类
+          syncAriaPressed();
           setTimeout(() => {
             element.classList.remove("theme-transitioning");
           }, 300);
         }
       };
 
-      document
-        .getElementById("theme-toggle")
-        ?.addEventListener("click", handleToggleClick);
+      themeBtn?.addEventListener("click", handleToggleClick);
+      syncAriaPressed();
+    </script>
+
+    <script>
+      const menuToggle = document.getElementById("mobile-menu-toggle");
+      const mobileNav = document.getElementById("mobile-nav");
+      const iconOpen = document.getElementById("menu-icon-open");
+      const iconClose = document.getElementById("menu-icon-close");
+
+      menuToggle?.addEventListener("click", () => {
+        const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
+        menuToggle.setAttribute("aria-expanded", String(!isExpanded));
+        menuToggle.setAttribute("aria-label", isExpanded ? "打开导航菜单" : "关闭导航菜单");
+        mobileNav?.classList.toggle("hidden");
+        iconOpen?.classList.toggle("hidden");
+        iconClose?.classList.toggle("hidden");
+      });
     </script>
 
     <script>

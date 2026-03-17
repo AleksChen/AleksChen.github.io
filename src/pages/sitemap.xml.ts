@@ -19,7 +19,7 @@ export const GET: APIRoute = async () => {
       lastmod: formatLastMod(latestPostDate),
     },
     ...posts.map((post) => ({
-      loc: `${siteUrl}/post/${post.slug}`,
+      loc: `${siteUrl}/post/${post.slug}/`,
       lastmod: formatLastMod(post.updatedAt || post.date),
     })),
   ];

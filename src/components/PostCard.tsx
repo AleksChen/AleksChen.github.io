@@ -26,6 +26,8 @@ export const PostCard: React.FC<PostCardProps> = ({
               className="h-full w-full object-fill transition-transform duration-700 group-hover:scale-105"
               src={item.cover.src}
               alt={item.cover.alt || item.title}
+              width={800}
+              height={420}
               loading={index <= 1 ? "eager" : "lazy"}
               fetchPriority={index <= 1 ? "high" : "auto"}
               decoding="async"
