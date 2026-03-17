@@ -14,9 +14,9 @@ export const PostCard: React.FC<PostCardProps> = ({
 }: PostCardProps) => {
   return (
     <article
-      className="group relative overflow-hidden rounded-xl border-2 border-text bg-card shadow-[4px_4px_0_0_var(--color-text)] transition-all duration-300 hover:-translate-y-1 hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0_0_var(--color-shadow)]"
+      className="home-post-card group relative overflow-hidden rounded-xl border-2 border-text bg-card shadow-[4px_4px_0_0_var(--color-text)] transition-shadow duration-300 hover:shadow-[6px_6px_0_0_var(--color-shadow)]"
       style={{
-        animationDelay: `${index * 100}ms`,
+        transitionDelay: `${Math.min(index, 8) * 70}ms`,
       }}
     >
       <a href={`/post/${item.slug}`} className="block">

@@ -55,7 +55,9 @@ const { posts, page, more } = Astro.props;
       </p>
     </section>
 
-    <div class="grid grid-cols-1 gap-6 w-full max-w-[1200px] md:grid-cols-2 px-1 md:px-0">
+    <div
+      class="home-post-grid grid grid-cols-1 gap-6 md:gap-x-7 md:gap-y-10 w-full max-w-[1200px] md:grid-cols-2 px-1 md:px-0"
+    >
       {
         posts.map((item, index) => (
           <PostCard
@@ -79,32 +81,139 @@ const { posts, page, more } = Astro.props;
   </div>
 </Layout>
 
-    <script>
-      // Hero section 淡出效果
-      const heroSection = document.getElementById("hero-section");
-      if (heroSection) {
-        const fadeOutHeight = 249; // 滚动多少像素后完全消失
-        let ticking = false;
+<script>
+  // Hero section 淡出效果
+  const heroSection = document.getElementById("hero-section");
+  if (heroSection) {
+    const fadeOutHeight = 249; // 滚动多少像素后完全消失
+    let ticking = false;
 
-        const handleScroll = () => {
-          if (!ticking) {
-            window.requestAnimationFrame(() => {
-              const scrollY = window.scrollY;
-              if (scrollY <= fadeOutHeight) {
-                const opacity = Math.max(0, 1 - scrollY / fadeOutHeight);
-                heroSection.style.opacity = opacity.toString();
-                heroSection.style.visibility = "visible";
-              } else {
-                heroSection.style.opacity = "0";
-                heroSection.style.visibility = "hidden";
-              }
-              ticking = false;
-            });
-            ticking = true;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollY = window.scrollY;
+          if (scrollY <= fadeOutHeight) {
+            const opacity = Math.max(0, 1 - scrollY / fadeOutHeight);
+            heroSection.style.opacity = opacity.toString();
+            heroSection.style.visibility = "visible";
+          } else {
+            heroSection.style.opacity = "0";
+            heroSection.style.visibility = "hidden";
           }
-        };
-
-        handleScroll(); // 初始化
-        window.addEventListener("scroll", handleScroll, { passive: true });
+          ticking = false;
+        });
+        ticking = true;
       }
-    </script>
+    };
+
+    handleScroll(); // 初始化
+    window.addEventListener("scroll", handleScroll, { passive: true });
+  }
+
+  // 首页卡片滚动显隐效果：进入视口渐显，离开视口渐隐
+  const postGrid = document.querySelector(".home-post-grid");
+  const postCards = Array.from(document.querySelectorAll(".home-post-card"));
+  const prefersReducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  if (
+    postGrid &&
+    postCards.length > 0 &&
+    "IntersectionObserver" in window &&
+    !prefersReducedMotion
+  ) {
+    const viewportHeight =
+      window.innerHeight || document.documentElement.clientHeight;
+
+    // 先标记首屏卡片，避免初始闪烁
+    postCards.forEach((card) => {
+      const rect = card.getBoundingClientRect();
+      const inViewport =
+        rect.bottom > viewportHeight * 0.12 && rect.top < viewportHeight * 0.88;
+      if (inViewport) {
+        card.classList.add("is-visible");
+      }
+    });
+
+    postGrid.classList.add("cards-motion-ready");
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          entry.target.classList.toggle("is-visible", entry.isIntersecting);
+        });
+      },
+      {
+        threshold: 0.14,
+        rootMargin: "-8% 0px -14% 0px",
+      },
+    );
+
+    postCards.forEach((card) => observer.observe(card));
+  }
+</script>
+
+<style is:global>
+  .home-post-grid > * {
+    --card-offset: 0px;
+  }
+
+  @media (min-width: 768px) {
+    .home-post-grid > *:nth-child(4n + 2) {
+      --card-offset: 22px;
+    }
+
+    .home-post-grid > *:nth-child(4n + 3) {
+      --card-offset: -10px;
+    }
+
+    .home-post-grid > *:nth-child(6n + 5) {
+      --card-offset: 16px;
+    }
+  }
+
+  .home-post-card {
+    opacity: 1;
+    transform: translate3d(0, var(--card-offset), 0) scale(1);
+    transition:
+      opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: opacity, transform;
+  }
+
+  .home-post-card:hover {
+    transform: translate3d(-2px, calc(var(--card-offset) - 3px), 0) scale(1);
+  }
+
+  .home-post-grid.cards-motion-ready .home-post-card {
+    opacity: 0;
+    transform: translate3d(0, calc(var(--card-offset) + 20px), 0) scale(0.98);
+  }
+
+  .home-post-grid.cards-motion-ready .home-post-card.is-visible {
+    opacity: 1;
+    transform: translate3d(0, var(--card-offset), 0) scale(1);
+  }
+
+  .home-post-grid.cards-motion-ready .home-post-card:not(.is-visible) {
+    transition-delay: 0ms !important;
+  }
+
+  .home-post-grid.cards-motion-ready .home-post-card.is-visible:hover {
+    transform: translate3d(-2px, calc(var(--card-offset) - 3px), 0) scale(1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .home-post-card,
+    .home-post-grid.cards-motion-ready .home-post-card,
+    .home-post-grid.cards-motion-ready .home-post-card.is-visible,
+    .home-post-card:hover,
+    .home-post-grid.cards-motion-ready .home-post-card.is-visible:hover {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
