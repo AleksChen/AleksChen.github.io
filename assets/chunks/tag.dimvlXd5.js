@@ -1,5 +1,5 @@
 import { c as createComponent, m as maybeRenderHead, f as renderScript, a as renderTemplate, b as createAstro, d as addAttribute, r as renderComponent } from './astro/server.CAacAaxv.js';
-import { $ as $$Layout } from './Layout.B0xxOByQ.js';
+import { $ as $$Layout } from './Layout.D6M85Hqk.js';
 import { jsx, jsxs } from 'react/jsx-runtime';
 import 'react';
 /* empty css                         */
