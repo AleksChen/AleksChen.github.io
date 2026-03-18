@@ -155,27 +155,9 @@ const { posts, page, more } = Astro.props;
 </script>
 
 <style is:global>
-  .home-post-grid > * {
-    --card-offset: 0px;
-  }
-
-  @media (min-width: 768px) {
-    .home-post-grid > *:nth-child(4n + 2) {
-      --card-offset: 22px;
-    }
-
-    .home-post-grid > *:nth-child(4n + 3) {
-      --card-offset: -10px;
-    }
-
-    .home-post-grid > *:nth-child(6n + 5) {
-      --card-offset: 16px;
-    }
-  }
-
   .home-post-card {
     opacity: 1;
-    transform: translate3d(0, var(--card-offset), 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
     transition:
       opacity 420ms cubic-bezier(0.22, 1, 0.36, 1),
       transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
@@ -184,17 +166,17 @@ const { posts, page, more } = Astro.props;
   }
 
   .home-post-card:hover {
-    transform: translate3d(-2px, calc(var(--card-offset) - 3px), 0) scale(1);
+    transform: translate3d(-2px, -3px, 0) scale(1);
   }
 
   .home-post-grid.cards-motion-ready .home-post-card {
     opacity: 0;
-    transform: translate3d(0, calc(var(--card-offset) + 20px), 0) scale(0.98);
+    transform: translate3d(0, 20px, 0) scale(0.98);
   }
 
   .home-post-grid.cards-motion-ready .home-post-card.is-visible {
     opacity: 1;
-    transform: translate3d(0, var(--card-offset), 0) scale(1);
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
   .home-post-grid.cards-motion-ready .home-post-card:not(.is-visible) {
@@ -202,7 +184,7 @@ const { posts, page, more } = Astro.props;
   }
 
   .home-post-grid.cards-motion-ready .home-post-card.is-visible:hover {
-    transform: translate3d(-2px, calc(var(--card-offset) - 3px), 0) scale(1);
+    transform: translate3d(-2px, -3px, 0) scale(1);
   }
 
   @media (prefers-reduced-motion: reduce) {
