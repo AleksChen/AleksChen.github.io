@@ -356,8 +356,7 @@ export async function getPostList(
 ): Promise<ShortPostData[]> {
   const posts = await getCollection("posts", ({ data }) => {
     const isNotDraft = filterDraft ? !data.draft : true;
-    const isNotReading = !data.tags.includes("reading");
-    return isNotDraft && isNotReading;
+    return isNotDraft;
   });
 
   const sorted = posts.sort(
@@ -401,13 +400,11 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
 export async function getAllTags(): Promise<string[]> {
   const posts = await getCollection("posts", ({ data }) => {
-    return !data.draft && !data.tags.includes("reading");
+    return !data.draft;
   });
   const tagSet = new Set<string>();
   posts.forEach((p) => p.data.tags.forEach((t) => {
-    if (t !== "reading") {
-      tagSet.add(t);
-    }
+    tagSet.add(t);
   }));
   return Array.from(tagSet);
 }

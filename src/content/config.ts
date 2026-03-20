@@ -17,7 +17,7 @@ const posts = defineCollection({
     seoKeywords: z.array(z.string()).optional(),
     // Book-specific fields (optional)
     author: z.string().optional(),
-    status: z.enum(["reading", "completed", "wishlist"]).optional(),
+    status: z.enum(["completed", "wishlist"]).optional(),
     rating: z.number().min(0).max(5).optional(),
     startDate: z.coerce.date().optional(),
     finishDate: z.coerce.date().optional(),
