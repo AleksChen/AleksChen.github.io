@@ -1,5 +1,108 @@
 import { o as objectType, h as dateType, i as arrayType, j as stringType, A as AstroError, U as UnknownContentCollectionError, c as createComponent, R as RenderUndefinedEntryError, u as unescapeHTML, a as renderTemplate, k as escape, l as renderUniqueStylesheet, n as renderScriptElement, p as createHeadAndContent, r as renderComponent } from './astro/server.CAacAaxv.js';
 
+const DEFAULT_COVER_MAP = {
+  javascript: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
+  },
+  css: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg"
+  },
+  html: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
+  },
+  react: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/react/react-original.svg"
+  },
+  vue: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vuejs/vuejs-original.svg"
+  },
+  postcss: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postcss/postcss-original-wordmark.svg"
+  },
+  tailwindcss: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/tailwindcss/tailwindcss-original.svg"
+  },
+  sass: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/sass/sass-original.svg"
+  },
+  less: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/less/less-plain-wordmark.svg"
+  },
+  stylus: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/stylus/stylus-original.svg"
+  },
+  ios: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/apple/apple-original.svg"
+  },
+  android: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/android/android-original.svg"
+  },
+  vite: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vitejs/vitejs-original.svg"
+  },
+  google: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/google/google-original.svg"
+  },
+  node: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg"
+  },
+  python: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
+  },
+  java: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
+  },
+  c: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/c/c-original.svg"
+  },
+  cpp: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/cplusplus/cplusplus-original.svg"
+  },
+  csharp: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/csharp/csharp-original.svg"
+  },
+  ruby: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/ruby/ruby-original.svg"
+  },
+  swift: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/swift/swift-original.svg"
+  },
+  kotlin: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg"
+  },
+  go: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/go/go-original.svg"
+  },
+  rust: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/rust/rust-original.svg"
+  },
+  haskell: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/haskell/haskell-original.svg"
+  },
+  sql: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"
+  },
+  postgresql: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg"
+  },
+  mongodb: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mongodb/mongodb-original.svg"
+  },
+  redis: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/redis/redis-original.svg"
+  },
+  electron: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/electron/electron-original.svg"
+  },
+  figma: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg"
+  },
+  network: {
+    src: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/networkx/networkx-original.svg"
+  },
+  default: { src: "/post-assets/cover/cover-default.webp" }
+};
+
 var e=e=>Object.prototype.toString.call(e),t=e=>ArrayBuffer.isView(e)&&!(e instanceof DataView),o=t=>"[object Date]"===e(t),n=t=>"[object RegExp]"===e(t),r=t=>"[object Error]"===e(t),s=t=>"[object Boolean]"===e(t),l=t=>"[object Number]"===e(t),i=t=>"[object String]"===e(t),c=Array.isArray,u=Object.getOwnPropertyDescriptor,a=Object.prototype.propertyIsEnumerable,f=Object.getOwnPropertySymbols,p=Object.prototype.hasOwnProperty,h=Object.keys;function d(e){const t=h(e),o=f(e);for(let n=0;n<o.length;n++)a.call(e,o[n])&&t.push(o[n]);return t}function b(e,t){return !u(e,t)?.writable}function y(e,u){if("object"==typeof e&&null!==e){let a;if(c(e))a=[];else if(o(e))a=new Date(e.getTime?e.getTime():e);else if(n(e))a=new RegExp(e);else if(r(e))a={message:e.message};else if(s(e)||l(e)||i(e))a=Object(e);else {if(t(e))return e.slice();a=Object.create(Object.getPrototypeOf(e));}const f=u.includeSymbols?d:h;for(const t of f(e))a[t]=e[t];return a}return e}var g={includeSymbols:false,immutable:false};function m(e,t,o=g){const n=[],r=[];let s=true;const l=o.includeSymbols?d:h,i=!!o.immutable;return function e(u){const a=i?y(u,o):u,f={};let h=true;const d={node:a,node_:u,path:[].concat(n),parent:r[r.length-1],parents:r,key:n[n.length-1],isRoot:0===n.length,level:n.length,circular:void 0,isLeaf:false,notLeaf:true,notRoot:true,isFirst:false,isLast:false,update:function(e,t=false){d.isRoot||(d.parent.node[d.key]=e),d.node=e,t&&(h=false);},delete:function(e){delete d.parent.node[d.key],e&&(h=false);},remove:function(e){c(d.parent.node)?d.parent.node.splice(d.key,1):delete d.parent.node[d.key],e&&(h=false);},keys:null,before:function(e){f.before=e;},after:function(e){f.after=e;},pre:function(e){f.pre=e;},post:function(e){f.post=e;},stop:function(){s=false;},block:function(){h=false;}};if(!s)return d;function g(){if("object"==typeof d.node&&null!==d.node){d.keys&&d.node_===d.node||(d.keys=l(d.node)),d.isLeaf=0===d.keys.length;for(let e=0;e<r.length;e++)if(r[e].node_===u){d.circular=r[e];break}}else d.isLeaf=true,d.keys=null;d.notLeaf=!d.isLeaf,d.notRoot=!d.isRoot;}g();const m=t(d,d.node);if(void 0!==m&&d.update&&d.update(m),f.before&&f.before(d,d.node),!h)return d;if("object"==typeof d.node&&null!==d.node&&!d.circular){r.push(d),g();for(const[t,o]of Object.entries(d.keys??[])){n.push(o),f.pre&&f.pre(d,d.node[o],o);const r=e(d.node[o]);i&&p.call(d.node,o)&&!b(d.node,o)&&(d.node[o]=r.node),r.isLast=!!d.keys?.length&&+t==d.keys.length-1,r.isFirst=0==+t,f.post&&f.post(d,r),n.pop();}r.pop();}return f.after&&f.after(d,d.node),d}(e).node}var j=class{#e;#t;constructor(e,t=g){this.#e=e,this.#t=t;}get(e){let t=this.#e;for(let o=0;t&&o<e.length;o++){const n=e[o];if(!p.call(t,n)||!this.#t.includeSymbols&&"symbol"==typeof n)return;t=t[n];}return t}has(e){let t=this.#e;for(let o=0;t&&o<e.length;o++){const n=e[o];if(!p.call(t,n)||!this.#t.includeSymbols&&"symbol"==typeof n)return  false;t=t[n];}return  true}set(e,t){let o=this.#e,n=0;for(n=0;n<e.length-1;n++){const t=e[n];p.call(o,t)||(o[t]={}),o=o[t];}return o[e[n]]=t,t}map(e){return m(this.#e,e,{immutable:true,includeSymbols:!!this.#t.includeSymbols})}forEach(e){return this.#e=m(this.#e,e,this.#t),this.#e}reduce(e,t){const o=1===arguments.length;let n=o?this.#e:t;return this.forEach(((t,r)=>{t.isRoot&&o||(n=e(t,n,r));})),n}paths(){const e=[];return this.forEach((t=>{e.push(t.path);})),e}nodes(){const e=[];return this.forEach((t=>{e.push(t.node);})),e}clone(){const e=[],o=[],n=this.#t;return t(this.#e)?this.#e.slice():function t(r){for(let t=0;t<e.length;t++)if(e[t]===r)return o[t];if("object"==typeof r&&null!==r){const s=y(r,n);e.push(r),o.push(s);const l=n.includeSymbols?d:h;for(const e of l(r))s[e]=t(r[e]);return e.pop(),o.pop(),s}return r}(this.#e)}};
 
 /*
@@ -595,7 +698,7 @@ class ImmutableDataStore {
    */
   static async fromModule() {
     try {
-      const data = await import('./_astro_data-layer-content.BjUA8Iv8.js');
+      const data = await import('./_astro_data-layer-content.DKU8j4Ps.js');
       if (data.default instanceof Map) {
         return ImmutableDataStore.fromMap(data.default);
       }
@@ -836,7 +939,7 @@ const CONTENT_LAYER_IMAGE_REGEX = /__ASTRO_IMAGE_="([^"]+)"/g;
 async function updateImageReferencesInBody(html, fileName) {
   const { default: imageAssetMap } = await import('./content-assets.DleWbedO.js');
   const imageObjects = /* @__PURE__ */ new Map();
-  const { getImage } = await import('./_astro_assets.BdhrVjUE.js').then(n => n._);
+  const { getImage } = await import('./_astro_assets.qMfNHz_L.js').then(n => n._);
   for (const [_full, imagePath] of html.matchAll(CONTENT_LAYER_IMAGE_REGEX)) {
     try {
       const decodedImagePath = JSON.parse(imagePath.replaceAll("&#x22;", '"'));
@@ -1054,4 +1157,278 @@ const getEntry = createGetEntry({
 	liveCollections,
 });
 
-export { DEFAULT_OUTPUT_FORMAT as D, VALID_SUPPORTED_FORMATS as V, getEntry as a, DEFAULT_HASH_PROPS as b, getCollection as g, isRemotePath as i, joinPaths as j };
+const INTRO_MAX_LENGTH = 200;
+const SEO_DESCRIPTION_MAX_LENGTH = 140;
+const SEO_KEYWORD_MIN = 5;
+const SEO_KEYWORD_MAX = 8;
+const EN_STOPWORDS = /* @__PURE__ */ new Set([
+  "the",
+  "and",
+  "with",
+  "for",
+  "from",
+  "into",
+  "that",
+  "this",
+  "how",
+  "what",
+  "when",
+  "where",
+  "why",
+  "you",
+  "your",
+  "are",
+  "was",
+  "were",
+  "will",
+  "can",
+  "use",
+  "using",
+  "used",
+  "via",
+  "into",
+  "note",
+  "notes",
+  "intro",
+  "overview",
+  "summary"
+]);
+const ZH_STOPWORDS = /* @__PURE__ */ new Set([
+  "我们",
+  "你们",
+  "他们",
+  "一个",
+  "一些",
+  "以及",
+  "可以",
+  "如何",
+  "什么",
+  "为什么",
+  "这篇",
+  "文章",
+  "本文",
+  "前言",
+  "引言",
+  "概述",
+  "总结",
+  "示例",
+  "案例"
+]);
+const GENERIC_KEYWORDS = /* @__PURE__ */ new Set([
+  "前言",
+  "引言",
+  "概述",
+  "总结",
+  "结语",
+  "目录",
+  "示例",
+  "案例",
+  "代码",
+  "配置",
+  "问题",
+  "原理",
+  "实践",
+  "注意事项",
+  "常见问题",
+  "vs"
+]);
+function getCoverFromTags(tags) {
+  const lowerTags = tags.map((t) => t.toLowerCase());
+  for (const tag of lowerTags) {
+    if (DEFAULT_COVER_MAP[tag]) {
+      return DEFAULT_COVER_MAP[tag];
+    }
+  }
+  return DEFAULT_COVER_MAP.default;
+}
+function stripMarkdownText(input) {
+  return input.replace(/```[\s\S]*?```/g, " ").replace(/`([^`]+)`/g, "$1").replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1").replace(/\[([^\]]+)\]\([^)]+\)/g, "$1").replace(/^#{1,6}\s+/gm, "").replace(/^>\s?/gm, "").replace(/^[-*+]\s+/gm, "").replace(/^\d+\.\s+/gm, "").replace(/<[^>]+>/g, " ").replace(/\|/g, " ").replace(/[*_~]/g, "").replace(/\s+/g, " ").trim();
+}
+function truncateText(text, maxLength) {
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength).replace(/[.,;:!?，。！？、\s]+$/g, "")}...`;
+}
+function removeHeadingPrefix(keyword) {
+  return keyword.replace(/^#{1,6}\s*/g, "").replace(/^(?:\d+(?:\.\d+){0,3}|[一二三四五六七八九十]+)\s*[、.．:：)\]）-]?\s*/u, "").trim();
+}
+function normalizeKeyword(keyword) {
+  return removeHeadingPrefix(
+    keyword.trim().replace(/^[#.,;:!?，。；：、"'`()[\]{}【】（）]+/g, "").replace(/[#.,;:!?，。；：、"'`()[\]{}【】（）]+$/g, "").replace(/\s+/g, " ")
+  );
+}
+function isLatinOnly(keyword) {
+  return /^[A-Za-z0-9+#._-]+$/.test(keyword);
+}
+function isSectionKeyword(keyword) {
+  return /^(?:\d+(?:\.\d+){0,3}|[一二三四五六七八九十]+)$/u.test(keyword);
+}
+function isStopword(keyword) {
+  if (!keyword) return true;
+  if (/^\d+$/.test(keyword)) return true;
+  if (isSectionKeyword(keyword)) return true;
+  const lower = keyword.toLowerCase();
+  if (EN_STOPWORDS.has(lower)) return true;
+  if (ZH_STOPWORDS.has(keyword)) return true;
+  if (GENERIC_KEYWORDS.has(keyword) || GENERIC_KEYWORDS.has(lower)) return true;
+  return false;
+}
+function isInvalidKeyword(keyword) {
+  if (!keyword) return true;
+  if (keyword.length < 2 || keyword.length > 24) return true;
+  if (/^https?:\/\//i.test(keyword)) return true;
+  if (/^[^\u4e00-\u9fffA-Za-z0-9]+$/.test(keyword)) return true;
+  if (isLatinOnly(keyword) && keyword.length < 3) return true;
+  if (isStopword(keyword)) return true;
+  return false;
+}
+function cleanLeadingNoise(text) {
+  const compact = text.replace(/\s+/g, " ").trim();
+  const deduped = compact.replace(/^(\S{2,20})\s+\1\b/u, "$1");
+  return deduped.replace(
+    /^(前言|引言|概述|总结|序幕|背景|导读)\s*[:：-]?\s*/u,
+    ""
+  );
+}
+function extractTitleTerms(title) {
+  const normalizedTitle = cleanLeadingNoise(stripMarkdownText(title));
+  const splitTerms = normalizedTitle.split(/[\s|｜:：\-–—,，、/()[\]{}【】（）]+/).map((term) => term.trim()).filter(Boolean);
+  return [normalizedTitle, ...splitTerms];
+}
+function extractHeadingTerms(body) {
+  return body.split("\n").map((line) => line.trim()).filter((line) => /^#{1,3}\s+/.test(line)).map((line) => cleanLeadingNoise(stripMarkdownText(line.replace(/^#{1,3}\s+/, "")))).filter(Boolean);
+}
+function extractEnglishTerms(text) {
+  return text.match(/\b[A-Za-z][A-Za-z0-9+#.-]{2,}\b/g)?.map((term) => term) || [];
+}
+function extractChineseTerms(text) {
+  return text.split(/[，。！？；：、\s|｜:：\-–—,/()[\]{}【】（）.!?]+/).map((term) => term.trim()).filter((term) => /^[\u4e00-\u9fff]{2,20}$/.test(term));
+}
+function rankKeywords(input) {
+  const scoreMap = /* @__PURE__ */ new Map();
+  let order = 0;
+  for (const item of input) {
+    const normalized = normalizeKeyword(item.keyword);
+    if (isInvalidKeyword(normalized)) continue;
+    const key = normalized.toLowerCase();
+    const existing = scoreMap.get(key);
+    if (existing) {
+      existing.score += item.weight;
+      continue;
+    }
+    scoreMap.set(key, {
+      keyword: normalized,
+      score: item.weight,
+      order: order++
+    });
+  }
+  return Array.from(scoreMap.values()).sort((a, b) => {
+    if (b.score !== a.score) return b.score - a.score;
+    if (a.order !== b.order) return a.order - b.order;
+    return b.keyword.length - a.keyword.length;
+  }).map((item) => item.keyword);
+}
+function pickKeywordLimit(limit) {
+  if (!limit) return SEO_KEYWORD_MAX;
+  return Math.min(Math.max(limit, SEO_KEYWORD_MIN), SEO_KEYWORD_MAX);
+}
+function getFallbackKeywords(title, tags) {
+  return rankKeywords([
+    ...tags.map((tag) => ({ keyword: tag, weight: 10 })),
+    ...extractTitleTerms(title).map((term) => ({ keyword: term, weight: 8 }))
+  ]);
+}
+function uniqueKeywords(input) {
+  const seen = /* @__PURE__ */ new Set();
+  const output = [];
+  for (const item of input) {
+    const key = item.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    output.push(item);
+  }
+  return output;
+}
+function sanitizeDescription(input) {
+  return cleanLeadingNoise(input).trim().replace(/^([,，.。;；:：、\s])+|([,，.。;；:：、\s])+$/g, "");
+}
+function extractIntro(body) {
+  const cleaned = stripMarkdownText(body);
+  if (!cleaned) return "";
+  const firstSentence = cleaned.split(/[。！？.!?]/).map((line) => line.trim()).find(Boolean) || cleaned;
+  return truncateText(firstSentence, INTRO_MAX_LENGTH);
+}
+function buildPostSeoDescription(title, intro, body, maxLength = SEO_DESCRIPTION_MAX_LENGTH) {
+  const normalizedIntro = intro ? stripMarkdownText(intro) : "";
+  if (normalizedIntro.length >= 36) {
+    return truncateText(sanitizeDescription(normalizedIntro), maxLength);
+  }
+  const cleanedBody = stripMarkdownText(body);
+  const bestSentence = cleanedBody.split(/[。！？.!?]/).map((line) => line.trim()).find((line) => line.length >= 36) || cleanedBody || title;
+  return truncateText(sanitizeDescription(bestSentence), maxLength);
+}
+function buildPostSeoKeywords(input) {
+  const { title, tags, intro, body, limit } = input;
+  const normalizedLimit = pickKeywordLimit(limit);
+  const headingTerms = extractHeadingTerms(body).slice(0, 10);
+  const corpus = [title, intro || "", ...headingTerms].join(" ");
+  const rankedKeywords = rankKeywords([
+    ...tags.map((tag) => ({ keyword: tag, weight: 10 })),
+    ...extractTitleTerms(title).map((term) => ({ keyword: term, weight: 8 })),
+    ...headingTerms.map((heading) => ({ keyword: heading, weight: 5 })),
+    ...extractEnglishTerms(corpus).map((term) => ({ keyword: term, weight: 3 })),
+    ...extractChineseTerms(corpus).map((term) => ({ keyword: term, weight: 2 }))
+  ]);
+  const picked = rankedKeywords.slice(0, normalizedLimit);
+  if (picked.length >= SEO_KEYWORD_MIN) {
+    return picked;
+  }
+  const fallback = getFallbackKeywords(title, tags);
+  return uniqueKeywords([...picked, ...fallback]).slice(0, normalizedLimit);
+}
+async function getPostList(filterDraft = true) {
+  const posts = await getCollection("posts", ({ data }) => {
+    const isNotDraft = filterDraft ? !data.draft : true;
+    return isNotDraft;
+  });
+  const sorted = posts.sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  );
+  return sorted.map((p) => {
+    const intro = p.data.intro || extractIntro(p.body);
+    const cover = p.data.cover ? { src: p.data.cover } : getCoverFromTags(p.data.tags);
+    const createTime = p.data.date.getTime();
+    const updateTime = p.data.updatedAt ? p.data.updatedAt.getTime() : createTime;
+    return {
+      id: p.id,
+      slug: p.slug,
+      title: p.data.title,
+      date: p.data.date,
+      updatedAt: p.data.updatedAt,
+      tags: p.data.tags,
+      draft: p.data.draft,
+      cover,
+      intro,
+      createTime,
+      updateTime
+    };
+  });
+}
+async function getPostBySlug(slug) {
+  const post = await getEntry("posts", slug);
+  if (!post || post.data.draft) {
+    return null;
+  }
+  return post;
+}
+async function getAllTags() {
+  const posts = await getCollection("posts", ({ data }) => {
+    return !data.draft;
+  });
+  const tagSet = /* @__PURE__ */ new Set();
+  posts.forEach((p) => p.data.tags.forEach((t) => {
+    tagSet.add(t);
+  }));
+  return Array.from(tagSet);
+}
+
+export { DEFAULT_OUTPUT_FORMAT as D, VALID_SUPPORTED_FORMATS as V, getPostBySlug as a, getCoverFromTags as b, buildPostSeoDescription as c, buildPostSeoKeywords as d, getCollection as e, getAllTags as f, getPostList as g, DEFAULT_HASH_PROPS as h, isRemotePath as i, joinPaths as j };
