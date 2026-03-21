@@ -1,0 +1,53 @@
+---
+import type { ShortPostData } from "@/lib/posts";
+
+interface Props {
+  item: ShortPostData;
+  index: number;
+  formattedDate: string;
+}
+
+const { item, index, formattedDate } = Astro.props;
+---
+
+<article
+  class="home-post-card group relative overflow-hidden rounded-lg border border-border bg-card shadow-[0_8px_24px_rgba(24,24,27,0.08)] transition-all duration-300 hover:shadow-[0_12px_26px_rgba(24,24,27,0.12)]"
+  style={`transition-delay: ${Math.min(index, 8) * 70}ms`}
+>
+  <a href={`/post/${item.slug}`} class="block">
+    <div class="relative w-full overflow-hidden border-b border-border bg-bg-secondary aspect-[16/7.8]">
+      {item.cover ? (
+        <img
+          class="h-full w-full object-fill transition-transform duration-700 group-hover:scale-105"
+          src={item.cover.src}
+          alt={item.cover.alt || item.title}
+          width={800}
+          height={390}
+          loading={index <= 1 ? "eager" : "lazy"}
+          fetchpriority={index <= 1 ? "high" : "auto"}
+          decoding="async"
+        />
+      ) : (
+        <div
+          class="h-full w-full"
+          style="background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-primary-light) 100%)"
+        />
+      )}
+
+      <div class="pointer-events-none absolute left-2 top-2 z-10 inline-flex items-center gap-1 rounded-full border border-white/35 bg-black/45 px-2 py-0.5 text-[11px] text-white backdrop-blur-[1px]">
+        <div class="i-ri:calendar-line" />
+        {formattedDate}
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-2.5 p-4 md:p-5">
+      <h2 class="line-clamp-2 text-lg font-bold text-text decoration-2 underline-offset-3 transition-all group-hover:underline md:text-xl">
+        {item.title}
+      </h2>
+
+      <p class="line-clamp-2 text-[13px] leading-relaxed text-text-muted md:text-sm">
+        {item.intro || "暂无简介"}
+      </p>
+    </div>
+  </a>
+</article>
