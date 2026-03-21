@@ -24,7 +24,14 @@ const { posts, allPosts = posts, page, more } = Astro.props;
   description="聚焦前端工程、AI 编程、跨端开发与网络技术，持续输出可落地的实战笔记与源码解析。"
   seo={{
     type: "website",
-    keywords: ["前端工程", "AI 编程", "跨端开发", "网络技术", "技术博客"],
+    keywords: [
+      "AI Builder",
+      "前端工程",
+      "AI 编程",
+      "跨端开发",
+      "网络技术",
+      "技术博客",
+    ],
   }}
 >
   <div slot="operations" class="flex items-center h-full">
@@ -47,51 +54,51 @@ const { posts, allPosts = posts, page, more } = Astro.props;
     <!-- 卡片视图 -->
     <div class="view-card w-full flex flex-col items-center gap-8">
       <section id="hero-section" class="text-center py-8 md:py-12">
-      <h1
-        class="text-4xl md:text-7xl font-bold text-text mb-6 drop-shadow-[4px_4px_0_var(--color-shadow)] min-h-[1.2em]"
-      >
-        <TypeWriter
-          text="AleksChen's Blog"
-          speed={150}
-          wait={3000}
-          loop={false}
-          cursor={false}
-        />
-      </h1>
-      <p class="text-text-muted text-lg max-w-2xl mx-auto min-h-[1.5em]">
-        <TypeWriter
-          text="活在当下 记录时间"
-          speed={250}
-          wait={3000}
-          loop={false}
-          cursor={false}
-        />
-      </p>
-    </section>
-
-    <div
-      class="home-post-grid grid grid-cols-1 gap-4 md:gap-x-5 md:gap-y-8 w-full max-w-[1120px] md:grid-cols-2 xl:grid-cols-3 px-4 md:px-0"
-    >
-      {
-        posts.map((item, index) => (
-          <PostCard
-            item={item}
-            index={index}
-            formattedDate={new Date(item.createTime).toLocaleDateString()}
+        <h1
+          class="text-4xl md:text-7xl font-bold text-text mb-6 drop-shadow-[4px_4px_0_var(--color-shadow)] min-h-[1.2em]"
+        >
+          <TypeWriter
+            text="AleksChen's Blog"
+            speed={150}
+            wait={3000}
+            loop={false}
+            cursor={false}
           />
-        ))
-      }
-    </div>
+        </h1>
+        <p class="text-text-muted text-lg max-w-2xl mx-auto min-h-[1.5em]">
+          <TypeWriter
+            text="I'm a AI Builder"
+            speed={150}
+            wait={3000}
+            loop={false}
+            cursor={false}
+          />
+        </p>
+      </section>
 
-    {
-      more && (
-        <div class="w-full flex justify-center mt-8 mb-8">
-          <a href={`/${page + 1}`} class="btn btn-primary px-8 py-3">
-            加载更多
-          </a>
-        </div>
-      )
-    }
+      <div
+        class="home-post-grid grid grid-cols-1 gap-4 md:gap-x-5 md:gap-y-8 w-full max-w-[1120px] md:grid-cols-2 xl:grid-cols-3 px-4 md:px-0"
+      >
+        {
+          posts.map((item, index) => (
+            <PostCard
+              item={item}
+              index={index}
+              formattedDate={new Date(item.createTime).toLocaleDateString()}
+            />
+          ))
+        }
+      </div>
+
+      {
+        more && (
+          <div class="w-full flex justify-center mt-8 mb-8">
+            <a href={`/${page + 1}`} class="btn btn-primary px-8 py-3">
+              加载更多
+            </a>
+          </div>
+        )
+      }
     </div>
   </div>
 </Layout>

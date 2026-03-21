@@ -51,7 +51,10 @@ const {
     />
     <meta name="baidu-site-verification" content="codeva-tU6pIQVfyl" />
     <meta name="msvalidate.01" content="96ADAC3B4A010DE98F0350319BAF9DAB" />
-    <meta name="blogarama-site-verification" content="blogarama-05af7d29-9b70-41be-aca4-a6f95ceb722f">
+    <meta
+      name="blogarama-site-verification"
+      content="blogarama-05af7d29-9b70-41be-aca4-a6f95ceb722f"
+    />
     <link rel="icon" href="/favicon.ico" />
     <link rel="sitemap" href="/sitemap.xml" />
     <link
@@ -151,7 +154,11 @@ const {
         </a>
 
         <div class="flex items-center gap-4">
-          <nav id="main-nav" class="hidden md:flex items-center gap-6" aria-label="主导航">
+          <nav
+            id="main-nav"
+            class="hidden md:flex items-center gap-6"
+            aria-label="主导航"
+          >
             <a
               href="/archives"
               class="text-sm font-medium hover:text-primary transition-colors"
@@ -176,7 +183,7 @@ const {
           </div>
 
           <div class="flex items-center gap-3 pl-4 border-l border-text">
-            <a
+            <!-- <a
               href={config.head.links.github}
               target="_blank"
               rel="noopener noreferrer"
@@ -184,7 +191,7 @@ const {
               aria-label="GitHub 主页"
             >
               <div class="i-ri:github-fill w-6 h-6" aria-hidden="true"></div>
-            </a>
+            </a> -->
 
             <button
               id="theme-toggle"
@@ -192,8 +199,13 @@ const {
               aria-label="切换主题"
               aria-pressed="false"
             >
-              <div class="i-ri:sun-line w-6 h-6 dark:hidden" aria-hidden="true"></div>
-              <div class="i-ri:moon-line w-6 h-6 hidden dark:block" aria-hidden="true"></div>
+              <div class="i-ri:sun-line w-6 h-6 dark:hidden" aria-hidden="true">
+              </div>
+              <div
+                class="i-ri:moon-line w-6 h-6 hidden dark:block"
+                aria-hidden="true"
+              >
+              </div>
             </button>
 
             <button
@@ -203,8 +215,18 @@ const {
               aria-expanded="false"
               aria-controls="mobile-nav"
             >
-              <div id="menu-icon-open" class="i-ri:menu-line w-6 h-6" aria-hidden="true"></div>
-              <div id="menu-icon-close" class="i-ri:close-line w-6 h-6 hidden" aria-hidden="true"></div>
+              <div
+                id="menu-icon-open"
+                class="i-ri:menu-line w-6 h-6"
+                aria-hidden="true"
+              >
+              </div>
+              <div
+                id="menu-icon-close"
+                class="i-ri:close-line w-6 h-6 hidden"
+                aria-hidden="true"
+              >
+              </div>
             </button>
           </div>
         </div>
@@ -217,9 +239,21 @@ const {
         aria-label="移动端导航"
       >
         <nav class="max-w-[800px] mx-auto px-4 py-4 flex flex-col gap-1">
-          <a href="/archives" class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors">归档</a>
-          <a href="/tags" class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors">标签</a>
-          <a href="/about" class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors">关于</a>
+          <a
+            href="/archives"
+            class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors"
+            >归档</a
+          >
+          <a
+            href="/tags"
+            class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors"
+            >标签</a
+          >
+          <a
+            href="/about"
+            class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors"
+            >关于</a
+          >
         </nav>
       </div>
     </header>
@@ -276,7 +310,10 @@ const {
       menuToggle?.addEventListener("click", () => {
         const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
         menuToggle.setAttribute("aria-expanded", String(!isExpanded));
-        menuToggle.setAttribute("aria-label", isExpanded ? "打开导航菜单" : "关闭导航菜单");
+        menuToggle.setAttribute(
+          "aria-label",
+          isExpanded ? "打开导航菜单" : "关闭导航菜单",
+        );
         mobileNav?.classList.toggle("hidden");
         iconOpen?.classList.toggle("hidden");
         iconClose?.classList.toggle("hidden");
@@ -313,7 +350,7 @@ const {
 
       document.addEventListener("visibilitychange", () => {
         const icon = document.querySelector(
-          "link[rel*='icon']"
+          "link[rel*='icon']",
         ) as HTMLLinkElement | null;
 
         if (document.hidden) {
