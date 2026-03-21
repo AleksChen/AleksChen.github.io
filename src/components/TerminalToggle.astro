@@ -1,0 +1,42 @@
+---
+---
+
+<button
+  id="terminal-toggle"
+  class="hover:text-primary transition-transform hover:scale-110 focus:outline-none flex items-center"
+  aria-label="切换终端模式"
+  title="切换终端模式"
+>
+  <div class="i-ri:terminal-box-line w-6 h-6"></div>
+</button>
+
+<script>
+  const toggleBtn = document.getElementById("terminal-toggle");
+
+  const handleToggle = () => {
+    const html = document.documentElement;
+    const isTerminal = html.classList.contains("terminal-mode");
+
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        if (isTerminal) {
+          html.classList.remove("terminal-mode");
+          localStorage.setItem("view-mode", "card");
+        } else {
+          html.classList.add("terminal-mode");
+          localStorage.setItem("view-mode", "terminal");
+        }
+      });
+    } else {
+      if (isTerminal) {
+        html.classList.remove("terminal-mode");
+        localStorage.setItem("view-mode", "card");
+      } else {
+        html.classList.add("terminal-mode");
+        localStorage.setItem("view-mode", "terminal");
+      }
+    }
+  };
+
+  toggleBtn?.addEventListener("click", handleToggle);
+</script>

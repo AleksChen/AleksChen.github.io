@@ -106,6 +106,21 @@ const {
       }
 
       window.localStorage.setItem("theme", theme);
+
+      // 终端模式初始化
+      const viewMode = (() => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("view-mode")
+        ) {
+          return localStorage.getItem("view-mode");
+        }
+        return "card";
+      })();
+
+      if (viewMode === "terminal") {
+        document.documentElement.classList.add("terminal-mode");
+      }
     </script>
   </head>
   <body
@@ -156,7 +171,9 @@ const {
               关于
             </a>
           </nav>
-          <slot name="operations" />
+          <div class="flex items-center">
+            <slot name="operations" />
+          </div>
 
           <div class="flex items-center gap-3 pl-4 border-l border-text">
             <a

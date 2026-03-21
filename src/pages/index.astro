@@ -10,6 +10,7 @@ const posts = sortByPin(rawPosts);
 
 <Home
   posts={posts.slice(0, PAGE_SIZE)}
+  allPosts={posts}
   page={1}
   more={posts.length > PAGE_SIZE}
 />

@@ -4,35 +4,49 @@ import type { ShortPostData } from "@/lib/posts";
 // import Rocket from "@/components/Rocket.astro";
 import Mountain from "@/components/Mountain.astro";
 import TypeWriter from "@/components/TypeWriter.astro";
+import TerminalToggle from "@/components/TerminalToggle.astro";
+import TerminalView from "@/components/TerminalView.astro";
 
 import { PostCard } from "./PostCard";
 
 interface Props {
   posts: ShortPostData[];
+  allPosts?: ShortPostData[];
   page: number;
   more: boolean;
 }
 
-const { posts, page, more } = Astro.props;
+const { posts, allPosts = posts, page, more } = Astro.props;
 ---
 
 <Layout
-  title="前端与 AI 实践博客"
+  title="AleksChen's Blog"
   description="聚焦前端工程、AI 编程、跨端开发与网络技术，持续输出可落地的实战笔记与源码解析。"
   seo={{
     type: "website",
     keywords: ["前端工程", "AI 编程", "跨端开发", "网络技术", "技术博客"],
   }}
 >
-  <div slot="background" class="hidden md:block">
+  <div slot="operations" class="flex items-center h-full">
+    <TerminalToggle />
+  </div>
+
+  <div slot="background" class="hidden md:block view-card-bg">
     <!-- Three.js 火箭背景 -->
     <!-- <Rocket /> -->
     <!-- 山峰视差背景 -->
     <Mountain />
   </div>
 
-  <div class="flex flex-col gap-8 relative z-10 items-center">
-    <section id="hero-section" class="text-center py-8 md:py-12">
+  <div class="flex flex-col relative z-10 items-center w-full">
+    <!-- 终端视图 -->
+    <div class="view-terminal w-full hidden">
+      <TerminalView posts={allPosts} />
+    </div>
+
+    <!-- 卡片视图 -->
+    <div class="view-card w-full flex flex-col items-center gap-8">
+      <section id="hero-section" class="text-center py-8 md:py-12">
       <h1
         class="text-4xl md:text-7xl font-bold text-text mb-6 drop-shadow-[4px_4px_0_var(--color-shadow)] min-h-[1.2em]"
       >
@@ -56,7 +70,7 @@ const { posts, page, more } = Astro.props;
     </section>
 
     <div
-      class="home-post-grid grid grid-cols-1 gap-4 md:gap-x-5 md:gap-y-8 w-full max-w-[1120px] md:grid-cols-2 xl:grid-cols-3 px-1 md:px-0"
+      class="home-post-grid grid grid-cols-1 gap-4 md:gap-x-5 md:gap-y-8 w-full max-w-[1120px] md:grid-cols-2 xl:grid-cols-3 px-4 md:px-0"
     >
       {
         posts.map((item, index) => (
@@ -71,13 +85,14 @@ const { posts, page, more } = Astro.props;
 
     {
       more && (
-        <div class="w-full flex justify-center mt-8">
+        <div class="w-full flex justify-center mt-8 mb-8">
           <a href={`/${page + 1}`} class="btn btn-primary px-8 py-3">
             加载更多
           </a>
         </div>
       )
     }
+    </div>
   </div>
 </Layout>
 
@@ -155,6 +170,33 @@ const { posts, page, more } = Astro.props;
 </script>
 
 <style is:global>
+  /* 终端模式切换样式 */
+  html.terminal-mode .view-card,
+  html.terminal-mode .view-card-bg {
+    display: none !important;
+  }
+
+  html.terminal-mode .view-terminal {
+    display: block !important;
+  }
+
+  html.terminal-mode:has(.view-terminal) body {
+    background-color: #121212 !important;
+    background-image: none !important;
+  }
+
+  html.terminal-mode:has(.view-terminal) #main-header,
+  html.terminal-mode:has(.view-terminal) footer {
+    display: none !important;
+  }
+
+  html.terminal-mode:has(.view-terminal) main {
+    padding: 0 !important;
+    margin: 0 !important;
+    max-width: 100% !important;
+    display: block;
+  }
+
   .home-post-card {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);

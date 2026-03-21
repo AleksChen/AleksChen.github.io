@@ -1,0 +1,68 @@
+---
+import type { ShortPostData } from "@/lib/posts";
+
+interface Props {
+  posts: ShortPostData[];
+}
+
+const { posts } = Astro.props;
+
+// 格式化日期：YYYY-MM-DD HH:mm
+const formatDate = (dateStr: string | number | Date) => {
+  const d = new Date(dateStr);
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
+};
+---
+
+<div class="terminal-container w-full min-h-screen bg-[#121212] text-[#d4d4d4] font-mono text-sm sm:text-base relative">
+  <!-- 退出按钮 -->
+  <button id="terminal-close-btn" class="absolute top-4 right-4 sm:top-6 sm:right-8 text-[#858585] hover:text-white transition-colors font-bold cursor-pointer z-10" aria-label="退出终端模式" title="退出终端模式">
+    [ exit ]
+  </button>
+
+  <!-- 终端内容区 -->
+  <div class="terminal-body p-4 sm:p-8 pt-16 sm:pt-20 overflow-x-auto w-full max-w-[1200px] mx-auto">
+    <div class="mb-4">
+      <span class="text-[#27c93f] font-bold">guest@alekschen</span><span class="text-white">:</span><span class="text-[#3b8eea] font-bold">~/posts</span><span class="text-white">$</span> ls -l
+    </div>
+    
+    <div class="terminal-list flex flex-col min-w-max">
+      <div class="terminal-row text-[#858585] mb-1 px-2 flex">
+        <span class="inline-block w-[160px] shrink-0">Date</span>
+        <span class="inline-block w-[120px] shrink-0">Category</span>
+        <span>Title</span>
+      </div>
+      
+      {posts.map((post) => (
+        <a href={`/post/${post.slug}`} class="terminal-row group flex items-center px-2 py-0.5 hover:bg-[#d4d4d4] hover:text-[#121212] transition-colors rounded-sm cursor-pointer">
+          <span class="inline-block w-[160px] shrink-0 text-[#b5cea8] group-hover:text-[#121212]">{formatDate(post.createTime)}</span>
+          <span class="inline-block w-[120px] shrink-0 text-[#c586c0] group-hover:text-[#121212] truncate pr-2">{post.tags?.[0] || 'uncategorized'}</span>
+          <span class="flex-1 text-[#9cdcfe] group-hover:text-[#121212] truncate font-medium">{post.title}</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-4 flex items-center animate-pulse">
+      <span class="text-[#27c93f] font-bold">guest@alekschen</span><span class="text-white">:</span><span class="text-[#3b8eea] font-bold">~/posts</span><span class="text-white">$</span>
+      <span class="inline-block w-2 h-4 bg-[#d4d4d4] ml-2"></span>
+    </div>
+  </div>
+</div>
+
+<script>
+  const closeBtn = document.getElementById("terminal-close-btn");
+  
+  closeBtn?.addEventListener("click", () => {
+    const html = document.documentElement;
+    if (document.startViewTransition) {
+      document.startViewTransition(() => {
+        html.classList.remove("terminal-mode");
+        localStorage.setItem("view-mode", "card");
+      });
+    } else {
+      html.classList.remove("terminal-mode");
+      localStorage.setItem("view-mode", "card");
+    }
+  });
+</script>
