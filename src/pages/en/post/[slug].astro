@@ -1,23 +1,23 @@
 ---
+import MDXCode from "@/components/mdx/MDXCode.astro";
+import MDXImage from "@/components/mdx/MDXImage.astro";
+import MDXTable from "@/components/mdx/MDXTable.astro";
+import { localizePath } from "@/i18n/paths";
 import Layout from "@/layouts/Layout.astro";
 import {
-  getPostBySlug,
-  getPostAlternateLocalePaths,
   buildPostSeoDescription,
   buildPostSeoKeywords,
   getCoverFromTags,
+  getPostAlternateLocalePaths,
+  getPostBySlug,
 } from "@/lib/posts";
-import { localizePath } from "@/i18n/paths";
-import config from "site.config";
 import { getCollection } from "astro:content";
-import MDXImage from "@/components/mdx/MDXImage.astro";
-import MDXCode from "@/components/mdx/MDXCode.astro";
-import MDXTable from "@/components/mdx/MDXTable.astro";
+import config from "site.config";
 
 export async function getStaticPaths() {
   const posts = await getCollection(
     "posts",
-    ({ data }) => !data.draft && (data.locale || "zh") === "zh"
+    ({ data }) => !data.draft && (data.locale || "zh") === "en"
   );
   const sortedPosts = posts.sort(
     (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
@@ -44,7 +44,7 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const { prev, next } = Astro.props;
-const locale = "zh" as const;
+const locale = "en" as const;
 const post = await getPostBySlug(slug!, locale);
 
 if (!post) {
@@ -63,7 +63,7 @@ const toc = headings
 
 const siteUrl = (Astro.site || config.siteUrl).toString().replace(/\/$/, "");
 const alternates = await getPostAlternateLocalePaths(post);
-const languageSwitchPath = alternates.en || "/en";
+const languageSwitchPath = alternates.zh || "/";
 const postPath = localizePath(`/post/${post.slug}`, locale);
 const postUrl = new URL(postPath, `${siteUrl}/`).toString();
 const showSidebar = post?.showSidebar ?? true;
@@ -89,6 +89,9 @@ const seoKeywords =
         intro: post.data.intro,
         body: post.body,
       });
+const giscusConfig = config.giscus
+  ? { ...config.giscus, "data-lang": "en" }
+  : null;
 ---
 
 <Layout
@@ -121,7 +124,6 @@ const seoKeywords =
     <article
       class="w-full min-w-0 bg-card p-4 md:p-8 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)]"
     >
-      {/* 文章头部信息 */}
       <header class="mb-8 pb-8 border-b border-border">
         <div class="flex flex-wrap gap-2 mb-4">
           {
@@ -146,20 +148,19 @@ const seoKeywords =
             class="flex items-center gap-1"
           >
             <div class="i-ri:calendar-line"></div>
-            {post.data.date.toLocaleDateString("zh-CN")}
+            {post.data.date.toLocaleDateString("en-US")}
           </time>
           {
             post.data.updatedAt && (
-              <span class="flex items-center gap-1" title="最后更新时间">
+              <span class="flex items-center gap-1" title="Last updated">
                 <div class="i-ri:time-line" />
-                {post.data.updatedAt.toLocaleDateString("zh-CN")}
+                {post.data.updatedAt.toLocaleDateString("en-US")}
               </span>
             )
           }
         </div>
       </header>
 
-      {/* Markdown 内容 */}
       <div
         class="prose prose-lg dark:prose-invert max-w-none break-words prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24"
       >
@@ -168,7 +169,6 @@ const seoKeywords =
         />
       </div>
 
-      {/* 底部导航 (无需 JS Mount) */}
       <nav
         class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 pt-8 border-t border-border"
       >
@@ -180,7 +180,7 @@ const seoKeywords =
             >
               <span class="text-xs text-text-muted flex items-center gap-1 group-hover:text-primary">
                 <div class="i-ri:arrow-left-double-line" />
-                上一篇
+                Previous
               </span>
               <span class="font-medium truncate text-text">{prev.title}</span>
             </a>
@@ -195,7 +195,7 @@ const seoKeywords =
               class="group flex flex-col gap-1 p-4 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all text-right"
             >
               <span class="text-xs text-text-muted flex items-center gap-1 justify-end group-hover:text-primary">
-                下一篇
+                Next
                 <div class="i-ri:arrow-right-double-line" />
               </span>
               <span class="font-medium truncate text-text">{next.title}</span>
@@ -206,14 +206,11 @@ const seoKeywords =
         }
       </nav>
 
-      {/* 评论区 */}
-      {
-        config.giscus && (
-          <div class="giscus-container mt-12 pt-8 border-t border-border">
-            <script {...config.giscus} />
-          </div>
-        )
-      }
+      {giscusConfig && (
+        <div class="giscus-container mt-12 pt-8 border-t border-border">
+          <script {...giscusConfig} />
+        </div>
+      )}
     </article>
 
     {
@@ -222,7 +219,7 @@ const seoKeywords =
           {toc.length > 0 && (
             <div class="p-4 rounded-lg border-2 border-text bg-card shadow-[4px_4px_0_0_var(--color-text)] max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
               <div class="text-sm font-bold text-text-muted mb-4 uppercase tracking-wider">
-                目录
+                Table of contents
               </div>
               <nav class="flex flex-col gap-1 text-sm">
                 {toc.map((heading) => {
@@ -266,11 +263,9 @@ const seoKeywords =
 </script>
 
 <script>
-  // TOC 滚动高亮逻辑
   let isManualScroll = false;
   let scrollTimeout: NodeJS.Timeout;
 
-  // 提取更新高亮样式的函数
   const updateActiveLink = (id: string) => {
     document.querySelectorAll(".toc-link").forEach((link) => {
       const isActive = link.getAttribute("data-id") === id;
@@ -282,7 +277,6 @@ const seoKeywords =
 
   const observer = new IntersectionObserver(
     (entries) => {
-      // 如果是手动点击触发的滚动，不进行 Observer 更新
       if (isManualScroll) return;
 
       entries.forEach((entry) => {
@@ -293,7 +287,7 @@ const seoKeywords =
       });
     },
     {
-      rootMargin: "-100px 0px -60% 0px", // 调整视口检测范围
+      rootMargin: "-100px 0px -60% 0px",
     }
   );
 
@@ -301,17 +295,14 @@ const seoKeywords =
     observer.observe(h);
   });
 
-  // 处理点击事件
   document.querySelectorAll(".toc-link").forEach((link) => {
     link.addEventListener("click", (e) => {
       isManualScroll = true;
       const id = (e.currentTarget as HTMLElement).getAttribute("data-id");
       if (id) updateActiveLink(id);
 
-      // 清除旧定时器
       if (scrollTimeout) clearTimeout(scrollTimeout);
-      
-      // 假设滚动动画最长持续 800ms，之后恢复 Observer
+
       scrollTimeout = setTimeout(() => {
         isManualScroll = false;
       }, 800);

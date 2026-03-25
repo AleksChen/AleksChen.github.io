@@ -1,11 +1,16 @@
 ---
+import type { Locale } from "@/i18n/config";
+import { localizePath } from "@/i18n/paths";
+import { getUiText } from "@/i18n/ui";
 import type { ShortPostData } from "@/lib/posts";
 
 interface Props {
   posts: ShortPostData[];
+  locale: Locale;
 }
 
-const { posts } = Astro.props;
+const { posts, locale } = Astro.props;
+const ui = getUiText(locale);
 
 // 格式化日期：YYYY-MM-DD HH:mm
 const formatDate = (dateStr: string | number | Date) => {
@@ -17,7 +22,7 @@ const formatDate = (dateStr: string | number | Date) => {
 
 <div class="terminal-container w-full min-h-screen bg-[#121212] text-[#d4d4d4] font-mono text-sm sm:text-base relative">
   <!-- 退出按钮 -->
-  <button id="terminal-close-btn" class="absolute top-4 right-4 sm:top-6 sm:right-8 text-[#858585] hover:text-white transition-colors font-bold cursor-pointer z-10" aria-label="退出终端模式" title="退出终端模式">
+  <button id="terminal-close-btn" class="absolute top-4 right-4 sm:top-6 sm:right-8 text-[#858585] hover:text-white transition-colors font-bold cursor-pointer z-10" aria-label={ui.actions.exitTerminalMode} title={ui.actions.exitTerminalMode}>
     [ exit ]
   </button>
 
@@ -29,15 +34,15 @@ const formatDate = (dateStr: string | number | Date) => {
     
     <div class="terminal-list flex flex-col min-w-max">
       <div class="terminal-row text-[#858585] mb-1 px-2 flex">
-        <span class="inline-block w-[160px] shrink-0">Date</span>
-        <span class="inline-block w-[120px] shrink-0">Category</span>
-        <span>Title</span>
+        <span class="inline-block w-[160px] shrink-0">{ui.terminal.date}</span>
+        <span class="inline-block w-[120px] shrink-0">{ui.terminal.category}</span>
+        <span>{ui.terminal.title}</span>
       </div>
       
       {posts.map((post) => (
-        <a href={`/post/${post.slug}`} class="terminal-row group flex items-center px-2 py-0.5 hover:bg-[#d4d4d4] hover:text-[#121212] transition-colors rounded-sm cursor-pointer">
+        <a href={localizePath(`/post/${post.slug}`, locale)} class="terminal-row group flex items-center px-2 py-0.5 hover:bg-[#d4d4d4] hover:text-[#121212] transition-colors rounded-sm cursor-pointer">
           <span class="inline-block w-[160px] shrink-0 text-[#b5cea8] group-hover:text-[#121212]">{formatDate(post.createTime)}</span>
-          <span class="inline-block w-[120px] shrink-0 text-[#c586c0] group-hover:text-[#121212] truncate pr-2">{post.tags?.[0] || 'uncategorized'}</span>
+          <span class="inline-block w-[120px] shrink-0 text-[#c586c0] group-hover:text-[#121212] truncate pr-2">{post.tags?.[0] || ui.terminal.uncategorized}</span>
           <span class="flex-1 text-[#9cdcfe] group-hover:text-[#121212] truncate font-medium">{post.title}</span>
         </a>
       ))}

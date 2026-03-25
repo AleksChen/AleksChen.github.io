@@ -1,20 +1,24 @@
 ---
+import type { Locale } from "@/i18n/config";
+import { localizePath } from "@/i18n/paths";
 import type { ShortPostData } from "@/lib/posts";
 
 interface Props {
   item: ShortPostData;
   index: number;
   formattedDate: string;
+  locale: Locale;
+  noIntroText: string;
 }
 
-const { item, index, formattedDate } = Astro.props;
+const { item, index, formattedDate, locale, noIntroText } = Astro.props;
 ---
 
 <article
   class="home-post-card group relative overflow-hidden rounded-lg border border-border bg-card shadow-[0_8px_24px_rgba(24,24,27,0.08)] transition-all duration-300 hover:shadow-[0_12px_26px_rgba(24,24,27,0.12)]"
   style={`transition-delay: ${Math.min(index, 8) * 70}ms`}
 >
-  <a href={`/post/${item.slug}`} class="block">
+  <a href={localizePath(`/post/${item.slug}`, locale)} class="block">
     <div class="relative w-full overflow-hidden border-b border-border bg-bg-secondary aspect-[16/7.8]">
       {item.cover ? (
         <img
@@ -46,7 +50,7 @@ const { item, index, formattedDate } = Astro.props;
       </h2>
 
       <p class="line-clamp-2 text-[13px] leading-relaxed text-text-muted md:text-sm">
-        {item.intro || "暂无简介"}
+        {item.intro || noIntroText}
       </p>
     </div>
   </a>

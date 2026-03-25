@@ -1,0 +1,141 @@
+---
+title: "Floating-Point Rendering Differences in H5: iOS vs Android"
+date: "2024-12-13T09:26:35.808Z"
+updatedAt: "2024-12-13T09:26:35.809Z"
+tags:
+  - "Android"
+  - "iOS"
+draft: false
+slug: "2412-float-attribute-in-ios-android-en"
+locale: en
+translationKey: "2412-float-attribute-in-ios-android"
+intro: "A comparison of floating-point rendering differences between iOS and Android in H5, analyzing text, layout, and borders, with cross-platform compatibility tips."
+seoImage: "/post-assets/og/2412-float-attribute-in-ios-android.png"
+seoTitle: "Floating-Point Rendering Differences in H5: iOS vs Android | WebKit vs Chromium"
+seoDescription: "A comparison of floating-point rendering differences between iOS and Android in H5, analyzing text, layout, and border scenarios, along with cross-platform compatibility and optimization suggestions."
+seoKeywords:
+  - "H5"
+  - "iOS"
+  - "Android"
+  - "floating-point rendering"
+  - "cross-platform compatibility"
+  - "WebKit"
+  - "Chromium"
+---
+
+## **I. Overview**
+
+In mobile H5 development, the rendering of floating-point numbers is a common yet easily overlooked issue. Due to differences in underlying rendering engines, iOS and Android platforms handle floating-point numbers quite differently. Understanding these differences is crucial for developing high-quality cross-platform H5 applications.
+
+## **II. Rendering Differences Comparison**
+
+### **1. Text Rendering**
+
+#### iOS (WebKit)
+
+- Line height is forced to align to integer pixels; for example, 14.3px will be rounded to 14px.
+- Font sizes are rounded to the nearest integer.
+- Reason: The CoreText rendering engine forces pixel alignment to ensure text clarity.
+
+```auto
+14.3px -> 14px
+14.7px -> 15px
+14.5px -> 15px
+```
+
+#### Android (Chromium)
+
+- Fully supports floating-point rendering.
+- Can achieve precise decimal line heights and font sizes.
+- Uses the Skia rendering engine, which supports subpixel rendering.
+
+### **2. UI Elements**
+
+**Properties that commonly support floating-point numbers**
+
+- `transform`: Supports precise decimal value animations.
+- `opacity`: Supports any floating-point number between 0 and 1.
+- `position`: Supports precise positioning.
+
+**Platform-specific behaviors**
+
+iOS:
+
+- `border`: Forced to align to integer pixels.
+- `box-shadow`: Supports floating-point numbers but may have performance issues.
+
+Android:
+
+- Almost all properties support floating-point numbers.
+- Rendering precision depends on the device's hardware capabilities.
+
+## **III. Causes of Differences**
+
+### **1. Technical Level**
+
+- iOS CoreText pursues clarity and consistency in text rendering.
+- Android Skia focuses more on rendering flexibility and precision.
+- Differences in hardware acceleration implementations lead to precision discrepancies.
+
+### **2. Historical Reasons**
+
+- Apple has always emphasized the consistency of user experience.
+- Android's openness has led to more flexible rendering strategies.
+
+## **IV. Development Suggestions**
+
+### **1. General Handling Solution**
+
+```javascript
+// Detect platform
+const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent);
+
+// Line height processing
+const getLineHeight = (value) => {
+  return isIOS ? Math.round(value) : value;
+};
+
+// Usage example
+element.style.lineHeight = `${getLineHeight(14.3)}px`;
+```
+
+### **2. Special Scenario Handling**
+
+**Animation Effects**
+
+```javascript
+// Text animation processing
+const animateText = (element) => {
+  if (isIOS) {
+    // iOS uses integer steps
+    element.style.transform = `translateY(${Math.round(value)}px)`;
+  } else {
+    // Android can use floating-point numbers
+    element.style.transform = `translateY(${value}px)`;
+  }
+};
+```
+
+**Text Typography**
+
+```javascript
+/* Cross-platform consistency handling */
+.text {
+  /* Use integer values to avoid differences */
+  line-height: 20px;
+  font-size: 16px;
+  
+  /* Use transform when precise control is needed */
+  transform: translateY(0.5px);
+}
+```
+
+## Conclusion
+
+Understanding and properly handling floating-point rendering differences is an important part of developing high-quality H5 applications. In actual development, appropriate handling strategies should be selected based on specific scenarios to ensure experience consistency while fully utilizing the features of each platform.
+
+## References
+
+- [Developing Web Content for Safari](https://developer.apple.com/library/archive/documentation/AppleApplications/Reference/SafariWebContent/Introduction/Introduction.html)
+- [Graphics and Skia](https://www.chromium.org/developers/design-documents/graphics-and-skia/)
+- [CSS Values and Units Module Level 3](https://www.w3.org/TR/css-values-3/)

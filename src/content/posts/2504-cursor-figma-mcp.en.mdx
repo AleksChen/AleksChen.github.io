@@ -1,0 +1,100 @@
+---
+title: "Integrating Figma MCP with Cursor"
+date: "2025-04-01T07:33:49.472Z"
+updatedAt: "2025-04-03T07:32:36.809Z"
+tags:
+  - "Figma"
+  - "AI"
+draft: false
+slug: "2504-cursor-figma-mcp-en"
+locale: en
+translationKey: "2504-cursor-figma-mcp"
+intro: "A complete guide on integrating Figma MCP with Cursor, including environment setup, starting the MCP service, configuring mcp.json, and efficiently converting designs to code."
+seoImage: "/post-assets/og/2504-cursor-figma-mcp.png"
+seoTitle: "Integrating Figma MCP with Cursor | Converting Designs to Code"
+seoDescription: "A complete guide on integrating Figma MCP with Cursor, including environment setup, starting the MCP service, configuring mcp.json, and efficiently converting designs to code."
+seoKeywords:
+  - "Cursor"
+  - "Figma MCP"
+  - "MCP"
+  - "AI programming"
+  - "design to code"
+  - "mcp.json"
+---
+
+## MCP
+
+MCP (Model Context Protocol) is a protocol provided by Cursor that allows external services to provide additional context information to Cursor AI. Through Figma MCP, we can enable Cursor to directly read information from Figma design drafts, thereby achieving more accurate code conversion.
+
+![1.webp](/post-assets/m8yazve0-1.webp)
+
+## Environment Configuration
+
+### Starting the Figma MCP Server
+
+Obtain a `figma-api-key` in the Figma console (at least read-only permission is required). Copy the generated `api-key` and then execute the command in the terminal.
+
+```shell
+pnpx figma-developer-mcp --figma-api-key=<your-figma-api-key>
+```
+
+After running, it will show that the Figma MCP Server has started on local port 3333.
+
+![2.webp](/post-assets/m8yazve7-2.webp)
+
+### Cursor MCP Configuration
+
+Add the MCP configuration in Cursor settings (Cursor Version: 0.47.8).
+
+![3.webp](/post-assets/m8yazve4-3.webp)
+
+Set the Figma MCP Server address in `mcp.json`.
+
+```json
+{
+  "mcpServers": {
+    "Figma": {
+      "url": "http://localhost:3333/sse"
+    }
+  }
+}
+```
+
+Seeing the green light indicates that the configuration is successful.
+
+![4.webp](/post-assets/m8yazve6-4.webp)
+
+## Using Figma MCP
+
+Figma MCP simply enhances Cursor's capabilities, giving it the ability to interact with Figma design drafts. We just need to attach the design draft information when using Cursor. Cursor will automatically fetch the design information of the target element for better conversion.
+
+![5.webp](/post-assets/m8yazve6-5.webp)
+
+Attach the Figma Section URL in the Prompt and specify the file to write to (enable Agent mode).
+
+![6.webp](/post-assets/m8yazve6-6.webp)
+
+![7.webp](/post-assets/m8yazve7-7.webp)
+
+### Conversion Result
+
+Judging from the results, the conversion is better than uploading screenshots.
+
+![8.webp](/post-assets/m8yazve7-8.webp)
+
+## Notes
+
+1. The Figma file needs to have appropriate access permissions.
+2. The MCP server needs to remain running; otherwise, Cursor will not be able to fetch design information.
+3. The copied Figma Section URL must be a link to a specific element, not a link to the entire page.
+4. Currently, MCP mainly supports basic style information; complex interactive effects may require manual adjustment.
+
+## Conclusion
+
+Figma MCP provides Cursor AI with the ability to directly obtain design draft information. Compared to the traditional method of uploading screenshots, it can:
+
+1. More accurately obtain style information such as colors, dimensions, and fonts.
+2. Reduce the workload of manual measurement and adjustment.
+3. Improve the efficiency and accuracy of code conversion.
+
+This workflow is particularly suitable for frontend development teams and can significantly improve the efficiency of converting design drafts to code. However, when using it, pay attention to configuring the correct permissions and keeping the MCP server running stably.

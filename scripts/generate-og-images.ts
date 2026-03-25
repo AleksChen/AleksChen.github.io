@@ -7,12 +7,31 @@ interface PostMeta {
   title: string;
   slug?: string;
   tags?: string[];
+  locale?: "zh" | "en";
 }
 
 const WIDTH = 1200;
 const HEIGHT = 630;
 const POSTS_DIR = path.join(process.cwd(), "src/content/posts");
 const OUTPUT_DIR = path.join(process.cwd(), "public/post-assets/og");
+
+async function collectMdxFiles(dir: string): Promise<string[]> {
+  const entries = await fs.readdir(dir, { withFileTypes: true });
+  const files: string[] = [];
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...(await collectMdxFiles(fullPath)));
+      continue;
+    }
+    if (entry.isFile() && entry.name.endsWith(".mdx")) {
+      files.push(fullPath);
+    }
+  }
+
+  return files;
+}
 
 function escapeXml(input: string): string {
   return input
@@ -89,21 +108,29 @@ function renderSvg(title: string, tags: string[]): string {
 
 async function main() {
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
-  const files = (await fs.readdir(POSTS_DIR)).filter((name) =>
-    name.endsWith(".mdx")
-  );
+  const files = await collectMdxFiles(POSTS_DIR);
+  const outputNameSet = new Set<string>();
 
-  for (const fileName of files) {
-    const filePath = path.join(POSTS_DIR, fileName);
+  for (const filePath of files) {
+    const fileName = path.basename(filePath);
     const raw = await fs.readFile(filePath, "utf-8");
     const { data } = matter(raw);
     const meta = data as PostMeta;
     const slug = meta.slug || fileName.replace(/\.mdx$/, "");
     const title = meta.title || slug;
     const tags = Array.isArray(meta.tags) ? meta.tags.map(String) : [];
+    const locale = meta.locale === "en" ? "en" : "zh";
+    const outputName = locale === "en" ? `${slug}.en` : slug;
+
+    if (outputNameSet.has(outputName)) {
+      throw new Error(
+        `Duplicate OG output name "${outputName}.png". Check slug/locale in ${path.relative(process.cwd(), filePath)}`
+      );
+    }
+    outputNameSet.add(outputName);
 
     const svg = renderSvg(title, tags);
-    const outPath = path.join(OUTPUT_DIR, `${slug}.png`);
+    const outPath = path.join(OUTPUT_DIR, `${outputName}.png`);
 
     await sharp(Buffer.from(svg))
       .resize(WIDTH, HEIGHT, { fit: "cover" })

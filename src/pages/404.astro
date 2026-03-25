@@ -1,23 +1,35 @@
 ---
+import { getLocaleFromPathname, localizePath } from "@/i18n/paths";
 import Layout from "@/layouts/Layout.astro";
+
+const locale = getLocaleFromPathname(Astro.url.pathname);
+const isZh = locale === "zh";
 ---
 
 <Layout
+  locale={locale}
+  languageSwitchPath={null}
   title="404 - Page Not Found"
-  description="页面未找到"
+  description={isZh ? "页面未找到" : "Page not found"}
   seo={{ robots: "noindex,nofollow" }}
 >
   <div class="flex flex-col items-center justify-center min-h-[60vh] text-center">
     <h1 class="text-6xl font-bold mb-4 text-primary">404</h1>
-    <h2 class="text-2xl font-semibold mb-4">页面未找到</h2>
+    <h2 class="text-2xl font-semibold mb-4">
+      {isZh ? "页面未找到" : "Page not found"}
+    </h2>
     <p class="text-text/70 mb-8 max-w-md">
-      抱歉，您访问的页面不存在或已被移动。
+      {
+        isZh
+          ? "抱歉，您访问的页面不存在或已被移动。"
+          : "Sorry, the page you requested does not exist or has moved."
+      }
     </p>
     <a
-      href="/"
+      href={localizePath("/", locale)}
       class="px-6 py-3 bg-primary text-bg rounded-lg font-medium hover:text-white hover:opacity-90 transition-opacity"
     >
-      返回首页
+      {isZh ? "返回首页" : "Back to home"}
     </a>
   </div>
 </Layout>

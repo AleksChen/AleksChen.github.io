@@ -1,15 +1,15 @@
 ---
-import { sortByPin } from "@/shared/tag";
-import Home from "../components/Home.astro";
+import Home from "@/components/Home.astro";
 import { getPostList } from "@/lib/posts";
+import { sortByPin } from "@/shared/tag";
 
 const PAGE_SIZE = 10;
-const rawPosts = await getPostList(true, "zh");
+const rawPosts = await getPostList(true, "en");
 const posts = sortByPin(rawPosts);
 ---
 
 <Home
-  locale="zh"
+  locale="en"
   seoAlternates={{ zh: "/", en: "/en" }}
   posts={posts.slice(0, PAGE_SIZE)}
   allPosts={posts}

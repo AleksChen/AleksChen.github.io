@@ -1,0 +1,137 @@
+---
+title: "The Minimum Delay Mechanism of setTimeout"
+date: "2025-01-09T07:33:49.472Z"
+updatedAt: "2025-01-09T08:12:09.482Z"
+tags:
+  - "JavaScript"
+draft: false
+slug: "2501-javascript-setTimeout-timeout-en"
+locale: en
+translationKey: "2501-javascript-setTimeout-timeout"
+intro: "An in-depth explanation of JavaScript's setTimeout minimum delay mechanism, combining HTML specifications and browser implementations to explain why a 0ms timer is clamped to 4ms."
+seoImage: "/post-assets/og/2501-javascript-setTimeout-timeout.png"
+seoTitle: "The Minimum Delay Mechanism of setTimeout | 4ms Clamp"
+seoDescription: "An in-depth explanation of JavaScript's setTimeout minimum delay mechanism, combining HTML specifications and browser implementations to explain why a 0ms timer is clamped to 4ms."
+seoKeywords:
+  - "JavaScript"
+  - "setTimeout"
+  - "minimum delay"
+  - "event loop"
+  - "HTML specification"
+  - "browser mechanism"
+---
+
+## Introduction
+
+In JavaScript, `setTimeout` is one of the most commonly used timer APIs. However, many developers may not know that when we set a theoretical "0 millisecond" delay, it is not actually 0ms. In some scenarios, the actual execution time will never be less than 4ms. Behind this seemingly strange limitation lie deep technical reasons and historical origins.
+
+## The Evolution of the Minimum Delay Value
+
+### Historical Changes
+
+- 1995: JavaScript was first introduced in Netscape Navigator.
+- 2003: IE implemented a minimum delay of 15.625ms.
+- 2009: Firefox adopted a 10ms limit.
+- 2010: The HTML5 specification standardized the minimum delay to 4ms for scenarios where the nesting level is greater than or equal to 5, and 0ms for levels less than 5.
+
+## Specification Basis
+
+### HTML Specification
+
+According to the HTML Living Standard:
+
+1. If the set `timeout` is less than 0, it is set to 0.
+2. If the nesting level exceeds 5, and the `timeout` is less than 4ms, the `timeout` is set to 4ms.
+
+![image.webp](/post-assets/m5p0iae8-image.webp)
+
+### Chrome Source Code Analysis
+
+In the Chromium source code, we can see the relevant implementation:
+
+```cpp
+static const int kMaxTimerNestingLevel = 5;
+static const double kMinimumInterval = 0.004; // 4ms
+```
+
+## Technical Principle Analysis
+
+### 1. Event Loop and Timers
+
+JavaScript's event loop mechanism is key to understanding the behavior of `setTimeout`. A timer is not a true "sleep," but rather places a callback function into a queue awaiting execution. The callback function is executed only after the timing conditions are met.
+
+### 2. Measuring the Minimum Delay
+
+Below is an example of measuring the actual delay time of `setTimeout`:
+
+```javascript
+// Example: Behavior of nested timers
+function nestedTimer(depth = 0) {
+    const start = performance.now();
+    setTimeout(() => {
+        const delay = performance.now() - start;
+        console.log(`Depth ${depth}, Actual delay: ${delay}ms`);
+        if (depth < 10) nestedTimer(depth + 1);
+    }, 0);
+}
+```
+
+![image.webp](/post-assets/m5p0iae7-image.webp)
+
+**Result Analysis**
+
+When the nesting level is less than 5, the theoretical delay time is 0ms; when the nesting level is greater than or equal to 5, the theoretical delay time is 4ms (this differs slightly from the HTML specification). However, the actual execution delay is subject to the event loop mechanism. The `setTimeout` callback needs to wait for:
+
+1. The current synchronous code to finish executing.
+2. The state of the microtask queue.
+3. The timer to expire.
+4. Waiting for the next macrotask execution opportunity.
+5. Code execution overhead.
+
+Therefore, the actual delay will float upwards from the set value. But the lower bound of the `timeout` value is constrained by the nesting level.
+
+## Performance Impact and Optimization
+
+### 1. CPU and Battery Impact
+
+Overly frequent timer calls can lead to:
+
+- Increased CPU usage
+- Increased device heat
+- Reduced battery life
+
+### 2. Alternatives
+
+For scenarios requiring high-precision timing, it is recommended to use:
+
+1. `requestAnimationFrame`
+
+```javascript
+requestAnimationFrame(() => { 
+	// Used for precise control of animations
+});
+```
+
+2. Web Workers
+
+```javascript
+// worker.js 
+setInterval(() => { 
+	postMessage('tick'); 
+}, 0);
+```
+
+3. `performance.now()`
+
+```javascript
+const start = performance.now(); // Used for precise timing
+```
+
+## Conclusion
+
+The 4ms minimum delay of `setTimeout` is a well-thought-out design decision that balances development convenience, performance overhead, and browser compatibility. Understanding this mechanism helps us write better asynchronous code.
+
+## References
+
+- [HTML Standard](https://html.spec.whatwg.org/multipage/timers-and-user-prompts.html#dom-settimeout)
+- [Why does setTimeout have a minimum delay of 4ms?](https://mp.weixin.qq.com/s/4P7ohpRmBChXQpLC-MHgHQ)

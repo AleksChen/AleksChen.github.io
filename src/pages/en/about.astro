@@ -4,10 +4,10 @@ import config from "site.config";
 ---
 
 <Layout
-  locale="zh"
-  languageSwitchPath="/en/about"
-  title="关于"
-  description="关于我"
+  locale="en"
+  languageSwitchPath="/about"
+  title="About"
+  description="About me"
   seo={{
     alternateLocales: {
       zh: "/about",
@@ -20,7 +20,7 @@ import config from "site.config";
       <h1
         class="text-4xl md:text-5xl font-bold text-text mb-4 drop-shadow-[2px_2px_0_var(--color-shadow)]"
       >
-        关于
+        About
       </h1>
     </section>
 
@@ -28,7 +28,7 @@ import config from "site.config";
       <div class="card p-8 max-w-[800px] mx-auto">
         <div class="flex flex-col gap-6">
           <div>
-            <h2 class="text-2xl font-bold text-text mb-4">关于我</h2>
+            <h2 class="text-2xl font-bold text-text mb-4">About me</h2>
             <p class="text-text-muted leading-relaxed">
               <a href="mailto:wenwuchen1948@gmail.com"
                 >wenwuchen1948@gmail.com
@@ -37,7 +37,7 @@ import config from "site.config";
           </div>
 
           <div>
-            <h2 class="text-2xl font-bold text-text mb-4">联系方式</h2>
+            <h2 class="text-2xl font-bold text-text mb-4">Contact</h2>
             <div class="flex flex-col gap-3">
               <a
                 href={config.head.links.github}
@@ -57,7 +57,7 @@ import config from "site.config";
                     class="flex items-center gap-2 text-text hover:text-primary transition-colors"
                   >
                     <div class="i-ri:blogger-line w-5 h-5" />
-                    <span>掘金</span>
+                    <span>Juejin</span>
                   </a>
                 )
               }
@@ -65,9 +65,9 @@ import config from "site.config";
           </div>
 
           <div>
-            <h2 class="text-2xl font-bold text-text mb-4">关于博客</h2>
+            <h2 class="text-2xl font-bold text-text mb-4">About this blog</h2>
             <p class="text-text-muted leading-relaxed">
-              这个博客使用 Astro 构建
+              This blog is built with Astro.
             </p>
           </div>
         </div>

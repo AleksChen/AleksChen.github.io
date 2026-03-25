@@ -4,13 +4,21 @@ import "@/index.scss";
 import Footer from "@/components/Footer.astro";
 import SEO from "@/components/SEO.astro";
 import PageLoader from "@/components/PageLoader.astro";
-import config from "site.config";
+import { LOCALE_META, type Locale } from "@/i18n/config";
+import {
+  getLocaleFromPathname,
+  localizePath,
+  switchLocalePath,
+} from "@/i18n/paths";
+import { getUiText } from "@/i18n/ui";
 
 interface Props {
   title?: string;
   description?: string;
   footer?: boolean;
   className?: string;
+  locale?: Locale;
+  languageSwitchPath?: string | null;
   seo?: {
     image?: string;
     type?: "website" | "article";
@@ -21,6 +29,8 @@ interface Props {
     keywords?: string[];
     robots?: string;
     url?: string;
+    locale?: Locale;
+    alternateLocales?: Partial<Record<Locale, string>>;
   };
 }
 
@@ -29,12 +39,32 @@ const {
   description,
   footer = true,
   className = "max-w-[1200px]",
+  locale,
+  languageSwitchPath,
   seo = {},
 } = Astro.props;
+
+const resolvedLocale = locale || getLocaleFromPathname(Astro.url.pathname);
+const ui = getUiText(resolvedLocale);
+const nextLocale: Locale = resolvedLocale === "zh" ? "en" : "zh";
+const resolvedLanguageSwitchPath =
+  languageSwitchPath === undefined
+    ? switchLocalePath(Astro.url.pathname, nextLocale)
+    : languageSwitchPath;
+
+const homePath = localizePath("/", resolvedLocale);
+const archivesPath = localizePath("/archives", resolvedLocale);
+const tagsPath = localizePath("/tags", resolvedLocale);
+const aboutPath = localizePath("/about", resolvedLocale);
+const rssPath = localizePath("/rss.xml", resolvedLocale);
+const seoPayload = {
+  ...seo,
+  locale: seo.locale || resolvedLocale,
+};
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={LOCALE_META[resolvedLocale].htmlLang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -61,17 +91,16 @@ const {
       rel="alternate"
       type="application/rss+xml"
       title="RSS Feed"
-      href="/rss.xml"
+      href={rssPath}
     />
     <title>
       {title}
     </title>
 
-    <SEO title={title} description={description} {...seo} />
+    <SEO title={title} description={description} {...seoPayload} />
 
     <slot name="head" />
 
-    <!-- Microsoft Clarity -->
     <script type="text/javascript">
       (function (c, l, a, r, i, t, y) {
         c[a] =
@@ -88,7 +117,6 @@ const {
     </script>
 
     <script is:inline>
-      // 暗色模式初始化
       const theme = (() => {
         if (
           typeof localStorage !== "undefined" &&
@@ -110,7 +138,6 @@ const {
 
       window.localStorage.setItem("theme", theme);
 
-      // 终端模式初始化
       const viewMode = (() => {
         if (
           typeof localStorage !== "undefined" &&
@@ -133,7 +160,7 @@ const {
       href="#main-content"
       class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-bg"
     >
-      跳到主内容
+      {ui.actions.skipToContent}
     </a>
 
     <PageLoader />
@@ -146,9 +173,9 @@ const {
         class="max-w-[800px] mx-auto px-4 h-16 flex items-center justify-between"
       >
         <a
-          href="/"
+          href={homePath}
           class="text-xl font-bold flex items-center gap-2 hover:text-primary transition-colors"
-          aria-label="返回首页"
+          aria-label={ui.actions.backHomeAria}
         >
           <div class="i-ri:home-4-line w-6 h-6"></div>
         </a>
@@ -157,52 +184,56 @@ const {
           <nav
             id="main-nav"
             class="hidden md:flex items-center gap-6"
-            aria-label="主导航"
+            aria-label={ui.nav.mainNavAria}
           >
             <a
-              href="/archives"
+              href={archivesPath}
               class="text-sm font-medium hover:text-primary transition-colors"
             >
-              归档
+              {ui.nav.archives}
             </a>
             <a
-              href="/tags"
+              href={tagsPath}
               class="text-sm font-medium hover:text-primary transition-colors"
             >
-              标签
+              {ui.nav.tags}
             </a>
             <a
-              href="/about"
+              href={aboutPath}
               class="text-sm font-medium hover:text-primary transition-colors"
             >
-              关于
+              {ui.nav.about}
             </a>
           </nav>
-          <div class="flex items-center">
-            <slot name="operations" />
-          </div>
 
           <div class="flex items-center gap-3 pl-4 border-l border-text">
-            <!-- <a
-              href={config.head.links.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              class="hover:text-primary transition-transform hover:scale-110"
-              aria-label="GitHub 主页"
-            >
-              <div class="i-ri:github-fill w-6 h-6" aria-hidden="true"></div>
-            </a> -->
+            {
+              resolvedLanguageSwitchPath && (
+                <a
+                  href={resolvedLanguageSwitchPath}
+                  class="flex items-center justify-center hover:text-primary transition-transform hover:scale-110 focus:outline-none"
+                  aria-label={ui.actions.switchLanguageAria}
+                  title={ui.actions.switchLanguageAria}
+                >
+                  <div class="i-ri:translate-2 w-5 h-5" aria-hidden="true"></div>
+                </a>
+              )
+            }
+
+            <div class="flex items-center">
+              <slot name="operations" />
+            </div>
 
             <button
               id="theme-toggle"
-              class="hover:text-primary transition-transform hover:scale-110 focus:outline-none"
-              aria-label="切换主题"
+              class="flex items-center justify-center hover:text-primary transition-transform hover:scale-110 focus:outline-none"
+              aria-label={ui.actions.toggleTheme}
               aria-pressed="false"
             >
-              <div class="i-ri:sun-line w-6 h-6 dark:hidden" aria-hidden="true">
+              <div class="i-ri:sun-line w-5 h-5 dark:hidden" aria-hidden="true">
               </div>
               <div
-                class="i-ri:moon-line w-6 h-6 hidden dark:block"
+                class="i-ri:moon-line w-5 h-5 hidden dark:block"
                 aria-hidden="true"
               >
               </div>
@@ -210,10 +241,12 @@ const {
 
             <button
               id="mobile-menu-toggle"
-              class="md:hidden hover:text-primary transition-transform hover:scale-110 focus:outline-none"
-              aria-label="打开导航菜单"
+              class="md:hidden flex items-center justify-center hover:text-primary transition-transform hover:scale-110 focus:outline-none"
+              aria-label={ui.actions.openMenu}
               aria-expanded="false"
               aria-controls="mobile-nav"
+              data-open-label={ui.actions.openMenu}
+              data-close-label={ui.actions.closeMenu}
             >
               <div
                 id="menu-icon-open"
@@ -232,28 +265,37 @@ const {
         </div>
       </div>
 
-      <!-- 移动端下拉菜单 -->
       <div
         id="mobile-nav"
         class="hidden md:hidden border-t-2 border-text bg-bg"
-        aria-label="移动端导航"
+        aria-label={ui.nav.mobileNavAria}
       >
         <nav class="max-w-[800px] mx-auto px-4 py-4 flex flex-col gap-1">
           <a
-            href="/archives"
+            href={archivesPath}
             class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors"
-            >归档</a
+            >{ui.nav.archives}</a
           >
           <a
-            href="/tags"
+            href={tagsPath}
             class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors"
-            >标签</a
+            >{ui.nav.tags}</a
           >
           <a
-            href="/about"
+            href={aboutPath}
             class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors"
-            >关于</a
+            >{ui.nav.about}</a
           >
+          {
+            resolvedLanguageSwitchPath && (
+              <a
+                href={resolvedLanguageSwitchPath}
+                class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors"
+              >
+                {ui.actions.switchLanguageAria}
+              </a>
+            )
+          }
         </nav>
       </div>
     </header>
@@ -266,7 +308,7 @@ const {
       <slot />
     </main>
 
-    {footer && <Footer />}
+    {footer && <Footer locale={resolvedLocale} />}
 
     <script>
       const themeBtn = document.getElementById("theme-toggle");
@@ -309,10 +351,14 @@ const {
 
       menuToggle?.addEventListener("click", () => {
         const isExpanded = menuToggle.getAttribute("aria-expanded") === "true";
+        const openLabel = menuToggle.getAttribute("data-open-label") || "Open";
+        const closeLabel =
+          menuToggle.getAttribute("data-close-label") || "Close";
+
         menuToggle.setAttribute("aria-expanded", String(!isExpanded));
         menuToggle.setAttribute(
           "aria-label",
-          isExpanded ? "打开导航菜单" : "关闭导航菜单",
+          isExpanded ? openLabel : closeLabel,
         );
         mobileNav?.classList.toggle("hidden");
         iconOpen?.classList.toggle("hidden");
@@ -329,12 +375,9 @@ const {
 
         if (!header) return;
 
-        // 向上滚动或在顶部时显示
         if (currentScrollY < lastScrollY || currentScrollY <= 100) {
           header.classList.remove("-translate-y-full");
-        }
-        // 向下滚动且超过阈值时隐藏
-        else if (currentScrollY > 100 && currentScrollY > lastScrollY) {
+        } else if (currentScrollY > 100 && currentScrollY > lastScrollY) {
           header.classList.add("-translate-y-full");
         }
 
@@ -344,29 +387,29 @@ const {
       window.addEventListener("scroll", updateHeader, { passive: true });
     </script>
 
-    <script>
+    <script
+      define:vars={{
+        awayTitle: ui.visibility.away,
+        backTitle: ui.visibility.back,
+      }}
+    >
       let originalTitle = document.title;
-      let timeoutId: number | undefined;
+      let timeoutId;
 
       document.addEventListener("visibilitychange", () => {
-        const icon = document.querySelector(
-          "link[rel*='icon']",
-        ) as HTMLLinkElement | null;
+        const icon = document.querySelector("link[rel*='icon']");
 
         if (document.hidden) {
-          if (
-            document.title !== "快回来吧 T_T" &&
-            document.title !== "你来啦!OvO"
-          ) {
+          if (document.title !== awayTitle && document.title !== backTitle) {
             originalTitle = document.title;
           }
 
-          document.title = "快回来吧 T_T";
+          document.title = awayTitle;
           if (icon) icon.href = "/failure.ico";
 
           if (timeoutId) clearTimeout(timeoutId);
         } else {
-          document.title = "你来啦!OvO";
+          document.title = backTitle;
           if (icon) icon.href = "/favicon.ico";
 
           timeoutId = window.setTimeout(() => {

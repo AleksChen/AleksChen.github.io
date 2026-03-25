@@ -1,4 +1,6 @@
 ---
+import { DEFAULT_LOCALE, LOCALE_META, type Locale } from "@/i18n/config";
+import { getLocaleFromPathname, localizePath } from "@/i18n/paths";
 import config from "site.config";
 
 interface Props {
@@ -13,9 +15,11 @@ interface Props {
   keywords?: string[];
   robots?: string;
   url?: string;
+  locale?: Locale;
+  alternateLocales?: Partial<Record<Locale, string>>;
 }
 
-  const {
+const {
   title = config.head.title,
   description = config.head.description,
   image = "/post-assets/cover/cover-default.webp",
@@ -27,13 +31,42 @@ interface Props {
   keywords = tags,
   robots = "index,follow",
   url,
+  locale,
+  alternateLocales = {},
 } = Astro.props;
 
 const siteUrl = (Astro.site || config.siteUrl).toString().replace(/\/$/, "");
-const canonicalUrl = url || new URL(Astro.url.pathname, `${siteUrl}/`).toString();
+const resolvedLocale = locale || getLocaleFromPathname(Astro.url.pathname);
+
+function toAbsoluteUrl(pathOrUrl: string): string {
+  if (pathOrUrl.startsWith("http://") || pathOrUrl.startsWith("https://")) {
+    return pathOrUrl;
+  }
+  return new URL(pathOrUrl, `${siteUrl}/`).toString();
+}
+
+const canonicalUrl = url
+  ? toAbsoluteUrl(url)
+  : toAbsoluteUrl(localizePath(Astro.url.pathname, resolvedLocale));
+
 const ogImage = image.startsWith("http")
   ? image
   : new URL(image, `${siteUrl}/`).toString();
+
+const alternateItems = Object.entries(alternateLocales)
+  .filter((entry): entry is [Locale, string] => {
+    const [key, value] = entry;
+    return (key === "zh" || key === "en") && Boolean(value);
+  })
+  .map(([key, value]) => ({
+    locale: key,
+    hrefLang: LOCALE_META[key].htmlLang,
+    href: toAbsoluteUrl(value),
+  }));
+
+const xDefaultHref = alternateLocales[DEFAULT_LOCALE]
+  ? toAbsoluteUrl(alternateLocales[DEFAULT_LOCALE]!)
+  : undefined;
 ---
 
 <!-- 基础 SEO -->
@@ -45,10 +78,19 @@ const ogImage = image.startsWith("http")
   <meta name="keywords" content={keywords.join(", ")} />
 )}
 <link rel="canonical" href={canonicalUrl} />
+{alternateItems.map((item) => (
+  <link rel="alternate" hreflang={item.hrefLang} href={item.href} />
+))}
+{xDefaultHref && <link rel="alternate" hreflang="x-default" href={xDefaultHref} />}
 
 <!-- Open Graph -->
 <meta property="og:type" content={type} />
-<meta property="og:locale" content="zh_CN" />
+<meta property="og:locale" content={LOCALE_META[resolvedLocale].ogLocale} />
+{alternateItems
+  .filter((item) => item.locale !== resolvedLocale)
+  .map((item) => (
+    <meta property="og:locale:alternate" content={LOCALE_META[item.locale].ogLocale} />
+  ))}
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={ogImage} />
@@ -79,7 +121,7 @@ const ogImage = image.startsWith("http")
     "@context": "https://schema.org",
     "@type": "BlogPosting",
     headline: title,
-    description: description,
+    description,
     image: ogImage,
     datePublished: publishedTime,
     dateModified: modifiedTime || publishedTime,
@@ -99,6 +141,7 @@ const ogImage = image.startsWith("http")
       "@type": "WebPage",
       "@id": canonicalUrl,
     },
+    inLanguage: LOCALE_META[resolvedLocale].htmlLang,
     keywords: keywords.join(", "),
   })} />
 )}
@@ -108,8 +151,8 @@ const ogImage = image.startsWith("http")
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: config.head.title,
-    description: config.head.description,
-    url: siteUrl,
-    inLanguage: "zh-CN",
+    description,
+    url: canonicalUrl,
+    inLanguage: LOCALE_META[resolvedLocale].htmlLang,
   })} />
 )}

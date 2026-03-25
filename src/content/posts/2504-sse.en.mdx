@@ -1,0 +1,212 @@
+---
+title: "SSE Server-Sent Events"
+date: "2025-04-03T07:35:49.000Z"
+updatedAt: "2025-12-01T09:28:48.190Z"
+tags:
+  - "Network"
+draft: false
+slug: "2504-sse-en"
+locale: en
+translationKey: "2504-sse"
+cover: "/post-assets/m911icos-Pasted-image-20250402200626.webp"
+intro: "A comprehensive guide to Server-Sent Events (SSE) from principles to code, covering communication mechanisms, client APIs, server implementations, and common use cases."
+seoImage: "/post-assets/og/2504-sse.png"
+seoTitle: "Server-Sent Events (SSE) Explained | Principles & Implementation"
+seoDescription: "A comprehensive guide to Server-Sent Events (SSE) from principles to code, covering communication mechanisms, client APIs, server implementations, and common use cases."
+seoKeywords:
+  - "SSE"
+  - "Server-Sent Events"
+  - "server push"
+  - "real-time communication"
+  - "EventSource"
+  - "network"
+---
+
+## Introduction
+
+Server-Sent Events (SSE) is a server push technology that allows servers to push data to clients in real-time. It is particularly useful in the following scenarios:
+
+- Real-time data updates (e.g., stock prices, weather information)
+- Social media feeds
+- Real-time log display
+- Progress notifications
+
+![Pasted image 20250402200626.webp](/post-assets/m911icos-Pasted-image-20250402200626.webp)
+
+## The Essence of SSE
+
+SSE is essentially a one-way communication mechanism based on the HTTP protocol:
+
+- It uses HTTP long connections to achieve a one-way data flow from the server to the client.
+- The data format is plain text, and the encoding must be UTF-8.
+- It is based on the standard HTTP protocol and does not require special protocol support.
+
+## Characteristics of SSE
+
+1. One-way communication: A one-way data flow from the server to the client.
+2. Automatic reconnection: Automatically reconnects by default after a disconnection.
+3. Easy to use: Uses standard HTTP, without the complex configuration of WebSockets.
+4. Supports custom events.
+5. Natively supports Cross-Origin Resource Sharing (CORS).
+
+## SSE Client API
+
+Basic usage example:
+
+```javascript
+const evtSource = new EventSource('/events');
+
+// Listen for messages
+evtSource.onmessage = function(event) {
+    const data = JSON.parse(event.data);
+    console.log(data);
+};
+
+// Listen for connection open
+evtSource.onopen = function() {
+    console.log('Connection established');
+};
+
+// Listen for errors
+evtSource.onerror = function(err) {
+    console.error('Error occurred:', err);
+};
+
+// Listen for custom events
+evtSource.addEventListener('custom-event', function(e) {
+    console.log('Custom event:', e.data);
+});
+
+// Close connection
+// evtSource.close();
+```
+
+## SSE Server Implementation
+
+### Data Format
+
+The data sent by the server must follow a specific format:
+
+- Each message starts with `data: `
+- Each message ends with `\n\n`
+- Supports multiple fields: `data`, `event`, `id`, `retry`
+
+### The data Field
+
+```text
+data: Message content\n\n
+```
+
+Multi-line data:
+
+```text
+data: First line\n
+data: Second line\n\n
+```
+
+### The id Field
+
+Used for message identification; the `Last-Event-ID` header will be sent upon reconnection after a disconnection:
+
+```text
+id: 1\n
+data: Message content\n\n
+```
+
+### The event Field
+
+Used to specify the event type:
+
+```text
+event: custom-event\n
+data: Message content\n\n
+```
+
+### The retry Field
+
+Specifies the reconnection time (in milliseconds):
+
+```text
+retry: 10000\n
+data: Message content\n\n
+```
+
+## Node Server Example
+
+```javascript
+const express = require('express');
+const app = express();
+
+app.get('/events', (req, res) => {
+    // Set headers required for SSE
+    res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive'
+    });
+
+    // Send initial data
+    res.write('data: Connection established\n\n');
+
+    // Send data periodically
+    const intervalId = setInterval(() => {
+        const data = {
+            time: new Date().toISOString(),
+            value: Math.random()
+        };
+        
+        res.write(`data: ${JSON.stringify(data)}\n\n`);
+    }, 1000);
+
+    // Listen for connection close
+    req.on('close', () => {
+        clearInterval(intervalId);
+    });
+});
+
+app.listen(3000, () => {
+    console.log('SSE server running on port 3000');
+});
+```
+
+## Notes
+
+1. Specific format requirements: Starts with `data: ` and ends with `\n\n`.
+2. There is a limit to the number of concurrent SSE connections per browser.
+3. Some proxy servers may not support long connections.
+4. It is recommended to implement an error retry mechanism.
+5. Pay attention to server resource management when using it on a large scale.
+
+## Differences Between SSE and WebSocket
+
+### **SSE**
+
+SSE is implemented based on the traditional HTTP protocol, using a long-polling mechanism. The client sends an HTTP request to the server, and the server keeps the connection open, periodically sending data to the client.
+
+SSE is implemented through the `EventSource` object, and the client can receive data sent by the server by listening to the `onmessage` event.
+
+### **WebSocket**
+
+WebSocket is implemented based on an independent TCP connection, using a custom protocol. A persistent, full-duplex communication connection can be established between the client and the server, allowing data to be sent and received in both directions.
+
+The WebSocket protocol is frame-based, and communication can be achieved by sending different types of frames.
+
+## Conclusion
+
+SSE is a simple yet powerful server push solution:
+
+- Lighter and simpler to implement than WebSocket.
+- One-way communication satisfies most push scenarios.
+- Based on the HTTP protocol, offering good compatibility.
+- Automatic reconnection mechanism improves reliability.
+
+Applicable scenarios:
+
+- Real-time data updates
+- Message notifications
+- Log streaming
+
+## References
+
+- [Server-Sent Events Tutorial - Ruan Yifeng's Network Log](https://www.ruanyifeng.com/blog/2017/05/server-sent_events.html)
+- [Why do major companies choose SSE over WebSocket in high-concurrency scenarios?](https://juejin.cn/post/7487831341591511067)

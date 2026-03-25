@@ -1,13 +1,12 @@
 ---
 import { localizePath } from "@/i18n/paths";
 import Layout from "@/layouts/Layout.astro";
-import { getPostList, getAllTags } from "@/lib/posts";
+import { getAllTags, getPostList } from "@/lib/posts";
 
-const locale = "zh" as const;
+const locale = "en" as const;
 const allPosts = await getPostList(true, locale);
 const allTags = await getAllTags(locale);
 
-// 统计每个标签的文章数量
 const tagCountMap = new Map<string, number>();
 allPosts.forEach((post) => {
   post.tags.forEach((tag) => {
@@ -15,7 +14,6 @@ allPosts.forEach((post) => {
   });
 });
 
-// 按文章数量排序
 const sortedTags = allTags.sort((a, b) => {
   const countA = tagCountMap.get(a) || 0;
   const countB = tagCountMap.get(b) || 0;
@@ -25,9 +23,9 @@ const sortedTags = allTags.sort((a, b) => {
 
 <Layout
   locale={locale}
-  languageSwitchPath="/en/tags"
-  title="标签"
-  description="所有标签"
+  languageSwitchPath="/tags"
+  title="Tags"
+  description="All tags"
   seo={{
     robots: "noindex,follow",
     alternateLocales: {
@@ -41,10 +39,10 @@ const sortedTags = allTags.sort((a, b) => {
       <h1
         class="text-4xl md:text-5xl font-bold text-text mb-4 drop-shadow-[2px_2px_0_var(--color-shadow)]"
       >
-        标签
+        Tags
       </h1>
       <p class="text-text-muted text-lg max-w-2xl mx-auto">
-        共 {allTags.length} 个标签
+        {allTags.length} tags
       </p>
     </section>
 
@@ -61,7 +59,7 @@ const sortedTags = allTags.sort((a, b) => {
               <div class="flex flex-col items-center gap-2 p-6 min-w-[120px]">
                 <div class="text-3xl font-bold text-primary">#{tag}</div>
                 <div class="text-sm text-text-muted">
-                  {count} {count === 1 ? "篇" : "篇文章"}
+                  {count} post{count === 1 ? "" : "s"}
                 </div>
               </div>
             </a>

@@ -1,5 +1,7 @@
 import { DEFAULT_COVER_MAP } from "@/constant/devicons";
-import { getCollection, getEntry } from "astro:content";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { localizePath } from "@/i18n/paths";
+import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
 
 const INTRO_MAX_LENGTH = 200;
@@ -88,6 +90,8 @@ export type Post = CollectionEntry<"posts"> & {
 export interface ShortPostData {
   id: string;
   slug: string;
+  locale: Locale;
+  translationKey: string;
   title: string;
   date: Date;
   updatedAt?: Date;
@@ -98,6 +102,16 @@ export interface ShortPostData {
   // Compatibility fields
   createTime: number;
   updateTime: number;
+}
+
+type PostLocaleFilter = Locale | "all";
+
+function resolvePostLocale(locale?: string): Locale {
+  return locale === "en" ? "en" : DEFAULT_LOCALE;
+}
+
+function resolveTranslationKey(post: CollectionEntry<"posts">): string {
+  return post.data.translationKey || post.slug;
 }
 
 export function getCoverFromTags(tags: string[]): {
@@ -352,11 +366,14 @@ export function buildPostSeoKeywords(input: {
 }
 
 export async function getPostList(
-  filterDraft = true
+  filterDraft = true,
+  locale: PostLocaleFilter = DEFAULT_LOCALE
 ): Promise<ShortPostData[]> {
   const posts = await getCollection("posts", ({ data }) => {
     const isNotDraft = filterDraft ? !data.draft : true;
-    return isNotDraft;
+    const matchesLocale =
+      locale === "all" ? true : resolvePostLocale(data.locale) === locale;
+    return isNotDraft && matchesLocale;
   });
 
   const sorted = posts.sort(
@@ -377,6 +394,8 @@ export async function getPostList(
     return {
       id: p.id,
       slug: p.slug,
+      locale: resolvePostLocale(p.data.locale),
+      translationKey: resolveTranslationKey(p),
       title: p.data.title,
       date: p.data.date,
       updatedAt: p.data.updatedAt,
@@ -390,17 +409,23 @@ export async function getPostList(
   });
 }
 
-export async function getPostBySlug(slug: string): Promise<Post | null> {
-  const post = await getEntry("posts", slug);
-  if (!post || post.data.draft) {
-    return null;
-  }
-  return post;
+export async function getPostBySlug(
+  slug: string,
+  locale: Locale = DEFAULT_LOCALE
+): Promise<Post | null> {
+  const posts = await getCollection("posts", ({ data }) => {
+    return !data.draft && resolvePostLocale(data.locale) === locale;
+  });
+
+  const matched = posts.find((post) => post.slug === slug);
+  return matched || null;
 }
 
-export async function getAllTags(): Promise<string[]> {
+export async function getAllTags(
+  locale: Locale = DEFAULT_LOCALE
+): Promise<string[]> {
   const posts = await getCollection("posts", ({ data }) => {
-    return !data.draft;
+    return !data.draft && resolvePostLocale(data.locale) === locale;
   });
   const tagSet = new Set<string>();
   posts.forEach((p) => p.data.tags.forEach((t) => {
@@ -409,9 +434,30 @@ export async function getAllTags(): Promise<string[]> {
   return Array.from(tagSet);
 }
 
-export async function getPostsByTag(tag: string): Promise<ShortPostData[]> {
-  const allPosts = await getPostList(true);
+export async function getPostsByTag(
+  tag: string,
+  locale: Locale = DEFAULT_LOCALE
+): Promise<ShortPostData[]> {
+  const allPosts = await getPostList(true, locale);
   return allPosts.filter((p) =>
     p.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
   );
+}
+
+export async function getPostAlternateLocalePaths(
+  post: Post
+): Promise<Partial<Record<Locale, string>>> {
+  const translationKey = resolveTranslationKey(post);
+  const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+  const relatedPosts = allPosts.filter((entry) => {
+    return resolveTranslationKey(entry) === translationKey;
+  });
+
+  const alternates: Partial<Record<Locale, string>> = {};
+  relatedPosts.forEach((entry) => {
+    const locale = resolvePostLocale(entry.data.locale);
+    alternates[locale] = localizePath(`/post/${entry.slug}`, locale);
+  });
+
+  return alternates;
 }

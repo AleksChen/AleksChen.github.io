@@ -3,10 +3,9 @@ import { localizePath } from "@/i18n/paths";
 import Layout from "@/layouts/Layout.astro";
 import { getPostList, type ShortPostData } from "@/lib/posts";
 
-const locale = "zh" as const;
+const locale = "en" as const;
 const allPosts = await getPostList(true, locale);
 
-// 按年份分组
 const postsByYear = new Map<number, ShortPostData[]>();
 allPosts.forEach((post) => {
   const year = new Date(post.createTime).getFullYear();
@@ -16,15 +15,14 @@ allPosts.forEach((post) => {
   postsByYear.get(year)!.push(post);
 });
 
-// 按年份倒序排列
 const sortedYears = Array.from(postsByYear.keys()).sort((a, b) => b - a);
 ---
 
 <Layout
   locale={locale}
-  languageSwitchPath="/en/archives"
-  title="归档"
-  description="所有文章归档"
+  languageSwitchPath="/archives"
+  title="Archives"
+  description="All archived posts"
   seo={{
     robots: "noindex,follow",
     alternateLocales: {
@@ -38,10 +36,10 @@ const sortedYears = Array.from(postsByYear.keys()).sort((a, b) => b - a);
       <h1
         class="text-4xl md:text-5xl font-bold text-text mb-4 drop-shadow-[2px_2px_0_var(--color-shadow)]"
       >
-        归档
+        Archives
       </h1>
       <p class="text-text-muted text-lg max-w-2xl mx-auto">
-        共 {allPosts.length} 篇文章
+        {allPosts.length} posts
       </p>
     </section>
 
@@ -57,7 +55,7 @@ const sortedYears = Array.from(postsByYear.keys()).sort((a, b) => b - a);
               <h2 class="text-2xl md:text-3xl font-bold text-text border-b-2 border-text pb-2">
                 {year}
                 <span class="text-lg text-text-muted font-normal ml-2">
-                  ({yearPosts.length} 篇)
+                  ({yearPosts.length} posts)
                 </span>
               </h2>
 
@@ -72,7 +70,7 @@ const sortedYears = Array.from(postsByYear.keys()).sort((a, b) => b - a);
                         <div class="flex items-center gap-3 text-xs text-text-muted mb-2">
                           <span class="flex items-center gap-1">
                             <div class="i-ri:calendar-line" />
-                            {new Date(post.createTime).toLocaleDateString("zh-CN", {
+                            {new Date(post.createTime).toLocaleDateString("en-US", {
                               year: "numeric",
                               month: "long",
                               day: "numeric",

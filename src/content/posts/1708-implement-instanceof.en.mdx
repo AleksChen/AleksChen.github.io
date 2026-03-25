@@ -1,0 +1,192 @@
+---
+title: "Handwritten instanceof Implementation"
+date: "2017-08-23T03:32:22.000Z"
+updatedAt: "2024-12-02T09:46:21.280Z"
+tags:
+  - "JavaScript"
+draft: false
+slug: "1708-implement-instanceof-en"
+locale: en
+translationKey: "1708-implement-instanceof"
+intro: "A detailed explanation of the principles behind JavaScript's instanceof operator and how to implement it from scratch."
+seoImage: "/post-assets/og/1708-implement-instanceof.png"
+seoTitle: "Handwritten instanceof Implementation in JavaScript | Principles & Code"
+seoDescription: "A detailed explanation of the principles behind JavaScript's instanceof operator and how to implement it from scratch, covering prototype chains, type checking boundaries, parameter validation, and test cases to help you accurately determine object types in interviews and practical development."
+seoKeywords:
+  - "JavaScript"
+  - "instanceof"
+  - "prototype chain"
+  - "type checking"
+  - "handwritten implementation"
+  - "frontend interview"
+---
+
+In frontend interviews, `instanceof` is a frequently asked question. Interviewers often ask candidates to implement `instanceof` from scratch to test their understanding of JavaScript's type system and prototype chain.
+
+## Type Checking
+
+In JavaScript, data is divided into primitive types and reference types.
+
+Primitive Types:
+
+- `Number`
+- `String`
+- `Boolean`
+- `undefined`
+- `null`
+- `Symbol`
+- `BigInt`
+
+Reference Types:
+
+- `Object`
+- `Array`
+- `Function`
+- `Date`
+- `RegExp`
+- `Map`
+- `Set`
+- `Promise`
+- ...
+
+In practical work, we often need to determine the type of a variable. For primitive types (except `null`) and `Function`, we can use `typeof` for checking. For reference types, we need to use `instanceof`.
+
+```javascript
+// Primitive data types
+let numberExample = 123;
+let stringExample = "hello";
+let booleanExample = true;
+let nullExample = null;
+let undefinedExample = undefined;
+let symbolExample = Symbol("example");
+let bigIntExample = BigInt(10);
+
+// Reference types
+let objectExample = {};
+let arrayExample = [];
+let functionExample = function () {};
+let dateExample = new Date();
+let regExpExample = /abc/;
+let mapExample = new Map();
+let setExample = new Set();
+let promiseExample = new Promise(() => {});
+
+// Scope of typeof
+console.log(typeof numberExample); // number
+console.log(typeof stringExample); // string
+console.log(typeof booleanExample); // boolean
+console.log(typeof undefinedExample); // undefined
+console.log(typeof symbolExample); // symbol
+console.log(typeof bigIntExample); // bigint
+console.log(typeof functionExample); // function
+
+// typeof cannot accurately check null and other reference types
+console.log(typeof nullExample); // object. This is a historical legacy issue; null is actually a primitive data type.
+console.log(typeof objectExample); // object
+console.log(typeof arrayExample); // object
+console.log(typeof dateExample); // object
+console.log(typeof regExpExample); // object
+console.log(typeof mapExample); // object
+console.log(typeof setExample); // object
+console.log(typeof promiseExample); // object
+
+// instanceof checks the specific type of an object
+console.log(objectExample instanceof Object); // true
+console.log(arrayExample instanceof Array); // true
+console.log(functionExample instanceof Function); // true
+console.log(dateExample instanceof Date); // true
+console.log(regExpExample instanceof RegExp); // true
+console.log(mapExample instanceof Map); // true
+console.log(setExample instanceof Set); // true
+console.log(promiseExample instanceof Promise); // true
+```
+
+## What is instanceof?
+
+MDN Definition: The `instanceof` operator tests to see if the `prototype` property of a constructor appears anywhere in the prototype chain of an object. In other words, `instanceof` can be used to determine whether an object was created by a specific constructor.
+
+```javascript
+function Car(make, model, year) {
+  this.make = make;
+  this.model = model;
+  this.year = year;
+}
+
+const auto = new Car("Honda", "Accord", 1998);
+console.log(auto instanceof Car); // true
+```
+
+In this example, `auto` is an instance of `Car`, so `auto instanceof Car` returns `true`.
+
+> Note: The left side can be of any type, while the right side must be an instance of a function. A parameter error will throw an exception.
+
+![Parameter Requirements.webp](/post-assets/m46rsblg-参数要求.webp)
+
+## Principles of instanceof
+
+Every object has a `__proto__` property. When an object is created, its `__proto__` property points to the `prototype` property of its constructor. Furthermore, the `prototype` property of the constructor is itself an object, which also has its own `__proto__` property. This chaining via `__proto__` -> `prototype` forms a chain known as the prototype chain. The end of the prototype chain is `Object`, and the value of `Object.prototype.__proto__` is `null`.
+
+The constructor of every object can be found on the prototype chain, hence `instanceof` can determine if an object was created by a certain constructor through the prototype chain.
+
+![Prototype Chain.webp](/post-assets/m46rsblj-原型链.webp)
+
+## Implementing an instanceof
+
+### Handwritten instanceof
+
+Implementing `instanceof` from scratch can help us gain a deeper understanding of JavaScript's prototype chain. Below is a simple implementation of `instanceof`:
+
+1. Parameter validation
+2. Compare `obj.__proto === constructor.prototype`
+  - If found, return `true` immediately
+  - When traversing reaches the end of the prototype chain `constructor.prototype === null`, return `false`
+
+```javascript
+function myInstanceof(obj, constructor) {
+  const BASIC_TYPE = [
+    "[object Undefined]",
+    "[object Null]",
+    "[object Number]",
+    "[object String]",
+    "[object Boolean]",
+    "[object Symbol]",
+    "[object BigInt]",
+  ];
+
+  const objType = Object.prototype.toString.call(obj);
+  const constructorType = Object.prototype.toString.call(constructor);
+
+  if (BASIC_TYPE.includes(constructorType)) {
+    throw TypeError("Right-hand side of 'instanceof' is not an object");
+  }
+  if (typeof constructor !== "function") {
+    throw TypeError("Right-hand side of 'instanceof' is not callable");
+  }
+  if (BASIC_TYPE.includes(objType)) {
+    return false;
+  }
+
+  let objProto = Reflect.getPrototypeOf(obj);
+  while (objProto !== null) {
+    if (Object.is(objProto, constructor.prototype)) {
+      return true;
+    }
+    objProto = Reflect.getPrototypeOf(obj);
+  }
+  return false;
+}
+```
+
+> When the passed parameter is an object, if the operation succeeds, `Reflect.getPrototypeOf(target)` returns the prototype of the object; if it fails (e.g., the target is not an object), it returns `false`.
+
+### Test Results
+
+![Test Results.webp](/post-assets/m46rsbli-测试结果.webp)
+
+## Conclusion
+
+This article introduced methods for type checking in JavaScript, along with the concepts, usage, and implementation of `instanceof`.
+
+## References
+
+- [instanceof - JavaScript | MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/instanceof)

@@ -6,10 +6,10 @@ import { sortByPin } from "@/shared/tag";
 
 export async function getStaticPaths() {
   const PAGE_SIZE = 10;
-  const rawPosts = await getPostList(true, "zh");
-  const enPosts = await getPostList(true, "en");
+  const rawPosts = await getPostList(true, "en");
+  const zhPosts = await getPostList(true, "zh");
   const posts = sortByPin(rawPosts);
-  const enTotalPages = Math.max(1, Math.ceil(enPosts.length / PAGE_SIZE));
+  const zhTotalPages = Math.max(1, Math.ceil(zhPosts.length / PAGE_SIZE));
   const totalPages = Math.ceil(posts.length / PAGE_SIZE);
 
   if (totalPages <= 1) {
@@ -29,9 +29,9 @@ export async function getStaticPaths() {
         allPosts: posts,
         more: page < totalPages,
         languageSwitchPath:
-          page <= enTotalPages ? localizePath(`/${page}`, "en") : "/en",
+          page <= zhTotalPages ? localizePath(`/${page}`, "zh") : "/",
         seoAlternates:
-          page <= enTotalPages
+          page <= zhTotalPages
             ? {
                 zh: localizePath(`/${page}`, "zh"),
                 en: localizePath(`/${page}`, "en"),
@@ -46,7 +46,7 @@ const { page, posts, allPosts, more, languageSwitchPath, seoAlternates } = Astro
 ---
 
 <Home
-  locale="zh"
+  locale="en"
   posts={posts}
   allPosts={allPosts}
   page={page}

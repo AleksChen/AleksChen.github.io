@@ -15,6 +15,8 @@ const posts = defineCollection({
     seoTitle: z.string().optional(),
     seoDescription: z.string().optional(),
     seoKeywords: z.array(z.string()).optional(),
+    locale: z.enum(["zh", "en"]).default("zh"),
+    translationKey: z.string(),
     // Book-specific fields (optional)
     author: z.string().optional(),
     status: z.enum(["completed", "wishlist"]).optional(),

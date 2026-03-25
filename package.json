@@ -12,9 +12,11 @@
     "preview": "astro preview",
     "lint": "eslint .",
     "typecheck": "astro check",
-    "check": "npm run lint && npm run typecheck",
+    "check:i18n": "tsx scripts/check-i18n-posts.ts",
+    "check": "npm run lint && npm run typecheck && npm run check:i18n",
     "astro": "astro",
     "edit": "npm run dev & sleep 1 && open http://localhost:4321/keystatic",
+    "create-post": "tsx scripts/create-post.ts",
     "generate-og-images": "tsx scripts/generate-og-images.ts",
     "clean-images": "tsx scripts/clean-images.ts",
     "compress-images": "tsx scripts/compress-images.ts"
