@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title><![CDATA[Aleks]]></title>
+    <description><![CDATA[A technical blog about frontend engineering, AI coding workflows, and cross-platform development.]]></description>
+    <link>https://alekschen.github.io/en</link>
+    <atom:link href="https://alekschen.github.io/en/rss.xml" rel="self" type="application/rss+xml" />
+    <language>en-US</language>
+    <lastBuildDate>Wed, 25 Mar 2026 11:33:54 GMT</lastBuildDate>
+    <generator>Astro</generator>
+
+    <item>
+      <title><![CDATA[The Art of Constraint: From Primogeniture to Harness Engineering]]></title>
+      <link>https://alekschen.github.io/en/post/2603-ai-harness-en</link>
+      <guid isPermaLink="true">https://alekschen.github.io/en/post/2603-ai-harness-en</guid>
+      <description><![CDATA[Exploring the underlying logic of civilization and technology: How the ancient system of primogeniture and modern AI Harness Engineering both utilize 'constraint' to transform chaos into order and power.]]></description>
+      <pubDate>Sun, 15 Mar 2026 18:07:00 GMT</pubDate>
+      <category><![CDATA[AI]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[Electron Notes]]></title>
+      <link>https://alekschen.github.io/en/post/2512-electron-note-en</link>
+      <guid isPermaLink="true">https://alekschen.github.io/en/post/2512-electron-note-en</guid>
+      <description><![CDATA[A comprehensive guide to mastering the core of Electron desktop development: Main and Renderer processes, IPC communication, ContextBridge security practices, engineering workflows, and performance optimization strategies.]]></description>
+      <pubDate>Tue, 23 Dec 2025 19:54:00 GMT</pubDate>
+      <category><![CDATA[Electron]]></category>
+      <category><![CDATA[Native]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[Integrating Kimi K2 Model into Claude Code]]></title>
+      <link>https://alekschen.github.io/en/post/2507-claude-code-kimi-k2-en</link>
+      <guid isPermaLink="true">https://alekschen.github.io/en/post/2507-claude-code-kimi-k2-en</guid>
+      <description><![CDATA[A step-by-step guide on how to integrate the Kimi K2 model into Claude Code, including environment setup, API Key configuration, model switching verification, and troubleshooting.]]></description>
+      <pubDate>Thu, 17 Jul 2025 09:39:21 GMT</pubDate>
+      <category><![CDATA[AI]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[SSE Server-Sent Events]]></title>
+      <link>https://alekschen.github.io/en/post/2504-sse-en</link>
+      <guid isPermaLink="true">https://alekschen.github.io/en/post/2504-sse-en</guid>
+      <description><![CDATA[A comprehensive guide to Server-Sent Events (SSE) from principles to code, covering communication mechanisms, client APIs, server implementations, and common use cases.]]></description>
+      <pubDate>Thu, 03 Apr 2025 07:35:49 GMT</pubDate>
+      <category><![CDATA[Network]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[Integrating Figma MCP with Cursor]]></title>
+      <link>https://alekschen.github.io/en/post/2504-cursor-figma-mcp-en</link>
+      <guid isPermaLink="true">https://alekschen.github.io/en/post/2504-cursor-figma-mcp-en</guid>
+      <description><![CDATA[A complete guide on integrating Figma MCP with Cursor, including environment setup, starting the MCP service, configuring mcp.json, and efficiently converting designs to code.]]></description>
+      <pubDate>Tue, 01 Apr 2025 07:33:49 GMT</pubDate>
+      <category><![CDATA[Figma]]></category>
+      <category><![CDATA[AI]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[The Minimum Delay Mechanism of setTimeout]]></title>
+      <link>https://alekschen.github.io/en/post/2501-javascript-setTimeout-timeout-en</link>
+      <guid isPermaLink="true">https://alekschen.github.io/en/post/2501-javascript-setTimeout-timeout-en</guid>
+      <description><![CDATA[An in-depth explanation of JavaScript's setTimeout minimum delay mechanism, combining HTML specifications and browser implementations to explain why a 0ms timer is clamped to 4ms.]]></description>
+      <pubDate>Thu, 09 Jan 2025 07:33:49 GMT</pubDate>
+      <category><![CDATA[JavaScript]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[Floating-Point Rendering Differences in H5: iOS vs Android]]></title>
+      <link>https://alekschen.github.io/en/post/2412-float-attribute-in-ios-android-en</link>
+      <guid isPermaLink="true">https://alekschen.github.io/en/post/2412-float-attribute-in-ios-android-en</guid>
+      <description><![CDATA[A comparison of floating-point rendering differences between iOS and Android in H5, analyzing text, layout, and borders, with cross-platform compatibility tips.]]></description>
+      <pubDate>Fri, 13 Dec 2024 09:26:35 GMT</pubDate>
+      <category><![CDATA[Android]]></category>
+      <category><![CDATA[iOS]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[Vue3 Compiler Macros: Usage and Principles]]></title>
+      <link>https://alekschen.github.io/en/post/1708-vue3-compiler-macro-en</link>
+      <guid isPermaLink="true">https://alekschen.github.io/en/post/1708-vue3-compiler-macro-en</guid>
+      <description><![CDATA[A systematic overview of the usage and underlying principles of Vue3 compiler macros, covering common macros like defineProps, defineEmits, withDefaults, and defineModel.]]></description>
+      <pubDate>Fri, 23 Oct 2020 13:19:02 GMT</pubDate>
+      <category><![CDATA[Vue]]></category>
+    </item>
+
+    <item>
+      <title><![CDATA[Handwritten instanceof Implementation]]></title>
+      <link>https://alekschen.github.io/en/post/1708-implement-instanceof-en</link>
+      <guid isPermaLink="true">https://alekschen.github.io/en/post/1708-implement-instanceof-en</guid>
+      <description><![CDATA[A detailed explanation of the principles behind JavaScript's instanceof operator and how to implement it from scratch.]]></description>
+      <pubDate>Wed, 23 Aug 2017 03:32:22 GMT</pubDate>
+      <category><![CDATA[JavaScript]]></category>
+    </item>
+  </channel>
+</rss>
