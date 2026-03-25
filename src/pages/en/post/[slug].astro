@@ -17,10 +17,10 @@ import config from "site.config";
 export async function getStaticPaths() {
   const posts = await getCollection(
     "posts",
-    ({ data }) => !data.draft && (data.locale || "zh") === "en"
+    ({ data }) => !data.draft && (data.locale || "zh") === "en",
   );
   const sortedPosts = posts.sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
   );
 
   return sortedPosts.map((post, index) => ({
@@ -80,15 +80,14 @@ const seoTitle = post.data.seoTitle || post.data.title;
 const seoDescription =
   post.data.seoDescription ||
   buildPostSeoDescription(post.data.title, post.data.intro, post.body);
-const seoKeywords =
-  post.data.seoKeywords?.length
-    ? post.data.seoKeywords
-    : buildPostSeoKeywords({
-        title: post.data.title,
-        tags: post.data.tags,
-        intro: post.data.intro,
-        body: post.body,
-      });
+const seoKeywords = post.data.seoKeywords?.length
+  ? post.data.seoKeywords
+  : buildPostSeoKeywords({
+      title: post.data.title,
+      tags: post.data.tags,
+      intro: post.data.intro,
+      body: post.body,
+    });
 const giscusConfig = config.giscus
   ? { ...config.giscus, "data-lang": "en" }
   : null;
@@ -122,15 +121,15 @@ const giscusConfig = config.giscus
     ]}
   >
     <article
-      class="w-full min-w-0 bg-card p-4 md:p-8 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)]"
+      class="w-full min-w-0 bg-card p-6 md:p-12 rounded-xl border-4 border-text shadow-[8px_8px_0_0_var(--color-text)] md:shadow-[12px_12px_0_0_var(--color-text)]"
     >
-      <header class="mb-8 pb-8 border-b border-border">
-        <div class="flex flex-wrap gap-2 mb-4">
+      <header class="mb-12 pb-12 border-b-4 border-text animate-fade-in-up">
+        <div class="flex flex-wrap gap-3 mb-8">
           {
             post.data.tags.map((tag) => (
               <a
                 href={localizePath(`/tag/${encodeURIComponent(tag)}`, locale)}
-                class="px-2 py-1 text-xs font-bold rounded-sm border border-text text-text bg-transparent shadow-[2px_2px_0_0_var(--color-text)] hover:translate-y-[1px] hover:translate-x-[1px] hover:shadow-none transition-all"
+                class="px-3 py-1.5 text-sm font-black uppercase tracking-wider rounded-md border-2 border-text text-text bg-transparent shadow-[4px_4px_0_0_var(--color-text)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none transition-all"
               >
                 #{tag}
               </a>
@@ -138,22 +137,26 @@ const giscusConfig = config.giscus
           }
         </div>
 
-        <h1 class="text-3xl md:text-4xl font-bold mb-4 leading-tight text-text">
+        <h1
+          class="text-4xl md:text-6xl lg:text-7xl font-black mb-8 leading-none tracking-tight text-text"
+        >
           {post.data.title}
         </h1>
 
-        <div class="flex items-center gap-4 text-sm text-text-muted">
+        <div
+          class="flex items-center gap-6 text-base font-bold text-text-muted uppercase tracking-wide"
+        >
           <time
             datetime={post.data.date.toISOString()}
-            class="flex items-center gap-1"
+            class="flex items-center gap-2"
           >
-            <div class="i-ri:calendar-line"></div>
+            <div class="i-ri:calendar-line text-xl"></div>
             {post.data.date.toLocaleDateString("en-US")}
           </time>
           {
             post.data.updatedAt && (
-              <span class="flex items-center gap-1" title="Last updated">
-                <div class="i-ri:time-line" />
+              <span class="flex items-center gap-2" title="Last updated">
+                <div class="i-ri:time-line text-xl" />
                 {post.data.updatedAt.toLocaleDateString("en-US")}
               </span>
             )
@@ -162,7 +165,7 @@ const giscusConfig = config.giscus
       </header>
 
       <div
-        class="prose prose-lg dark:prose-invert max-w-none break-words prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:scroll-mt-24"
+        class="prose prose-lg md:prose-xl dark:prose-invert max-w-none break-words prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:font-black prose-headings:scroll-mt-24 animate-fade-in-up [animation-delay:150ms]"
       >
         <Content
           components={{ img: MDXImage, pre: MDXCode, table: MDXTable }}
@@ -170,19 +173,21 @@ const giscusConfig = config.giscus
       </div>
 
       <nav
-        class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-12 pt-8 border-t border-border"
+        class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-16 pt-12 border-t-4 border-text animate-fade-in-up [animation-delay:300ms]"
       >
         {
           prev ? (
             <a
               href={localizePath(`/post/${prev.slug}`, locale)}
-              class="group flex flex-col gap-1 p-4 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all"
+              class="group flex flex-col gap-2 p-6 rounded-xl border-4 border-text shadow-[8px_8px_0_0_var(--color-text)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all bg-card"
             >
-              <span class="text-xs text-text-muted flex items-center gap-1 group-hover:text-primary">
-                <div class="i-ri:arrow-left-double-line" />
-                Previous
+              <span class="text-sm font-bold uppercase tracking-widest text-text-muted flex items-center gap-2 group-hover:text-primary">
+                <div class="i-ri:arrow-left-double-line text-xl" />
+                Previous post
               </span>
-              <span class="font-medium truncate text-text">{prev.title}</span>
+              <span class="text-xl font-black truncate text-text">
+                {prev.title}
+              </span>
             </a>
           ) : (
             <div />
@@ -192,13 +197,15 @@ const giscusConfig = config.giscus
           next ? (
             <a
               href={localizePath(`/post/${next.slug}`, locale)}
-              class="group flex flex-col gap-1 p-4 rounded-lg border-2 border-text shadow-[4px_4px_0_0_var(--color-text)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-none transition-all text-right"
+              class="group flex flex-col gap-2 p-6 rounded-xl border-4 border-text shadow-[8px_8px_0_0_var(--color-text)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all text-right bg-card"
             >
-              <span class="text-xs text-text-muted flex items-center gap-1 justify-end group-hover:text-primary">
-                Next
-                <div class="i-ri:arrow-right-double-line" />
+              <span class="text-sm font-bold uppercase tracking-widest text-text-muted flex items-center gap-2 justify-end group-hover:text-primary">
+                Next post
+                <div class="i-ri:arrow-right-double-line text-xl" />
               </span>
-              <span class="font-medium truncate text-text">{next.title}</span>
+              <span class="text-xl font-black truncate text-text">
+                {next.title}
+              </span>
             </a>
           ) : (
             <div />
@@ -206,20 +213,22 @@ const giscusConfig = config.giscus
         }
       </nav>
 
-      {giscusConfig && (
-        <div class="giscus-container mt-12 pt-8 border-t border-border">
-          <script {...giscusConfig} />
-        </div>
-      )}
+      {
+        giscusConfig && (
+          <div class="giscus-container mt-16 pt-12 border-t-4 border-text animate-fade-in-up [animation-delay:450ms]">
+            <script {...giscusConfig} />
+          </div>
+        )
+      }
     </article>
 
     {
       showSidebar && (
-        <aside class="hidden lg:block sticky top-24">
+        <aside class="hidden lg:block sticky top-24 animate-fade-in-up [animation-delay:300ms]">
           {toc.length > 0 && (
-            <div class="p-4 rounded-lg border-2 border-text bg-card shadow-[4px_4px_0_0_var(--color-text)] max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
-              <div class="text-sm font-bold text-text-muted mb-4 uppercase tracking-wider">
-                Table of contents
+            <div class="p-6 rounded-xl border-4 border-text bg-card shadow-[8px_8px_0_0_var(--color-text)] max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
+              <div class="text-base font-black text-text mb-6 uppercase tracking-widest border-b-2 border-text pb-2">
+                On this page
               </div>
               <nav class="flex flex-col gap-1 text-sm">
                 {toc.map((heading) => {
@@ -227,9 +236,9 @@ const giscusConfig = config.giscus
                   return (
                     <a
                       href={`#${heading.id}`}
-                      class="toc-link block py-1 px-2 text-text-muted hover:text-white rounded transition-colors break-words text-sm leading-snug"
+                      class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-2 break-words text-sm leading-snug border-2 border-transparent"
                       data-id={heading.id}
-                      style={`padding-left: calc(0.5rem + ${(heading.depth - 1) * 0.75}rem)`}
+                      style={`padding-left: calc(0.75rem + ${(heading.depth - 1) * 0.75}rem)`}
                     >
                       {heading.text}
                     </a>
@@ -246,7 +255,8 @@ const giscusConfig = config.giscus
 
 <script type="module">
   if (document.querySelector(".mermaid")) {
-    const { default: mermaid } = await import("https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs");
+    const { default: mermaid } =
+      await import("https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs");
 
     const html = document.documentElement;
     const isDark =
@@ -269,9 +279,16 @@ const giscusConfig = config.giscus
   const updateActiveLink = (id: string) => {
     document.querySelectorAll(".toc-link").forEach((link) => {
       const isActive = link.getAttribute("data-id") === id;
-      link.classList.toggle("text-white", isActive);
-      link.classList.toggle("bg-primary/10", isActive);
-      link.classList.toggle("font-medium", isActive);
+      link.classList.toggle("text-text", isActive);
+      link.classList.toggle("text-text-muted", !isActive);
+      link.classList.toggle("font-black", isActive);
+      link.classList.toggle("font-bold", !isActive);
+      link.classList.toggle("border-text", isActive);
+      link.classList.toggle("border-transparent", !isActive);
+      link.classList.toggle("shadow-[4px_4px_0_0_var(--color-text)]", isActive);
+      link.classList.toggle("-translate-y-[2px]", isActive);
+      link.classList.toggle("-translate-x-[2px]", isActive);
+      link.classList.toggle("bg-card", isActive);
     });
   };
 
@@ -288,7 +305,7 @@ const giscusConfig = config.giscus
     },
     {
       rootMargin: "-100px 0px -60% 0px",
-    }
+    },
   );
 
   document.querySelectorAll("h1[id], h2[id], h3[id]").forEach((h) => {
@@ -314,6 +331,30 @@ const giscusConfig = config.giscus
   @media (min-width: 1024px) {
     .layout-grid-cols {
       grid-template-columns: minmax(0, 1fr) 240px;
+    }
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.6s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    opacity: 0;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-fade-in-up {
+      animation: none !important;
+      opacity: 1 !important;
+      transform: none !important;
     }
   }
 </style>
