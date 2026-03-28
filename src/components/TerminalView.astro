@@ -12,52 +12,140 @@ interface Props {
 const { posts, locale } = Astro.props;
 const ui = getUiText(locale);
 
-// 格式化日期：YYYY-MM-DD HH:mm
 const formatDate = (dateStr: string | number | Date) => {
   const d = new Date(dateStr);
   const pad = (n: number) => n.toString().padStart(2, "0");
   return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())} ${pad(d.getHours())}:${pad(d.getMinutes())}`;
 };
+
+const formatDateShort = (dateStr: string | number | Date) => {
+  const d = new Date(dateStr);
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+};
 ---
 
-<div class="terminal-container w-full min-h-screen bg-[#121212] text-[#d4d4d4] font-mono text-sm sm:text-base relative">
-  <!-- 退出按钮 -->
-  <button id="terminal-close-btn" class="absolute top-4 right-4 sm:top-6 sm:right-8 text-[#858585] hover:text-white transition-colors font-bold cursor-pointer z-10" aria-label={ui.actions.exitTerminalMode} title={ui.actions.exitTerminalMode}>
-    [ exit ]
+<div
+  class="terminal-container w-full min-h-screen font-mono text-sm relative overflow-hidden"
+>
+  <!-- CRT scanlines -->
+  <div class="crt-scanlines absolute inset-0 pointer-events-none z-20"></div>
+  <!-- CRT vignette -->
+  <div class="crt-vignette absolute inset-0 pointer-events-none z-20"></div>
+
+  <!-- Exit button -->
+  <button
+    id="terminal-close-btn"
+    class="term-exit absolute top-4 right-4 sm:top-5 sm:right-6 font-bold cursor-pointer z-30 text-xs px-2 py-1 border transition-all duration-200"
+    aria-label={ui.actions.exitTerminalMode}
+    title={ui.actions.exitTerminalMode}
+  >
+    [EXIT]
   </button>
 
-  <!-- 终端内容区 -->
-  <div class="terminal-body p-4 sm:p-8 pt-16 sm:pt-20 overflow-x-auto w-full max-w-[1200px] mx-auto">
-    <div class="mb-4">
-      <span class="text-[#27c93f] font-bold">guest@alekschen</span><span class="text-white">:</span><span class="text-[#3b8eea] font-bold">~/posts</span><span class="text-white">$</span> ls -l
-    </div>
-    
-    <div class="terminal-list flex flex-col min-w-max">
-      <div class="terminal-row text-[#858585] mb-1 px-2 flex">
-        <span class="inline-block w-[160px] shrink-0">{ui.terminal.date}</span>
-        <span class="inline-block w-[120px] shrink-0">{ui.terminal.category}</span>
-        <span>{ui.terminal.title}</span>
+  <!-- Terminal body -->
+  <div
+    class="terminal-body p-4 sm:p-8 pt-14 sm:pt-16 w-full max-w-[1200px] mx-auto"
+  >
+    <!-- Boot sequence -->
+    <div id="term-boot" class="mb-6 text-xs sm:text-sm">
+      <div class="term-boot-line term-dim">
+        ALEKSCHEN BLOG TERMINAL v2.0.26
       </div>
-      
-      {posts.map((post) => (
-        <a href={localizePath(`/post/${post.slug}`, locale)} class="terminal-row group flex items-center px-2 py-0.5 hover:bg-[#d4d4d4] hover:text-[#121212] transition-colors rounded-sm cursor-pointer">
-          <span class="inline-block w-[160px] shrink-0 text-[#b5cea8] group-hover:text-[#121212]">{formatDate(post.createTime)}</span>
-          <span class="inline-block w-[120px] shrink-0 text-[#c586c0] group-hover:text-[#121212] truncate pr-2">{post.tags?.[0] || ui.terminal.uncategorized}</span>
-          <span class="flex-1 text-[#9cdcfe] group-hover:text-[#121212] truncate font-medium">{post.title}</span>
-        </a>
-      ))}
+      <div class="term-boot-line term-dim">
+        ──────────────────────────────────────────
+      </div>
+      <div class="term-boot-line">
+        <span class="term-dim">Initializing filesystem</span>
+        <span class="term-ok"> [OK]</span>
+      </div>
+      <div class="term-boot-line">
+        <span class="term-dim">Loading post database</span>
+        <span class="term-ok">  [OK]</span>
+      </div>
+      <div class="term-boot-line term-dim mt-1">
+        ──────────────────────────────────────────
+      </div>
     </div>
 
-    <div class="mt-4 flex items-center animate-pulse">
-      <span class="text-[#27c93f] font-bold">guest@alekschen</span><span class="text-white">:</span><span class="text-[#3b8eea] font-bold">~/posts</span><span class="text-white">$</span>
-      <span class="inline-block w-2 h-4 bg-[#d4d4d4] ml-2"></span>
+    <!-- Command prompt -->
+    <div class="mb-3 flex items-center flex-wrap gap-x-0 text-sm">
+      <span class="term-user term-glow">guest@alekschen</span>
+      <span class="term-dim">:</span>
+      <span class="term-path">~/posts</span>
+      <span class="term-dim">$</span>
+      <span id="cmd-text" class="ml-2 term-text"></span>
+      <span id="cmd-cursor" class="inline-block w-[7px] h-[1em] term-cursor-block ml-px cursor-blink"></span>
+    </div>
+
+    <!-- File listing -->
+    <div id="terminal-list-wrap" class="invisible">
+      <!-- Desktop column header -->
+      <div
+        class="hidden sm:flex term-header-row term-dim text-xs mb-1 px-2 pb-1 border-b"
+        style="border-color: #1e1e1e;"
+      >
+        <span class="w-[180px] shrink-0">{ui.terminal.date}</span>
+        <span class="w-[130px] shrink-0">{ui.terminal.category}</span>
+        <span>{ui.terminal.title}</span>
+      </div>
+
+      <!-- Mobile column header -->
+      <div
+        class="flex sm:hidden term-header-row term-dim text-xs mb-1 px-2 pb-1 border-b justify-between"
+        style="border-color: #1e1e1e;"
+      >
+        <span>{ui.terminal.title}</span>
+        <span class="shrink-0 ml-2">{ui.terminal.date}</span>
+      </div>
+
+      <!-- Post rows -->
+      <div class="flex flex-col">
+        {
+          posts.map((post, i) => (
+            <a
+              href={localizePath(`/post/${post.slug}`, locale)}
+              class="terminal-row group flex items-center px-2 py-1.5 sm:py-1 transition-all duration-100 rounded-sm cursor-pointer"
+              data-index={i}
+            >
+              <!-- Desktop: full columns -->
+              <span class="hidden sm:inline-block w-[180px] shrink-0 term-date text-xs group-hover:term-invert">
+                {formatDate(post.createTime)}
+              </span>
+              <span class="hidden sm:inline-block w-[130px] shrink-0 term-tag text-xs truncate pr-2">
+                {post.tags?.[0] || ui.terminal.uncategorized}
+              </span>
+
+              <!-- Title -->
+              <span class="flex-1 term-title font-medium truncate text-xs sm:text-sm">
+                {post.title}
+              </span>
+
+              <!-- Mobile-only: compact date -->
+              <span class="sm:hidden term-date text-xs ml-2 shrink-0 whitespace-nowrap">
+                {formatDateShort(post.createTime)}
+              </span>
+            </a>
+          ))
+        }
+      </div>
+
+      <!-- Idle prompt cursor -->
+      <div class="mt-5 flex items-center" id="term-cursor-line">
+        <span class="term-user term-glow">guest@alekschen</span>
+        <span class="term-dim">:</span>
+        <span class="term-path">~/posts</span>
+        <span class="term-dim">$</span>
+        <span
+          class="inline-block w-[7px] h-[1em] term-cursor-block ml-2 cursor-blink"
+        ></span>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
   const closeBtn = document.getElementById("terminal-close-btn");
-  
   closeBtn?.addEventListener("click", () => {
     const html = document.documentElement;
     if (document.startViewTransition) {
@@ -70,4 +158,139 @@ const formatDate = (dateStr: string | number | Date) => {
       localStorage.setItem("view-mode", "card");
     }
   });
+
+  const bootEl = document.getElementById("term-boot");
+  const cmdTextEl = document.getElementById("cmd-text");
+  const cmdCursorEl = document.getElementById("cmd-cursor");
+  const listWrap = document.getElementById("terminal-list-wrap");
+  const rows = document.querySelectorAll<HTMLElement>(".terminal-row");
+
+  // Stagger boot lines
+  const bootLines = bootEl?.querySelectorAll<HTMLElement>(".term-boot-line");
+  bootLines?.forEach((line, i) => {
+    line.style.opacity = "0";
+    setTimeout(() => {
+      line.style.opacity = "1";
+      line.style.transition = "opacity 0.15s";
+    }, i * 100);
+  });
+
+  // Type the ls command
+  const command = " ls -la --sort=time";
+  let charIdx = 0;
+
+  const typeNext = () => {
+    if (!cmdTextEl) return;
+    if (charIdx < command.length) {
+      cmdTextEl.textContent += command[charIdx];
+      charIdx++;
+      setTimeout(typeNext, 35 + Math.random() * 25);
+    } else {
+      // Hide typing cursor, show list
+      if (cmdCursorEl) cmdCursorEl.style.display = "none";
+      setTimeout(() => {
+        if (listWrap) {
+          listWrap.classList.remove("invisible");
+          listWrap.style.opacity = "0";
+          listWrap.style.transition = "opacity 0.2s";
+          requestAnimationFrame(() => {
+            listWrap.style.opacity = "1";
+          });
+        }
+        // Stagger row reveal
+        rows.forEach((row, i) => {
+          row.style.opacity = "0";
+          row.style.transform = "translateX(-6px)";
+          setTimeout(() => {
+            row.style.opacity = "1";
+            row.style.transform = "translateX(0)";
+            row.style.transition = "opacity 0.12s ease, transform 0.12s ease";
+          }, i * 35);
+        });
+      }, 150);
+    }
+  };
+
+  // Start after boot lines
+  const bootDelay = (bootLines?.length ?? 0) * 100 + 200;
+  setTimeout(typeNext, bootDelay);
 </script>
+
+<style>
+  /* ── Palette ───────────────────────────────── */
+  .terminal-container {
+    background-color: #0c0c0c;
+    color: #b4ffb4;
+  }
+
+  .term-user   { color: #00ff41; }
+  .term-path   { color: #00aaff; }
+  .term-title  { color: #ccffcc; }
+  .term-date   { color: #5a8a5a; }
+  .term-tag    { color: #00aaff; }
+  .term-text   { color: #c8c8c8; }
+  .term-dim    { color: #3a3a3a; }
+  .term-ok     { color: #00ff41; }
+
+  /* Hover invert */
+  .terminal-row:hover {
+    background-color: #00ff41;
+    color: #0c0c0c !important;
+  }
+  .terminal-row:hover .term-title,
+  .terminal-row:hover .term-date,
+  .terminal-row:hover .term-tag {
+    color: #0c0c0c !important;
+  }
+
+  /* Exit button */
+  .term-exit {
+    color: #3a3a3a;
+    border-color: #2a2a2a;
+  }
+  .term-exit:hover {
+    color: #00ff41;
+    border-color: #00ff41;
+    text-shadow: 0 0 6px #00ff41;
+  }
+
+  /* Glow */
+  .term-glow {
+    text-shadow: 0 0 8px #00ff4188, 0 0 16px #00ff4140;
+  }
+
+  /* Cursor block */
+  .term-cursor-block {
+    background-color: #00ff41;
+    box-shadow: 0 0 5px #00ff41;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0; }
+  }
+
+  .cursor-blink {
+    animation: blink 1s step-end infinite;
+  }
+
+  /* CRT scanlines */
+  .crt-scanlines {
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.18) 2px,
+      rgba(0, 0, 0, 0.18) 4px
+    );
+  }
+
+  /* CRT vignette */
+  .crt-vignette {
+    background: radial-gradient(
+      ellipse at center,
+      transparent 55%,
+      rgba(0, 0, 0, 0.65) 100%
+    );
+  }
+</style>
