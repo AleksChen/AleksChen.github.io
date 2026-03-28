@@ -1,5 +1,5 @@
 import { c as createAstro, a as createComponent, m as maybeRenderHead, d as addAttribute, s as spreadAttributes, f as renderSlot, e as renderScript, b as renderTemplate, r as renderComponent } from './astro/server.Dx2-getx.js';
-import { $ as $$Image } from './_astro_assets.BF7jRz-Q.js';
+import { $ as $$Image } from './_astro_assets.4Pld-aPi.js';
 
 const $$Astro$2 = createAstro("https://alekschen.github.io");
 const $$MDXCode = createComponent(async ($$result, $$props, $$slots) => {
