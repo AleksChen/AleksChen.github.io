@@ -33,7 +33,7 @@ export default defineConfig({
   },
   integrations: [
     react(),
-    ...(import.meta.env.DEV ? [keystatic()] : []),
+    ...(process.env.NODE_ENV !== "production" ? [keystatic()] : []),
     UnoCSS({
       injectReset: true,
     }),
@@ -72,7 +72,7 @@ export default defineConfig({
       },
     },
     optimizeDeps: {
-      exclude: ["@tinacms/cli"],
+      exclude: ["@tinacms/cli", "@keystatic/astro"],
     },
   },
 });
