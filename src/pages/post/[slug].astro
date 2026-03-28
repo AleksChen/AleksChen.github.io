@@ -218,19 +218,19 @@ const seoKeywords =
 
     {
       showSidebar && (
-        <aside class="hidden lg:block sticky top-24 animate-fade-in-up [animation-delay:300ms]">
+        <aside class="hidden lg:flex flex-col sticky top-24 h-[calc(100vh-7rem)] animate-fade-in-up [animation-delay:300ms]">
           {toc.length > 0 && (
-            <div class="p-6 rounded-xl border-4 border-text bg-card shadow-[8px_8px_0_0_var(--color-text)] max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
-              <div class="text-base font-black text-text mb-6 uppercase tracking-widest border-b-2 border-text pb-2">
+            <div class="flex flex-col min-h-0 flex-1 p-6 rounded-xl border-4 border-text bg-card shadow-[8px_8px_0_0_var(--color-text)]">
+              <div class="text-base font-black text-text mb-4 uppercase tracking-widest border-b-2 border-text pb-2 shrink-0">
                 本文目录
               </div>
-              <nav class="flex flex-col gap-1 text-sm">
+              <nav class="flex flex-col gap-1 text-sm overflow-y-auto overflow-x-hidden custom-scrollbar flex-1 min-h-0 pr-2 pb-1">
                 {toc.map((heading) => {
                   if (!heading.id) return;
                   return (
                     <a
                       href={`#${heading.id}`}
-                      class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-2 break-words text-sm leading-snug border-2 border-transparent"
+                      class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-1 text-sm leading-snug border-2 border-transparent shrink-0 [overflow-wrap:anywhere]"
                       data-id={heading.id}
                       style={`padding-left: calc(0.75rem + ${(heading.depth - 1) * 0.75}rem)`}
                     >
@@ -329,7 +329,7 @@ const seoKeywords =
 <style>
   @media (min-width: 1024px) {
     .layout-grid-cols {
-      grid-template-columns: minmax(0, 1fr) 240px;
+      grid-template-columns: minmax(0, 1fr) 300px;
     }
   }
 
