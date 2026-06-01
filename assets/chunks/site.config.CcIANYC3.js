@@ -5,7 +5,9 @@ const config = {
     description: "Aleks 的技术博客，专注前端工程、跨端开发与网络技术实践。",
     links: {
       github: "https://github.com/AleksChen",
-      juejin: "https://juejin.cn/user/254742428393742"}
+      juejin: "https://juejin.cn/user/254742428393742",
+      email: "wenwuchen1948@gmail.com"
+    }
   },
   footer: {
     copyright: "AleksChen",

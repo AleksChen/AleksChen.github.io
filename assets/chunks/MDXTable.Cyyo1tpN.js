@@ -1,5 +1,8 @@
 import { c as createAstro, a as createComponent, m as maybeRenderHead, d as addAttribute, s as spreadAttributes, f as renderSlot, e as renderScript, b as renderTemplate, r as renderComponent } from './astro/server.Dx2-getx.js';
-import { $ as $$Image } from './_astro_assets.4Pld-aPi.js';
+import { $ as $$Image } from './_astro_assets.BN_Xebd-.js';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+import sharp from 'sharp';
 
 const $$Astro$2 = createAstro("https://alekschen.github.io");
 const $$MDXCode = createComponent(async ($$result, $$props, $$slots) => {
@@ -14,13 +17,29 @@ const $$MDXCode = createComponent(async ($$result, $$props, $$slots) => {
 }, "/home/runner/work/AleksChen.github.io/AleksChen.github.io/src/components/mdx/MDXCode.astro", void 0);
 
 const $$Astro$1 = createAstro("https://alekschen.github.io");
-const $$MDXImage = createComponent(($$result, $$props, $$slots) => {
+const $$MDXImage = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro$1, $$props, $$slots);
   Astro2.self = $$MDXImage;
   const props = Astro2.props;
   const { src, alt, title, class: className, ...rest } = props;
   const isLocal = typeof src === "object";
-  return renderTemplate`${maybeRenderHead()}<figure${addAttribute(["my-6 flex flex-col items-center", className], "class:list")}> ${isLocal ? renderTemplate`${renderComponent($$result, "Image", $$Image, { "src": src, "alt": alt || "", "class": "rounded-lg shadow-sm border border-border max-w-full h-auto", ...rest })}` : renderTemplate`<img${addAttribute(src, "src")}${addAttribute(alt || "", "alt")} class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy"${spreadAttributes(rest)}>`} ${(title || alt) && renderTemplate`<figcaption class="text-center text-sm text-text-muted mt-2 italic"> ${title || alt} </figcaption>`} </figure>`;
+  const isPublicImage = typeof src === "string" && src.startsWith("/");
+  let publicImageSize = {};
+  if (isPublicImage) {
+    const publicImagePath = path.join(
+      process.cwd(),
+      "public",
+      src.replace(/^\/+/, "")
+    );
+    if (existsSync(publicImagePath)) {
+      const metadata = await sharp(publicImagePath).metadata();
+      publicImageSize = {
+        width: metadata.width,
+        height: metadata.height
+      };
+    }
+  }
+  return renderTemplate`${maybeRenderHead()}<figure${addAttribute(["my-6 flex flex-col items-center", className], "class:list")}> ${isLocal ? renderTemplate`${renderComponent($$result, "Image", $$Image, { "src": src, "alt": alt || "", "class": "rounded-lg shadow-sm border border-border max-w-full h-auto", ...rest })}` : renderTemplate`<img${addAttribute(src, "src")}${addAttribute(alt || "", "alt")} class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy" decoding="async"${addAttribute(publicImageSize.width, "width")}${addAttribute(publicImageSize.height, "height")}${spreadAttributes(rest)}>`} ${(title || alt) && renderTemplate`<figcaption class="text-center text-sm text-text-muted mt-2 italic"> ${title || alt} </figcaption>`} </figure>`;
 }, "/home/runner/work/AleksChen.github.io/AleksChen.github.io/src/components/mdx/MDXImage.astro", void 0);
 
 const $$Astro = createAstro("https://alekschen.github.io");

@@ -11,7 +11,6 @@ const frontmatter = {
   "translationKey": "2603-ai-harness",
   "cover": "/post-assets/2603-ai-harness/1.jpeg",
   "seoImage": "/post-assets/og/2603-ai-harness.png",
-  "seoDescription": "约束的艺术：从嫡长子继承制到 Harness Engineering",
   "seoKeywords": ["AI", "Harness Engineering", "嫡长子继承制", "约束", "自由", "有序", "工业化", "驾驭工程"]
 };
 function getHeadings() {
