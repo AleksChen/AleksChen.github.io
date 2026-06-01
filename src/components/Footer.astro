@@ -10,13 +10,14 @@ interface Props {
 const { locale = "zh" } = Astro.props;
 ---
 
-<footer class="mt-8 flex flex-col items-center gap-4 py-8">
-  <div class="flex items-center gap-4">
+<footer class="mt-12 border-t-2 border-text bg-bg/80">
+  <div class="retro-shell flex flex-col items-center gap-4 px-4 py-8">
+    <div class="flex flex-wrap items-center justify-center gap-4">
     <a
       href={config.head.links.github}
       target="_blank"
       rel="noopener noreferrer"
-      class="hover:text-primary transition-transform hover:scale-110 flex items-center gap-1 text-sm font-medium"
+      class="hover:text-primary transition-transform hover:scale-105 flex items-center gap-1 text-sm font-bold"
       title="GitHub"
     >
       <div class="i-ri:github-fill w-5 h-5"></div>
@@ -27,7 +28,7 @@ const { locale = "zh" } = Astro.props;
       href={config.head.links.juejin}
       target="_blank"
       rel="noopener noreferrer"
-      class="hover:text-primary transition-transform hover:scale-110 flex items-center gap-1 text-sm font-medium"
+      class="hover:text-primary transition-transform hover:scale-105 flex items-center gap-1 text-sm font-bold"
       title="Juejin"
     >
       <div class="i-ri:blogger-line w-5 h-5"></div>
@@ -38,22 +39,23 @@ const { locale = "zh" } = Astro.props;
       href={localizePath("/rss.xml", locale)}
       target="_blank"
       rel="noopener noreferrer"
-      class="hover:text-primary transition-transform hover:scale-110 flex items-center gap-1 text-sm font-medium"
+      class="hover:text-primary transition-transform hover:scale-105 flex items-center gap-1 text-sm font-bold"
       title="RSS"
     >
       <div class="i-ri:rss-line w-5 h-5"></div>
       <span class="opacity-80 hover:opacity-100">RSS</span>
     </a>
-  </div>
-  <small
-    class="w-full max-w-[720px] min-h-12 flex justify-center items-center opacity-80"
-  >
-    <a
-      href={config.footer.copyrightUrl}
-      target="_blank"
-      rel="noopener noreferrer"
+    </div>
+    <small
+      class="flex min-h-10 w-full max-w-[720px] items-center justify-center text-center text-xs font-bold text-text-muted"
     >
-      {`© ${new Date().getFullYear()} ${config.footer.copyright}`}
-    </a>
-  </small>
+      <a
+        href={config.footer.copyrightUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {`© ${new Date().getFullYear()} ${config.footer.copyright} · AI Builder / Growth Engineer / Full-stack`}
+      </a>
+    </small>
+  </div>
 </footer>

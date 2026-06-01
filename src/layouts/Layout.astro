@@ -61,6 +61,8 @@ const seoPayload = {
   ...seo,
   locale: seo.locale || resolvedLocale,
 };
+const clarityId = import.meta.env.PUBLIC_CLARITY_ID || "vb1cwv7d1k";
+const enableClarity = import.meta.env.PROD && Boolean(clarityId);
 ---
 
 <!doctype html>
@@ -101,20 +103,32 @@ const seoPayload = {
 
     <slot name="head" />
 
-    <script type="text/javascript">
-      (function (c, l, a, r, i, t, y) {
-        c[a] =
-          c[a] ||
-          function () {
-            (c[a].q = c[a].q || []).push(arguments);
+    {
+      enableClarity && (
+        <script is:inline define:vars={{ clarityId }}>
+          const loadClarity = () => {
+            (function (c, l, a, r, i, t, y) {
+              c[a] =
+                c[a] ||
+                function () {
+                  (c[a].q = c[a].q || []).push(arguments);
+                };
+              t = l.createElement(r);
+              t.async = 1;
+              t.src = "https://www.clarity.ms/tag/" + i;
+              y = l.getElementsByTagName(r)[0];
+              y.parentNode.insertBefore(t, y);
+            })(window, document, "clarity", "script", clarityId);
           };
-        t = l.createElement(r);
-        t.async = 1;
-        t.src = "https://www.clarity.ms/tag/" + i;
-        y = l.getElementsByTagName(r)[0];
-        y.parentNode.insertBefore(t, y);
-      })(window, document, "clarity", "script", "vb1cwv7d1k");
-    </script>
+
+          if ("requestIdleCallback" in window) {
+            window.requestIdleCallback(loadClarity, { timeout: 3000 });
+          } else {
+            window.setTimeout(loadClarity, 1500);
+          }
+        </script>
+      )
+    }
 
     <script is:inline>
       const theme = (() => {
@@ -167,46 +181,51 @@ const seoPayload = {
     <slot name="background" />
     <header
       id="main-header"
-      class="sticky top-0 z-50 w-full bg-bg border-b-2 border-text transition-transform duration-300"
+      class="sticky top-0 z-50 w-full border-b-2 border-text bg-bg/95 backdrop-blur transition-transform duration-300"
     >
       <div
         class="max-w-[1200px] mx-auto px-4 h-16 flex items-center justify-between"
       >
         <a
           href={homePath}
-          class="text-xl font-bold flex items-center gap-2 hover:text-primary transition-colors"
+          class="group text-xl font-black flex items-center gap-2 hover:text-text transition-colors"
           aria-label={ui.actions.backHomeAria}
         >
-          <div class="i-ri:home-4-line w-6 h-6"></div>
+          <span
+            class="flex h-9 w-9 items-center justify-center rounded border-2 border-text bg-card shadow-[3px_3px_0_0_var(--color-accent)] transition-transform group-hover:translate-x-[1px] group-hover:translate-y-[1px]"
+          >
+            <div class="i-ri:home-4-line w-5 h-5"></div>
+          </span>
+          <span class="hidden sm:inline tracking-tight">AleksChen</span>
         </a>
 
         <div class="flex items-center gap-4">
           <nav
             id="main-nav"
-            class="hidden md:flex items-center gap-6"
+            class="hidden md:flex items-center gap-5"
             aria-label={ui.nav.mainNavAria}
           >
             <a
               href={archivesPath}
-              class="text-sm font-medium hover:text-primary transition-colors"
+              class="text-sm font-extrabold text-text-muted hover:text-text transition-colors"
             >
               {ui.nav.archives}
             </a>
             <a
               href={tagsPath}
-              class="text-sm font-medium hover:text-primary transition-colors"
+              class="text-sm font-extrabold text-text-muted hover:text-text transition-colors"
             >
               {ui.nav.tags}
             </a>
             <a
               href={aboutPath}
-              class="text-sm font-medium hover:text-primary transition-colors"
+              class="text-sm font-extrabold text-text-muted hover:text-text transition-colors"
             >
               {ui.nav.about}
             </a>
           </nav>
 
-          <div class="flex items-center gap-3 pl-4 border-l border-text">
+          <div class="flex items-center gap-3 pl-4 border-l-2 border-text">
             {
               resolvedLanguageSwitchPath && (
                 <a
@@ -267,30 +286,30 @@ const seoPayload = {
 
       <div
         id="mobile-nav"
-        class="hidden md:hidden border-t-2 border-text bg-bg"
+        class="hidden md:hidden border-t-2 border-text bg-bg/98 backdrop-blur"
         aria-label={ui.nav.mobileNavAria}
       >
         <nav class="max-w-[1200px] mx-auto px-4 py-4 flex flex-col gap-1">
           <a
             href={archivesPath}
-            class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors"
+            class="rounded px-3 py-3 text-sm font-extrabold hover:bg-bg-secondary hover:text-primary transition-colors"
             >{ui.nav.archives}</a
           >
           <a
             href={tagsPath}
-            class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors"
+            class="rounded px-3 py-3 text-sm font-extrabold hover:bg-bg-secondary hover:text-primary transition-colors"
             >{ui.nav.tags}</a
           >
           <a
             href={aboutPath}
-            class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors"
+            class="rounded px-3 py-3 text-sm font-extrabold hover:bg-bg-secondary hover:text-primary transition-colors"
             >{ui.nav.about}</a
           >
           {
             resolvedLanguageSwitchPath && (
               <a
                 href={resolvedLanguageSwitchPath}
-                class="rounded px-3 py-2 text-sm font-medium hover:bg-bg-secondary hover:text-primary transition-colors"
+                class="rounded px-3 py-3 text-sm font-extrabold hover:bg-bg-secondary hover:text-primary transition-colors"
               >
                 {ui.actions.switchLanguageAria}
               </a>
@@ -302,7 +321,7 @@ const seoPayload = {
 
     <main
       id="main-content"
-      class={`flex-1 w-full mx-auto px-4 py-8 animate-fade-in ${className}`}
+      class={`flex-1 w-full mx-auto px-4 py-8 md:py-10 animate-fade-in ${className}`}
       tabindex="-1"
     >
       <slot />

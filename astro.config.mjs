@@ -2,7 +2,6 @@
 import { defineConfig } from "astro/config";
 import { fileURLToPath } from "url";
 import keystatic from "@keystatic/astro";
-import react from "@astrojs/react";
 import UnoCSS from "@unocss/astro";
 import config from "./site.config.ts";
 
@@ -32,7 +31,6 @@ export default defineConfig({
     },
   },
   integrations: [
-    react(),
     ...(process.env.NODE_ENV !== "production" ? [keystatic()] : []),
     UnoCSS({
       injectReset: true,

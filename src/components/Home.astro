@@ -7,7 +7,6 @@ import Layout from "../layouts/Layout.astro";
 import Mountain from "@/components/Mountain.astro";
 import TerminalToggle from "@/components/TerminalToggle.astro";
 import TerminalView from "@/components/TerminalView.astro";
-import TypeWriter from "@/components/TypeWriter.astro";
 import PostCard from "./PostCard.astro";
 
 interface Props {
@@ -79,32 +78,57 @@ const resolvedLanguageSwitchPath =
       <TerminalView posts={allPosts} locale={locale} />
     </div>
 
-    <div class="view-card w-full flex flex-col items-center gap-8">
-      <section id="hero-section" class="text-center py-8 md:py-12">
-        <h1
-          class="text-4xl md:text-7xl font-bold text-text mb-6 drop-shadow-[4px_4px_0_var(--color-shadow)] min-h-[1.2em]"
+    <div class="view-card retro-shell flex w-full flex-col gap-8">
+      <section
+        id="hero-section"
+        class="grid gap-5 rounded-lg border-2 border-text bg-card p-5 shadow-[5px_5px_0_0_var(--color-accent)] md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:p-7"
+      >
+        <div class="min-w-0">
+          <div class="page-kicker mb-3">AleksChen</div>
+          <h1
+            class="min-h-[1.05em] text-3xl font-black leading-none tracking-tight text-text md:text-5xl"
+          >
+            {ui.home.intro}
+          </h1>
+          <p class="page-description mt-4">
+            {ui.home.lead}
+          </p>
+          <div class="mt-5 flex flex-wrap gap-2">
+            {ui.home.identity.map((label) => <span class="retro-chip">{label}</span>)}
+          </div>
+        </div>
+
+        <nav
+          class="grid grid-cols-1 gap-2 sm:grid-cols-3 md:min-w-[340px] md:grid-cols-1"
+          aria-label={ui.nav.mainNavAria}
         >
-          <TypeWriter
-            text="AleksChen's Blog"
-            speed={150}
-            wait={3000}
-            loop={false}
-            cursor={false}
-          />
-        </h1>
-        <p class="text-text-muted text-lg max-w-2xl mx-auto min-h-[1.5em]">
-          <TypeWriter
-            text={ui.home.intro}
-            speed={150}
-            wait={3000}
-            loop={false}
-            cursor={false}
-          />
-        </p>
+          <a href={localizePath("/about", locale)} class="retro-link-button">
+            <div class="i-ri:user-3-line"></div>
+            {ui.home.ctaAbout}
+          </a>
+          <a href={localizePath("/about#skills", locale)} class="retro-link-button">
+            <div class="i-ri:stack-line"></div>
+            {ui.home.ctaSkills}
+          </a>
+          <a
+            href={localizePath("/about#projects", locale)}
+            class="retro-link-button"
+          >
+            <div class="i-ri:rocket-line"></div>
+            {ui.home.ctaProjects}
+          </a>
+        </nav>
       </section>
 
+      <div class="flex flex-col gap-2 border-b-2 border-text pb-4">
+        <div class="page-kicker">{ui.home.latest}</div>
+        <p class="text-sm font-bold text-text-muted">
+          {ui.home.latestDescription}
+        </p>
+      </div>
+
       <div
-        class="home-post-grid grid grid-cols-1 gap-4 md:gap-x-5 md:gap-y-8 w-full max-w-[1120px] md:grid-cols-2 xl:grid-cols-3 px-4 md:px-0"
+        class="home-post-grid grid w-full grid-cols-1 gap-4 md:grid-cols-2 md:gap-x-5 md:gap-y-7 xl:grid-cols-3"
       >
         {
           posts.map((item, index) => (
@@ -126,7 +150,7 @@ const resolvedLanguageSwitchPath =
           <div class="w-full flex justify-center mt-8 mb-8">
             <a
               href={localizePath(`/${page + 1}`, locale)}
-              class="btn btn-primary px-8 py-3"
+              class="retro-link-button px-8 py-3"
             >
               {ui.home.loadMore}
             </a>
@@ -140,7 +164,7 @@ const resolvedLanguageSwitchPath =
 <script>
   const heroSection = document.getElementById("hero-section");
   if (heroSection) {
-    const fadeOutHeight = 249;
+    const fadeOutHeight = 360;
     let ticking = false;
 
     const handleScroll = () => {
@@ -148,12 +172,12 @@ const resolvedLanguageSwitchPath =
         window.requestAnimationFrame(() => {
           const scrollY = window.scrollY;
           if (scrollY <= fadeOutHeight) {
-            const opacity = Math.max(0, 1 - scrollY / fadeOutHeight);
+            const opacity = Math.max(0.72, 1 - scrollY / fadeOutHeight);
             heroSection.style.opacity = opacity.toString();
             heroSection.style.visibility = "visible";
           } else {
-            heroSection.style.opacity = "0";
-            heroSection.style.visibility = "hidden";
+            heroSection.style.opacity = "0.72";
+            heroSection.style.visibility = "visible";
           }
           ticking = false;
         });
@@ -242,10 +266,6 @@ const resolvedLanguageSwitchPath =
       transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
     will-change: opacity, transform;
-  }
-
-  .home-post-card:hover {
-    transform: translate3d(-2px, -3px, 0) scale(1);
   }
 
   .home-post-grid.cards-motion-ready .home-post-card {

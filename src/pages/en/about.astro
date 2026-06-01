@@ -1,13 +1,17 @@
 ---
+import { getUiText } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
 import config from "site.config";
+
+const locale = "en" as const;
+const ui = getUiText(locale);
 ---
 
 <Layout
-  locale="en"
+  locale={locale}
   languageSwitchPath="/about"
-  title="About"
-  description="About me"
+  title={ui.about.title}
+  description={ui.about.description}
   seo={{
     alternateLocales: {
       zh: "/about",
@@ -15,63 +19,104 @@ import config from "site.config";
     },
   }}
 >
-  <div class="flex flex-col gap-8">
-    <section class="text-center py-8 md:py-12 animate-slide-in">
-      <h1
-        class="text-4xl md:text-5xl font-bold text-text mb-4 drop-shadow-[2px_2px_0_var(--color-shadow)]"
-      >
-        About
-      </h1>
+  <div class="retro-shell flex flex-col gap-8">
+    <section class="retro-panel p-5 md:p-8">
+      <div class="page-kicker">About</div>
+      <h1 class="page-title mt-2">{ui.about.title}</h1>
+      <p class="page-description mt-5">{ui.about.description}</p>
+      <div class="mt-5 flex flex-wrap gap-2">
+        {ui.home.identity.map((label) => <span class="retro-chip">{label}</span>)}
+      </div>
     </section>
 
-    <article class="prose prose-lg max-w-none">
-      <div class="card p-8 max-w-[800px] mx-auto">
-        <div class="flex flex-col gap-6">
-          <div>
-            <h2 class="text-2xl font-bold text-text mb-4">About me</h2>
-            <p class="text-text-muted leading-relaxed">
-              <a href="mailto:wenwuchen1948@gmail.com"
-                >wenwuchen1948@gmail.com
-              </a>
-            </p>
-          </div>
+    <section class="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+      <article class="retro-panel-soft p-5 md:p-6">
+        <h2 class="mb-3 text-2xl font-black text-text">
+          {ui.about.introTitle}
+        </h2>
+        <p class="leading-8 text-text-muted">{ui.about.intro}</p>
+      </article>
 
-          <div>
-            <h2 class="text-2xl font-bold text-text mb-4">Contact</h2>
-            <div class="flex flex-col gap-3">
+      <article class="retro-panel-soft p-5 md:p-6">
+        <h2 class="mb-4 text-2xl font-black text-text">
+          {ui.about.buildTitle}
+        </h2>
+        <ul class="grid gap-3">
+          {
+            ui.about.buildItems.map((item) => (
+              <li class="flex gap-3 text-sm font-bold leading-7 text-text-muted">
+                <span class="mt-2 h-2 w-2 shrink-0 border-2 border-text bg-accent" />
+                <span>{item}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </article>
+    </section>
+
+    <section id="skills" class="retro-panel p-5 md:p-6">
+      <div class="mb-4 flex items-end justify-between gap-4 border-b-2 border-text pb-3">
+        <h2 class="text-2xl font-black text-text">{ui.about.skillsTitle}</h2>
+        <div class="i-ri:stack-line h-6 w-6 text-primary"></div>
+      </div>
+      <div class="grid gap-3 md:grid-cols-2">
+        {
+          ui.about.skills.map((skill) => (
+            <div class="rounded border-2 border-border bg-bg-secondary p-4 text-sm font-bold leading-7 text-text-muted">
+              {skill}
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section id="projects" class="grid gap-5 lg:grid-cols-[1fr_320px]">
+      <article class="retro-panel p-5 md:p-6">
+        <div class="mb-4 flex items-end justify-between gap-4 border-b-2 border-text pb-3">
+          <h2 class="text-2xl font-black text-text">
+            {ui.about.projectsTitle}
+          </h2>
+          <div class="i-ri:rocket-line h-6 w-6 text-primary"></div>
+        </div>
+        <p class="leading-8 text-text-muted">{ui.about.projects}</p>
+      </article>
+
+      <aside class="retro-panel-soft p-5 md:p-6">
+        <h2 class="mb-4 text-2xl font-black text-text">
+          {ui.about.contactTitle}
+        </h2>
+        <div class="flex flex-col gap-3">
+          <a
+            href={`mailto:${config.head.links.email}`}
+            class="retro-link-button justify-start"
+          >
+            <div class="i-ri:mail-line"></div>
+            {config.head.links.email}
+          </a>
+          <a
+            href={config.head.links.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="retro-link-button justify-start"
+          >
+            <div class="i-ri:github-fill"></div>
+            GitHub
+          </a>
+          {
+            config.head.links.juejin && (
               <a
-                href={config.head.links.github}
+                href={config.head.links.juejin}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="flex items-center gap-2 text-text hover:text-primary transition-colors"
+                class="retro-link-button justify-start"
               >
-                <div class="i-ri:github-fill w-5 h-5"></div>
-                <span>GitHub</span>
+                <div class="i-ri:blogger-line" />
+                Juejin
               </a>
-              {
-                config.head.links.juejin && (
-                  <a
-                    href={config.head.links.juejin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="flex items-center gap-2 text-text hover:text-primary transition-colors"
-                  >
-                    <div class="i-ri:blogger-line w-5 h-5" />
-                    <span>Juejin</span>
-                  </a>
-                )
-              }
-            </div>
-          </div>
-
-          <div>
-            <h2 class="text-2xl font-bold text-text mb-4">About this blog</h2>
-            <p class="text-text-muted leading-relaxed">
-              This blog is built with Astro.
-            </p>
-          </div>
+            )
+          }
         </div>
-      </div>
-    </article>
+      </aside>
+    </section>
   </div>
 </Layout>

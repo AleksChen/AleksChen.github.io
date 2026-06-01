@@ -15,32 +15,21 @@ const { item, index, formattedDate, locale, noIntroText } = Astro.props;
 ---
 
 <article
-  class="home-post-card group relative overflow-hidden rounded-lg p-[2px] shadow-[0_8px_24px_rgba(24,24,27,0.08)] transition-all duration-300 hover:shadow-[0_12px_26px_rgba(24,24,27,0.12)] md:hover:p-[6px]"
+  class="home-post-card group relative h-full overflow-hidden rounded-lg border-2 border-text bg-card shadow-[4px_4px_0_0_var(--color-text)] transition-all duration-300 hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_var(--color-text)]"
   style={`transition-delay: ${Math.min(index, 8) * 70}ms`}
 >
-  <!-- 默认边框 -->
-  <div
-    class="absolute inset-0 z-0 rounded-lg border-2 border-border transition-opacity duration-300 group-hover:opacity-0"
-  >
-  </div>
-
-  <div
-    class="absolute left-[-150%] top-[-150%] z-0 hidden aspect-square w-[400%] origin-center animate-spin bg-[conic-gradient(from_0deg,#ff0080,#ff8c00,#40e0d0,#8a2be2,#ff0080)] invisible opacity-0 transition-all duration-300 [animation-duration:3s] md:block md:group-hover:visible md:group-hover:opacity-100"
-  >
-  </div>
-
-  <!-- 内容区 -->
-  <div
-    class="relative z-10 h-full w-full overflow-hidden rounded-[6px] bg-card"
-  >
-    <a href={localizePath(`/post/${item.slug}`, locale)} class="block">
+  <div class="relative z-10 flex h-full flex-col overflow-hidden rounded-[6px]">
+    <a
+      href={localizePath(`/post/${item.slug}`, locale)}
+      class="flex h-full flex-col"
+    >
       <div
-        class="relative w-full overflow-hidden border-b border-border bg-bg-secondary aspect-[16/7.8]"
+        class="relative w-full overflow-hidden border-b-2 border-text bg-bg-secondary aspect-[16/8.4]"
       >
         {
           item.cover ? (
             <img
-              class="h-full w-full object-fill transition-transform duration-700 group-hover:scale-105"
+              class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
               src={item.cover.src}
               alt={item.cover.alt || item.title}
               width={800}
@@ -51,32 +40,42 @@ const { item, index, formattedDate, locale, noIntroText } = Astro.props;
             />
           ) : (
             <div
-              class="h-full w-full"
-              style="background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-primary-light) 100%)"
+              class="flex h-full w-full items-center justify-center"
+              style="background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-primary-light) 58%, var(--color-accent-light) 100%)"
             />
           )
         }
 
         <div
-          class="pointer-events-none absolute left-2 top-2 z-10 inline-flex items-center gap-1 rounded-full border border-white/35 bg-black/45 px-2 py-0.5 text-[11px] text-white backdrop-blur-[1px]"
+          class="pointer-events-none absolute left-2 top-2 z-10 inline-flex items-center gap-1 rounded border-2 border-text bg-card px-2 py-1 text-[11px] font-black text-text shadow-[2px_2px_0_0_var(--color-accent)]"
         >
           <div class="i-ri:calendar-line"></div>
           {formattedDate}
         </div>
       </div>
 
-      <div class="flex flex-col gap-2.5 p-4 md:p-5">
+      <div class="flex flex-1 flex-col gap-3 p-4 md:p-5">
         <h2
-          class="line-clamp-2 text-lg font-bold text-text decoration-2 underline-offset-3 transition-all group-hover:underline md:text-xl"
+          class="line-clamp-2 text-lg font-black leading-snug text-text decoration-2 underline-offset-4 transition-all group-hover:underline md:text-xl"
         >
           {item.title}
         </h2>
 
         <p
-          class="line-clamp-2 text-[13px] leading-relaxed text-text-muted md:text-sm"
+          class="line-clamp-3 text-[13px] leading-relaxed text-text-muted md:text-sm"
         >
           {item.intro || noIntroText}
         </p>
+
+        {
+          item.tags.length > 0 && (
+            <div class="mt-auto flex flex-wrap gap-1.5 pt-1">
+              {item.tags.slice(0, 3).map((tag) => (
+                <span class="article-tag">#{tag}</span>
+              ))}
+            </div>
+          )
+        }
       </div>
     </a>
   </div>

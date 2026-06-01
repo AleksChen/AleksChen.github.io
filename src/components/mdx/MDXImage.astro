@@ -1,10 +1,31 @@
 ---
 import { Image } from "astro:assets";
+import { existsSync } from "node:fs";
+import path from "node:path";
+import sharp from "sharp";
 
 const props = Astro.props;
 const { src, alt, title, class: className, ...rest } = props;
 
 const isLocal = typeof src === "object";
+const isPublicImage = typeof src === "string" && src.startsWith("/");
+let publicImageSize: { width?: number; height?: number } = {};
+
+if (isPublicImage) {
+  const publicImagePath = path.join(
+    process.cwd(),
+    "public",
+    src.replace(/^\/+/, "")
+  );
+
+  if (existsSync(publicImagePath)) {
+    const metadata = await sharp(publicImagePath).metadata();
+    publicImageSize = {
+      width: metadata.width,
+      height: metadata.height,
+    };
+  }
+}
 ---
 
 <figure class:list={["my-6 flex flex-col items-center", className]}>
@@ -22,6 +43,9 @@ const isLocal = typeof src === "object";
         alt={alt || ""}
         class="rounded-lg shadow-sm border border-border max-w-full h-auto"
         loading="lazy"
+        decoding="async"
+        width={publicImageSize.width}
+        height={publicImageSize.height}
         {...rest}
       />
     )

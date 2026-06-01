@@ -22,11 +22,6 @@ export async function getStaticPaths() {
   }));
 }
 
-interface Props {
-  tag: string;
-  posts: ShortPostData[];
-}
-
 const { tag, posts } = Astro.props;
 const locale = "en" as const;
 const hasZhPosts = (await getPostsByTag(tag, "zh")).length > 0;
@@ -48,35 +43,30 @@ const encodedTag = encodeURIComponent(tag);
       : undefined,
   }}
 >
-  <div class="flex flex-col gap-8">
-    <section class="text-center py-8 md:py-12 animate-slide-in">
-      <h1
-        class="text-4xl md:text-5xl font-bold text-text mb-4 drop-shadow-[2px_2px_0_var(--color-shadow)]"
-      >
-        #{tag}
-      </h1>
-      <p class="text-text-muted text-lg max-w-2xl mx-auto">
-        {posts?.length || 0} posts
-      </p>
+  <div class="retro-shell flex flex-col gap-8">
+    <section class="animate-slide-in border-b-2 border-text pb-6">
+      <div class="page-kicker">Tag</div>
+      <h1 class="page-title mt-2">#{tag}</h1>
+      <p class="page-description mt-4">{posts?.length || 0} related posts</p>
     </section>
 
     <div class="flex flex-col gap-6">
       {
         posts?.map((item, index) => (
           <article
-            class="group relative card transition-all duration-300"
+            class="group relative rounded-lg border-2 border-border bg-card p-4 transition-all duration-300 hover:border-text hover:shadow-[4px_4px_0_0_var(--color-text)] md:p-5"
             style={`animation-delay: ${index * 100}ms`}
           >
-            <div class="flex flex-col md:flex-row gap-4 md:items-start justify-between">
+            <div class="flex flex-col justify-between gap-4 md:flex-row md:items-start">
               <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-3 text-xs text-text-muted mb-2">
+                <div class="meta-row mb-2">
                   <span class="flex items-center gap-1">
                     <div class="i-ri:calendar-line" />
                     {new Date(item.createTime).toLocaleDateString("en-US")}
                   </span>
                 </div>
 
-                <h2 class="text-xl md:text-2xl font-bold text-text mb-3 line-clamp-2">
+                <h2 class="mb-3 line-clamp-2 text-xl font-black text-text md:text-2xl">
                   <a
                     href={localizePath(`/post/${item.slug}`, locale)}
                     class="group-hover:underline decoration-2 underline-offset-4 transition-colors"
@@ -85,7 +75,7 @@ const encodedTag = encodeURIComponent(tag);
                   </a>
                 </h2>
 
-                <p class="text-text-muted text-sm md:text-base line-clamp-3 mb-4 leading-relaxed">
+                <p class="mb-4 line-clamp-3 text-sm leading-relaxed text-text-muted md:text-base">
                   {item.intro || "No summary yet"}
                 </p>
 
@@ -93,7 +83,7 @@ const encodedTag = encodeURIComponent(tag);
                   {item.tags.map((t) => (
                     <a
                       href={localizePath(`/tag/${encodeURIComponent(t)}`, locale)}
-                      class={`inline-flex items-center px-2 py-0.5 rounded-sm text-xs font-bold border border-text text-text bg-transparent shadow-[2px_2px_0_0_var(--color-text)] hover:translate-y-[1px] hover:translate-x-[1px] hover:shadow-none transition-all ${t === tag ? "bg-text text-bg" : ""}`}
+                      class={t === tag ? "article-tag border-text bg-text text-bg" : "article-tag hover:border-text hover:text-text"}
                     >
                       #{t}
                     </a>
@@ -102,7 +92,7 @@ const encodedTag = encodeURIComponent(tag);
               </div>
 
               {item.cover && (
-                <div class="flex-shrink-0 w-full md:w-32 h-32 md:h-24 rounded-sm overflow-hidden border-2 border-text shadow-[4px_4px_0_0_var(--color-text)]">
+                <div class="h-32 w-full flex-shrink-0 overflow-hidden rounded border-2 border-text md:h-24 md:w-32">
                   <a
                     href={localizePath(`/post/${item.slug}`, locale)}
                     class="block w-full h-full"

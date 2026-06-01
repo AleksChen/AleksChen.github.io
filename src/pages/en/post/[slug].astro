@@ -121,15 +121,15 @@ const giscusConfig = config.giscus
     ]}
   >
     <article
-      class="w-full min-w-0 bg-card p-6 md:p-12 rounded-xl border-4 border-text shadow-[8px_8px_0_0_var(--color-text)] md:shadow-[12px_12px_0_0_var(--color-text)]"
+      class="w-full min-w-0 rounded-lg border-2 border-text bg-card p-5 shadow-[5px_5px_0_0_var(--color-text)] md:p-8 lg:p-10"
     >
-      <header class="mb-12 pb-12 border-b-4 border-text animate-fade-in-up">
-        <div class="flex flex-wrap gap-3 mb-8">
+      <header class="mb-10 border-b-2 border-text pb-8 animate-fade-in-up">
+        <div class="mb-6 flex flex-wrap gap-2">
           {
             post.data.tags.map((tag) => (
               <a
                 href={localizePath(`/tag/${encodeURIComponent(tag)}`, locale)}
-                class="px-3 py-1.5 text-sm font-black uppercase tracking-wider rounded-md border-2 border-text text-text bg-transparent shadow-[4px_4px_0_0_var(--color-text)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-none transition-all"
+                class="article-tag hover:border-text hover:text-text"
               >
                 #{tag}
               </a>
@@ -138,13 +138,13 @@ const giscusConfig = config.giscus
         </div>
 
         <h1
-          class="text-4xl md:text-6xl lg:text-7xl font-black mb-8 leading-none tracking-tight text-text"
+          class="mb-6 text-3xl font-black leading-tight tracking-tight text-text md:text-5xl lg:text-6xl"
         >
           {post.data.title}
         </h1>
 
         <div
-          class="flex items-center gap-6 text-base font-bold text-text-muted uppercase tracking-wide"
+          class="meta-row"
         >
           <time
             datetime={post.data.date.toISOString()}
@@ -165,7 +165,7 @@ const giscusConfig = config.giscus
       </header>
 
       <div
-        class="prose prose-lg md:prose-xl dark:prose-invert max-w-none break-words prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:font-black prose-headings:scroll-mt-24 animate-fade-in-up [animation-delay:150ms]"
+        class="prose prose-lg dark:prose-invert max-w-[760px] break-words prose-a:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:font-black prose-headings:scroll-mt-24 prose-p:leading-8 prose-li:leading-8 animate-fade-in-up [animation-delay:150ms]"
       >
         <Content
           components={{ img: MDXImage, pre: MDXCode, table: MDXTable }}
@@ -173,19 +173,19 @@ const giscusConfig = config.giscus
       </div>
 
       <nav
-        class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-16 pt-12 border-t-4 border-text animate-fade-in-up [animation-delay:300ms]"
+        class="mt-14 grid grid-cols-1 gap-4 border-t-2 border-text pt-8 sm:grid-cols-2 animate-fade-in-up [animation-delay:300ms]"
       >
         {
           prev ? (
             <a
               href={localizePath(`/post/${prev.slug}`, locale)}
-              class="group flex flex-col gap-2 p-6 rounded-xl border-4 border-text shadow-[8px_8px_0_0_var(--color-text)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all bg-card"
+              class="group flex flex-col gap-2 rounded-lg border-2 border-text bg-card p-5 shadow-[4px_4px_0_0_var(--color-text)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_var(--color-text)]"
             >
               <span class="text-sm font-bold uppercase tracking-widest text-text-muted flex items-center gap-2 group-hover:text-primary">
                 <div class="i-ri:arrow-left-double-line text-xl" />
                 Previous post
               </span>
-              <span class="text-xl font-black truncate text-text">
+              <span class="truncate text-lg font-black text-text">
                 {prev.title}
               </span>
             </a>
@@ -197,13 +197,13 @@ const giscusConfig = config.giscus
           next ? (
             <a
               href={localizePath(`/post/${next.slug}`, locale)}
-              class="group flex flex-col gap-2 p-6 rounded-xl border-4 border-text shadow-[8px_8px_0_0_var(--color-text)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all text-right bg-card"
+              class="group flex flex-col gap-2 rounded-lg border-2 border-text bg-card p-5 text-right shadow-[4px_4px_0_0_var(--color-text)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_var(--color-text)]"
             >
               <span class="text-sm font-bold uppercase tracking-widest text-text-muted flex items-center gap-2 justify-end group-hover:text-primary">
                 Next post
                 <div class="i-ri:arrow-right-double-line text-xl" />
               </span>
-              <span class="text-xl font-black truncate text-text">
+              <span class="truncate text-lg font-black text-text">
                 {next.title}
               </span>
             </a>
@@ -215,7 +215,7 @@ const giscusConfig = config.giscus
 
       {
         giscusConfig && (
-          <div class="giscus-container mt-16 pt-12 border-t-4 border-text animate-fade-in-up [animation-delay:450ms]">
+          <div class="giscus-container mt-14 border-t-2 border-text pt-8 animate-fade-in-up [animation-delay:450ms]">
             <script {...giscusConfig} />
           </div>
         )
@@ -226,8 +226,8 @@ const giscusConfig = config.giscus
       showSidebar && (
         <aside class="hidden lg:block sticky top-24 animate-fade-in-up [animation-delay:300ms]">
           {toc.length > 0 && (
-            <div class="p-6 rounded-xl border-4 border-text bg-card shadow-[8px_8px_0_0_var(--color-text)] max-h-[calc(100vh-8rem)] overflow-y-auto custom-scrollbar">
-              <div class="text-base font-black text-text mb-6 uppercase tracking-widest border-b-2 border-text pb-2">
+            <div class="max-h-[calc(100vh-8rem)] overflow-y-auto rounded-lg border-2 border-text bg-card p-4 shadow-[4px_4px_0_0_var(--color-text)] custom-scrollbar">
+              <div class="mb-4 border-b-2 border-text pb-2 text-sm font-black uppercase tracking-widest text-text">
                 On this page
               </div>
               <nav class="flex flex-col gap-1 text-sm">
@@ -236,7 +236,7 @@ const giscusConfig = config.giscus
                   return (
                     <a
                       href={`#${heading.id}`}
-                      class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-2 break-words text-sm leading-snug border-2 border-transparent"
+                      class="toc-link block rounded border-l-4 border-transparent px-3 py-2 text-sm font-bold leading-snug text-text-muted transition-all duration-200 hover:border-primary hover:bg-bg-secondary hover:text-text [overflow-wrap:anywhere]"
                       data-id={heading.id}
                       style={`padding-left: calc(0.75rem + ${(heading.depth - 1) * 0.75}rem)`}
                     >
@@ -285,10 +285,7 @@ const giscusConfig = config.giscus
       link.classList.toggle("font-bold", !isActive);
       link.classList.toggle("border-text", isActive);
       link.classList.toggle("border-transparent", !isActive);
-      link.classList.toggle("shadow-[4px_4px_0_0_var(--color-text)]", isActive);
-      link.classList.toggle("-translate-y-[2px]", isActive);
-      link.classList.toggle("-translate-x-[2px]", isActive);
-      link.classList.toggle("bg-card", isActive);
+      link.classList.toggle("bg-bg-secondary", isActive);
     });
   };
 
