@@ -115,9 +115,9 @@ const UI_TEXT = {
       mainNavAria: "主导航"
     },
     home: {
-      description: "AleksChen 的技术笔记，记录 AI Builder、增长工程与全栈工程实践。",
-      intro: "AI Builder / 增长工程师 / 全栈工程",
-      lead: "把 AI 工作流、增长实验和工程系统落到真实产品里。这里优先沉淀可复用的实现笔记、源码解析和工程判断。",
+      description: "AleksChen 的技术笔记，记录全栈工程、AI Builder 与增长工程实践。",
+      intro: "全栈工程师 / AI Builder",
+      lead: "把前端体验、后端服务、AI 工作流和增长实验落到真实产品里。这里优先沉淀可复用的实现笔记、源码解析和工程判断。",
       latest: "最新文章",
       latestDescription: "实战记录、技术拆解和阶段性复盘。",
       loadMore: "加载更多",
@@ -125,13 +125,13 @@ const UI_TEXT = {
       ctaAbout: "关于我",
       ctaSkills: "技能栈",
       ctaProjects: "项目实践",
-      identity: ["AI Builder", "增长工程师", "全栈工程"]
+      identity: ["全栈工程师", "AI Builder", "增长工程师"]
     },
     about: {
       title: "关于 AleksChen",
-      description: "我关注如何把 AI 能力、增长目标和工程实现合在一起，做出能持续迭代的产品系统。",
+      description: "我关注如何把全栈工程能力、AI 能力和增长目标合在一起，做出能持续迭代的产品系统。",
       introTitle: "我在做什么",
-      intro: "我是 AleksChen，定位是 AI Builder / 增长工程师 / 全栈工程。我的工作方式是从真实业务问题出发，用前端、全栈和 AI 工具链快速验证，再把有效方案沉淀成可维护的系统。",
+      intro: "我是 AleksChen，首先是一名全栈工程师，关注从前端体验、后端服务到工程化交付的完整链路；同时也是 AI Builder，持续把 AI 编程、Agent 工作流和人机协作落到真实项目、工具与自动化流程里。",
       buildTitle: "构建方向",
       buildItems: [
         "AI 辅助产品与自动化工作流",
@@ -170,7 +170,7 @@ const UI_TEXT = {
       back: "你来啦!OvO"
     },
     seo: {
-      siteDescription: "Aleks 的技术博客，专注前端工程、跨端开发与网络技术实践。"
+      siteDescription: "Aleks 的技术博客，专注 Web 全栈工程、AI Builder 实践、跨端开发与网络技术。"
     }
   },
   en: {
@@ -194,9 +194,9 @@ const UI_TEXT = {
       mainNavAria: "Main navigation"
     },
     home: {
-      description: "AleksChen's technical notes on AI building, growth engineering, and full-stack product work.",
-      intro: "AI Builder / Growth Engineer / Full-stack Engineering",
-      lead: "I turn AI workflows, growth experiments, and engineering systems into practical products. This site prioritizes reusable implementation notes, source-code reading, and engineering judgment.",
+      description: "AleksChen's technical notes on full-stack engineering, AI building, and growth engineering.",
+      intro: "Full-stack Engineer / AI Builder",
+      lead: "I turn frontend experience, backend services, AI workflows, and growth experiments into practical products. This site prioritizes reusable implementation notes, source-code reading, and engineering judgment.",
       latest: "Latest writing",
       latestDescription: "Implementation notes, technical breakdowns, and field reports.",
       loadMore: "Load more",
@@ -204,13 +204,13 @@ const UI_TEXT = {
       ctaAbout: "About",
       ctaSkills: "Skills",
       ctaProjects: "Projects",
-      identity: ["AI Builder", "Growth Engineer", "Full-stack Engineering"]
+      identity: ["Full-stack Engineer", "AI Builder", "Growth Engineer"]
     },
     about: {
       title: "About AleksChen",
-      description: "I focus on combining AI capability, growth goals, and engineering execution into product systems that can keep improving.",
+      description: "I focus on combining full-stack engineering, AI capability, and growth goals into product systems that can keep improving.",
       introTitle: "What I Do",
-      intro: "I'm AleksChen, an AI Builder, growth engineer, and full-stack engineer. I start from real product problems, use frontend, full-stack, and AI workflows to validate quickly, then turn what works into maintainable systems.",
+      intro: "I'm AleksChen, first a full-stack engineer focused on the complete delivery path from frontend experience and backend services to reliable engineering systems. I am also an AI Builder, turning AI coding, agent workflows, and human-AI collaboration into practical projects, tools, and automation.",
       buildTitle: "What I Build",
       buildItems: [
         "AI-assisted products and automation workflows",
@@ -249,7 +249,7 @@ const UI_TEXT = {
       back: "Welcome back OvO"
     },
     seo: {
-      siteDescription: "Aleks's technical blog focused on frontend engineering, cross-platform development, and networking."
+      siteDescription: "Aleks's technical blog focused on full-stack web engineering, AI Builder workflows, cross-platform development, and networking."
     }
   }
 };

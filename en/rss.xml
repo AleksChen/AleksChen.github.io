@@ -6,7 +6,7 @@
     <link>https://alekschen.github.io/en</link>
     <atom:link href="https://alekschen.github.io/en/rss.xml" rel="self" type="application/rss+xml" />
     <language>en-US</language>
-    <lastBuildDate>Mon, 01 Jun 2026 05:24:54 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jun 2026 11:16:19 GMT</lastBuildDate>
     <generator>Astro</generator>
 
     <item>
@@ -16,16 +16,6 @@
       <description><![CDATA[Exploring the underlying logic of civilization and technology: How the ancient system of primogeniture and modern AI Harness Engineering both utilize 'constraint' to transform chaos into order and power.]]></description>
       <pubDate>Sun, 15 Mar 2026 18:07:00 GMT</pubDate>
       <category><![CDATA[AI]]></category>
-    </item>
-
-    <item>
-      <title><![CDATA[Electron Notes]]></title>
-      <link>https://alekschen.github.io/en/post/2512-electron-note-en</link>
-      <guid isPermaLink="true">https://alekschen.github.io/en/post/2512-electron-note-en</guid>
-      <description><![CDATA[A comprehensive guide to mastering the core of Electron desktop development: Main and Renderer processes, IPC communication, ContextBridge security practices, engineering workflows, and performance optimization strategies.]]></description>
-      <pubDate>Tue, 23 Dec 2025 19:54:00 GMT</pubDate>
-      <category><![CDATA[Electron]]></category>
-      <category><![CDATA[Native]]></category>
     </item>
 
     <item>

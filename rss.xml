@@ -6,7 +6,7 @@
     <link>https://alekschen.github.io</link>
     <atom:link href="https://alekschen.github.io/rss.xml" rel="self" type="application/rss+xml" />
     <language>zh-CN</language>
-    <lastBuildDate>Mon, 01 Jun 2026 05:24:54 GMT</lastBuildDate>
+    <lastBuildDate>Fri, 05 Jun 2026 11:16:19 GMT</lastBuildDate>
     <generator>Astro</generator>
 
     <item>
@@ -16,16 +16,6 @@
       <description><![CDATA[在万物生长的自然界与精密运转的工业界，存在着一个永恒的悖论：自由度越高，系统越趋向于混沌；而真正的力量，往往源于对自由的精巧剥夺]]></description>
       <pubDate>Sun, 15 Mar 2026 18:07:00 GMT</pubDate>
       <category><![CDATA[AI]]></category>
-    </item>
-
-    <item>
-      <title><![CDATA[Electron 小记]]></title>
-      <link>https://alekschen.github.io/post/2512-electron-note</link>
-      <guid isPermaLink="true">https://alekschen.github.io/post/2512-electron-note</guid>
-      <description><![CDATA[桌面开发的范式：Electron 小记 序幕：为什么我们需要 Electron]]></description>
-      <pubDate>Tue, 23 Dec 2025 19:54:00 GMT</pubDate>
-      <category><![CDATA[Electron]]></category>
-      <category><![CDATA[Native]]></category>
     </item>
 
     <item>

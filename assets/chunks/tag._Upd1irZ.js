@@ -1,6 +1,6 @@
 import { a as createComponent, m as maybeRenderHead, e as renderScript, b as renderTemplate, c as createAstro, d as addAttribute, r as renderComponent } from './astro/server.Dx2-getx.js';
 import { l as localizePath } from './paths.B3LgDFX2.js';
-import { g as getUiText, $ as $$Layout } from './Layout.BqFEniip.js';
+import { g as getUiText, $ as $$Layout } from './Layout.C_Bc7N_H.js';
 /* empty css                         */
 
 const $$Mountain = createComponent(($$result, $$props, $$slots) => {
@@ -72,6 +72,8 @@ const $$Home = createComponent(($$result, $$props, $$slots) => {
     locale,
     alternateLocales: seoAlternates,
     keywords: locale === "zh" ? [
+      "\u5168\u6808\u5DE5\u7A0B\u5E08",
+      "Web \u5168\u6808",
       "AI Builder",
       "\u524D\u7AEF\u5DE5\u7A0B",
       "AI \u7F16\u7A0B",
@@ -79,6 +81,8 @@ const $$Home = createComponent(($$result, $$props, $$slots) => {
       "\u7F51\u7EDC\u6280\u672F",
       "\u6280\u672F\u535A\u5BA2"
     ] : [
+      "Full-stack Engineer",
+      "Web Engineering",
       "AI Builder",
       "Frontend Engineering",
       "AI Coding",

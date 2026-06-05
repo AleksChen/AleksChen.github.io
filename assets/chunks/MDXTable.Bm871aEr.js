@@ -1,5 +1,5 @@
 import { c as createAstro, a as createComponent, m as maybeRenderHead, d as addAttribute, s as spreadAttributes, f as renderSlot, e as renderScript, b as renderTemplate, r as renderComponent } from './astro/server.Dx2-getx.js';
-import { $ as $$Image } from './_astro_assets.BN_Xebd-.js';
+import { $ as $$Image } from './_astro_assets.BEFxlJQg.js';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';

@@ -43,45 +43,31 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/2603-ai-harness/" />
   </url>
   <url>
-    <loc>https://alekschen.github.io/post/2512-electron-note/</loc>
-    <lastmod>2025-12-23T19:54:00.000Z</lastmod>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://alekschen.github.io/post/2512-electron-note/" />
-    <xhtml:link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/en/post/2512-electron-note-en/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/2512-electron-note/" />
-  </url>
-  <url>
-    <loc>https://alekschen.github.io/en/post/2512-electron-note-en/</loc>
-    <lastmod>2025-12-23T19:54:00.000Z</lastmod>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://alekschen.github.io/post/2512-electron-note/" />
-    <xhtml:link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/en/post/2512-electron-note-en/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/2512-electron-note/" />
+    <loc>https://alekschen.github.io/en/post/2507-claude-code-kimi-k2-en/</loc>
+    <lastmod>2025-07-17T09:44:32.159Z</lastmod>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/en/post/2507-claude-code-kimi-k2-en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://alekschen.github.io/post/2507-claude-code-kimi-k2/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/2507-claude-code-kimi-k2/" />
   </url>
   <url>
     <loc>https://alekschen.github.io/post/2507-claude-code-kimi-k2/</loc>
     <lastmod>2025-07-17T09:44:32.159Z</lastmod>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://alekschen.github.io/post/2507-claude-code-kimi-k2/" />
     <xhtml:link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/en/post/2507-claude-code-kimi-k2-en/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/2507-claude-code-kimi-k2/" />
-  </url>
-  <url>
-    <loc>https://alekschen.github.io/en/post/2507-claude-code-kimi-k2-en/</loc>
-    <lastmod>2025-07-17T09:44:32.159Z</lastmod>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://alekschen.github.io/post/2507-claude-code-kimi-k2/" />
-    <xhtml:link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/en/post/2507-claude-code-kimi-k2-en/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/2507-claude-code-kimi-k2/" />
-  </url>
-  <url>
-    <loc>https://alekschen.github.io/post/2504-sse/</loc>
-    <lastmod>2025-12-01T09:28:48.190Z</lastmod>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://alekschen.github.io/post/2504-sse/" />
-    <xhtml:link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/en/post/2504-sse-en/" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/2504-sse/" />
   </url>
   <url>
     <loc>https://alekschen.github.io/en/post/2504-sse-en/</loc>
     <lastmod>2025-12-01T09:28:48.190Z</lastmod>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://alekschen.github.io/post/2504-sse/" />
     <xhtml:link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/en/post/2504-sse-en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://alekschen.github.io/post/2504-sse/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/2504-sse/" />
+  </url>
+  <url>
+    <loc>https://alekschen.github.io/post/2504-sse/</loc>
+    <lastmod>2025-12-01T09:28:48.190Z</lastmod>
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/en/post/2504-sse-en/" />
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://alekschen.github.io/post/2504-sse/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/2504-sse/" />
   </url>
   <url>
@@ -141,17 +127,17 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/1708-vue3-compiler-macro/" />
   </url>
   <url>
-    <loc>https://alekschen.github.io/en/post/1708-implement-instanceof-en/</loc>
+    <loc>https://alekschen.github.io/post/1708-implement-instanceof/</loc>
     <lastmod>2024-12-02T09:46:21.280Z</lastmod>
-    <xhtml:link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/en/post/1708-implement-instanceof-en/" />
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://alekschen.github.io/post/1708-implement-instanceof/" />
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/en/post/1708-implement-instanceof-en/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/1708-implement-instanceof/" />
   </url>
   <url>
-    <loc>https://alekschen.github.io/post/1708-implement-instanceof/</loc>
+    <loc>https://alekschen.github.io/en/post/1708-implement-instanceof-en/</loc>
     <lastmod>2024-12-02T09:46:21.280Z</lastmod>
-    <xhtml:link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/en/post/1708-implement-instanceof-en/" />
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://alekschen.github.io/post/1708-implement-instanceof/" />
+    <xhtml:link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/en/post/1708-implement-instanceof-en/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/1708-implement-instanceof/" />
   </url>
 </urlset>
