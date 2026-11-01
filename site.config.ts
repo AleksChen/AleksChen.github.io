@@ -6,7 +6,8 @@ export const config = {
   },
   head: {
     title: "Aleks",
-    description: "Aleks 的技术博客，专注前端工程、跨端开发与网络技术实践。",
+    description:
+      "AleksChen's technical notes on full-stack engineering, AI building, and growth engineering.",
     links: {
       github: "https://github.com/AleksChen",
       juejin: "https://juejin.cn/user/254742428393742",

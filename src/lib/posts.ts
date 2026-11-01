@@ -1,5 +1,5 @@
 import { DEFAULT_COVER_MAP } from "@/constant/devicons";
-import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
+import { DEFAULT_LOCALE, isLocale, type Locale } from "@/i18n/config";
 import { localizePath } from "@/i18n/paths";
 import { getCollection } from "astro:content";
 import type { CollectionEntry } from "astro:content";
@@ -107,7 +107,7 @@ export interface ShortPostData {
 type PostLocaleFilter = Locale | "all";
 
 function resolvePostLocale(locale?: string): Locale {
-  return locale === "en" ? "en" : DEFAULT_LOCALE;
+  return isLocale(locale) ? locale : DEFAULT_LOCALE;
 }
 
 function resolveTranslationKey(post: CollectionEntry<"posts">): string {

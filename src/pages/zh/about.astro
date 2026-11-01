@@ -1,21 +1,22 @@
 ---
+import { localizePath } from "@/i18n/paths";
 import { getUiText } from "@/i18n/ui";
 import Layout from "@/layouts/Layout.astro";
 import config from "site.config";
 
-const locale = "en" as const;
+const locale = "zh" as const;
 const ui = getUiText(locale);
 ---
 
 <Layout
   locale={locale}
-  languageSwitchPath="/about"
+  languageSwitchPath={localizePath("/about", "en")}
   title={ui.about.title}
   description={ui.about.description}
   seo={{
     alternateLocales: {
-      zh: "/about",
-      en: "/en/about",
+      zh: localizePath("/about", "zh"),
+      en: localizePath("/about", "en"),
     },
   }}
 >
@@ -111,7 +112,7 @@ const ui = getUiText(locale);
                 class="retro-link-button justify-start"
               >
                 <div class="i-ri:blogger-line" />
-                Juejin
+                掘金
               </a>
             )
           }

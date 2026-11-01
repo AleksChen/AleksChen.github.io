@@ -4,14 +4,12 @@ import { getPostList } from "@/lib/posts";
 import config from "site.config";
 
 export const GET: APIRoute = async () => {
-  const locale = "en" as const;
+  const locale = "zh" as const;
   const posts = await getPostList(true, locale);
   const siteUrl = config.siteUrl;
-  const description =
-    "A technical blog about frontend engineering, AI coding workflows, and cross-platform development.";
 
   const rssItems = posts
-    .slice(0, 20)
+    .slice(0, 20) // 只包含最新 20 篇
     .map((post) => {
       const postUrl = `${siteUrl}${localizePath(`/post/${post.slug}`, locale)}`;
       const pubDate = new Date(post.date).toUTCString();
@@ -32,10 +30,10 @@ export const GET: APIRoute = async () => {
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
     <title><![CDATA[${config.head.title}]]></title>
-    <description><![CDATA[${description}]]></description>
-    <link>${siteUrl}/en</link>
-    <atom:link href="${siteUrl}/en/rss.xml" rel="self" type="application/rss+xml" />
-    <language>en-US</language>
+    <description><![CDATA[Aleks 的技术博客，专注前端工程、跨端开发与网络技术实践。]]></description>
+    <link>${siteUrl}${localizePath("/", locale)}</link>
+    <atom:link href="${siteUrl}${localizePath("/rss.xml", locale)}" rel="self" type="application/rss+xml" />
+    <language>zh-CN</language>
     <lastBuildDate>${new Date().toUTCString()}</lastBuildDate>
     <generator>Astro</generator>
 ${rssItems}

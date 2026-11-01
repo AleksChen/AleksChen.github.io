@@ -3,10 +3,9 @@ import { localizePath } from "@/i18n/paths";
 import Layout from "@/layouts/Layout.astro";
 import { getPostList, type ShortPostData } from "@/lib/posts";
 
-const locale = "zh" as const;
+const locale = "en" as const;
 const allPosts = await getPostList(true, locale);
 
-// 按年份分组
 const postsByYear = new Map<number, ShortPostData[]>();
 allPosts.forEach((post) => {
   const year = new Date(post.createTime).getFullYear();
@@ -16,28 +15,29 @@ allPosts.forEach((post) => {
   postsByYear.get(year)!.push(post);
 });
 
-// 按年份倒序排列
 const sortedYears = Array.from(postsByYear.keys()).sort((a, b) => b - a);
 ---
 
 <Layout
   locale={locale}
-  languageSwitchPath="/en/archives"
-  title="归档"
-  description="所有文章归档"
+  languageSwitchPath={localizePath("/archives", "zh")}
+  title="Archives"
+  description="All archived posts"
   seo={{
     robots: "noindex,follow",
     alternateLocales: {
-      zh: "/archives",
-      en: "/en/archives",
+      zh: localizePath("/archives", "zh"),
+      en: localizePath("/archives", "en"),
     },
   }}
 >
   <div class="retro-shell flex flex-col gap-8">
     <section class="animate-slide-in border-b-2 border-text pb-6">
       <div class="page-kicker">Archives</div>
-      <h1 class="page-title mt-2">归档</h1>
-      <p class="page-description mt-4">共 {allPosts.length} 篇文章，按时间索引所有技术笔记。</p>
+      <h1 class="page-title mt-2">Archives</h1>
+      <p class="page-description mt-4">
+        {allPosts.length} posts indexed by time.
+      </p>
     </section>
 
     <div class="flex flex-col gap-12">
@@ -52,7 +52,7 @@ const sortedYears = Array.from(postsByYear.keys()).sort((a, b) => b - a);
               <h2 class="flex items-end gap-3 border-b-2 border-text pb-2 text-2xl font-black text-text md:text-3xl">
                 {year}
                 <span class="pb-1 text-sm font-bold text-text-muted">
-                  ({yearPosts.length} 篇)
+                  ({yearPosts.length} posts)
                 </span>
               </h2>
 
@@ -67,7 +67,7 @@ const sortedYears = Array.from(postsByYear.keys()).sort((a, b) => b - a);
                         <div class="meta-row mb-2">
                           <span class="flex items-center gap-1">
                             <div class="i-ri:calendar-line" />
-                            {new Date(post.createTime).toLocaleDateString("zh-CN", {
+                            {new Date(post.createTime).toLocaleDateString("en-US", {
                               year: "numeric",
                               month: "long",
                               day: "numeric",

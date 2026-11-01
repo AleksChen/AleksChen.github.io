@@ -1,11 +1,12 @@
 ---
 import { localizePath } from "@/i18n/paths";
-import Layout from "../../layouts/Layout.astro";
+import Layout from "@/layouts/Layout.astro";
 import { getPostList, getPostsByTag, type ShortPostData } from "@/lib/posts";
 
 export async function getStaticPaths() {
-  const allPosts = await getPostList(true, "zh");
+  const allPosts = await getPostList(true, "en");
   const tagsMap = new Map<string, ShortPostData[]>();
+
   allPosts.forEach((post) => {
     post.tags.forEach((tag) => {
       if (!tagsMap.has(tag)) {
@@ -22,22 +23,26 @@ export async function getStaticPaths() {
 }
 
 const { tag, posts } = Astro.props;
-const locale = "zh" as const;
-const hasEnPosts = (await getPostsByTag(tag, "en")).length > 0;
+const locale = "en" as const;
+const hasZhPosts = (await getPostsByTag(tag, "zh")).length > 0;
 const encodedTag = encodeURIComponent(tag);
 ---
 
 <Layout
   locale={locale}
-  languageSwitchPath={hasEnPosts ? `/en/tag/${encodedTag}` : "/en/tags"}
+  languageSwitchPath={
+    hasZhPosts
+      ? localizePath(`/tag/${encodedTag}`, "zh")
+      : localizePath("/tags", "zh")
+  }
   title={`Tag: ${tag}`}
-  description={`${tag} 相关文章列表`}
+  description={`Posts tagged with ${tag}`}
   seo={{
     robots: "noindex,follow",
-    alternateLocales: hasEnPosts
+    alternateLocales: hasZhPosts
       ? {
-          zh: `/tag/${encodedTag}`,
-          en: `/en/tag/${encodedTag}`,
+          zh: localizePath(`/tag/${encodedTag}`, "zh"),
+          en: localizePath(`/tag/${encodedTag}`, "en"),
         }
       : undefined,
   }}
@@ -46,7 +51,7 @@ const encodedTag = encodeURIComponent(tag);
     <section class="animate-slide-in border-b-2 border-text pb-6">
       <div class="page-kicker">Tag</div>
       <h1 class="page-title mt-2">#{tag}</h1>
-      <p class="page-description mt-4">共 {posts?.length || 0} 篇相关文章</p>
+      <p class="page-description mt-4">{posts?.length || 0} related posts</p>
     </section>
 
     <div class="flex flex-col gap-6">
@@ -61,7 +66,7 @@ const encodedTag = encodeURIComponent(tag);
                 <div class="meta-row mb-2">
                   <span class="flex items-center gap-1">
                     <div class="i-ri:calendar-line" />
-                    {new Date(item.createTime).toLocaleDateString("zh-CN")}
+                    {new Date(item.createTime).toLocaleDateString("en-US")}
                   </span>
                 </div>
 
@@ -75,7 +80,7 @@ const encodedTag = encodeURIComponent(tag);
                 </h2>
 
                 <p class="mb-4 line-clamp-3 text-sm leading-relaxed text-text-muted md:text-base">
-                  {item.intro || "暂无简介"}
+                  {item.intro || "No summary yet"}
                 </p>
 
                 <div class="flex flex-wrap gap-2 mt-auto">

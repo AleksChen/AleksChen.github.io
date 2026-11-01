@@ -4,9 +4,8 @@ import Layout from "@/layouts/Layout.astro";
 import { getPostList, getPostsByTag, type ShortPostData } from "@/lib/posts";
 
 export async function getStaticPaths() {
-  const allPosts = await getPostList(true, "en");
+  const allPosts = await getPostList(true, "zh");
   const tagsMap = new Map<string, ShortPostData[]>();
-
   allPosts.forEach((post) => {
     post.tags.forEach((tag) => {
       if (!tagsMap.has(tag)) {
@@ -23,22 +22,26 @@ export async function getStaticPaths() {
 }
 
 const { tag, posts } = Astro.props;
-const locale = "en" as const;
-const hasZhPosts = (await getPostsByTag(tag, "zh")).length > 0;
+const locale = "zh" as const;
+const hasEnPosts = (await getPostsByTag(tag, "en")).length > 0;
 const encodedTag = encodeURIComponent(tag);
 ---
 
 <Layout
   locale={locale}
-  languageSwitchPath={hasZhPosts ? `/tag/${encodedTag}` : "/tags"}
+  languageSwitchPath={
+    hasEnPosts
+      ? localizePath(`/tag/${encodedTag}`, "en")
+      : localizePath("/tags", "en")
+  }
   title={`Tag: ${tag}`}
-  description={`Posts tagged with ${tag}`}
+  description={`${tag} 相关文章列表`}
   seo={{
     robots: "noindex,follow",
-    alternateLocales: hasZhPosts
+    alternateLocales: hasEnPosts
       ? {
-          zh: `/tag/${encodedTag}`,
-          en: `/en/tag/${encodedTag}`,
+          zh: localizePath(`/tag/${encodedTag}`, "zh"),
+          en: localizePath(`/tag/${encodedTag}`, "en"),
         }
       : undefined,
   }}
@@ -47,7 +50,7 @@ const encodedTag = encodeURIComponent(tag);
     <section class="animate-slide-in border-b-2 border-text pb-6">
       <div class="page-kicker">Tag</div>
       <h1 class="page-title mt-2">#{tag}</h1>
-      <p class="page-description mt-4">{posts?.length || 0} related posts</p>
+      <p class="page-description mt-4">共 {posts?.length || 0} 篇相关文章</p>
     </section>
 
     <div class="flex flex-col gap-6">
@@ -62,7 +65,7 @@ const encodedTag = encodeURIComponent(tag);
                 <div class="meta-row mb-2">
                   <span class="flex items-center gap-1">
                     <div class="i-ri:calendar-line" />
-                    {new Date(item.createTime).toLocaleDateString("en-US")}
+                    {new Date(item.createTime).toLocaleDateString("zh-CN")}
                   </span>
                 </div>
 
@@ -76,7 +79,7 @@ const encodedTag = encodeURIComponent(tag);
                 </h2>
 
                 <p class="mb-4 line-clamp-3 text-sm leading-relaxed text-text-muted md:text-base">
-                  {item.intro || "No summary yet"}
+                  {item.intro || "暂无简介"}
                 </p>
 
                 <div class="flex flex-wrap gap-2 mt-auto">

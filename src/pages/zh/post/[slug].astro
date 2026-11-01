@@ -1,26 +1,26 @@
 ---
-import MDXCode from "@/components/mdx/MDXCode.astro";
-import MDXImage from "@/components/mdx/MDXImage.astro";
-import MDXTable from "@/components/mdx/MDXTable.astro";
-import { localizePath } from "@/i18n/paths";
 import Layout from "@/layouts/Layout.astro";
 import {
+  getPostBySlug,
+  getPostAlternateLocalePaths,
   buildPostSeoDescription,
   buildPostSeoKeywords,
   getCoverFromTags,
-  getPostAlternateLocalePaths,
-  getPostBySlug,
 } from "@/lib/posts";
-import { getCollection } from "astro:content";
+import { localizePath } from "@/i18n/paths";
 import config from "site.config";
+import { getCollection } from "astro:content";
+import MDXImage from "@/components/mdx/MDXImage.astro";
+import MDXCode from "@/components/mdx/MDXCode.astro";
+import MDXTable from "@/components/mdx/MDXTable.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection(
     "posts",
-    ({ data }) => !data.draft && (data.locale || "zh") === "en",
+    ({ data }) => !data.draft && (data.locale || "zh") === "zh"
   );
   const sortedPosts = posts.sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
   );
 
   return sortedPosts.map((post, index) => ({
@@ -44,7 +44,7 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const { prev, next } = Astro.props;
-const locale = "en" as const;
+const locale = "zh" as const;
 const post = await getPostBySlug(slug!, locale);
 
 if (!post) {
@@ -63,7 +63,7 @@ const toc = headings
 
 const siteUrl = (Astro.site || config.siteUrl).toString().replace(/\/$/, "");
 const alternates = await getPostAlternateLocalePaths(post);
-const languageSwitchPath = alternates.zh || "/";
+const languageSwitchPath = alternates.en || localizePath("/", "en");
 const postPath = localizePath(`/post/${post.slug}`, locale);
 const postUrl = new URL(postPath, `${siteUrl}/`).toString();
 const showSidebar = post?.showSidebar ?? true;
@@ -80,17 +80,15 @@ const seoTitle = post.data.seoTitle || post.data.title;
 const seoDescription =
   post.data.seoDescription ||
   buildPostSeoDescription(post.data.title, post.data.intro, post.body);
-const seoKeywords = post.data.seoKeywords?.length
-  ? post.data.seoKeywords
-  : buildPostSeoKeywords({
-      title: post.data.title,
-      tags: post.data.tags,
-      intro: post.data.intro,
-      body: post.body,
-    });
-const giscusConfig = config.giscus
-  ? { ...config.giscus, "data-lang": "en" }
-  : null;
+const seoKeywords =
+  post.data.seoKeywords?.length
+    ? post.data.seoKeywords
+    : buildPostSeoKeywords({
+        title: post.data.title,
+        tags: post.data.tags,
+        intro: post.data.intro,
+        body: post.body,
+      });
 ---
 
 <Layout
@@ -123,6 +121,7 @@ const giscusConfig = config.giscus
     <article
       class="w-full min-w-0 rounded-lg border-2 border-text bg-card p-5 shadow-[5px_5px_0_0_var(--color-text)] md:p-8 lg:p-10"
     >
+      {/* 文章头部信息 */}
       <header class="mb-10 border-b-2 border-text pb-8 animate-fade-in-up">
         <div class="mb-6 flex flex-wrap gap-2">
           {
@@ -137,33 +136,30 @@ const giscusConfig = config.giscus
           }
         </div>
 
-        <h1
-          class="mb-6 text-3xl font-black leading-tight tracking-tight text-text md:text-5xl lg:text-6xl"
-        >
+        <h1 class="mb-6 text-3xl font-black leading-tight tracking-tight text-text md:text-5xl lg:text-6xl">
           {post.data.title}
         </h1>
 
-        <div
-          class="meta-row"
-        >
+        <div class="meta-row">
           <time
             datetime={post.data.date.toISOString()}
             class="flex items-center gap-2"
           >
             <div class="i-ri:calendar-line text-xl"></div>
-            {post.data.date.toLocaleDateString("en-US")}
+            {post.data.date.toLocaleDateString("zh-CN")}
           </time>
           {
             post.data.updatedAt && (
-              <span class="flex items-center gap-2" title="Last updated">
+              <span class="flex items-center gap-2" title="最后更新">
                 <div class="i-ri:time-line text-xl" />
-                {post.data.updatedAt.toLocaleDateString("en-US")}
+                {post.data.updatedAt.toLocaleDateString("zh-CN")}
               </span>
             )
           }
         </div>
       </header>
 
+      {/* Markdown 内容 */}
       <div
         class="prose prose-lg dark:prose-invert max-w-[760px] break-words prose-a:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:font-black prose-headings:scroll-mt-24 prose-p:leading-8 prose-li:leading-8 animate-fade-in-up [animation-delay:150ms]"
       >
@@ -172,6 +168,7 @@ const giscusConfig = config.giscus
         />
       </div>
 
+      {/* 底部导航 (无需 JS Mount) */}
       <nav
         class="mt-14 grid grid-cols-1 gap-4 border-t-2 border-text pt-8 sm:grid-cols-2 animate-fade-in-up [animation-delay:300ms]"
       >
@@ -183,11 +180,9 @@ const giscusConfig = config.giscus
             >
               <span class="text-sm font-bold uppercase tracking-widest text-text-muted flex items-center gap-2 group-hover:text-primary">
                 <div class="i-ri:arrow-left-double-line text-xl" />
-                Previous post
+                上一篇文章
               </span>
-              <span class="truncate text-lg font-black text-text">
-                {prev.title}
-              </span>
+              <span class="truncate text-lg font-black text-text">{prev.title}</span>
             </a>
           ) : (
             <div />
@@ -200,12 +195,10 @@ const giscusConfig = config.giscus
               class="group flex flex-col gap-2 rounded-lg border-2 border-text bg-card p-5 text-right shadow-[4px_4px_0_0_var(--color-text)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_var(--color-text)]"
             >
               <span class="text-sm font-bold uppercase tracking-widest text-text-muted flex items-center gap-2 justify-end group-hover:text-primary">
-                Next post
+                下一篇文章
                 <div class="i-ri:arrow-right-double-line text-xl" />
               </span>
-              <span class="truncate text-lg font-black text-text">
-                {next.title}
-              </span>
+              <span class="truncate text-lg font-black text-text">{next.title}</span>
             </a>
           ) : (
             <div />
@@ -213,10 +206,11 @@ const giscusConfig = config.giscus
         }
       </nav>
 
+      {/* 评论区 */}
       {
-        giscusConfig && (
+        config.giscus && (
           <div class="giscus-container mt-14 border-t-2 border-text pt-8 animate-fade-in-up [animation-delay:450ms]">
-            <script {...giscusConfig} />
+            <script {...config.giscus} />
           </div>
         )
       }
@@ -224,19 +218,19 @@ const giscusConfig = config.giscus
 
     {
       showSidebar && (
-        <aside class="hidden lg:block sticky top-24 animate-fade-in-up [animation-delay:300ms]">
+        <aside class="hidden lg:flex flex-col sticky top-24 h-[calc(100vh-7rem)] animate-fade-in-up [animation-delay:300ms]">
           {toc.length > 0 && (
-            <div class="max-h-[calc(100vh-8rem)] overflow-y-auto rounded-lg border-2 border-text bg-card p-4 shadow-[4px_4px_0_0_var(--color-text)] custom-scrollbar">
-              <div class="mb-4 border-b-2 border-text pb-2 text-sm font-black uppercase tracking-widest text-text">
-                On this page
+            <div class="flex flex-col min-h-0 flex-1 p-6 rounded-xl border-4 border-text bg-card shadow-[8px_8px_0_0_var(--color-text)]">
+              <div class="text-base font-black text-text mb-4 uppercase tracking-widest border-b-2 border-text pb-2 shrink-0">
+                本文目录
               </div>
-              <nav class="flex flex-col gap-1 text-sm">
+              <nav class="flex flex-col gap-1 text-sm overflow-y-auto overflow-x-hidden custom-scrollbar flex-1 min-h-0 pr-2 pb-1">
                 {toc.map((heading) => {
                   if (!heading.id) return;
                   return (
                     <a
                       href={`#${heading.id}`}
-                      class="toc-link block rounded border-l-4 border-transparent px-3 py-2 text-sm font-bold leading-snug text-text-muted transition-all duration-200 hover:border-primary hover:bg-bg-secondary hover:text-text [overflow-wrap:anywhere]"
+                      class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-1 text-sm leading-snug border-2 border-transparent shrink-0 [overflow-wrap:anywhere]"
                       data-id={heading.id}
                       style={`padding-left: calc(0.75rem + ${(heading.depth - 1) * 0.75}rem)`}
                     >
@@ -255,8 +249,7 @@ const giscusConfig = config.giscus
 
 <script type="module">
   if (document.querySelector(".mermaid")) {
-    const { default: mermaid } =
-      await import("https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs");
+    const { default: mermaid } = await import("https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs");
 
     const html = document.documentElement;
     const isDark =
@@ -273,9 +266,11 @@ const giscusConfig = config.giscus
 </script>
 
 <script>
+  // TOC 滚动高亮逻辑
   let isManualScroll = false;
   let scrollTimeout: NodeJS.Timeout;
 
+  // 提取更新高亮样式的函数
   const updateActiveLink = (id: string) => {
     document.querySelectorAll(".toc-link").forEach((link) => {
       const isActive = link.getAttribute("data-id") === id;
@@ -291,6 +286,7 @@ const giscusConfig = config.giscus
 
   const observer = new IntersectionObserver(
     (entries) => {
+      // 如果是手动点击触发的滚动，不进行 Observer 更新
       if (isManualScroll) return;
 
       entries.forEach((entry) => {
@@ -301,22 +297,25 @@ const giscusConfig = config.giscus
       });
     },
     {
-      rootMargin: "-100px 0px -60% 0px",
-    },
+      rootMargin: "-100px 0px -60% 0px", // 调整视口检测范围
+    }
   );
 
   document.querySelectorAll("h1[id], h2[id], h3[id]").forEach((h) => {
     observer.observe(h);
   });
 
+  // 处理点击事件
   document.querySelectorAll(".toc-link").forEach((link) => {
     link.addEventListener("click", (e) => {
       isManualScroll = true;
       const id = (e.currentTarget as HTMLElement).getAttribute("data-id");
       if (id) updateActiveLink(id);
 
+      // 清除旧定时器
       if (scrollTimeout) clearTimeout(scrollTimeout);
-
+      
+      // 假设滚动动画最长持续 800ms，之后恢复 Observer
       scrollTimeout = setTimeout(() => {
         isManualScroll = false;
       }, 800);
@@ -327,7 +326,7 @@ const giscusConfig = config.giscus
 <style>
   @media (min-width: 1024px) {
     .layout-grid-cols {
-      grid-template-columns: minmax(0, 1fr) 240px;
+      grid-template-columns: minmax(0, 1fr) 260px;
     }
   }
 

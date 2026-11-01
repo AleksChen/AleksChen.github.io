@@ -1,12 +1,13 @@
 ---
 import { localizePath } from "@/i18n/paths";
 import Layout from "@/layouts/Layout.astro";
-import { getAllTags, getPostList } from "@/lib/posts";
+import { getPostList, getAllTags } from "@/lib/posts";
 
-const locale = "en" as const;
+const locale = "zh" as const;
 const allPosts = await getPostList(true, locale);
 const allTags = await getAllTags(locale);
 
+// 统计每个标签的文章数量
 const tagCountMap = new Map<string, number>();
 allPosts.forEach((post) => {
   post.tags.forEach((tag) => {
@@ -14,6 +15,7 @@ allPosts.forEach((post) => {
   });
 });
 
+// 按文章数量排序
 const sortedTags = allTags.sort((a, b) => {
   const countA = tagCountMap.get(a) || 0;
   const countB = tagCountMap.get(b) || 0;
@@ -23,24 +25,22 @@ const sortedTags = allTags.sort((a, b) => {
 
 <Layout
   locale={locale}
-  languageSwitchPath="/tags"
-  title="Tags"
-  description="All tags"
+  languageSwitchPath={localizePath("/tags", "en")}
+  title="标签"
+  description="所有标签"
   seo={{
     robots: "noindex,follow",
     alternateLocales: {
-      zh: "/tags",
-      en: "/en/tags",
+      zh: localizePath("/tags", "zh"),
+      en: localizePath("/tags", "en"),
     },
   }}
 >
   <div class="retro-shell flex flex-col gap-8">
     <section class="animate-slide-in border-b-2 border-text pb-6">
       <div class="page-kicker">Tags</div>
-      <h1 class="page-title mt-2">Tags</h1>
-      <p class="page-description mt-4">
-        {allTags.length} tags for browsing posts by topic.
-      </p>
+      <h1 class="page-title mt-2">标签</h1>
+      <p class="page-description mt-4">共 {allTags.length} 个标签，按主题浏览文章。</p>
     </section>
 
     <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -57,7 +57,7 @@ const sortedTags = allTags.sort((a, b) => {
                 #{tag}
               </span>
               <span class="ml-3 rounded border border-border bg-bg-secondary px-2 py-1 text-xs font-black text-text-muted">
-                {count} post{count === 1 ? "" : "s"}
+                {count} 篇
               </span>
             </a>
           );

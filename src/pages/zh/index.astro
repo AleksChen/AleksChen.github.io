@@ -1,16 +1,17 @@
 ---
+import { localizePath } from "@/i18n/paths";
+import { sortByPin } from "@/shared/tag";
 import Home from "@/components/Home.astro";
 import { getPostList } from "@/lib/posts";
-import { sortByPin } from "@/shared/tag";
 
 const PAGE_SIZE = 10;
-const rawPosts = await getPostList(true, "en");
+const rawPosts = await getPostList(true, "zh");
 const posts = sortByPin(rawPosts);
 ---
 
 <Home
-  locale="en"
-  seoAlternates={{ zh: "/", en: "/en" }}
+  locale="zh"
+  seoAlternates={{ zh: localizePath("/", "zh"), en: localizePath("/", "en") }}
   posts={posts.slice(0, PAGE_SIZE)}
   allPosts={posts}
   page={1}

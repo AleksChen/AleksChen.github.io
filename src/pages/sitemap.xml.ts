@@ -1,5 +1,5 @@
 import type { APIRoute } from "astro";
-import type { Locale } from "@/i18n/config";
+import { DEFAULT_LOCALE, type Locale } from "@/i18n/config";
 import { localizePath } from "@/i18n/paths";
 import { getPostList, type ShortPostData } from "@/lib/posts";
 import config from "site.config";
@@ -24,7 +24,7 @@ function resolveTranslationKey(post: ShortPostData): string {
 }
 
 function toAbsoluteUrl(siteUrl: string, path: string): string {
-  const isPost = path.startsWith("/post/") || path.startsWith("/en/post/");
+  const isPost = path.includes("/post/");
   return isPost ? `${siteUrl}${path}/` : `${siteUrl}${path}`;
 }
 
@@ -42,40 +42,17 @@ export const GET: APIRoute = async () => {
 
   const latestDate = allPosts[0]?.updatedAt || allPosts[0]?.date || new Date();
 
-  const items: SitemapItem[] = [
-    {
-      path: "/",
+  const items: SitemapItem[] = ["/", "/about"].flatMap((path) => {
+    const alternates = {
+      zh: localizePath(path, "zh"),
+      en: localizePath(path, "en"),
+    };
+    return (["zh", "en"] as const).map((locale) => ({
+      path: localizePath(path, locale),
       lastmod: formatLastMod(latestDate),
-      alternates: {
-        zh: "/",
-        en: "/en",
-      },
-    },
-    {
-      path: "/en",
-      lastmod: formatLastMod(latestDate),
-      alternates: {
-        zh: "/",
-        en: "/en",
-      },
-    },
-    {
-      path: "/about",
-      lastmod: formatLastMod(latestDate),
-      alternates: {
-        zh: "/about",
-        en: "/en/about",
-      },
-    },
-    {
-      path: "/en/about",
-      lastmod: formatLastMod(latestDate),
-      alternates: {
-        zh: "/about",
-        en: "/en/about",
-      },
-    },
-  ];
+      alternates,
+    }));
+  });
 
   const groupedPosts = new Map<string, ShortPostData[]>();
   allPosts.forEach((post) => {
@@ -119,9 +96,10 @@ ${items
             .join("\n")
           : "";
 
-        const xDefault = item.alternates?.zh
+        const xDefaultPath = item.alternates?.[DEFAULT_LOCALE];
+        const xDefault = xDefaultPath
           ? `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(
-            toAbsoluteUrl(siteUrl, item.alternates.zh)
+            toAbsoluteUrl(siteUrl, xDefaultPath)
           )}" />`
           : "";
 

@@ -24,7 +24,7 @@ export default defineConfig({
   trailingSlash: "never",
   site: process.env.PUBLIC_SITE_URL || config.siteUrl,
   i18n: {
-    defaultLocale: "zh",
+    defaultLocale: "en",
     locales: ["zh", "en"],
     routing: {
       prefixDefaultLocale: false,
