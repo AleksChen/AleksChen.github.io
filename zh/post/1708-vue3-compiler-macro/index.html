@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="zh-CN"> <head><meta charset="UTF-8"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Blog"><meta name="msapplication-TileColor" content="#000000"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"><meta name="baidu-site-verification" content="codeva-tU6pIQVfyl"><meta name="msvalidate.01" content="96ADAC3B4A010DE98F0350319BAF9DAB"><meta name="blogarama-site-verification" content="blogarama-05af7d29-9b70-41be-aca4-a6f95ceb722f"><link rel="icon" href="/favicon.ico"><link rel="sitemap" href="/sitemap.xml"><link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/zh/rss.xml"><title>
+      Vue3 编译宏使用与原理
+    </title><!-- 基础 SEO --><meta name="description" content="系统梳理 Vue3 编译宏的使用方式与底层原理，涵盖 defineProps、defineEmits、withDefaults、defineModel 等常见宏及编译阶段行为。"><meta name="author" content="Aleks"><meta name="robots" content="index,follow"><meta name="googlebot" content="index,follow"><meta name="keywords" content="Vue3, 编译宏, defineProps, defineEmits, withDefaults, defineModel, script setup"><link rel="canonical" href="https://alekschen.github.io/zh/post/1708-vue3-compiler-macro"><link rel="alternate" hreflang="en-US" href="https://alekschen.github.io/post/1708-vue3-compiler-macro-en"><link rel="alternate" hreflang="zh-CN" href="https://alekschen.github.io/zh/post/1708-vue3-compiler-macro"><link rel="alternate" hreflang="x-default" href="https://alekschen.github.io/post/1708-vue3-compiler-macro-en"><!-- Open Graph --><meta property="og:type" content="article"><meta property="og:locale" content="zh_CN"><meta property="og:locale:alternate" content="en_US"><meta property="og:title" content="Vue3 编译宏使用与原理"><meta property="og:description" content="系统梳理 Vue3 编译宏的使用方式与底层原理，涵盖 defineProps、defineEmits、withDefaults、defineModel 等常见宏及编译阶段行为。"><meta property="og:image" content="https://alekschen.github.io/post-assets/og/1708-vue3-compiler-macro.png"><meta property="og:url" content="https://alekschen.github.io/zh/post/1708-vue3-compiler-macro"><meta property="og:site_name" content="Aleks"><meta property="article:published_time" content="2020-10-23T13:19:02.000Z"><meta property="article:modified_time" content="2024-12-13T10:07:53.938Z"><meta property="article:tag" content="Vue"><meta property="article:author" content="Aleks"><!-- Twitter Card --><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Vue3 编译宏使用与原理"><meta name="twitter:description" content="系统梳理 Vue3 编译宏的使用方式与底层原理，涵盖 defineProps、defineEmits、withDefaults、defineModel 等常见宏及编译阶段行为。"><meta name="twitter:image" content="https://alekschen.github.io/post-assets/og/1708-vue3-compiler-macro.png"><!-- JSON-LD 结构化数据 --><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Vue3 编译宏使用与原理","description":"系统梳理 Vue3 编译宏的使用方式与底层原理，涵盖 defineProps、defineEmits、withDefaults、defineModel 等常见宏及编译阶段行为。","image":"https://alekschen.github.io/post-assets/og/1708-vue3-compiler-macro.png","datePublished":"2020-10-23T13:19:02.000Z","dateModified":"2024-12-13T10:07:53.938Z","author":{"@type":"Person","name":"Aleks"},"publisher":{"@type":"Organization","name":"Aleks","logo":{"@type":"ImageObject","url":"https://alekschen.github.io/favicon.ico"}},"mainEntityOfPage":{"@type":"WebPage","@id":"https://alekschen.github.io/zh/post/1708-vue3-compiler-macro"},"inLanguage":"zh-CN","keywords":"Vue3, 编译宏, defineProps, defineEmits, withDefaults, defineModel, script setup"}</script><script>(function(){const clarityId = "vb1cwv7d1k";
+
+          const loadClarity = () => {
+            (function (c, l, a, r, i, t, y) {
+              c[a] =
+                c[a] ||
+                function () {
+                  (c[a].q = c[a].q || []).push(arguments);
+                };
+              t = l.createElement(r);
+              t.async = 1;
+              t.src = "https://www.clarity.ms/tag/" + i;
+              y = l.getElementsByTagName(r)[0];
+              y.parentNode.insertBefore(t, y);
+            })(window, document, "clarity", "script", clarityId);
+          };
+
+          if ("requestIdleCallback" in window) {
+            window.requestIdleCallback(loadClarity, { timeout: 3000 });
+          } else {
+            window.setTimeout(loadClarity, 1500);
+          }
+        })();</script><script>
+      const theme = (() => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("theme")
+        ) {
+          return localStorage.getItem("theme");
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+          return "dark";
+        }
+        return "light";
+      })();
+
+      if (theme === "dark") {
+        document.documentElement.classList.add("dark");
+      } else {
+        document.documentElement.classList.remove("dark");
+      }
+
+      window.localStorage.setItem("theme", theme);
+
+      const viewMode = (() => {
+        if (
+          typeof localStorage !== "undefined" &&
+          localStorage.getItem("view-mode")
+        ) {
+          return localStorage.getItem("view-mode");
+        }
+        return "card";
+      })();
+
+      if (viewMode === "terminal") {
+        document.documentElement.classList.add("terminal-mode");
+      }
+    </script><link rel="stylesheet" href="/assets/_page_.CcUmaJvn.css">
+<link rel="stylesheet" href="/assets/_page_.DjXEbtot.css">
+<style>@media(min-width:1024px){.layout-grid-cols[data-astro-cid-2dqspic2]{grid-template-columns:minmax(0,1fr) 260px}}@keyframes fadeInUp{0%{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}.animate-fade-in-up[data-astro-cid-2dqspic2]{animation:fadeInUp .6s cubic-bezier(.25,1,.5,1) forwards;opacity:0}@media(prefers-reduced-motion:reduce){.animate-fade-in-up[data-astro-cid-2dqspic2]{animation:none!important;opacity:1!important;transform:none!important}}
+</style></head> <body class="bg-bg text-text min-h-screen flex flex-col font-sans transition-colors duration-300"> <a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:rounded focus:bg-primary focus:px-4 focus:py-2 focus:text-sm focus:font-bold focus:text-bg"> 跳到主内容 </a> <div id="page-loader" aria-hidden="true" data-astro-cid-yztiywgj> <div class="loader-bar-fill" data-astro-cid-yztiywgj></div> </div>  <script type="module">const t=document.getElementById("page-loader"),e=()=>{t?.classList.add("hidden")};document.readyState!=="loading"?setTimeout(e,120):document.addEventListener("DOMContentLoaded",()=>{setTimeout(e,120)},{once:!0});</script>  <header id="main-header" class="sticky top-0 z-50 w-full border-b-2 border-text bg-bg/95 backdrop-blur transition-transform duration-300"> <div class="max-w-[1200px] mx-auto px-4 h-16 flex items-center justify-between"> <a href="/zh" class="group text-xl font-black flex items-center gap-2 hover:text-text transition-colors" aria-label="返回首页"> <span class="flex h-9 w-9 items-center justify-center rounded border-2 border-text bg-card shadow-[3px_3px_0_0_var(--color-accent)] transition-transform group-hover:translate-x-[1px] group-hover:translate-y-[1px]"> <div class="i-ri:home-4-line w-5 h-5"></div> </span> <span class="hidden sm:inline tracking-tight">AleksChen</span> </a> <div class="flex items-center gap-4"> <nav id="main-nav" class="hidden md:flex items-center gap-5" aria-label="主导航"> <a href="/zh/archives" class="text-sm font-extrabold text-text-muted hover:text-text transition-colors"> 归档 </a> <a href="/zh/tags" class="text-sm font-extrabold text-text-muted hover:text-text transition-colors"> 标签 </a> <a href="/zh/about" class="text-sm font-extrabold text-text-muted hover:text-text transition-colors"> 关于 </a> </nav> <div class="flex items-center gap-3 pl-4 border-l-2 border-text"> <a href="/post/1708-vue3-compiler-macro-en" class="flex items-center justify-center hover:text-primary transition-transform hover:scale-110 focus:outline-none" aria-label="切换到英文页面" title="切换到英文页面"> <div class="i-ri:translate-2 w-5 h-5" aria-hidden="true"></div> </a> <div class="flex items-center">  </div> <button id="theme-toggle" class="flex items-center justify-center hover:text-primary transition-transform hover:scale-110 focus:outline-none" aria-label="切换主题" aria-pressed="false"> <div class="i-ri:sun-line w-5 h-5 dark:hidden" aria-hidden="true"></div> <div class="i-ri:moon-line w-5 h-5 hidden dark:block" aria-hidden="true"></div> </button> <button id="mobile-menu-toggle" class="md:hidden flex items-center justify-center hover:text-primary transition-transform hover:scale-110 focus:outline-none" aria-label="打开导航菜单" aria-expanded="false" aria-controls="mobile-nav" data-open-label="打开导航菜单" data-close-label="关闭导航菜单"> <div id="menu-icon-open" class="i-ri:menu-line w-6 h-6" aria-hidden="true"></div> <div id="menu-icon-close" class="i-ri:close-line w-6 h-6 hidden" aria-hidden="true"></div> </button> </div> </div> </div> <div id="mobile-nav" class="hidden md:hidden border-t-2 border-text bg-bg/98 backdrop-blur" aria-label="移动端导航"> <nav class="max-w-[1200px] mx-auto px-4 py-4 flex flex-col gap-1"> <a href="/zh/archives" class="rounded px-3 py-3 text-sm font-extrabold hover:bg-bg-secondary hover:text-primary transition-colors">归档</a> <a href="/zh/tags" class="rounded px-3 py-3 text-sm font-extrabold hover:bg-bg-secondary hover:text-primary transition-colors">标签</a> <a href="/zh/about" class="rounded px-3 py-3 text-sm font-extrabold hover:bg-bg-secondary hover:text-primary transition-colors">关于</a> <a href="/post/1708-vue3-compiler-macro-en" class="rounded px-3 py-3 text-sm font-extrabold hover:bg-bg-secondary hover:text-primary transition-colors"> 切换到英文页面 </a> </nav> </div> </header> <main id="main-content" class="flex-1 w-full mx-auto px-4 py-8 md:py-10 animate-fade-in max-w-[1200px]" tabindex="-1">  <div class="grid grid-cols-1 gap-8 items-start layout-grid-cols" data-astro-cid-2dqspic2> <article class="w-full min-w-0 rounded-lg border-2 border-text bg-card p-5 shadow-[5px_5px_0_0_var(--color-text)] md:p-8 lg:p-10" data-astro-cid-2dqspic2>  <header class="mb-10 border-b-2 border-text pb-8 animate-fade-in-up" data-astro-cid-2dqspic2> <div class="mb-6 flex flex-wrap gap-2" data-astro-cid-2dqspic2> <a href="/zh/tag/Vue" class="article-tag hover:border-text hover:text-text" data-astro-cid-2dqspic2>
+#Vue </a> </div> <h1 class="mb-6 text-3xl font-black leading-tight tracking-tight text-text md:text-5xl lg:text-6xl" data-astro-cid-2dqspic2> Vue3 编译宏使用与原理 </h1> <div class="meta-row" data-astro-cid-2dqspic2> <time datetime="2020-10-23T13:19:02.000Z" class="flex items-center gap-2" data-astro-cid-2dqspic2> <div class="i-ri:calendar-line text-xl" data-astro-cid-2dqspic2></div> 2020/10/23 </time> <span class="flex items-center gap-2" title="最后更新" data-astro-cid-2dqspic2> <div class="i-ri:time-line text-xl" data-astro-cid-2dqspic2></div> 2024/12/13 </span> </div> </header>  <div class="prose prose-lg dark:prose-invert max-w-[760px] break-words prose-a:font-bold prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-headings:font-black prose-headings:scroll-mt-24 prose-p:leading-8 prose-li:leading-8 animate-fade-in-up [animation-delay:150ms]" data-astro-cid-2dqspic2> <p>Vue3 编译宏是一种特殊的语法糖，用于简化组件选项的声明。它们可以在 <code>&lt;script setup&gt;</code> 中使用，并且会在编译阶段被处理。编译宏可以提供类型推断、运行时消除以及开发体验优化等功能。</p>
+<h2 id="一什么是编译宏">一、什么是编译宏</h2>
+<p>Vue3 编译宏是在代码<strong>编译阶段处理的特殊指令或函数</strong>。Vue3 的编译宏主要是为 <code>&lt;script setup&gt;</code> 语法设计的。编译宏不需要导入就可以直接使用，且会随着 <code>&lt;script setup&gt;</code> 的处理过程一同被编译掉。</p>
+<h2 id="二编译宏有什么用">二、编译宏有什么用</h2>
+<p>编译宏提供了一种更简洁的方式来编写和维护已有的配置。在 Vue3 中，编译宏主要有以下几个作用：</p>
+<ol>
+<li><strong>类型推断和检查</strong>：宏可以提供类型安全，帮助开发者在编写代码时避免类型错误。</li>
+<li><strong>运行时消除</strong>：在 Vue3 的 <code>&lt;script setup&gt;</code> 中，引入的宏在编译阶段处理后，最终生成的代码中可能不会包含这些宏。这意味着宏可以提供额外的功能，而不会增加运行时的开销。</li>
+<li><strong>代码重用和维护</strong>：通过定义宏，可以在不同的组件中重用相同的逻辑。这有助于维护代码的一致性，并减少重复代码的编写。</li>
+<li><strong>简化配置</strong>：某些宏可以用于简化 Vue 组件的配置，使得配置更加简洁明了。</li>
+<li><strong>优化开发体验</strong>：宏可以减少样板文件，提供更简洁的语法，从而提高开发效率和体验。</li>
+<li><strong>高级功能</strong>：一些宏可能提供高级功能，如自动注册组件、自动导入依赖等。</li>
+</ol>
+<h2 id="三常见的编译宏">三、常见的编译宏</h2>
+<p>Vue 3 引入了几个编译宏（Compile-time Macros）来提高性能和开发体验。这些宏在编译时会被转换为高效的代码。下面是主要的编译宏：</p>
+<ol>
+<li><code>defineProps</code></li>
+</ol>
+<ul>
+<li>用于声明组件的 props</li>
+<li>例如：<code>const props = defineProps([&#39;title&#39;, &#39;likes&#39;])</code></li>
+</ul>
+<ol start="2">
+<li><code>defineEmits</code></li>
+</ol>
+<ul>
+<li>用于声明组件可能触发的事件</li>
+<li>例如：<code>const emit = defineEmits([&#39;change&#39;, &#39;delete&#39;])</code></li>
+</ul>
+<ol start="3">
+<li><code>defineExpose</code></li>
+</ol>
+<ul>
+<li>用于显式地指定哪些属性和方法可以被父组件访问</li>
+<li>例如：<code>defineExpose({ method1, property1 })</code></li>
+</ul>
+<ol start="4">
+<li><code>withDefaults</code></li>
+</ol>
+<ul>
+<li>用于为 <code>defineProps</code> 定义的 props 提供默认值</li>
+<li>例如：<code>const props = withDefaults(defineProps&lt;Props&gt;(), { message: &#39;hello&#39; })</code></li>
+</ul>
+<ol start="5">
+<li><code>defineOptions</code></li>
+</ol>
+<ul>
+<li>用于定义组件选项，如 <code>name</code>、<code>inheritAttrs</code> 等</li>
+<li>例如：<code>defineOptions({ name: &#39;MyComponent&#39;, inheritAttrs: false })</code></li>
+</ul>
+<ol start="6">
+<li><code>defineSlots</code></li>
+</ol>
+<ul>
+<li>用于在使用 TypeScript 时为插槽定义类型</li>
+<li>例如：<code>const slots = defineSlots&lt;{ default: (props: { item: string }) =&gt; any }&gt;()</code></li>
+</ul>
+<ol start="7">
+<li><code>defineModel</code></li>
+</ol>
+<ul>
+<li>用于在 3.4+ 版本中简化 <code>v-model</code> 的使用</li>
+<li>例如：<code>const model = defineModel&lt;string&gt;({ default: &#39;&#39; })</code></li>
+</ul>
+<ol start="8">
+<li><code>defineAsyncComponent</code></li>
+</ol>
+<ul>
+<li>虽然不是编译宏，但它是一个用于定义异步组件的运行时辅助函数</li>
+<li>例如：<code>const AsyncComp = defineAsyncComponent(() =&gt; import(&#39;./components/AsyncComponent.vue&#39;))</code></li>
+</ul>
+<p>这些编译宏主要用在 <code>&lt;script setup&gt;</code> 中，它们提供了更简洁的语法和更好的类型推断。使用这些宏可以减少样板代码，提高代码的可读性和维护性。</p>
+<h2 id="四编译宏的实现原理">四、编译宏的实现原理</h2>
+<p>编译宏的本质就是在编译阶段执行的一个转化函数。它的工作原理如下：</p>
+<ul>
+<li>识别：编译器识别特定的宏调用（如 <code>defineProps()</code>）。</li>
+<li>分析：分析宏调用的参数和上下文。</li>
+<li>转换：将宏调用转换为适当的运行时代码或组件选项。</li>
+<li>类型生成：（在 TypeScript 环境中）生成相应的类型声明。</li>
+<li>代码生成：生成最终的 JavaScript 代码，通常会移除宏调用本身。</li>
+</ul>
+<p><figure class="my-6 flex flex-col items-center"> <img src="/post-assets/m4ml4fgx-vue3-compile-macro.webp" alt="vue3-compile-macro.webp" class="rounded-lg shadow-sm border border-border max-w-full h-auto" loading="lazy" decoding="async" width="731" height="696"> <figcaption class="text-center text-sm text-text-muted mt-2 italic"> vue3-compile-macro.webp </figcaption> </figure></p>
+<h3 id="1-以-defineprops-为例子实现一个编译宏功能">1. 以 defineProps 为例子实现一个编译宏功能</h3>
+<p>下面是一个 babel 插件的简单实现。它能将 Vue3 编译宏 <code>defineProps</code> 转换成 Vue 的 props 对象。从这个例子可以更好地理解编译宏语法糖的本质。</p>
+<div class="code-block relative group my-6 overflow-hidden"> <div class="relative"> <div class="flex items-center justify-between px-4 py-2 bg-neutral-100/80 dark:bg-neutral-800/50 text-xs text-text-muted select-none"> <div class="flex items-center gap-3"> <div class="flex gap-1.5"> <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div> <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div> <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div> </div> <span class="font-mono font-bold opacity-70"> JAVASCRIPT </span> </div> <button class="copy-btn flex items-center gap-1.5 px-2 py-0.5 rounded hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer" aria-label="Copy code"> <div class="i-ri:file-copy-line text-sm"></div> <span>Copy</span> </button> </div> <pre class="astro-code astro-code-themes github-light one-dark-pro !my-0 p-4 pt-0 overflow-x-auto custom-scrollbar text-sm leading-relaxed !bg-transparent !border-none" style="background-color:#fff;--shiki-dark-bg:#282c34;color:#24292e;--shiki-dark:#abb2bf;overflow-x:auto" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">const</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> { </span><span style="color:#005CC5;--shiki-dark:#E5C07B">declare</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> } </span><span style="color:#D73A49;--shiki-dark:#56B6C2">=</span><span style="color:#6F42C1;--shiki-dark:#61AFEF"> require</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#032F62;--shiki-dark:#98C379">&#39;@babel/helper-plugin-utils&#39;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">const</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> { </span><span style="color:#E36209;--shiki-dark:#E06C75">types</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: </span><span style="color:#005CC5;--shiki-dark:#E5C07B">t</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> } </span><span style="color:#D73A49;--shiki-dark:#56B6C2">=</span><span style="color:#6F42C1;--shiki-dark:#61AFEF"> require</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#032F62;--shiki-dark:#98C379">&#39;@babel/core&#39;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#005CC5;--shiki-dark:#E5C07B">module</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#005CC5;--shiki-dark:#E5C07B">exports</span><span style="color:#D73A49;--shiki-dark:#56B6C2"> =</span><span style="color:#D73A49;--shiki-dark:#C678DD"> declare</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#E36209;--shiki-light-font-style:inherit;--shiki-dark:#E06C75;--shiki-dark-font-style:italic">api</span><span style="color:#D73A49;--shiki-dark:#C678DD"> =&gt;</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E5C07B">  api</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">assertVersion</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#005CC5;--shiki-dark:#D19A66">7</span><span style="color:#24292E;--shiki-dark:#ABB2BF">); </span><span style="color:#6A737D;--shiki-light-font-style:inherit;--shiki-dark:#7F848E;--shiki-dark-font-style:italic">// 确保 Babel 版本兼容性</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">  return</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E06C75">    name</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: </span><span style="color:#032F62;--shiki-dark:#98C379">&quot;babel-plugin-transform-define-props&quot;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E06C75">    visitor</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: {</span></span>
+<span class="line"><span style="color:#6F42C1;--shiki-dark:#61AFEF">      CallExpression</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#E36209;--shiki-light-font-style:inherit;--shiki-dark:#E06C75;--shiki-dark-font-style:italic">path</span><span style="color:#24292E;--shiki-dark:#ABB2BF">) {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-light-font-style:inherit;--shiki-dark:#7F848E;--shiki-dark-font-style:italic">        // 检查是否是 defineProps 函数调用</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">        if</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> (</span><span style="color:#24292E;--shiki-dark:#E5C07B">path</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#24292E;--shiki-dark:#E5C07B">node</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#24292E;--shiki-dark:#E5C07B">callee</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#24292E;--shiki-dark:#E06C75">name</span><span style="color:#D73A49;--shiki-dark:#56B6C2"> ===</span><span style="color:#032F62;--shiki-dark:#98C379"> &#39;defineProps&#39;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">) {</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">          const</span><span style="color:#005CC5;--shiki-dark:#E5C07B"> arg</span><span style="color:#D73A49;--shiki-dark:#56B6C2"> =</span><span style="color:#24292E;--shiki-dark:#E5C07B"> path</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#24292E;--shiki-dark:#E5C07B">node</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#24292E;--shiki-dark:#E06C75">arguments</span><span style="color:#24292E;--shiki-dark:#ABB2BF">[</span><span style="color:#005CC5;--shiki-dark:#D19A66">0</span><span style="color:#24292E;--shiki-dark:#ABB2BF">];</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">          </span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">          if</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> (</span><span style="color:#24292E;--shiki-dark:#E5C07B">t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">isObjectExpression</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#24292E;--shiki-dark:#E06C75">arg</span><span style="color:#24292E;--shiki-dark:#ABB2BF">)) {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-light-font-style:inherit;--shiki-dark:#7F848E;--shiki-dark-font-style:italic">            // 处理对象语法: defineProps({ prop: String })</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">            const</span><span style="color:#005CC5;--shiki-dark:#E5C07B"> properties</span><span style="color:#D73A49;--shiki-dark:#56B6C2"> =</span><span style="color:#24292E;--shiki-dark:#E5C07B"> arg</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#24292E;--shiki-dark:#E5C07B">properties</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">map</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#E36209;--shiki-light-font-style:inherit;--shiki-dark:#E06C75;--shiki-dark-font-style:italic">prop</span><span style="color:#D73A49;--shiki-dark:#C678DD"> =&gt;</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-light-font-style:inherit;--shiki-dark:#7F848E;--shiki-dark-font-style:italic">              // 将每个属性转换为 { prop: { type: PropType } } 的形式</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">              return</span><span style="color:#24292E;--shiki-dark:#E5C07B"> t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">objectProperty</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E5C07B">                prop</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#24292E;--shiki-dark:#E06C75">key</span><span style="color:#24292E;--shiki-dark:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E5C07B">                t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">objectExpression</span><span style="color:#24292E;--shiki-dark:#ABB2BF">([</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E5C07B">                  t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">objectProperty</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#24292E;--shiki-dark:#E5C07B">t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">identifier</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#032F62;--shiki-dark:#98C379">&#39;type&#39;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">), </span><span style="color:#24292E;--shiki-dark:#E5C07B">prop</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#24292E;--shiki-dark:#E06C75">value</span><span style="color:#24292E;--shiki-dark:#ABB2BF">)</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">                ])</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">              );</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">            });</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">            </span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">            const</span><span style="color:#005CC5;--shiki-dark:#E5C07B"> propsObject</span><span style="color:#D73A49;--shiki-dark:#56B6C2"> =</span><span style="color:#24292E;--shiki-dark:#E5C07B"> t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">objectExpression</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#24292E;--shiki-dark:#E06C75">properties</span><span style="color:#24292E;--shiki-dark:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">            </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-light-font-style:inherit;--shiki-dark:#7F848E;--shiki-dark-font-style:italic">            // 将 defineProps 调用替换为 __props__ 赋值</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E5C07B">            path</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">replaceWith</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E5C07B">              t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">variableDeclaration</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#032F62;--shiki-dark:#98C379">&#39;const&#39;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">, [</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E5C07B">                t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">variableDeclarator</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E5C07B">                  t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">identifier</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#032F62;--shiki-dark:#98C379">&#39;__props__&#39;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">),</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E06C75">                  propsObject</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">                )</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">              ])</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">            );</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">          } </span><span style="color:#D73A49;--shiki-dark:#C678DD">else</span><span style="color:#D73A49;--shiki-dark:#C678DD"> if</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> (</span><span style="color:#24292E;--shiki-dark:#E5C07B">t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">isArrayExpression</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#24292E;--shiki-dark:#E06C75">arg</span><span style="color:#24292E;--shiki-dark:#ABB2BF">)) {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-light-font-style:inherit;--shiki-dark:#7F848E;--shiki-dark-font-style:italic">            // 处理数组语法: defineProps([&#39;prop1&#39;, &#39;prop2&#39;])</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">            const</span><span style="color:#005CC5;--shiki-dark:#E5C07B"> properties</span><span style="color:#D73A49;--shiki-dark:#56B6C2"> =</span><span style="color:#24292E;--shiki-dark:#E5C07B"> arg</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#24292E;--shiki-dark:#E5C07B">elements</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">map</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#E36209;--shiki-light-font-style:inherit;--shiki-dark:#E06C75;--shiki-dark-font-style:italic">element</span><span style="color:#D73A49;--shiki-dark:#C678DD"> =&gt;</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#6A737D;--shiki-light-font-style:inherit;--shiki-dark:#7F848E;--shiki-dark-font-style:italic">              // 将每个元素转换为 { prop: null } 的形式</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">              return</span><span style="color:#24292E;--shiki-dark:#E5C07B"> t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">objectProperty</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#24292E;--shiki-dark:#E06C75">element</span><span style="color:#24292E;--shiki-dark:#ABB2BF">, </span><span style="color:#24292E;--shiki-dark:#E5C07B">t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">identifier</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#032F62;--shiki-dark:#98C379">&#39;null&#39;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">));</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">            });</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">            </span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">            const</span><span style="color:#005CC5;--shiki-dark:#E5C07B"> propsObject</span><span style="color:#D73A49;--shiki-dark:#56B6C2"> =</span><span style="color:#24292E;--shiki-dark:#E5C07B"> t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">objectExpression</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#24292E;--shiki-dark:#E06C75">properties</span><span style="color:#24292E;--shiki-dark:#ABB2BF">);</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">            </span></span>
+<span class="line"><span style="color:#6A737D;--shiki-light-font-style:inherit;--shiki-dark:#7F848E;--shiki-dark-font-style:italic">            // 将 defineProps 调用替换为 __props__ 赋值</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E5C07B">            path</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">replaceWith</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E5C07B">              t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">variableDeclaration</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#032F62;--shiki-dark:#98C379">&#39;const&#39;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">, [</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E5C07B">                t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">variableDeclarator</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E5C07B">                  t</span><span style="color:#24292E;--shiki-dark:#ABB2BF">.</span><span style="color:#6F42C1;--shiki-dark:#61AFEF">identifier</span><span style="color:#24292E;--shiki-dark:#ABB2BF">(</span><span style="color:#032F62;--shiki-dark:#98C379">&#39;__props__&#39;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">),</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E06C75">                  propsObject</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">                )</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">              ])</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">            );</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">          }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">        }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">      }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">    }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">  };</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">});</span></span></code></pre>  </div> </div> <script type="module">function c(){document.querySelectorAll(".copy-block-init").forEach(e=>e.remove()),document.querySelectorAll(".code-block").forEach(e=>{if(e.hasAttribute("data-copy-init"))return;e.setAttribute("data-copy-init","true");const i=e.querySelector(".copy-btn");i&&i.addEventListener("click",async()=>{const o=e.querySelector("code");if(!o)return;const n=o.innerText;try{await navigator.clipboard.writeText(n);const t=i.querySelector("div"),r=i.querySelector("span");t&&(t.className="i-ri:check-line text-blue-500 text-sm"),r&&(r.innerText="Copied!",r.className="text-blue-500"),setTimeout(()=>{t&&(t.className="i-ri:file-copy-line text-sm"),r&&(r.innerText="Copy",r.className="")},2e3)}catch(t){console.error("Failed to copy:",t)}})})}document.addEventListener("astro:page-load",c);c();</script>
+<h3 id="2-转换效果">2. 转换效果</h3>
+<div class="code-block relative group my-6 overflow-hidden"> <div class="relative"> <div class="flex items-center justify-between px-4 py-2 bg-neutral-100/80 dark:bg-neutral-800/50 text-xs text-text-muted select-none"> <div class="flex items-center gap-3"> <div class="flex gap-1.5"> <div class="w-3 h-3 rounded-full bg-[#ff5f56]"></div> <div class="w-3 h-3 rounded-full bg-[#ffbd2e]"></div> <div class="w-3 h-3 rounded-full bg-[#27c93f]"></div> </div> <span class="font-mono font-bold opacity-70"> JAVASCRIPT </span> </div> <button class="copy-btn flex items-center gap-1.5 px-2 py-0.5 rounded hover:bg-black/5 dark:hover:bg-white/10 transition-colors cursor-pointer" aria-label="Copy code"> <div class="i-ri:file-copy-line text-sm"></div> <span>Copy</span> </button> </div> <pre class="astro-code astro-code-themes github-light one-dark-pro !my-0 p-4 pt-0 overflow-x-auto custom-scrollbar text-sm leading-relaxed !bg-transparent !border-none" style="background-color:#fff;--shiki-dark-bg:#282c34;color:#24292e;--shiki-dark:#abb2bf;overflow-x:auto" tabindex="0" data-language="javascript"><code><span class="line"><span style="color:#6A737D;--shiki-light-font-style:inherit;--shiki-dark:#7F848E;--shiki-dark-font-style:italic">// 转换前：对象语法</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">const</span><span style="color:#005CC5;--shiki-dark:#E5C07B"> props1</span><span style="color:#D73A49;--shiki-dark:#56B6C2"> =</span><span style="color:#6F42C1;--shiki-dark:#61AFEF"> defineProps</span><span style="color:#24292E;--shiki-dark:#ABB2BF">({</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E06C75">  name</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: </span><span style="color:#24292E;--shiki-dark:#E06C75">String</span><span style="color:#24292E;--shiki-dark:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E06C75">  age</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: </span><span style="color:#24292E;--shiki-dark:#E06C75">Number</span><span style="color:#24292E;--shiki-dark:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E06C75">  isActive</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: </span><span style="color:#24292E;--shiki-dark:#E06C75">Boolean</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">});</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-light-font-style:inherit;--shiki-dark:#7F848E;--shiki-dark-font-style:italic">// 转换后：对象语法转换结果</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">const</span><span style="color:#005CC5;--shiki-dark:#E5C07B"> __props__</span><span style="color:#D73A49;--shiki-dark:#56B6C2"> =</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E06C75">  name</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: { </span><span style="color:#24292E;--shiki-dark:#E06C75">type</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: </span><span style="color:#24292E;--shiki-dark:#E06C75">String</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> },</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E06C75">  age</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: { </span><span style="color:#24292E;--shiki-dark:#E06C75">type</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: </span><span style="color:#24292E;--shiki-dark:#E06C75">Number</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> },</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E06C75">  isActive</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: { </span><span style="color:#24292E;--shiki-dark:#E06C75">type</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: </span><span style="color:#24292E;--shiki-dark:#E06C75">Boolean</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> }</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">};</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-light-font-style:inherit;--shiki-dark:#7F848E;--shiki-dark-font-style:italic">// 转换前：数组语法</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">const</span><span style="color:#005CC5;--shiki-dark:#E5C07B"> props2</span><span style="color:#D73A49;--shiki-dark:#56B6C2"> =</span><span style="color:#6F42C1;--shiki-dark:#61AFEF"> defineProps</span><span style="color:#24292E;--shiki-dark:#ABB2BF">([</span><span style="color:#032F62;--shiki-dark:#98C379">&#39;title&#39;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">, </span><span style="color:#032F62;--shiki-dark:#98C379">&#39;content&#39;</span><span style="color:#24292E;--shiki-dark:#ABB2BF">]);</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D;--shiki-light-font-style:inherit;--shiki-dark:#7F848E;--shiki-dark-font-style:italic">// 转换后：数组语法转换结果</span></span>
+<span class="line"><span style="color:#D73A49;--shiki-dark:#C678DD">const</span><span style="color:#005CC5;--shiki-dark:#E5C07B"> __props__</span><span style="color:#D73A49;--shiki-dark:#56B6C2"> =</span><span style="color:#24292E;--shiki-dark:#ABB2BF"> {</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E06C75">  title</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: </span><span style="color:#005CC5;--shiki-dark:#D19A66">null</span><span style="color:#24292E;--shiki-dark:#ABB2BF">,</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#E06C75">  content</span><span style="color:#24292E;--shiki-dark:#ABB2BF">: </span><span style="color:#005CC5;--shiki-dark:#D19A66">null</span></span>
+<span class="line"><span style="color:#24292E;--shiki-dark:#ABB2BF">};</span></span></code></pre>  </div> </div> 
+<p>在编译时识别特定的代码模式，并将其转换为等效但可能更复杂或更优化的代码。在 Vue 的实际实现中，这个过程会更加复杂，包括处理类型推断、默认值、验证等多个方面。</p>
+<h2 id="总结">总结</h2>
+<p>本文介绍了 Vue3 编译宏。编译宏是 Vue3 的一个强大特性，它们提供了更简洁的语法和更好的类型推断，使得组件编写更加高效和愉快。</p>
+<h2 id="参考资料">参考资料</h2>
+<ul>
+<li><a href="https://cn.vuejs.org/api/sfc-script-setup.html#defineprops-defineemits">Vue3 官方文档</a></li>
+</ul> </div>  <nav class="mt-14 grid grid-cols-1 gap-4 border-t-2 border-text pt-8 sm:grid-cols-2 animate-fade-in-up [animation-delay:300ms]" data-astro-cid-2dqspic2> <a href="/zh/post/1708-implement-instanceof" class="group flex flex-col gap-2 rounded-lg border-2 border-text bg-card p-5 shadow-[4px_4px_0_0_var(--color-text)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_var(--color-text)]" data-astro-cid-2dqspic2> <span class="text-sm font-bold uppercase tracking-widest text-text-muted flex items-center gap-2 group-hover:text-primary" data-astro-cid-2dqspic2> <div class="i-ri:arrow-left-double-line text-xl" data-astro-cid-2dqspic2></div>
+上一篇文章
+</span> <span class="truncate text-lg font-black text-text" data-astro-cid-2dqspic2>手写 instanceof</span> </a> <a href="/zh/post/2412-float-attribute-in-ios-android" class="group flex flex-col gap-2 rounded-lg border-2 border-text bg-card p-5 text-right shadow-[4px_4px_0_0_var(--color-text)] transition-all hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_var(--color-text)]" data-astro-cid-2dqspic2> <span class="text-sm font-bold uppercase tracking-widest text-text-muted flex items-center gap-2 justify-end group-hover:text-primary" data-astro-cid-2dqspic2>
+下一篇文章
+<div class="i-ri:arrow-right-double-line text-xl" data-astro-cid-2dqspic2></div> </span> <span class="truncate text-lg font-black text-text" data-astro-cid-2dqspic2>H5 中的浮点数渲染差异：iOS vs Android</span> </a> </nav>  <div class="giscus-container mt-14 border-t-2 border-text pt-8 animate-fade-in-up [animation-delay:450ms]" data-astro-cid-2dqspic2> <script src="https://giscus.app/client.js" data-repo="AleksChen/AleksChen.github.io" data-repo-id="R_kgDOGjCC6A" data-category="Announcements" data-category-id="DIC_kwDOGjCC6M4CR-S5" data-mapping="pathname" data-strict="0" data-reactions-enabled="1" data-emit-metadata="0" data-input-position="top" data-lang="zh-CN" data-loading="lazy" data-theme="preferred_color_scheme" crossorigin="anonymous" async class="astro-2dqspic2 astro-2dqspic2 astro-2dqspic2 astro-2dqspic2 astro-2dqspic2 astro-2dqspic2 astro-2dqspic2"></script> </div> </article> <aside class="hidden lg:flex flex-col sticky top-24 h-[calc(100vh-7rem)] animate-fade-in-up [animation-delay:300ms]" data-astro-cid-2dqspic2> <div class="flex flex-col min-h-0 flex-1 p-6 rounded-xl border-4 border-text bg-card shadow-[8px_8px_0_0_var(--color-text)]" data-astro-cid-2dqspic2> <div class="text-base font-black text-text mb-4 uppercase tracking-widest border-b-2 border-text pb-2 shrink-0" data-astro-cid-2dqspic2>
+本文目录
+</div> <nav class="flex flex-col gap-1 text-sm overflow-y-auto overflow-x-hidden custom-scrollbar flex-1 min-h-0 pr-2 pb-1" data-astro-cid-2dqspic2> <a href="#一什么是编译宏" class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-1 text-sm leading-snug border-2 border-transparent shrink-0 [overflow-wrap:anywhere]" data-id="一什么是编译宏" style="padding-left: calc(0.75rem + 0.75rem)" data-astro-cid-2dqspic2> 一、什么是编译宏 </a><a href="#二编译宏有什么用" class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-1 text-sm leading-snug border-2 border-transparent shrink-0 [overflow-wrap:anywhere]" data-id="二编译宏有什么用" style="padding-left: calc(0.75rem + 0.75rem)" data-astro-cid-2dqspic2> 二、编译宏有什么用 </a><a href="#三常见的编译宏" class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-1 text-sm leading-snug border-2 border-transparent shrink-0 [overflow-wrap:anywhere]" data-id="三常见的编译宏" style="padding-left: calc(0.75rem + 0.75rem)" data-astro-cid-2dqspic2> 三、常见的编译宏 </a><a href="#四编译宏的实现原理" class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-1 text-sm leading-snug border-2 border-transparent shrink-0 [overflow-wrap:anywhere]" data-id="四编译宏的实现原理" style="padding-left: calc(0.75rem + 0.75rem)" data-astro-cid-2dqspic2> 四、编译宏的实现原理 </a><a href="#1-以-defineprops-为例子实现一个编译宏功能" class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-1 text-sm leading-snug border-2 border-transparent shrink-0 [overflow-wrap:anywhere]" data-id="1-以-defineprops-为例子实现一个编译宏功能" style="padding-left: calc(0.75rem + 1.5rem)" data-astro-cid-2dqspic2> 1. 以 defineProps 为例子实现一个编译宏功能 </a><a href="#2-转换效果" class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-1 text-sm leading-snug border-2 border-transparent shrink-0 [overflow-wrap:anywhere]" data-id="2-转换效果" style="padding-left: calc(0.75rem + 1.5rem)" data-astro-cid-2dqspic2> 2. 转换效果 </a><a href="#总结" class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-1 text-sm leading-snug border-2 border-transparent shrink-0 [overflow-wrap:anywhere]" data-id="总结" style="padding-left: calc(0.75rem + 0.75rem)" data-astro-cid-2dqspic2> 总结 </a><a href="#参考资料" class="toc-link block py-2 px-3 font-bold text-text-muted hover:text-text hover:bg-white/5 rounded-md transition-all duration-200 hover:translate-x-1 text-sm leading-snug border-2 border-transparent shrink-0 [overflow-wrap:anywhere]" data-id="参考资料" style="padding-left: calc(0.75rem + 0.75rem)" data-astro-cid-2dqspic2> 参考资料 </a> </nav> </div> </aside> </div>  </main> <footer class="mt-12 border-t-2 border-text bg-bg/80"> <div class="retro-shell flex flex-col items-center gap-4 px-4 py-8"> <div class="flex flex-wrap items-center justify-center gap-4"> <a href="https://github.com/AleksChen" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-transform hover:scale-105 flex items-center gap-1 text-sm font-bold" title="GitHub"> <div class="i-ri:github-fill w-5 h-5"></div> <span class="opacity-80 hover:opacity-100">GitHub</span> </a> <div class="w-px h-4 bg-text opacity-20"></div> <a href="https://juejin.cn/user/254742428393742" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-transform hover:scale-105 flex items-center gap-1 text-sm font-bold" title="Juejin"> <div class="i-ri:blogger-line w-5 h-5"></div> <span class="opacity-80 hover:opacity-100">Blog</span> </a> <div class="w-px h-4 bg-text opacity-20"></div> <a href="/zh/rss.xml" target="_blank" rel="noopener noreferrer" class="hover:text-primary transition-transform hover:scale-105 flex items-center gap-1 text-sm font-bold" title="RSS"> <div class="i-ri:rss-line w-5 h-5"></div> <span class="opacity-80 hover:opacity-100">RSS</span> </a> </div> <small class="flex min-h-10 w-full max-w-[720px] items-center justify-center text-center text-xs font-bold text-text-muted"> <a href="https://github.com/AleksChen" target="_blank" rel="noopener noreferrer"> © 2026 AleksChen · AI Builder / Growth Engineer / Full-stack </a> </small> </div> </footer> <script type="module">let l=window.scrollY;const t=document.getElementById("main-header"),s=()=>{const e=window.scrollY;t&&(e<l||e<=100?t.classList.remove("-translate-y-full"):e>100&&e>l&&t.classList.add("-translate-y-full"),l=e)};window.addEventListener("scroll",s,{passive:!0});</script> <script type="module">const e=document.getElementById("mobile-menu-toggle"),l=document.getElementById("mobile-nav"),i=document.getElementById("menu-icon-open"),s=document.getElementById("menu-icon-close");e?.addEventListener("click",()=>{const t=e.getAttribute("aria-expanded")==="true",n=e.getAttribute("data-open-label")||"Open",o=e.getAttribute("data-close-label")||"Close";e.setAttribute("aria-expanded",String(!t)),e.setAttribute("aria-label",t?n:o),l?.classList.toggle("hidden"),i?.classList.toggle("hidden"),s?.classList.toggle("hidden")});</script> <script type="module">const n=document.getElementById("theme-toggle"),e=()=>{const t=document.documentElement.classList.contains("dark");n?.setAttribute("aria-pressed",String(t))},i=()=>{const t=document.documentElement,s=t.classList.contains("dark");document.startViewTransition?document.startViewTransition(()=>{t.classList.toggle("dark"),localStorage.setItem("theme",s?"light":"dark"),e()}):(t.classList.add("theme-transitioning"),t.classList.toggle("dark"),localStorage.setItem("theme",s?"light":"dark"),e(),setTimeout(()=>{t.classList.remove("theme-transitioning")},300))};n?.addEventListener("click",i);e();</script> <script>(function(){const awayTitle = "快回来吧 T_T";
+const backTitle = "你来啦!OvO";
+
+      let originalTitle = document.title;
+      let timeoutId;
+
+      document.addEventListener("visibilitychange", () => {
+        const icon = document.querySelector("link[rel*='icon']");
+
+        if (document.hidden) {
+          if (document.title !== awayTitle && document.title !== backTitle) {
+            originalTitle = document.title;
+          }
+
+          document.title = awayTitle;
+          if (icon) icon.href = "/failure.ico";
+
+          if (timeoutId) clearTimeout(timeoutId);
+        } else {
+          document.title = backTitle;
+          if (icon) icon.href = "/favicon.ico";
+
+          timeoutId = window.setTimeout(() => {
+            document.title = originalTitle;
+          }, 1000);
+        }
+      });
+    })();</script> </body> </html> <script type="module">
+  if (document.querySelector(".mermaid")) {
+    const { default: mermaid } = await import("https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs");
+
+    const html = document.documentElement;
+    const isDark =
+      html.classList.contains("dark") ||
+      (!html.classList.contains("light") &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: isDark ? "dark" : "default",
+      themeVariables: isDark ? { darkMode: true } : { darkMode: false },
+    });
+  }
+</script> <script type="module">let r=!1,o;const c=s=>{document.querySelectorAll(".toc-link").forEach(t=>{const e=t.getAttribute("data-id")===s;t.classList.toggle("text-text",e),t.classList.toggle("text-text-muted",!e),t.classList.toggle("font-black",e),t.classList.toggle("font-bold",!e),t.classList.toggle("border-text",e),t.classList.toggle("border-transparent",!e),t.classList.toggle("bg-bg-secondary",e)})},l=new IntersectionObserver(s=>{r||s.forEach(t=>{if(t.isIntersecting){const e=t.target.id;c(e)}})},{rootMargin:"-100px 0px -60% 0px"});document.querySelectorAll("h1[id], h2[id], h3[id]").forEach(s=>{l.observe(s)});document.querySelectorAll(".toc-link").forEach(s=>{s.addEventListener("click",t=>{r=!0;const e=t.currentTarget.getAttribute("data-id");e&&c(e),o&&clearTimeout(o),o=setTimeout(()=>{r=!1},800)})});</script> 
